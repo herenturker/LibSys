@@ -1,0 +1,5 @@
+C:/Users/habil/Desktop/libsys/build/CMakeFiles/libsys.dir
+C:/Users/habil/Desktop/libsys/build/CMakeFiles/edit_cache.dir
+C:/Users/habil/Desktop/libsys/build/CMakeFiles/rebuild_cache.dir
+C:/Users/habil/Desktop/libsys/build/CMakeFiles/libsys_autogen_timestamp_deps.dir
+C:/Users/habil/Desktop/libsys/build/CMakeFiles/libsys_autogen.dir

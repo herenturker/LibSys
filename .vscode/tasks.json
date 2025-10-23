@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build qt app",
+            "type": "shell",
+            "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-I", "C:/Qt/6.9.2/mingw_64/include",
+                "-I", "C:/Qt/6.9.2/mingw_64/include/QtCore",
+                "-I", "C:/Qt/6.9.2/mingw_64/include/QtGui",
+                "-I", "C:/Qt/6.9.2/mingw_64/include/QtWidgets",
+                "-L", "C:/Qt/6.9.2/mingw_64/lib",
+                "-lQt6Core",
+                "-lQt6Gui",
+                "-lQt6Widgets",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
