@@ -18,29 +18,31 @@
 
 
 #include <string>
-#include <QDateTime>
 
+#include <QDateTime>
 
 #include "headers/TimeClass.h"
 
 class TimeCPP : public Time
+
 {
+
 public:
-    std::string showDate()
+    std::string showDate ()
     {
         QDate currentDate = QDate::currentDate();
         std::string date = currentDate.toString("yyyy-MM-dd").toStdString();
         return date;
     }
 
-    std::string showTime()
+    std::string showTime ()
     {
         QTime currentTime = QTime::currentTime();
         std::string time = currentTime.toString("hh:mm:ss").toStdString();
         return time;
     }
 
-    std::string showDay()
+    std::string showDay ()
     {
         QDate currentDate = QDate::currentDate();
         std::string day = currentDate.toString("dddd").toStdString();

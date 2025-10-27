@@ -15,3 +15,44 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+
+
+#include "headers/Input.h"
+
+class InputCPP : Input
+
+{
+
+    UserInfo User;
+    
+
+    protected:
+
+        void set_Username (std::string username_Entered) {
+            User.username = username_Entered;
+        }
+
+
+        void set_SchoolNo (std::string schoolNo_Entered) {
+            User.schoolNo = schoolNo_Entered;
+        }
+
+
+        void set_Password (std::string password_Entered) {
+            User.password = password_Entered;
+        }
+
+
+        void set_AccountType (std::string accountType_Entered) {
+            User.accountType = accountType_Entered;
+        }
+
+
+        bool is_Matched (std::string username, std::string schoolNo, std::string password, std::string accountType) {
+
+        }
+
+
+
+};

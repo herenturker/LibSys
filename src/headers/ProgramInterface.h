@@ -15,3 +15,20 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+#ifndef PROGRAMINTERFACE_H_
+#define PROGRAMINTERFACE_H_
+
+class ProgramInterface 
+
+{
+
+    public:
+
+        void exitProgram();
+
+        void addLog();
+        
+};
+
+#endif // PROGRAMINTERFACE_H_

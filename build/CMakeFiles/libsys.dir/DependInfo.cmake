@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/habil/Desktop/libsys/src/Graphical.cpp" "CMakeFiles/libsys.dir/src/Graphical.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/Graphical.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/src/Input.cpp" "CMakeFiles/libsys.dir/src/Input.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/Input.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/src/LibrarySystem.cpp" "CMakeFiles/libsys.dir/src/LibrarySystem.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/LibrarySystem.cpp.obj.d"
+  "C:/Users/habil/Desktop/libsys/src/LoginWindow.cpp" "CMakeFiles/libsys.dir/src/LoginWindow.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/LoginWindow.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/src/ProgramInterface.cpp" "CMakeFiles/libsys.dir/src/ProgramInterface.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/ProgramInterface.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/src/StudentOperations.cpp" "CMakeFiles/libsys.dir/src/StudentOperations.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/StudentOperations.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/src/TeacherOperations.cpp" "CMakeFiles/libsys.dir/src/TeacherOperations.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/TeacherOperations.cpp.obj.d"

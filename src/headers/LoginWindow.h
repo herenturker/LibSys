@@ -16,43 +16,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef INPUT_H_
-#define INPUT_H_
+#ifndef LOGINWINDOW_H_
+#define LOGINWINDOW_H_
 
-#include <string>
+#include "ProgramInterface.h"
+#include "Input.h"
 
-class Input
+
+class LoginWindow : public ProgramInterface, public Input
 
 {
-    public:
-
-        struct UserInfo {
-
-            std::string username;
-
-            std::string schoolNo;
-
-            std::string password;
-
-            std::string accountType;
-
-        };
-
-
-    protected:
-
-
-        void set_Username (std::string username_Entered);
-
-        void set_SchoolNo (std::string schoolNo_Entered);
-
-        void set_Password (std::string password_Entered);
-
-        void set_AccountType (std::string accountType_Entered);
-
-        bool is_Matched (std::string username, std::string schoolNo, std::string password, std::string accountType);
-
+    
 
 };
 
-#endif // INPUT_H_
+#endif // LOGINWINDOW_H_

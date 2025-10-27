@@ -16,10 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef TIMECLASS_H
-#define TIMECLASS_H
+#ifndef TIMECLASS_H_
+#define TIMECLASS_H_
 
-class Time {
+class Time 
+
+{
 
     public:
 
@@ -31,4 +33,4 @@ class Time {
 
     };
 
-#endif // TIMECLASS_H
+#endif // TIMECLASS_H_

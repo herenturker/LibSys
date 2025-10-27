@@ -299,6 +299,30 @@ src/LibrarySystem.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LibrarySystem.cpp.s
 .PHONY : src/LibrarySystem.cpp.s
 
+src/LoginWindow.obj: src/LoginWindow.cpp.obj
+.PHONY : src/LoginWindow.obj
+
+# target to build an object file
+src/LoginWindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LoginWindow.cpp.obj
+.PHONY : src/LoginWindow.cpp.obj
+
+src/LoginWindow.i: src/LoginWindow.cpp.i
+.PHONY : src/LoginWindow.i
+
+# target to preprocess a source file
+src/LoginWindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LoginWindow.cpp.i
+.PHONY : src/LoginWindow.cpp.i
+
+src/LoginWindow.s: src/LoginWindow.cpp.s
+.PHONY : src/LoginWindow.s
+
+# target to generate assembly for a file
+src/LoginWindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LoginWindow.cpp.s
+.PHONY : src/LoginWindow.cpp.s
+
 src/ProgramInterface.obj: src/ProgramInterface.cpp.obj
 .PHONY : src/ProgramInterface.obj
 
@@ -448,6 +472,9 @@ help:
 	@echo "... src/LibrarySystem.obj"
 	@echo "... src/LibrarySystem.i"
 	@echo "... src/LibrarySystem.s"
+	@echo "... src/LoginWindow.obj"
+	@echo "... src/LoginWindow.i"
+	@echo "... src/LoginWindow.s"
 	@echo "... src/ProgramInterface.obj"
 	@echo "... src/ProgramInterface.i"
 	@echo "... src/ProgramInterface.s"

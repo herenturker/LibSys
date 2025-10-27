@@ -14,6 +14,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/libsys.dir/src/Input.cpp.obj.d"
   "CMakeFiles/libsys.dir/src/LibrarySystem.cpp.obj"
   "CMakeFiles/libsys.dir/src/LibrarySystem.cpp.obj.d"
+  "CMakeFiles/libsys.dir/src/LoginWindow.cpp.obj"
+  "CMakeFiles/libsys.dir/src/LoginWindow.cpp.obj.d"
   "CMakeFiles/libsys.dir/src/ProgramInterface.cpp.obj"
   "CMakeFiles/libsys.dir/src/ProgramInterface.cpp.obj.d"
   "CMakeFiles/libsys.dir/src/StudentOperations.cpp.obj"

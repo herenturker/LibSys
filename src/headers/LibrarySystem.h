@@ -15,3 +15,15 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+#ifndef LIBRARYSYSTEM_H_
+#define LIBRARYSYSTEM_H_
+
+class LibrarySystem 
+
+{
+
+
+};
+
+#endif // LIBRARYSYSTEM_H_
