@@ -34,7 +34,15 @@ class ProgramInterface : public QMainWindow
 
         void addLog();
 
-        ProgramInterface(QWidget *parent = nullptr);
+        explicit ProgramInterface(QWidget *parent = nullptr);
+
+
+
+    protected:
+        bool eventFilter(QObject *obj, QEvent *event) override;
+
+    private:
+        QPoint dragPosition;
         
 };
 

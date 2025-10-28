@@ -25,6 +25,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QRadioButton>
+#include <QTimer>
 
 #include "ProgramInterface.h"
 #include "Input.h"
@@ -35,13 +36,15 @@ class LoginWindow : public QWidget
     Q_OBJECT
 
 public:
-    LoginWindow(QWidget *parent = nullptr);
+  
+    explicit LoginWindow(QWidget *parent = nullptr);
 
 signals:
     void loginSuccess();
 
 private slots:
     void handleLogin();
+    void updateDateTime();
 
 private:
 
@@ -50,13 +53,18 @@ private:
     QLineEdit *schoolNo_Edit;
 
     QRadioButton *accountType_Admin_Button;
-    QRadioButton *accountType_Student_Button;
     QRadioButton *accountType_Teacher_Button;
+    QRadioButton *accountType_Student_Button;
 
     QPushButton *login_Button;
 
     ProgramInterface programInterface;
     Input input;
+
+    QTimer *timer;
+    QLabel *dateLabel;
+    QLabel *dayLabel;
+    QLabel *timeLabel;
 };
 
 

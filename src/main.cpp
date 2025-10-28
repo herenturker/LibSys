@@ -26,9 +26,12 @@ int main(int argc, char *argv[])
 {
     QApplication libsys(argc, argv);
 
+    libsys.setWindowIcon(QIcon("../icons/LibSys.ico"));
+
     LoginWindow loginWindow;
     ProgramInterface programInterface;
-    
+
+    libsys.setStyleSheet("QWidget { background-color: white; }");
 
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess, [&programInterface](){
         programInterface.show();

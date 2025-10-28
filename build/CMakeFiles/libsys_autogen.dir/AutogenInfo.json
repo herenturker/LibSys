@@ -294,15 +294,7 @@
 	"CROSS_CONFIG" : false,
 	"DEP_FILE" : "C:/Users/habil/Desktop/libsys/build/libsys_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "libsys_autogen/timestamp",
-	"HEADERS" : 
-	[
-		[
-			"C:/Users/habil/Desktop/libsys/sqlite/sqlite3.h",
-			"MU",
-			"EGJ75U4TC2/moc_sqlite3.cpp",
-			null
-		]
-	],
+	"HEADERS" : [],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
 	"INCLUDE_DIR" : "C:/Users/habil/Desktop/libsys/build/libsys_autogen/include",
 	"MOC_COMPILATION_FILE" : "C:/Users/habil/Desktop/libsys/build/libsys_autogen/mocs_compilation.cpp",
@@ -375,8 +367,6 @@
 	"SETTINGS_FILE" : "C:/Users/habil/Desktop/libsys/build/CMakeFiles/libsys_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "C:/Users/habil/Desktop/libsys/sqlite/shell.c", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/sqlite/sqlite3.c", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/AdminOperations.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/GeneralOperations.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/Graphical.cpp", "MU", null ],
@@ -386,7 +376,6 @@
 		[ "C:/Users/habil/Desktop/libsys/src/ProgramInterface.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/StudentOperations.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/TeacherOperations.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/Time.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/main.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],

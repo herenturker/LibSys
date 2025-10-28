@@ -395,30 +395,6 @@ src/TeacherOperations.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/TeacherOperations.cpp.s
 .PHONY : src/TeacherOperations.cpp.s
 
-src/Time.obj: src/Time.cpp.obj
-.PHONY : src/Time.obj
-
-# target to build an object file
-src/Time.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Time.cpp.obj
-.PHONY : src/Time.cpp.obj
-
-src/Time.i: src/Time.cpp.i
-.PHONY : src/Time.i
-
-# target to preprocess a source file
-src/Time.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Time.cpp.i
-.PHONY : src/Time.cpp.i
-
-src/Time.s: src/Time.cpp.s
-.PHONY : src/Time.s
-
-# target to generate assembly for a file
-src/Time.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Time.cpp.s
-.PHONY : src/Time.cpp.s
-
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
 
@@ -484,9 +460,6 @@ help:
 	@echo "... src/TeacherOperations.obj"
 	@echo "... src/TeacherOperations.i"
 	@echo "... src/TeacherOperations.s"
-	@echo "... src/Time.obj"
-	@echo "... src/Time.i"
-	@echo "... src/Time.s"
 	@echo "... src/main.obj"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -22,8 +22,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/libsys.dir/src/StudentOperations.cpp.obj.d"
   "CMakeFiles/libsys.dir/src/TeacherOperations.cpp.obj"
   "CMakeFiles/libsys.dir/src/TeacherOperations.cpp.obj.d"
-  "CMakeFiles/libsys.dir/src/Time.cpp.obj"
-  "CMakeFiles/libsys.dir/src/Time.cpp.obj.d"
   "CMakeFiles/libsys.dir/src/main.cpp.obj"
   "CMakeFiles/libsys.dir/src/main.cpp.obj.d"
   "liblibsys.dll.a"

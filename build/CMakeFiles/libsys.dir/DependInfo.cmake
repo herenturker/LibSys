@@ -19,7 +19,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/habil/Desktop/libsys/src/ProgramInterface.cpp" "CMakeFiles/libsys.dir/src/ProgramInterface.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/ProgramInterface.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/src/StudentOperations.cpp" "CMakeFiles/libsys.dir/src/StudentOperations.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/StudentOperations.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/src/TeacherOperations.cpp" "CMakeFiles/libsys.dir/src/TeacherOperations.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/TeacherOperations.cpp.obj.d"
-  "C:/Users/habil/Desktop/libsys/src/Time.cpp" "CMakeFiles/libsys.dir/src/Time.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/Time.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/src/main.cpp" "CMakeFiles/libsys.dir/src/main.cpp.obj" "gcc" "CMakeFiles/libsys.dir/src/main.cpp.obj.d"
   )
 

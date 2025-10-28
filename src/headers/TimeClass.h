@@ -19,17 +19,34 @@
 #ifndef TIMECLASS_H_
 #define TIMECLASS_H_
 
-class Time 
+#include <QString>
+#include <QDateTime>
+
+class TimeClass 
 
 {
 
     public:
+    static QString showDate ()
+    {
+        QDate currentDate = QDate::currentDate();
+        QString date = currentDate.toString("yyyy-MM-dd");
+        return date;
+    }
 
-        void showDate() {}
+    static QString showTime ()
+    {
+        QTime currentTime = QTime::currentTime();
+        QString time = currentTime.toString("hh:mm:ss");
+        return time;
+    }
 
-        void showTime() {}
-
-        void showDay() {}
+    static QString showDay ()
+    {
+        QDate currentDate = QDate::currentDate();
+        QString day = currentDate.toString("dddd");
+        return day;
+    }
 
     };
 
