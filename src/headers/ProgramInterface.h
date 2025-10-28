@@ -19,15 +19,22 @@
 #ifndef PROGRAMINTERFACE_H_
 #define PROGRAMINTERFACE_H_
 
-class ProgramInterface 
+#include <QMainWindow>
+#include <QLabel>
+
+class ProgramInterface : public QMainWindow
 
 {
+
+    Q_OBJECT
 
     public:
 
         void exitProgram();
 
         void addLog();
+
+        ProgramInterface(QWidget *parent = nullptr);
         
 };
 

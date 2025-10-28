@@ -15,3 +15,19 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+#include "headers/ProgramInterface.h"
+
+
+ProgramInterface::ProgramInterface(QWidget *parent) : QMainWindow(parent)
+
+{
+    QLabel *label = new QLabel("Hoşgeldiniz!", this);
+
+    label->setAlignment(Qt::AlignCenter);
+    
+    setCentralWidget(label);
+
+    setWindowTitle("Program Interface");
+    resize(400, 300);
+}

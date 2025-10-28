@@ -19,15 +19,45 @@
 #ifndef LOGINWINDOW_H_
 #define LOGINWINDOW_H_
 
+#include <QWidget>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QRadioButton>
+
 #include "ProgramInterface.h"
 #include "Input.h"
 
 
-class LoginWindow : public ProgramInterface, public Input
-
+class LoginWindow : public QWidget
 {
-    
+    Q_OBJECT
 
+public:
+    LoginWindow(QWidget *parent = nullptr);
+
+signals:
+    void loginSuccess();
+
+private slots:
+    void handleLogin();
+
+private:
+
+    QLineEdit *username_Edit;
+    QLineEdit *password_Edit;
+    QLineEdit *schoolNo_Edit;
+
+    QRadioButton *accountType_Admin_Button;
+    QRadioButton *accountType_Student_Button;
+    QRadioButton *accountType_Teacher_Button;
+
+    QPushButton *login_Button;
+
+    ProgramInterface programInterface;
+    Input input;
 };
+
 
 #endif // LOGINWINDOW_H_

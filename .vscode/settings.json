@@ -67,7 +67,8 @@
         "sstream": "cpp",
         "stdfloat": "cpp",
         "stop_token": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "qlabel": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

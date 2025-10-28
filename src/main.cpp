@@ -19,9 +19,22 @@
 
 #include <QApplication>
 
+#include "headers/ProgramInterface.h"
+#include "headers/LoginWindow.h"
+
 int main(int argc, char *argv[])
 {
     QApplication libsys(argc, argv);
+
+    LoginWindow loginWindow;
+    ProgramInterface programInterface;
+    
+
+    QObject::connect(&loginWindow, &LoginWindow::loginSuccess, [&programInterface](){
+        programInterface.show();
+    });
+
+    loginWindow.show();
 
 
     return libsys.exec();
