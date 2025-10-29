@@ -28,7 +28,6 @@
 #include <QTimer>
 
 #include "ProgramInterface.h"
-#include "Input.h"
 
 
 class LoginWindow : public QWidget
@@ -51,6 +50,7 @@ private:
     QLineEdit *username_Edit;
     QLineEdit *password_Edit;
     QLineEdit *schoolNo_Edit;
+    QButtonGroup *radioButton_Group;
 
     QRadioButton *accountType_Admin_Button;
     QRadioButton *accountType_Teacher_Button;
@@ -59,7 +59,6 @@ private:
     QPushButton *login_Button;
 
     ProgramInterface programInterface;
-    Input input;
 
     QTimer *timer;
     QLabel *dateLabel;

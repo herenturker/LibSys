@@ -21,6 +21,7 @@
 
 #include "headers/ProgramInterface.h"
 #include "headers/LoginWindow.h"
+#include "headers/database.h"
 
 int main(int argc, char *argv[])
 {
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
 
     LoginWindow loginWindow;
     ProgramInterface programInterface;
+
 
     libsys.setStyleSheet("QWidget { background-color: white; }");
 

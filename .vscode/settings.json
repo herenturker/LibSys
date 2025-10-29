@@ -68,7 +68,11 @@
         "stdfloat": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "qlabel": "cpp"
+        "qlabel": "cpp",
+        "qstring": "cpp",
+        "codecvt": "cpp",
+        "source_location": "cpp",
+        "shared_mutex": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

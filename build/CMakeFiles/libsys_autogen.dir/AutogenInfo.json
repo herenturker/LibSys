@@ -376,6 +376,7 @@
 		[ "C:/Users/habil/Desktop/libsys/src/ProgramInterface.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/StudentOperations.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/TeacherOperations.cpp", "MU", null ],
+		[ "C:/Users/habil/Desktop/libsys/src/database.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/src/main.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],

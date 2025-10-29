@@ -395,6 +395,30 @@ src/TeacherOperations.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/TeacherOperations.cpp.s
 .PHONY : src/TeacherOperations.cpp.s
 
+src/database.obj: src/database.cpp.obj
+.PHONY : src/database.obj
+
+# target to build an object file
+src/database.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/database.cpp.obj
+.PHONY : src/database.cpp.obj
+
+src/database.i: src/database.cpp.i
+.PHONY : src/database.i
+
+# target to preprocess a source file
+src/database.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/database.cpp.i
+.PHONY : src/database.cpp.i
+
+src/database.s: src/database.cpp.s
+.PHONY : src/database.s
+
+# target to generate assembly for a file
+src/database.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/database.cpp.s
+.PHONY : src/database.cpp.s
+
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
 
@@ -460,6 +484,9 @@ help:
 	@echo "... src/TeacherOperations.obj"
 	@echo "... src/TeacherOperations.i"
 	@echo "... src/TeacherOperations.s"
+	@echo "... src/database.obj"
+	@echo "... src/database.i"
+	@echo "... src/database.s"
 	@echo "... src/main.obj"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

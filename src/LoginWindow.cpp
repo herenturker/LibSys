@@ -26,6 +26,7 @@
 
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
+#include "headers/database.h"
 
 LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 {
@@ -43,12 +44,13 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 
     login_Button = new QPushButton("Login");
 
+    radioButton_Group = new QButtonGroup(this);
     accountType_Admin_Button = new QRadioButton("Admin", this);
     accountType_Student_Button = new QRadioButton("Student", this);
     accountType_Teacher_Button = new QRadioButton("Teacher", this);
 
     QVBoxLayout *layout_Vertical = new QVBoxLayout;
-    QButtonGroup *radioButton_Group = new QButtonGroup(this);
+    
 
     dateLabel = new QLabel();
     dayLabel  = new QLabel();
@@ -136,7 +138,7 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
             font-weight: bold; 
         }
         QPushButton:hover { 
-            background-color: #2A6D2D; /* koyu yeşil */
+            background-color: #2A6D2D;
         }
         QRadioButton { 
             color: #333333; 
@@ -151,12 +153,31 @@ void LoginWindow::handleLogin()
     QString schoolNo = schoolNo_Edit->text();
     QString password = password_Edit->text();
 
-    if (username == "admin" && password == "1234") {
+    database userDb("databases/users.db", "DB_USERS");
+
+    
+
+    if (!userDb.openDB()) {
+        QMessageBox::critical(this, "Hata", "Veritabanı açılamadı!");
+        return;
+    }
+
+    userDb.addUser("Eren", "123", "1234", "Student");
+
+    bool loginSuccessFlag = userDb.isUserMatchedInDataBase(
+        username_Edit->text(),
+        schoolNo_Edit->text(),
+        password_Edit->text(),
+        radioButton_Group->checkedButton()->text()
+    );
+
+    if (loginSuccessFlag) {
         emit loginSuccess();
         close();
     } else {
-        QMessageBox::warning(this, "Hata", "Kullanıcı adı veya şifre yanlış!");
+        QMessageBox::warning(this, "Hata", "Login Error!");
     }
+    
 }
 
 void LoginWindow::updateDateTime()

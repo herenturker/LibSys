@@ -17,7 +17,8 @@ CXXFLAGS = -O2 -std=c++17 \
 CFLAGS = -O2 -Wall -Wextra -Wpedantic -Wshadow \
   -I./src/headers -I./sqlite -IC:/msys64/mingw64/include -fPIC -pipe -g -mwindows
 
-LIBS = -LC:/Qt/6.9.2/mingw_64/lib -lQt6Core -lQt6Gui -lQt6Widgets -lpthread
+LIBS = -LC:/Qt/6.9.2/mingw_64/lib -lQt6Core -lQt6Gui -lQt6Widgets -lpthread -lQt6Sql
+
 
 CPP_SOURCES = $(wildcard src/*.cpp)
 # C_SOURCES = $(filter-out sqlite/shell.c, $(wildcard sqlite/*.c))
