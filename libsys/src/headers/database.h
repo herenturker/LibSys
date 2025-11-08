@@ -50,6 +50,12 @@ class database
                     const QString& password,
                     const QString& accountType) const;
 
+        bool addUserIfNotExists(const QString& username,
+                        const QString& schoolNo,
+                        const QString& password,
+                        const QString& accountType);
+        void debugPrintAllUsers() const;
+
     private:
         QSqlDatabase m_db;
         QString m_dbName;

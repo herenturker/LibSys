@@ -30,7 +30,7 @@
 
 ProgramInterface::ProgramInterface(QWidget *parent) : QMainWindow(parent)
 {
-    setWindowIcon(QIcon("../icons/LibSys.ico"));
+    setWindowIcon(QIcon(":/LibSys.ico"));
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
     QWidget *central = new QWidget(this);
@@ -49,7 +49,7 @@ ProgramInterface::ProgramInterface(QWidget *parent) : QMainWindow(parent)
     titleLayout->setContentsMargins(5,0,5,0);
 
     QLabel *iconLabel = new QLabel;
-    QIcon icon("../icons/LibSys.ico");
+    QIcon icon(":/LibSys.ico");
     iconLabel->setPixmap(icon.pixmap(20, 20));
 
     QLabel *titleLabel = new QLabel("LibSys");
@@ -98,7 +98,7 @@ ProgramInterface::ProgramInterface(QWidget *parent) : QMainWindow(parent)
 
     mainLayout->addWidget(titleBar);
 
-    QLabel *label = new QLabel("Hoşgeldiniz!");
+    QLabel *label = new QLabel("Welcome!");
     label->setAlignment(Qt::AlignCenter);
     mainLayout->addWidget(label);
 

@@ -21,13 +21,13 @@
 
 #include "headers/ProgramInterface.h"
 #include "headers/LoginWindow.h"
-#include "headers/database.h"
+#include "headers/Database.h"
 
 int main(int argc, char *argv[])
 {
     QApplication libsys(argc, argv);
 
-    libsys.setWindowIcon(QIcon("../icons/LibSys.ico"));
+    libsys.setWindowIcon(QIcon(":/LibSys.ico"));
 
     LoginWindow loginWindow;
     ProgramInterface programInterface;

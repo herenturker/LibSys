@@ -6,16 +6,35 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_PREFIX_PATH "C:/Qt/6.9.2/mingw_64")
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 qt_standard_project_setup()
 
 file(GLOB_RECURSE SOURCES
-    src/*.cpp
-    sqlite/*.c
+    libsys/src/*.cpp
+    libsys_updater/src/*.cpp
+    libsys_installer/src/*.cpp
 )
 
-add_executable(libsys ${SOURCES})
+file(GLOB_RECURSE HEADERS
+    libsys/src/headers/*.h
+)
 
-target_include_directories(libsys PRIVATE src/headers sqlite)
-target_link_libraries(libsys PRIVATE Qt6::Widgets)
+set(RESOURCES
+    icons/resources.qrc
+)
+
+qt_add_executable(libsys
+    ${SOURCES}
+    ${HEADERS}
+    ${RESOURCES}
+)
+
+target_link_libraries(libsys PRIVATE
+    Qt6::Widgets
+    Qt6::Sql
+)

@@ -23,99 +23,115 @@
 #include <QSpacerItem>
 #include <QSizePolicy>
 #include <QTimer>
+#include <QCoreApplication>
+#include <QFile>
 
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
-#include "headers/database.h"
+#include "headers/Database.h"
 
 LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 {
-    setWindowIcon(QIcon("../icons/LibSys.ico"));
+    setWindowIcon(QIcon(":/LibSys.ico"));
+    setWindowTitle("Login LibSys");
+    setMinimumSize(600, 450);
+    setMaximumWidth(600);
+    setMaximumHeight(450);
 
+    // === LOGO ===
+    QLabel *libsys_Label = new QLabel(this);
+    QPixmap pixmap(":/LibSys.png");
+    libsys_Label->setPixmap(pixmap.scaled(450, 250, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    libsys_Label->setAlignment(Qt::AlignCenter);
+
+    // === INPUTS ===
     QLabel *username_Label = new QLabel("Enter Username:");
     username_Edit = new QLineEdit;
-
     QLabel *schoolNo_Label = new QLabel("Enter School No:");
     schoolNo_Edit = new QLineEdit;
-
     QLabel *password_Label = new QLabel("Enter Password:");
     password_Edit = new QLineEdit;
     password_Edit->setEchoMode(QLineEdit::Password);
 
     login_Button = new QPushButton("Login");
 
+    username_Edit->setPlaceholderText("Username");
+    schoolNo_Edit->setPlaceholderText("School Number");
+    password_Edit->setPlaceholderText("Password");
+
+    // === RADIO BUTTONS ===
     radioButton_Group = new QButtonGroup(this);
     accountType_Admin_Button = new QRadioButton("Admin", this);
     accountType_Student_Button = new QRadioButton("Student", this);
     accountType_Teacher_Button = new QRadioButton("Teacher", this);
-
-    QVBoxLayout *layout_Vertical = new QVBoxLayout;
-    
-
-    dateLabel = new QLabel();
-    dayLabel  = new QLabel();
-    timeLabel = new QLabel();
-
-    layout_Vertical->addWidget(username_Label);
-    layout_Vertical->addWidget(username_Edit);
-
-    layout_Vertical->addWidget(schoolNo_Label);
-    layout_Vertical->addWidget(schoolNo_Edit);
-
-    layout_Vertical->addWidget(password_Label);
-    layout_Vertical->addWidget(password_Edit);
-
-    layout_Vertical->addWidget(login_Button);
+    accountType_Student_Button->setChecked(true);
 
     radioButton_Group->addButton(accountType_Student_Button);
     radioButton_Group->addButton(accountType_Teacher_Button);
     radioButton_Group->addButton(accountType_Admin_Button);
 
+    // === DATE / TIME ===
+    dateLabel = new QLabel();
+    dayLabel  = new QLabel();
+    timeLabel = new QLabel();
+
+
+    // === LAYOUTS ===
+
+    QVBoxLayout *layout_Form = new QVBoxLayout;
+    layout_Form->addWidget(username_Label);
+    layout_Form->addWidget(username_Edit);
+    layout_Form->addWidget(schoolNo_Label);
+    layout_Form->addWidget(schoolNo_Edit);
+    layout_Form->addWidget(password_Label);
+    layout_Form->addWidget(password_Edit);
+    layout_Form->addSpacing(5);
+    layout_Form->addWidget(login_Button, 0, Qt::AlignHCenter);
+    layout_Form->setSpacing(8);
+
+   
     QVBoxLayout *layout_Radio = new QVBoxLayout;
     layout_Radio->addWidget(accountType_Student_Button);
     layout_Radio->addWidget(accountType_Teacher_Button);
     layout_Radio->addWidget(accountType_Admin_Button);
-    layout_Radio->addStretch();
-
-    accountType_Student_Button->setChecked(true);
-
+    layout_Radio->addSpacing(15);
     layout_Radio->addWidget(dateLabel);
     layout_Radio->addWidget(dayLabel);
     layout_Radio->addWidget(timeLabel);
-    layout_Radio->addSpacing(10);
-
-    QHBoxLayout *layout_Main = new QHBoxLayout;
-    layout_Main->addStretch();
-    layout_Main->addLayout(layout_Radio);
-    layout_Main->addSpacing(20);
-    layout_Main->addLayout(layout_Vertical);
-    layout_Main->addStretch();
-
-    layout_Main->setSpacing(15);
-    layout_Main->setContentsMargins(20, 30, 20, 30);
-    layout_Vertical->setSpacing(8);
-    layout_Vertical->setContentsMargins(0, 0, 0, 0);
+    layout_Radio->addStretch();
     layout_Radio->setSpacing(6);
+    layout_Radio->setContentsMargins(20, 0, 20, 10);
+
+
+    QHBoxLayout *layout_Center = new QHBoxLayout;
+    layout_Center->addStretch();
+    layout_Center->addLayout(layout_Radio, 1);
+    layout_Center->addSpacing(40);
+    layout_Center->addLayout(layout_Form, 2);
+    layout_Center->addStretch();
+
+
+    QVBoxLayout *layout_Main = new QVBoxLayout(this);
+    layout_Main->addSpacing(0);
+    layout_Main->addWidget(libsys_Label, 0, Qt::AlignHCenter);
+    layout_Main->addStretch(10);
+    layout_Main->addLayout(layout_Center);
+    layout_Main->addStretch();
+    layout_Main->setContentsMargins(20, 5, 20, 20);
+    layout_Main->addStretch(20);
 
     setLayout(layout_Main);
 
-    username_Edit->setPlaceholderText("Username");
-    schoolNo_Edit->setPlaceholderText("School Number");
-    password_Edit->setPlaceholderText("Password");
-
-    setWindowTitle("Login LibSys");
-    resize(400, 200);
-    setMinimumSize(400, 250);
-    setMaximumWidth(500);
-    setMaximumHeight(270);
-
-    connect(login_Button, &QPushButton::clicked, this, &LoginWindow::handleLogin);
-
+    // === TIMER ===
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &LoginWindow::updateDateTime);
     timer->start(1000);
     updateDateTime();
 
+    // === LOGIN BUTTON ===
+    connect(login_Button, &QPushButton::clicked, this, &LoginWindow::handleLogin);
+
+    // === STYLESHEET ===
     this->setStyleSheet(R"(
         QWidget { 
             background-color: #f5f5f5; 
@@ -128,13 +144,13 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
             background-color: #ffffff; 
             color: #000000; 
             border: 1px solid #cccccc; 
-            padding: 3px; 
+            padding: 4px; 
         }
         QPushButton { 
             background-color: #4CAF50; 
             color: white; 
             border-radius: 5px; 
-            padding: 5px; 
+            padding: 6px 12px; 
             font-weight: bold; 
         }
         QPushButton:hover { 
@@ -142,10 +158,19 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
         }
         QRadioButton { 
             color: #333333; 
+            font-size: 15px;
+            font-weight: bold;
+        }
+        QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
+            font-size: 15px;
         }
     )");
 
+    dateLabel->setObjectName("dateLabel");
+    dayLabel->setObjectName("dayLabel");
+    timeLabel->setObjectName("timeLabel");
 }
+
 
 void LoginWindow::handleLogin()
 {
@@ -153,16 +178,30 @@ void LoginWindow::handleLogin()
     QString schoolNo = schoolNo_Edit->text();
     QString password = password_Edit->text();
 
-    database userDb("databases/users.db", "DB_USERS");
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString dbPath = exePath + "/users.db";
 
-    
+    if (!QFile::exists(dbPath)) {
+        QFile file(dbPath);
+        if (!file.open(QIODevice::WriteOnly)) {
+            qDebug() << "Could not create \"users.db\" !";
+        } else {
+            file.close();
+            qDebug() << "Created \"users.db\" .";
+        }
+    }
+
+    database userDb(dbPath, "DB_USERS");
+
 
     if (!userDb.openDB()) {
-        QMessageBox::critical(this, "Hata", "Veritabanı açılamadı!");
+        QMessageBox::critical(this, "Error", "Could not open the database!");
         return;
     }
 
-    userDb.addUser("Eren", "123", "1234", "Student");
+    userDb.createUsersTable();
+    userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
+    userDb.addUserIfNotExists("Ahmet", "110", "1234", "Student");
 
     bool loginSuccessFlag = userDb.isUserMatchedInDataBase(
         username_Edit->text(),
@@ -171,11 +210,19 @@ void LoginWindow::handleLogin()
         radioButton_Group->checkedButton()->text()
     );
 
+    qDebug() << "DEBUG — Login check:";
+    qDebug() << "username:" << username;
+    qDebug() << "schoolNo:" << schoolNo;
+    qDebug() << "password:" << password;
+    qDebug() << "accountType:" << radioButton_Group->checkedButton()->text();
+    userDb.debugPrintAllUsers();
+
+
     if (loginSuccessFlag) {
         emit loginSuccess();
         close();
     } else {
-        QMessageBox::warning(this, "Hata", "Login Error!");
+        QMessageBox::warning(this, "Error", "Login Error!");
     }
     
 }

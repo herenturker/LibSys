@@ -288,13 +288,124 @@
 		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake",
 		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake",
 		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake",
-		"C:/Program Files/CMake/share/cmake-4.1/Modules/GNUInstallDirs.cmake"
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfig.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlDependencies.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlAdditionalTargetInfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfigVersion.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfigVersionImpl.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfig.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateDependencies.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateAdditionalTargetInfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateVersionlessAliasTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlPlugins.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginConfig.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginAdditionalTargetInfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginConfig.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginAdditionalTargetInfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginConfig.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginAdditionalTargetInfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginConfig.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginAdditionalTargetInfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginConfig.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginAdditionalTargetInfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake",
+		"C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake",
+		"C:/Program Files/CMake/share/cmake-4.1/Modules/GNUInstallDirs.cmake",
+		"C:/Users/habil/Desktop/libsys/icons/resources.qrc"
 	],
 	"CMAKE_SOURCE_DIR" : "C:/Users/habil/Desktop/libsys",
 	"CROSS_CONFIG" : false,
 	"DEP_FILE" : "C:/Users/habil/Desktop/libsys/build/libsys_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "libsys_autogen/timestamp",
-	"HEADERS" : [],
+	"HEADERS" : 
+	[
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/AdminOperations.h",
+			"MU",
+			"P7CQ3PBK3U/moc_AdminOperations.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/Database.h",
+			"MU",
+			"P7CQ3PBK3U/moc_Database.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/GeneralOperations.h",
+			"MU",
+			"P7CQ3PBK3U/moc_GeneralOperations.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/Graphical.h",
+			"MU",
+			"P7CQ3PBK3U/moc_Graphical.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/LibrarySystem.h",
+			"MU",
+			"P7CQ3PBK3U/moc_LibrarySystem.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/LoginWindow.h",
+			"MU",
+			"P7CQ3PBK3U/moc_LoginWindow.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/ProgramInterface.h",
+			"MU",
+			"P7CQ3PBK3U/moc_ProgramInterface.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/StudentOperations.h",
+			"MU",
+			"P7CQ3PBK3U/moc_StudentOperations.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/TeacherOperations.h",
+			"MU",
+			"P7CQ3PBK3U/moc_TeacherOperations.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/TimeClass.h",
+			"MU",
+			"P7CQ3PBK3U/moc_TimeClass.cpp",
+			null
+		]
+	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
 	"INCLUDE_DIR" : "C:/Users/habil/Desktop/libsys/build/libsys_autogen/include",
 	"MOC_COMPILATION_FILE" : "C:/Users/habil/Desktop/libsys/build/libsys_autogen/mocs_compilation.cpp",
@@ -303,6 +414,7 @@
 		"MINGW_HAS_SECURE_API=1",
 		"QT_CORE_LIB",
 		"QT_GUI_LIB",
+		"QT_SQL_LIB",
 		"QT_WIDGETS_LIB",
 		"UNICODE",
 		"WIN32",
@@ -320,13 +432,12 @@
 	],
 	"MOC_INCLUDES" : 
 	[
-		"C:/Users/habil/Desktop/libsys/src/headers",
-		"C:/Users/habil/Desktop/libsys/sqlite",
-		"C:/Qt/6.9.2/mingw_64/include/QtWidgets",
-		"C:/Qt/6.9.2/mingw_64/include",
 		"C:/Qt/6.9.2/mingw_64/include/QtCore",
+		"C:/Qt/6.9.2/mingw_64/include",
 		"C:/Qt/6.9.2/mingw_64/mkspecs/win32-g++",
+		"C:/Qt/6.9.2/mingw_64/include/QtWidgets",
 		"C:/Qt/6.9.2/mingw_64/include/QtGui",
+		"C:/Qt/6.9.2/mingw_64/include/QtSql",
 		"C:/msys64/mingw64/include/c++/15.1.0",
 		"C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32",
 		"C:/msys64/mingw64/include/c++/15.1.0/backward",
@@ -343,7 +454,7 @@
 		"Q_GADGET_EXPORT",
 		"Q_ENUM_NS"
 	],
-	"MOC_OPTIONS" : [],
+	"MOC_OPTIONS" : [ "-DWIN32" ],
 	"MOC_PATH_PREFIX" : false,
 	"MOC_PREDEFS_CMD" : 
 	[
@@ -367,17 +478,44 @@
 	"SETTINGS_FILE" : "C:/Users/habil/Desktop/libsys/build/CMakeFiles/libsys_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "C:/Users/habil/Desktop/libsys/src/AdminOperations.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/GeneralOperations.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/Graphical.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/Input.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/LibrarySystem.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/LoginWindow.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/ProgramInterface.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/StudentOperations.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/TeacherOperations.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/database.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/src/main.cpp", "MU", null ]
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp",
+			"MU",
+			null
+		],
+		[ "C:/Users/habil/Desktop/libsys/libsys/src/Database.cpp", "MU", null ],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/GeneralOperations.cpp",
+			"MU",
+			null
+		],
+		[ "C:/Users/habil/Desktop/libsys/libsys/src/Graphical.cpp", "MU", null ],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/LibrarySystem.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/LoginWindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/ProgramInterface.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/TeacherOperations.cpp",
+			"MU",
+			null
+		],
+		[ "C:/Users/habil/Desktop/libsys/libsys/src/main.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

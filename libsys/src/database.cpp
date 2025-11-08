@@ -21,28 +21,36 @@
 #include <QtSql/QSqlRecord>
 #include <QDebug>
 
-#include "headers/database.h"
+#include "headers/Database.h"
 
 database::database(const QString& dbName, const QString& connectionName)
     : m_dbName(dbName)
 {
-    m_db = QSqlDatabase::addDatabase("QSQLITE", connectionName);
-    m_db.setDatabaseName(m_dbName);
+    if (QSqlDatabase::contains(connectionName)) {
+        m_db = QSqlDatabase::database(connectionName);
+    } else {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", connectionName);
+        m_db.setDatabaseName(m_dbName);
+    }
 }
+
 
 database::~database()
 {
-    closeDB();
-    QSqlDatabase::removeDatabase(m_db.connectionName());
+
+     if (m_db.isOpen()){
+        m_db.close();
+     }
+        
 }
 
 bool database::openDB()
 {
     if (!m_db.open()) {
-        qDebug() << "DB açılamadı:" << m_db.lastError().text();
+        qDebug() << "Could not open the database:" << m_db.lastError().text();
         return false;
     }
-    qDebug() << "DB açıldı:" << m_dbName;
+    qDebug() << "Opened the database:" << m_dbName;
     return true;
 }
 
@@ -66,10 +74,10 @@ bool database::createUsersTable()
     )";
 
     if (!query.exec(createTable)) {
-        qDebug() << "Tablo oluşturulamadı:" << query.lastError().text();
+        qDebug() << "Could not create the table:" << query.lastError().text();
         return false;
     }
-    qDebug() << "users tablosu hazır.";
+    qDebug() << "users table is ready.";
     return true;
 }
 
@@ -87,10 +95,10 @@ bool database::addUser(const QString& username, const QString& schoolNo,
     query.bindValue(":account_type", accountType);
 
     if (!query.exec()) {
-        qDebug() << "Kullanıcı eklenemedi:" << query.lastError().text();
+        qDebug() << "Could not add the user:" << query.lastError().text();
         return false;
     }
-    qDebug() << "Kullanıcı eklendi:" << username;
+    qDebug() << "Added user:" << username;
     return true;
 }
 
@@ -102,10 +110,10 @@ bool database::updateUserPassword(const QString& username, const QString& newPas
     query.bindValue(":username", username);
 
     if (!query.exec()) {
-        qDebug() << "Şifre güncellenemedi:" << query.lastError().text();
+        qDebug() << "Could not update the password:" << query.lastError().text();
         return false;
     }
-    qDebug() << "Şifre güncellendi:" << username;
+    qDebug() << "Updated password:" << username;
     return true;
 }
 
@@ -116,10 +124,10 @@ bool database::deleteUser(const QString& username)
     query.bindValue(":username", username);
 
     if (!query.exec()) {
-        qDebug() << "Kullanıcı silinemedi:" << query.lastError().text();
+        qDebug() << "Could not delete the user:" << query.lastError().text();
         return false;
     }
-    qDebug() << "Kullanıcı silindi:" << username;
+    qDebug() << "Deleted the user:" << username;
     return true;
 }
 
@@ -132,16 +140,22 @@ QSqlQuery database::selectUsers(const QString& condition)
     }
 
     if (!query.exec(sql)) {
-        qDebug() << "SELECT hatası:" << query.lastError().text();
+        qDebug() << "SELECT error:" << query.lastError().text();
     }
 
     return query;
 }
 bool database::isUserMatchedInDataBase(const QString& username,
-                                   const QString& schoolNo,
-                                   const QString& password,
-                                   const QString& accountType) const
+                                       const QString& schoolNo,
+                                       const QString& password,
+                                       const QString& accountType) const
 {
+    qDebug() << "DEBUG — Login check:";
+    qDebug() << "username:" << username;
+    qDebug() << "schoolNo:" << schoolNo;
+    qDebug() << "password:" << password;
+    qDebug() << "accountType:" << accountType;
+
     QSqlQuery query(m_db);
     query.prepare(R"(
         SELECT COUNT(*) 
@@ -158,14 +172,57 @@ bool database::isUserMatchedInDataBase(const QString& username,
     query.bindValue(":account_type", accountType);
 
     if (!query.exec()) {
-        qDebug() << "Login kontrolü hatası:" << query.lastError().text();
+        qDebug() << "Login check error:" << query.lastError().text();
         return false;
     }
 
     if (query.next()) {
         int count = query.value(0).toInt();
+        qDebug() << "Matching user count:" << count;
         return count > 0;
+    } else {
+        qDebug() << "Could not get data from query.";
     }
 
     return false;
+}
+bool database::addUserIfNotExists(const QString& username,
+                                  const QString& schoolNo,
+                                  const QString& password,
+                                  const QString& accountType)
+{
+    QSqlQuery checkQuery(m_db);
+    checkQuery.prepare("SELECT COUNT(*) FROM users WHERE username = :username");
+    checkQuery.bindValue(":username", username);
+
+    if (!checkQuery.exec()) {
+        qDebug() << "User check error:" << checkQuery.lastError().text();
+        return false;
+    }
+
+    if (checkQuery.next() && checkQuery.value(0).toInt() > 0) {
+        qDebug() << "User already exists:" << username;
+        return true; // user already exists, not an error
+    }
+
+    // User not found -> safely add
+    return addUser(username, schoolNo, password, accountType);
+}
+
+void database::debugPrintAllUsers() const
+{
+    QSqlQuery query(m_db);
+    if (!query.exec("SELECT username, school_no, password, account_type FROM users")) {
+        qDebug() << "Error in listing users" << query.lastError().text();
+        return;
+    }
+
+    qDebug() << "---- USERS TABLE CONTENTS ----";
+    while (query.next()) {
+        qDebug() << "username:" << query.value(0).toString()
+                 << "| school_no:" << query.value(1).toString()
+                 << "| password:" << query.value(2).toString()
+                 << "| account_type:" << query.value(3).toString();
+    }
+    qDebug() << "------------------------------";
 }

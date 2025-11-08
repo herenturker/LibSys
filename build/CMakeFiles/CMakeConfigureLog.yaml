@@ -4401,3 +4401,207 @@ events:
         - "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules"
         - "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6/3rdparty/kwin"
 ...
+
+---
+events:
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfig.cmake:85 (find_package)"
+      - "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6/Qt6Config.cmake:233 (find_package)"
+      - "CMakeLists.txt:9 (find_package)"
+    name: "Qt6SqlPrivate"
+    configs:
+      -
+        filename: "Qt6SqlPrivateConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "qt6sqlprivate-config.cmake"
+        kind: "cmake"
+    version_request:
+      version: "6.9.2"
+      version_complete: "6.9.2"
+      exact: true
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Qt6SqlPrivate"
+      search_paths:
+        - "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/.."
+        - "C:/Qt/6.9.2/mingw_64/lib/cmake"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: false
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/Users/habil/Desktop/libsys/build/CMakeFiles/pkgRedirects/Qt6SqlPrivateConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/habil/Desktop/libsys/build/CMakeFiles/pkgRedirects/qt6sqlprivate-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivateConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Qt/6.9.2/mingw_64/lib/cmake/qt6sqlprivate-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfig.cmake"
+      mode: "config"
+      version: "6.9.2"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Qt/6.9.2/mingw_64"
+      ENV{PATH}:
+        - "C:\\msys64\\mingw64\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+        - "C:\\msys64\\usr\\bin"
+        - "C:/Program Files/Common Files/Oracle/Java/javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:/WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:/Program Files/HP/HP One Agent"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:/Program Files/Git/cmd"
+        - "C:\\msys64\\mingw64\\bin"
+        - "C:/msys64/usr/bin"
+        - "C:\\Users\\habil\\Downloads\\sqlite"
+        - "C:/Program Files/CMake/bin"
+        - "C:\\Qt\\Tools\\mingw1310_64\\bin"
+        - "C:/Users/habil/AppData/Local/Programs/Python/Python313/Scripts/"
+        - "C:\\Users\\habil\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:/Users/habil/AppData/Local/Programs/Python/Launcher/"
+        - "C:\\Users\\habil\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:/Users/habil/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "C:\\Users\\habil\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:/Qt/6.9.2/mingw_64/bin"
+        - "C:\\Qt\\Tools\\mingw1310_64\\bin"
+        - "C:/Users/habil/AppData/Local/PowerToys/"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/libsys"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/msys64/mingw64"
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/libsys"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6/Qt6Config.cmake:233 (find_package)"
+      - "CMakeLists.txt:9 (find_package)"
+    name: "Qt6Sql"
+    configs:
+      -
+        filename: "Qt6SqlConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "qt6sql-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "optional"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Qt6Sql"
+      search_paths:
+        - "C:/Qt/6.9.2/mingw_64/lib/cmake"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: false
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/Users/habil/Desktop/libsys/build/CMakeFiles/pkgRedirects/Qt6SqlConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/habil/Desktop/libsys/build/CMakeFiles/pkgRedirects/qt6sql-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6SqlConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Qt/6.9.2/mingw_64/lib/cmake/qt6sql-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "C:/Qt/6.9.2/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfig.cmake"
+      mode: "config"
+      version: "6.9.2"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Qt/6.9.2/mingw_64"
+      ENV{PATH}:
+        - "C:\\msys64\\mingw64\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+        - "C:\\msys64\\mingw64\\bin"
+        - "C:\\msys64\\usr\\bin"
+        - "C:/Program Files/Common Files/Oracle/Java/javapath"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:/WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:/Program Files/HP/HP One Agent"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:/Program Files/Git/cmd"
+        - "C:\\msys64\\mingw64\\bin"
+        - "C:/msys64/usr/bin"
+        - "C:\\Users\\habil\\Downloads\\sqlite"
+        - "C:/Program Files/CMake/bin"
+        - "C:\\Qt\\Tools\\mingw1310_64\\bin"
+        - "C:/Users/habil/AppData/Local/Programs/Python/Python313/Scripts/"
+        - "C:\\Users\\habil\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:/Users/habil/AppData/Local/Programs/Python/Launcher/"
+        - "C:\\Users\\habil\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:/Users/habil/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "C:\\Users\\habil\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:/Qt/6.9.2/mingw_64/bin"
+        - "C:\\Qt\\Tools\\mingw1310_64\\bin"
+        - "C:/Users/habil/AppData/Local/PowerToys/"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/libsys"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/msys64/mingw64"
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/libsys"
+...

@@ -155,6 +155,270 @@ libsys_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys_autogen.dir/build.make CMakeFiles/libsys_autogen.dir/build
 .PHONY : libsys_autogen/fast
 
+libsys/src/AdminOperations.obj: libsys/src/AdminOperations.cpp.obj
+.PHONY : libsys/src/AdminOperations.obj
+
+# target to build an object file
+libsys/src/AdminOperations.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj
+.PHONY : libsys/src/AdminOperations.cpp.obj
+
+libsys/src/AdminOperations.i: libsys/src/AdminOperations.cpp.i
+.PHONY : libsys/src/AdminOperations.i
+
+# target to preprocess a source file
+libsys/src/AdminOperations.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.i
+.PHONY : libsys/src/AdminOperations.cpp.i
+
+libsys/src/AdminOperations.s: libsys/src/AdminOperations.cpp.s
+.PHONY : libsys/src/AdminOperations.s
+
+# target to generate assembly for a file
+libsys/src/AdminOperations.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.s
+.PHONY : libsys/src/AdminOperations.cpp.s
+
+libsys/src/Database.obj: libsys/src/Database.cpp.obj
+.PHONY : libsys/src/Database.obj
+
+# target to build an object file
+libsys/src/Database.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Database.cpp.obj
+.PHONY : libsys/src/Database.cpp.obj
+
+libsys/src/Database.i: libsys/src/Database.cpp.i
+.PHONY : libsys/src/Database.i
+
+# target to preprocess a source file
+libsys/src/Database.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Database.cpp.i
+.PHONY : libsys/src/Database.cpp.i
+
+libsys/src/Database.s: libsys/src/Database.cpp.s
+.PHONY : libsys/src/Database.s
+
+# target to generate assembly for a file
+libsys/src/Database.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Database.cpp.s
+.PHONY : libsys/src/Database.cpp.s
+
+libsys/src/GeneralOperations.obj: libsys/src/GeneralOperations.cpp.obj
+.PHONY : libsys/src/GeneralOperations.obj
+
+# target to build an object file
+libsys/src/GeneralOperations.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj
+.PHONY : libsys/src/GeneralOperations.cpp.obj
+
+libsys/src/GeneralOperations.i: libsys/src/GeneralOperations.cpp.i
+.PHONY : libsys/src/GeneralOperations.i
+
+# target to preprocess a source file
+libsys/src/GeneralOperations.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.i
+.PHONY : libsys/src/GeneralOperations.cpp.i
+
+libsys/src/GeneralOperations.s: libsys/src/GeneralOperations.cpp.s
+.PHONY : libsys/src/GeneralOperations.s
+
+# target to generate assembly for a file
+libsys/src/GeneralOperations.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.s
+.PHONY : libsys/src/GeneralOperations.cpp.s
+
+libsys/src/Graphical.obj: libsys/src/Graphical.cpp.obj
+.PHONY : libsys/src/Graphical.obj
+
+# target to build an object file
+libsys/src/Graphical.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj
+.PHONY : libsys/src/Graphical.cpp.obj
+
+libsys/src/Graphical.i: libsys/src/Graphical.cpp.i
+.PHONY : libsys/src/Graphical.i
+
+# target to preprocess a source file
+libsys/src/Graphical.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.i
+.PHONY : libsys/src/Graphical.cpp.i
+
+libsys/src/Graphical.s: libsys/src/Graphical.cpp.s
+.PHONY : libsys/src/Graphical.s
+
+# target to generate assembly for a file
+libsys/src/Graphical.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.s
+.PHONY : libsys/src/Graphical.cpp.s
+
+libsys/src/LibrarySystem.obj: libsys/src/LibrarySystem.cpp.obj
+.PHONY : libsys/src/LibrarySystem.obj
+
+# target to build an object file
+libsys/src/LibrarySystem.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj
+.PHONY : libsys/src/LibrarySystem.cpp.obj
+
+libsys/src/LibrarySystem.i: libsys/src/LibrarySystem.cpp.i
+.PHONY : libsys/src/LibrarySystem.i
+
+# target to preprocess a source file
+libsys/src/LibrarySystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.i
+.PHONY : libsys/src/LibrarySystem.cpp.i
+
+libsys/src/LibrarySystem.s: libsys/src/LibrarySystem.cpp.s
+.PHONY : libsys/src/LibrarySystem.s
+
+# target to generate assembly for a file
+libsys/src/LibrarySystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.s
+.PHONY : libsys/src/LibrarySystem.cpp.s
+
+libsys/src/LoginWindow.obj: libsys/src/LoginWindow.cpp.obj
+.PHONY : libsys/src/LoginWindow.obj
+
+# target to build an object file
+libsys/src/LoginWindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj
+.PHONY : libsys/src/LoginWindow.cpp.obj
+
+libsys/src/LoginWindow.i: libsys/src/LoginWindow.cpp.i
+.PHONY : libsys/src/LoginWindow.i
+
+# target to preprocess a source file
+libsys/src/LoginWindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.i
+.PHONY : libsys/src/LoginWindow.cpp.i
+
+libsys/src/LoginWindow.s: libsys/src/LoginWindow.cpp.s
+.PHONY : libsys/src/LoginWindow.s
+
+# target to generate assembly for a file
+libsys/src/LoginWindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.s
+.PHONY : libsys/src/LoginWindow.cpp.s
+
+libsys/src/ProgramInterface.obj: libsys/src/ProgramInterface.cpp.obj
+.PHONY : libsys/src/ProgramInterface.obj
+
+# target to build an object file
+libsys/src/ProgramInterface.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/ProgramInterface.cpp.obj
+.PHONY : libsys/src/ProgramInterface.cpp.obj
+
+libsys/src/ProgramInterface.i: libsys/src/ProgramInterface.cpp.i
+.PHONY : libsys/src/ProgramInterface.i
+
+# target to preprocess a source file
+libsys/src/ProgramInterface.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/ProgramInterface.cpp.i
+.PHONY : libsys/src/ProgramInterface.cpp.i
+
+libsys/src/ProgramInterface.s: libsys/src/ProgramInterface.cpp.s
+.PHONY : libsys/src/ProgramInterface.s
+
+# target to generate assembly for a file
+libsys/src/ProgramInterface.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/ProgramInterface.cpp.s
+.PHONY : libsys/src/ProgramInterface.cpp.s
+
+libsys/src/StudentOperations.obj: libsys/src/StudentOperations.cpp.obj
+.PHONY : libsys/src/StudentOperations.obj
+
+# target to build an object file
+libsys/src/StudentOperations.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj
+.PHONY : libsys/src/StudentOperations.cpp.obj
+
+libsys/src/StudentOperations.i: libsys/src/StudentOperations.cpp.i
+.PHONY : libsys/src/StudentOperations.i
+
+# target to preprocess a source file
+libsys/src/StudentOperations.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.i
+.PHONY : libsys/src/StudentOperations.cpp.i
+
+libsys/src/StudentOperations.s: libsys/src/StudentOperations.cpp.s
+.PHONY : libsys/src/StudentOperations.s
+
+# target to generate assembly for a file
+libsys/src/StudentOperations.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.s
+.PHONY : libsys/src/StudentOperations.cpp.s
+
+libsys/src/TeacherOperations.obj: libsys/src/TeacherOperations.cpp.obj
+.PHONY : libsys/src/TeacherOperations.obj
+
+# target to build an object file
+libsys/src/TeacherOperations.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/TeacherOperations.cpp.obj
+.PHONY : libsys/src/TeacherOperations.cpp.obj
+
+libsys/src/TeacherOperations.i: libsys/src/TeacherOperations.cpp.i
+.PHONY : libsys/src/TeacherOperations.i
+
+# target to preprocess a source file
+libsys/src/TeacherOperations.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/TeacherOperations.cpp.i
+.PHONY : libsys/src/TeacherOperations.cpp.i
+
+libsys/src/TeacherOperations.s: libsys/src/TeacherOperations.cpp.s
+.PHONY : libsys/src/TeacherOperations.s
+
+# target to generate assembly for a file
+libsys/src/TeacherOperations.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/TeacherOperations.cpp.s
+.PHONY : libsys/src/TeacherOperations.cpp.s
+
+libsys/src/main.obj: libsys/src/main.cpp.obj
+.PHONY : libsys/src/main.obj
+
+# target to build an object file
+libsys/src/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/main.cpp.obj
+.PHONY : libsys/src/main.cpp.obj
+
+libsys/src/main.i: libsys/src/main.cpp.i
+.PHONY : libsys/src/main.i
+
+# target to preprocess a source file
+libsys/src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/main.cpp.i
+.PHONY : libsys/src/main.cpp.i
+
+libsys/src/main.s: libsys/src/main.cpp.s
+.PHONY : libsys/src/main.s
+
+# target to generate assembly for a file
+libsys/src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/main.cpp.s
+.PHONY : libsys/src/main.cpp.s
+
+libsys_autogen/2SEMU33LXP/qrc_resources.obj: libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj
+.PHONY : libsys_autogen/2SEMU33LXP/qrc_resources.obj
+
+# target to build an object file
+libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj
+.PHONY : libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj
+
+libsys_autogen/2SEMU33LXP/qrc_resources.i: libsys_autogen/2SEMU33LXP/qrc_resources.cpp.i
+.PHONY : libsys_autogen/2SEMU33LXP/qrc_resources.i
+
+# target to preprocess a source file
+libsys_autogen/2SEMU33LXP/qrc_resources.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.i
+.PHONY : libsys_autogen/2SEMU33LXP/qrc_resources.cpp.i
+
+libsys_autogen/2SEMU33LXP/qrc_resources.s: libsys_autogen/2SEMU33LXP/qrc_resources.cpp.s
+.PHONY : libsys_autogen/2SEMU33LXP/qrc_resources.s
+
+# target to generate assembly for a file
+libsys_autogen/2SEMU33LXP/qrc_resources.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.s
+.PHONY : libsys_autogen/2SEMU33LXP/qrc_resources.cpp.s
+
 libsys_autogen/mocs_compilation.obj: libsys_autogen/mocs_compilation.cpp.obj
 .PHONY : libsys_autogen/mocs_compilation.obj
 
@@ -179,270 +443,6 @@ libsys_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys_autogen/mocs_compilation.cpp.s
 .PHONY : libsys_autogen/mocs_compilation.cpp.s
 
-src/AdminOperations.obj: src/AdminOperations.cpp.obj
-.PHONY : src/AdminOperations.obj
-
-# target to build an object file
-src/AdminOperations.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/AdminOperations.cpp.obj
-.PHONY : src/AdminOperations.cpp.obj
-
-src/AdminOperations.i: src/AdminOperations.cpp.i
-.PHONY : src/AdminOperations.i
-
-# target to preprocess a source file
-src/AdminOperations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/AdminOperations.cpp.i
-.PHONY : src/AdminOperations.cpp.i
-
-src/AdminOperations.s: src/AdminOperations.cpp.s
-.PHONY : src/AdminOperations.s
-
-# target to generate assembly for a file
-src/AdminOperations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/AdminOperations.cpp.s
-.PHONY : src/AdminOperations.cpp.s
-
-src/GeneralOperations.obj: src/GeneralOperations.cpp.obj
-.PHONY : src/GeneralOperations.obj
-
-# target to build an object file
-src/GeneralOperations.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/GeneralOperations.cpp.obj
-.PHONY : src/GeneralOperations.cpp.obj
-
-src/GeneralOperations.i: src/GeneralOperations.cpp.i
-.PHONY : src/GeneralOperations.i
-
-# target to preprocess a source file
-src/GeneralOperations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/GeneralOperations.cpp.i
-.PHONY : src/GeneralOperations.cpp.i
-
-src/GeneralOperations.s: src/GeneralOperations.cpp.s
-.PHONY : src/GeneralOperations.s
-
-# target to generate assembly for a file
-src/GeneralOperations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/GeneralOperations.cpp.s
-.PHONY : src/GeneralOperations.cpp.s
-
-src/Graphical.obj: src/Graphical.cpp.obj
-.PHONY : src/Graphical.obj
-
-# target to build an object file
-src/Graphical.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Graphical.cpp.obj
-.PHONY : src/Graphical.cpp.obj
-
-src/Graphical.i: src/Graphical.cpp.i
-.PHONY : src/Graphical.i
-
-# target to preprocess a source file
-src/Graphical.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Graphical.cpp.i
-.PHONY : src/Graphical.cpp.i
-
-src/Graphical.s: src/Graphical.cpp.s
-.PHONY : src/Graphical.s
-
-# target to generate assembly for a file
-src/Graphical.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Graphical.cpp.s
-.PHONY : src/Graphical.cpp.s
-
-src/Input.obj: src/Input.cpp.obj
-.PHONY : src/Input.obj
-
-# target to build an object file
-src/Input.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Input.cpp.obj
-.PHONY : src/Input.cpp.obj
-
-src/Input.i: src/Input.cpp.i
-.PHONY : src/Input.i
-
-# target to preprocess a source file
-src/Input.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Input.cpp.i
-.PHONY : src/Input.cpp.i
-
-src/Input.s: src/Input.cpp.s
-.PHONY : src/Input.s
-
-# target to generate assembly for a file
-src/Input.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/Input.cpp.s
-.PHONY : src/Input.cpp.s
-
-src/LibrarySystem.obj: src/LibrarySystem.cpp.obj
-.PHONY : src/LibrarySystem.obj
-
-# target to build an object file
-src/LibrarySystem.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LibrarySystem.cpp.obj
-.PHONY : src/LibrarySystem.cpp.obj
-
-src/LibrarySystem.i: src/LibrarySystem.cpp.i
-.PHONY : src/LibrarySystem.i
-
-# target to preprocess a source file
-src/LibrarySystem.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LibrarySystem.cpp.i
-.PHONY : src/LibrarySystem.cpp.i
-
-src/LibrarySystem.s: src/LibrarySystem.cpp.s
-.PHONY : src/LibrarySystem.s
-
-# target to generate assembly for a file
-src/LibrarySystem.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LibrarySystem.cpp.s
-.PHONY : src/LibrarySystem.cpp.s
-
-src/LoginWindow.obj: src/LoginWindow.cpp.obj
-.PHONY : src/LoginWindow.obj
-
-# target to build an object file
-src/LoginWindow.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LoginWindow.cpp.obj
-.PHONY : src/LoginWindow.cpp.obj
-
-src/LoginWindow.i: src/LoginWindow.cpp.i
-.PHONY : src/LoginWindow.i
-
-# target to preprocess a source file
-src/LoginWindow.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LoginWindow.cpp.i
-.PHONY : src/LoginWindow.cpp.i
-
-src/LoginWindow.s: src/LoginWindow.cpp.s
-.PHONY : src/LoginWindow.s
-
-# target to generate assembly for a file
-src/LoginWindow.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/LoginWindow.cpp.s
-.PHONY : src/LoginWindow.cpp.s
-
-src/ProgramInterface.obj: src/ProgramInterface.cpp.obj
-.PHONY : src/ProgramInterface.obj
-
-# target to build an object file
-src/ProgramInterface.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/ProgramInterface.cpp.obj
-.PHONY : src/ProgramInterface.cpp.obj
-
-src/ProgramInterface.i: src/ProgramInterface.cpp.i
-.PHONY : src/ProgramInterface.i
-
-# target to preprocess a source file
-src/ProgramInterface.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/ProgramInterface.cpp.i
-.PHONY : src/ProgramInterface.cpp.i
-
-src/ProgramInterface.s: src/ProgramInterface.cpp.s
-.PHONY : src/ProgramInterface.s
-
-# target to generate assembly for a file
-src/ProgramInterface.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/ProgramInterface.cpp.s
-.PHONY : src/ProgramInterface.cpp.s
-
-src/StudentOperations.obj: src/StudentOperations.cpp.obj
-.PHONY : src/StudentOperations.obj
-
-# target to build an object file
-src/StudentOperations.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/StudentOperations.cpp.obj
-.PHONY : src/StudentOperations.cpp.obj
-
-src/StudentOperations.i: src/StudentOperations.cpp.i
-.PHONY : src/StudentOperations.i
-
-# target to preprocess a source file
-src/StudentOperations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/StudentOperations.cpp.i
-.PHONY : src/StudentOperations.cpp.i
-
-src/StudentOperations.s: src/StudentOperations.cpp.s
-.PHONY : src/StudentOperations.s
-
-# target to generate assembly for a file
-src/StudentOperations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/StudentOperations.cpp.s
-.PHONY : src/StudentOperations.cpp.s
-
-src/TeacherOperations.obj: src/TeacherOperations.cpp.obj
-.PHONY : src/TeacherOperations.obj
-
-# target to build an object file
-src/TeacherOperations.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/TeacherOperations.cpp.obj
-.PHONY : src/TeacherOperations.cpp.obj
-
-src/TeacherOperations.i: src/TeacherOperations.cpp.i
-.PHONY : src/TeacherOperations.i
-
-# target to preprocess a source file
-src/TeacherOperations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/TeacherOperations.cpp.i
-.PHONY : src/TeacherOperations.cpp.i
-
-src/TeacherOperations.s: src/TeacherOperations.cpp.s
-.PHONY : src/TeacherOperations.s
-
-# target to generate assembly for a file
-src/TeacherOperations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/TeacherOperations.cpp.s
-.PHONY : src/TeacherOperations.cpp.s
-
-src/database.obj: src/database.cpp.obj
-.PHONY : src/database.obj
-
-# target to build an object file
-src/database.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/database.cpp.obj
-.PHONY : src/database.cpp.obj
-
-src/database.i: src/database.cpp.i
-.PHONY : src/database.i
-
-# target to preprocess a source file
-src/database.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/database.cpp.i
-.PHONY : src/database.cpp.i
-
-src/database.s: src/database.cpp.s
-.PHONY : src/database.s
-
-# target to generate assembly for a file
-src/database.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/database.cpp.s
-.PHONY : src/database.cpp.s
-
-src/main.obj: src/main.cpp.obj
-.PHONY : src/main.obj
-
-# target to build an object file
-src/main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/main.cpp.obj
-.PHONY : src/main.cpp.obj
-
-src/main.i: src/main.cpp.i
-.PHONY : src/main.i
-
-# target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
-
-src/main.s: src/main.cpp.s
-.PHONY : src/main.s
-
-# target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -454,42 +454,42 @@ help:
 	@echo "... libsys_autogen"
 	@echo "... libsys_autogen_timestamp_deps"
 	@echo "... libsys"
+	@echo "... libsys/src/AdminOperations.obj"
+	@echo "... libsys/src/AdminOperations.i"
+	@echo "... libsys/src/AdminOperations.s"
+	@echo "... libsys/src/Database.obj"
+	@echo "... libsys/src/Database.i"
+	@echo "... libsys/src/Database.s"
+	@echo "... libsys/src/GeneralOperations.obj"
+	@echo "... libsys/src/GeneralOperations.i"
+	@echo "... libsys/src/GeneralOperations.s"
+	@echo "... libsys/src/Graphical.obj"
+	@echo "... libsys/src/Graphical.i"
+	@echo "... libsys/src/Graphical.s"
+	@echo "... libsys/src/LibrarySystem.obj"
+	@echo "... libsys/src/LibrarySystem.i"
+	@echo "... libsys/src/LibrarySystem.s"
+	@echo "... libsys/src/LoginWindow.obj"
+	@echo "... libsys/src/LoginWindow.i"
+	@echo "... libsys/src/LoginWindow.s"
+	@echo "... libsys/src/ProgramInterface.obj"
+	@echo "... libsys/src/ProgramInterface.i"
+	@echo "... libsys/src/ProgramInterface.s"
+	@echo "... libsys/src/StudentOperations.obj"
+	@echo "... libsys/src/StudentOperations.i"
+	@echo "... libsys/src/StudentOperations.s"
+	@echo "... libsys/src/TeacherOperations.obj"
+	@echo "... libsys/src/TeacherOperations.i"
+	@echo "... libsys/src/TeacherOperations.s"
+	@echo "... libsys/src/main.obj"
+	@echo "... libsys/src/main.i"
+	@echo "... libsys/src/main.s"
+	@echo "... libsys_autogen/2SEMU33LXP/qrc_resources.obj"
+	@echo "... libsys_autogen/2SEMU33LXP/qrc_resources.i"
+	@echo "... libsys_autogen/2SEMU33LXP/qrc_resources.s"
 	@echo "... libsys_autogen/mocs_compilation.obj"
 	@echo "... libsys_autogen/mocs_compilation.i"
 	@echo "... libsys_autogen/mocs_compilation.s"
-	@echo "... src/AdminOperations.obj"
-	@echo "... src/AdminOperations.i"
-	@echo "... src/AdminOperations.s"
-	@echo "... src/GeneralOperations.obj"
-	@echo "... src/GeneralOperations.i"
-	@echo "... src/GeneralOperations.s"
-	@echo "... src/Graphical.obj"
-	@echo "... src/Graphical.i"
-	@echo "... src/Graphical.s"
-	@echo "... src/Input.obj"
-	@echo "... src/Input.i"
-	@echo "... src/Input.s"
-	@echo "... src/LibrarySystem.obj"
-	@echo "... src/LibrarySystem.i"
-	@echo "... src/LibrarySystem.s"
-	@echo "... src/LoginWindow.obj"
-	@echo "... src/LoginWindow.i"
-	@echo "... src/LoginWindow.s"
-	@echo "... src/ProgramInterface.obj"
-	@echo "... src/ProgramInterface.i"
-	@echo "... src/ProgramInterface.s"
-	@echo "... src/StudentOperations.obj"
-	@echo "... src/StudentOperations.i"
-	@echo "... src/StudentOperations.s"
-	@echo "... src/TeacherOperations.obj"
-	@echo "... src/TeacherOperations.i"
-	@echo "... src/TeacherOperations.s"
-	@echo "... src/database.obj"
-	@echo "... src/database.i"
-	@echo "... src/database.s"
-	@echo "... src/main.obj"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
 .PHONY : help
 
 
