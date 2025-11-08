@@ -7,6 +7,12 @@
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp",
+  "file": "C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp",
+  "output": "CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj"
+},
+{
+  "directory": "C:/Users/habil/Desktop/libsys/build",
   "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp",
   "file": "C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp",
   "output": "CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj"
@@ -43,21 +49,9 @@
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",
-  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/ProgramInterface.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/ProgramInterface.cpp",
-  "file": "C:/Users/habil/Desktop/libsys/libsys/src/ProgramInterface.cpp",
-  "output": "CMakeFiles/libsys.dir/libsys/src/ProgramInterface.cpp.obj"
-},
-{
-  "directory": "C:/Users/habil/Desktop/libsys/build",
   "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp",
   "file": "C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp",
   "output": "CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj"
-},
-{
-  "directory": "C:/Users/habil/Desktop/libsys/build",
-  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/TeacherOperations.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/TeacherOperations.cpp",
-  "file": "C:/Users/habil/Desktop/libsys/libsys/src/TeacherOperations.cpp",
-  "output": "CMakeFiles/libsys.dir/libsys/src/TeacherOperations.cpp.obj"
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",

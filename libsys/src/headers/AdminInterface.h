@@ -24,9 +24,8 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-#include "ProgramInterface.h"
 
-class AdminInterface : public ProgramInterface
+class AdminInterface : public QWidget
 
 {
     Q_OBJECT
@@ -38,6 +37,14 @@ class AdminInterface : public ProgramInterface
         QPushButton* logHistory_Button;
         QPushButton* books_Button;
         QPushButton* users_Button;
+
+        QPushButton* addBook_Button;
+        QPushButton* confirmationRequests_Button;
+        QPushButton* inquireBookSubmission_Button;
+        QPushButton* deleteBook_Button;
+        QPushButton* reportLostBook_Button;
+        QPushButton* changeBookInfo_Button;
+        QPushButton* inquireBookRegistiration_Button;
 
 };
 

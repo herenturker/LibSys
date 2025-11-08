@@ -27,7 +27,6 @@
 #include <QRadioButton>
 #include <QTimer>
 
-#include "ProgramInterface.h"
 
 
 class LoginWindow : public QWidget
@@ -58,7 +57,6 @@ private:
 
     QPushButton *login_Button;
 
-    ProgramInterface programInterface;
 
     QTimer *timer;
     QLabel *dateLabel;

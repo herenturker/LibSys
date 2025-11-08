@@ -31,7 +31,7 @@ LIBS = -LC:/Qt/6.9.2/mingw_64/lib -lQt6Core -lQt6Gui -lQt6Widgets -lQt6Sql -lpth
 
 
 CPP_SOURCES = $(wildcard libsys/src/*.cpp) $(wildcard libsys_updater/src/*.cpp) $(wildcard libsys_installer/src/*.cpp)
-MOC_HEADERS = libsys/src/headers/LoginWindow.h libsys/src/headers/ProgramInterface.h libsys/src/headers/AdminInterface.h
+MOC_HEADERS = libsys/src/headers/LoginWindow.h libsys/src/headers/AdminInterface.h
 MOC_CPP = $(MOC_HEADERS:libsys/src/headers/%.h=$(MOCDIR)/moc_%.cpp)
 OBJ_MOC = $(MOC_CPP:$(MOCDIR)/%.cpp=$(OBJDIR)/%.o)
 OBJ_CPP = $(CPP_SOURCES:%.cpp=$(OBJDIR)/%.o)

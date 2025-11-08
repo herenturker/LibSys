@@ -346,6 +346,12 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/AdminInterface.h",
+			"MU",
+			"P7CQ3PBK3U/moc_AdminInterface.cpp",
+			null
+		],
+		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/headers/AdminOperations.h",
 			"MU",
 			"P7CQ3PBK3U/moc_AdminOperations.cpp",
@@ -382,21 +388,15 @@
 			null
 		],
 		[
-			"C:/Users/habil/Desktop/libsys/libsys/src/headers/ProgramInterface.h",
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/StudentInterface.h",
 			"MU",
-			"P7CQ3PBK3U/moc_ProgramInterface.cpp",
+			"P7CQ3PBK3U/moc_StudentInterface.cpp",
 			null
 		],
 		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/headers/StudentOperations.h",
 			"MU",
 			"P7CQ3PBK3U/moc_StudentOperations.cpp",
-			null
-		],
-		[
-			"C:/Users/habil/Desktop/libsys/libsys/src/headers/TeacherOperations.h",
-			"MU",
-			"P7CQ3PBK3U/moc_TeacherOperations.cpp",
 			null
 		],
 		[
@@ -479,6 +479,11 @@
 	"SOURCES" : 
 	[
 		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp",
+			"MU",
+			null
+		],
+		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp",
 			"MU",
 			null
@@ -501,17 +506,7 @@
 			null
 		],
 		[
-			"C:/Users/habil/Desktop/libsys/libsys/src/ProgramInterface.cpp",
-			"MU",
-			null
-		],
-		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp",
-			"MU",
-			null
-		],
-		[
-			"C:/Users/habil/Desktop/libsys/libsys/src/TeacherOperations.cpp",
 			"MU",
 			null
 		],

@@ -19,15 +19,29 @@
 #ifndef ADMIN_OPERATIONS_H_
 #define ADMIN_OPERATIONS_H_
 
-#include "TeacherOperations.h"
 
-class AdminOperations : public TeacherOperations
+class AdminOperations
 
 {
     private:
         void listUsers();
         void showLogs();
 
+    protected:
+
+        void doConfirmation();
+
+        void addBook();
+
+        void inquireSubmissionLatency();
+
+        void deleteBook();
+
+        void inquireBookSubmission();
+
+        void reportLostBook();
+
+        void inquireBookRegistiration();
         
 };
 

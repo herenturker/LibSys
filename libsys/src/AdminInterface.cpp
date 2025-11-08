@@ -16,59 +16,135 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <QVBoxLayout>
-#include <QPushButton>
-
 #include "headers/AdminInterface.h"
 #include "headers/AdminOperations.h"
+#include <QPushButton>
+#include <QGuiApplication>
+#include <QScreen>
 
-AdminInterface::AdminInterface(QWidget *parent) : ProgramInterface(parent)
+AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 {
-    ProgramInterface::createWindowFrame();
+    setWindowTitle("LibSys Admin Dashboard");
 
-    QWidget* cw = centralWidget();
-    cw->setLayout(nullptr);
+    resize(1080, 720);
+    setMinimumSize(1080, 720);
+    setMaximumSize(1080, 720);
 
-        QPushButton* logHistory_Button = new QPushButton("Log History", cw);
-        QPushButton* books_Button = new QPushButton("Books", cw);
-        QPushButton* users_Button = new QPushButton("Users", cw);
+    logHistory_Button = new QPushButton("Log History", this);
+    books_Button = new QPushButton("Books", this);
+    users_Button = new QPushButton("Users", this);
 
-        logHistory_Button->setFixedSize(100, 30);
-        books_Button->setFixedSize(70, 30);
-        users_Button->setFixedSize(70, 30);
+    addBook_Button = new QPushButton("Add Book", this);
+    deleteBook_Button = new QPushButton("Delete Book", this);
+    changeBookInfo_Button = new QPushButton("Change\nBook Info", this);
+    confirmationRequests_Button = new QPushButton("Confirmation Requests", this);
+    inquireBookSubmission_Button = new QPushButton("Book Submissions", this);
+    reportLostBook_Button = new QPushButton("Report Lost Book", this);
+    inquireBookRegistiration_Button = new QPushButton("Inquiry Book Registiration", this);
 
-        logHistory_Button->setGeometry(50, 100, 150, 50);
-        books_Button->setGeometry(250, 100, 150, 50);
-        users_Button->setGeometry(150, 200, 150, 50);
+    unsigned short buttonWidth = 130;
+    unsigned short buttonHeight = 50;
+    unsigned short buttonSquare = 170;
 
+    logHistory_Button->setGeometry(860, 50, buttonWidth, buttonHeight);
+    books_Button->setGeometry(860, 620, buttonWidth, buttonHeight);
+    users_Button->setGeometry(710, 620, buttonWidth, buttonHeight);
 
+    addBook_Button->setGeometry(75, 215, buttonSquare, buttonSquare);
 
-        QString buttonStyle = R"(
-            QPushButton { 
-                background-color: #b4bccfff; 
-                color: black; 
-                border-radius: 5px; 
-                padding: 6px 12px; 
-                font-weight: bold; 
-            }
-            QPushButton:hover { 
-                background-color: #67757aff;
-            }
-        )";
-        logHistory_Button->setStyleSheet(buttonStyle);
-        books_Button->setStyleSheet(buttonStyle);
-        users_Button->setStyleSheet(buttonStyle);
-    
+    deleteBook_Button->setGeometry(265, 215, buttonSquare, buttonSquare);
 
-    this->setStyleSheet(R"(
-        QWidget { 
-            background-color: #f5f5f5; 
+    changeBookInfo_Button->setGeometry(460, 215, buttonSquare, buttonSquare);
+
+    confirmationRequests_Button->setGeometry(75, 140, 210, buttonHeight);
+
+    inquireBookSubmission_Button->setGeometry(330, 50, 170, buttonHeight);
+
+    reportLostBook_Button->setGeometry(75, 620, 160, buttonHeight);
+
+    inquireBookRegistiration_Button->setGeometry(75, 50, 240, buttonHeight);
+
+    QString buttonStyle = R"(
+        QPushButton { 
+            background-color: #424242; 
+            color: white; 
+            border-radius: 5px; 
+            font-size: 18px;
         }
-        QLabel { 
-            color: #000000ff; 
-            font-weight: bold; 
+        QPushButton:hover { 
+            background-color: #a3a3a3;
         }
-    )");
+    )";
 
-    cw->update();
+        QString buttonStyle2 = R"(
+        QPushButton { 
+            background-color: #aa0000; 
+            color: white; 
+            border-radius: 5px; 
+            font-size: 18px;
+        }
+        QPushButton:hover { 
+            background-color: #6b0404;
+        }
+    )";
+
+        QString buttonStyle3 = R"(
+        QPushButton { 
+            background-color: #18a30b; 
+            color: white; 
+            border-radius: 5px; 
+            font-size: 18px;
+        }
+        QPushButton:hover { 
+            background-color: #054e05;
+        }
+    )";
+
+        QString buttonStyle4 = R"(
+        QPushButton { 
+            background-color: #0543d4; 
+            color: white; 
+            border-radius: 5px; 
+            font-size: 18px;
+        }
+        QPushButton:hover { 
+            background-color: #06045c;
+        }
+    )";
+
+        QString buttonStyle5 = R"(
+        QPushButton { 
+            background-color: #babd04; 
+            color: white; 
+            border-radius: 5px; 
+            font-size: 18px;
+        }
+        QPushButton:hover { 
+            background-color: #534e05;
+        }
+    )";
+
+        QString buttonStyle6 = R"(
+        QPushButton { 
+            background-color: #bd08bd; 
+            color: white; 
+            border-radius: 5px; 
+            font-size: 18px;
+        }
+        QPushButton:hover { 
+            background-color: #4d0153;
+        }
+    )";
+
+    logHistory_Button->setStyleSheet(buttonStyle5);
+    books_Button->setStyleSheet(buttonStyle6);
+    users_Button->setStyleSheet(buttonStyle);
+    inquireBookSubmission_Button->setStyleSheet(buttonStyle);
+    inquireBookRegistiration_Button->setStyleSheet(buttonStyle);
+    confirmationRequests_Button->setStyleSheet(buttonStyle4);
+    reportLostBook_Button->setStyleSheet(buttonStyle2);
+    addBook_Button->setStyleSheet(buttonStyle3);
+    deleteBook_Button->setStyleSheet(buttonStyle2);
+    changeBookInfo_Button->setStyleSheet(buttonStyle4);
+
 }

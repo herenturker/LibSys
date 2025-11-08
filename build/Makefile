@@ -155,6 +155,30 @@ libsys_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys_autogen.dir/build.make CMakeFiles/libsys_autogen.dir/build
 .PHONY : libsys_autogen/fast
 
+libsys/src/AdminInterface.obj: libsys/src/AdminInterface.cpp.obj
+.PHONY : libsys/src/AdminInterface.obj
+
+# target to build an object file
+libsys/src/AdminInterface.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj
+.PHONY : libsys/src/AdminInterface.cpp.obj
+
+libsys/src/AdminInterface.i: libsys/src/AdminInterface.cpp.i
+.PHONY : libsys/src/AdminInterface.i
+
+# target to preprocess a source file
+libsys/src/AdminInterface.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.i
+.PHONY : libsys/src/AdminInterface.cpp.i
+
+libsys/src/AdminInterface.s: libsys/src/AdminInterface.cpp.s
+.PHONY : libsys/src/AdminInterface.s
+
+# target to generate assembly for a file
+libsys/src/AdminInterface.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.s
+.PHONY : libsys/src/AdminInterface.cpp.s
+
 libsys/src/AdminOperations.obj: libsys/src/AdminOperations.cpp.obj
 .PHONY : libsys/src/AdminOperations.obj
 
@@ -299,30 +323,6 @@ libsys/src/LoginWindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.s
 .PHONY : libsys/src/LoginWindow.cpp.s
 
-libsys/src/ProgramInterface.obj: libsys/src/ProgramInterface.cpp.obj
-.PHONY : libsys/src/ProgramInterface.obj
-
-# target to build an object file
-libsys/src/ProgramInterface.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/ProgramInterface.cpp.obj
-.PHONY : libsys/src/ProgramInterface.cpp.obj
-
-libsys/src/ProgramInterface.i: libsys/src/ProgramInterface.cpp.i
-.PHONY : libsys/src/ProgramInterface.i
-
-# target to preprocess a source file
-libsys/src/ProgramInterface.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/ProgramInterface.cpp.i
-.PHONY : libsys/src/ProgramInterface.cpp.i
-
-libsys/src/ProgramInterface.s: libsys/src/ProgramInterface.cpp.s
-.PHONY : libsys/src/ProgramInterface.s
-
-# target to generate assembly for a file
-libsys/src/ProgramInterface.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/ProgramInterface.cpp.s
-.PHONY : libsys/src/ProgramInterface.cpp.s
-
 libsys/src/StudentOperations.obj: libsys/src/StudentOperations.cpp.obj
 .PHONY : libsys/src/StudentOperations.obj
 
@@ -346,30 +346,6 @@ libsys/src/StudentOperations.s: libsys/src/StudentOperations.cpp.s
 libsys/src/StudentOperations.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.s
 .PHONY : libsys/src/StudentOperations.cpp.s
-
-libsys/src/TeacherOperations.obj: libsys/src/TeacherOperations.cpp.obj
-.PHONY : libsys/src/TeacherOperations.obj
-
-# target to build an object file
-libsys/src/TeacherOperations.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/TeacherOperations.cpp.obj
-.PHONY : libsys/src/TeacherOperations.cpp.obj
-
-libsys/src/TeacherOperations.i: libsys/src/TeacherOperations.cpp.i
-.PHONY : libsys/src/TeacherOperations.i
-
-# target to preprocess a source file
-libsys/src/TeacherOperations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/TeacherOperations.cpp.i
-.PHONY : libsys/src/TeacherOperations.cpp.i
-
-libsys/src/TeacherOperations.s: libsys/src/TeacherOperations.cpp.s
-.PHONY : libsys/src/TeacherOperations.s
-
-# target to generate assembly for a file
-libsys/src/TeacherOperations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/TeacherOperations.cpp.s
-.PHONY : libsys/src/TeacherOperations.cpp.s
 
 libsys/src/main.obj: libsys/src/main.cpp.obj
 .PHONY : libsys/src/main.obj
@@ -454,6 +430,9 @@ help:
 	@echo "... libsys_autogen"
 	@echo "... libsys_autogen_timestamp_deps"
 	@echo "... libsys"
+	@echo "... libsys/src/AdminInterface.obj"
+	@echo "... libsys/src/AdminInterface.i"
+	@echo "... libsys/src/AdminInterface.s"
 	@echo "... libsys/src/AdminOperations.obj"
 	@echo "... libsys/src/AdminOperations.i"
 	@echo "... libsys/src/AdminOperations.s"
@@ -472,15 +451,9 @@ help:
 	@echo "... libsys/src/LoginWindow.obj"
 	@echo "... libsys/src/LoginWindow.i"
 	@echo "... libsys/src/LoginWindow.s"
-	@echo "... libsys/src/ProgramInterface.obj"
-	@echo "... libsys/src/ProgramInterface.i"
-	@echo "... libsys/src/ProgramInterface.s"
 	@echo "... libsys/src/StudentOperations.obj"
 	@echo "... libsys/src/StudentOperations.i"
 	@echo "... libsys/src/StudentOperations.s"
-	@echo "... libsys/src/TeacherOperations.obj"
-	@echo "... libsys/src/TeacherOperations.i"
-	@echo "... libsys/src/TeacherOperations.s"
 	@echo "... libsys/src/main.obj"
 	@echo "... libsys/src/main.i"
 	@echo "... libsys/src/main.s"

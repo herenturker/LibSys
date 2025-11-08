@@ -63,11 +63,9 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     radioButton_Group = new QButtonGroup(this);
     accountType_Admin_Button = new QRadioButton("Admin", this);
     accountType_Student_Button = new QRadioButton("Student", this);
-    accountType_Teacher_Button = new QRadioButton("Teacher", this);
     accountType_Student_Button->setChecked(true);
 
     radioButton_Group->addButton(accountType_Student_Button);
-    radioButton_Group->addButton(accountType_Teacher_Button);
     radioButton_Group->addButton(accountType_Admin_Button);
 
     // === DATE / TIME ===
@@ -92,7 +90,6 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
    
     QVBoxLayout *layout_Radio = new QVBoxLayout;
     layout_Radio->addWidget(accountType_Student_Button);
-    layout_Radio->addWidget(accountType_Teacher_Button);
     layout_Radio->addWidget(accountType_Admin_Button);
     layout_Radio->addSpacing(15);
     layout_Radio->addWidget(dateLabel);
