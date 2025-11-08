@@ -15,3 +15,29 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+
+#ifndef TEACHER_OPERATIONS_H_
+#define TEACHER_OPERATIONS_H_
+
+class TeacherOperations
+
+{
+    protected:
+
+        void doConfirmation();
+
+        void addBook();
+
+        void questionSubmissionLatency();
+
+        void deleteBook();
+
+        void questionBookSubmission();
+
+        void reportBookAsLost();
+
+        
+};
+
+#endif // TEACHER_OPERATIONS_H_

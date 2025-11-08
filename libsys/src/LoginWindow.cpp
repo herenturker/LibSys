@@ -201,7 +201,7 @@ void LoginWindow::handleLogin()
 
     userDb.createUsersTable();
     userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
-    userDb.addUserIfNotExists("Ahmet", "110", "1234", "Student");
+    userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
 
     bool loginSuccessFlag = userDb.isUserMatchedInDataBase(
         username_Edit->text(),
@@ -219,12 +219,13 @@ void LoginWindow::handleLogin()
 
 
     if (loginSuccessFlag) {
-        emit loginSuccess();
+        QString accountType = radioButton_Group->checkedButton()->text();
+        emit loginSuccess(accountType);
         close();
     } else {
-        QMessageBox::warning(this, "Error", "Login Error!");
-    }
-    
+            QMessageBox::warning(this, "Error", "Login Error!");
+        }
+
 }
 
 void LoginWindow::updateDateTime()

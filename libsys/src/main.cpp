@@ -20,6 +20,7 @@
 #include <QApplication>
 
 #include "headers/ProgramInterface.h"
+#include "headers/AdminInterface.h"
 #include "headers/LoginWindow.h"
 #include "headers/Database.h"
 
@@ -30,14 +31,25 @@ int main(int argc, char *argv[])
     libsys.setWindowIcon(QIcon(":/LibSys.ico"));
 
     LoginWindow loginWindow;
-    ProgramInterface programInterface;
+    AdminInterface adminInterface;
 
 
     libsys.setStyleSheet("QWidget { background-color: white; }");
 
-    QObject::connect(&loginWindow, &LoginWindow::loginSuccess, [&programInterface](){
-        programInterface.show();
-    });
+    QObject::connect(&loginWindow, &LoginWindow::loginSuccess,
+        [&](const QString &accountType) {
+            if (accountType == "Admin") {
+                adminInterface.show();
+            }
+            else if (accountType == "Teacher") {
+                // teacherInterface.show();
+            }
+            else if (accountType == "Student") {
+                // studentInterface.show();
+            }
+        });
+
+
 
     loginWindow.show();
 

@@ -30,6 +30,11 @@
 
 ProgramInterface::ProgramInterface(QWidget *parent) : QMainWindow(parent)
 {
+    ProgramInterface::createWindowFrame();
+}
+
+void ProgramInterface::createWindowFrame() {
+    
     setWindowIcon(QIcon(":/LibSys.ico"));
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 

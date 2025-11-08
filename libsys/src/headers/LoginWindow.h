@@ -39,7 +39,7 @@ public:
     explicit LoginWindow(QWidget *parent = nullptr);
 
 signals:
-    void loginSuccess();
+    void loginSuccess(const QString &accountType);
 
 private slots:
     void handleLogin();

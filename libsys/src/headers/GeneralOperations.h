@@ -15,3 +15,20 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+#ifndef GENERAL_OPERATIONS_H_
+#define GENERAL_OPERATIONS_H_
+
+class GeneralOperations
+
+{
+    protected:
+
+        void searchBook();
+        void listBooks();
+        void showBookInfo(); // take parameter as book, book can be a struct.
+
+        
+};
+
+#endif // GENERAL_OPERATIONS_H_

@@ -16,34 +16,30 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef PROGRAMINTERFACE_H_
-#define PROGRAMINTERFACE_H_
+#ifndef ADMIN_INTERFACE_H_
+#define ADMIN_INTERFACE_H_
 
-#include <QMainWindow>
+#include <QWidget>
+#include <QPushButton>
 #include <QLabel>
+#include <QVBoxLayout>
 
-class ProgramInterface : public QMainWindow
+#include "ProgramInterface.h"
+
+class AdminInterface : public ProgramInterface
 
 {
-
     Q_OBJECT
 
     public:
-
-        void createWindowFrame();
-
-        void addLog();
-
-        explicit ProgramInterface(QWidget *parent = nullptr);
-
-
-
-    protected:
-        bool eventFilter(QObject *obj, QEvent *event) override;
+        explicit AdminInterface(QWidget *parent = nullptr);
 
     private:
-        QPoint dragPosition;
-        
+        QPushButton* logHistory_Button;
+        QPushButton* books_Button;
+        QPushButton* users_Button;
+
 };
 
-#endif // PROGRAMINTERFACE_H_
+
+#endif // ADMIN_INTERFACE_H_

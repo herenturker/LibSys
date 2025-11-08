@@ -16,34 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef PROGRAMINTERFACE_H_
-#define PROGRAMINTERFACE_H_
-
-#include <QMainWindow>
-#include <QLabel>
-
-class ProgramInterface : public QMainWindow
-
-{
-
-    Q_OBJECT
-
-    public:
-
-        void createWindowFrame();
-
-        void addLog();
-
-        explicit ProgramInterface(QWidget *parent = nullptr);
+#ifndef STUDENT_INTERFACE_H_
+#define STUDENT_INTERFACE_H_
 
 
 
-    protected:
-        bool eventFilter(QObject *obj, QEvent *event) override;
-
-    private:
-        QPoint dragPosition;
-        
-};
-
-#endif // PROGRAMINTERFACE_H_
+#endif // STUDENT_INTERFACE_H_
