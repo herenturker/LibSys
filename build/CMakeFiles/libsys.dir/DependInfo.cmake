@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/habil/Desktop/libsys/libsys/src/Graphical.cpp" "CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/libsys/src/LibrarySystem.cpp" "CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/libsys/src/LoginWindow.cpp" "CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj.d"
+  "C:/Users/habil/Desktop/libsys/libsys/src/StudentInterface.cpp" "CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp" "CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/libsys/src/main.cpp" "CMakeFiles/libsys.dir/libsys/src/main.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/main.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/build/libsys_autogen/2SEMU33LXP/qrc_resources.cpp" "CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj.d"

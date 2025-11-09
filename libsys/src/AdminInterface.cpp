@@ -16,13 +16,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include <QPushButton>
+#include <QGuiApplication>
+#include <QScreen>
+
 #include "headers/AdminInterface.h"
 #include "headers/AdminOperations.h"
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
-#include <QPushButton>
-#include <QGuiApplication>
-#include <QScreen>
+
 
 AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 {
@@ -59,11 +61,14 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     inquireBookRegistiration_Button = new QPushButton("Inquiry Book Registiration", this);
 
+    backToLoginWindow_Button = new QPushButton("Return to\nLogin", this);
+    // setToolTip
+
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
     unsigned short buttonSquare = 170;
 
-    // TODO: Add go back button and go back to login window button
+    // TODO: Add go back button
 
     logHistory_Button->setGeometry(860, 50, buttonWidth, buttonHeight);
     books_Button->setGeometry(860, 620, buttonWidth, buttonHeight);
@@ -87,9 +92,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     inquireBookRegistiration_Button->setGeometry(75, 50, 240, buttonHeight);
 
-    dateLabel->setText("Date: " + TimeClass::showDate());
-    dayLabel->setText("Day: " + TimeClass::showDay());
-    timeLabel->setText("Time: " + TimeClass::showTime());
+    backToLoginWindow_Button->setGeometry(860, 140, buttonWidth, buttonHeight);
+
 
     QString buttonStyle = R"(
         QPushButton { 
@@ -195,6 +199,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     deleteBook_Button->setStyleSheet(buttonStyle2);
 
     changeBookInfo_Button->setStyleSheet(buttonStyle4);
+
+    backToLoginWindow_Button->setStyleSheet(buttonStyle);
 
 }
 

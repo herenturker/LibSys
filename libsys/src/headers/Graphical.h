@@ -19,9 +19,17 @@
 #ifndef GRAPHICAL_H_
 #define GRAPHICAL_H_
 
-class Graphical
-{
+#include <QWidget>
+#include <QString>
 
+class Graphical
+
+{
+    // Q_OBJECT
+
+    public:
+        explicit Graphical(QWidget *parent = nullptr);
+        bool performAction(QWidget *parent, const QString &text);
 
 };
 

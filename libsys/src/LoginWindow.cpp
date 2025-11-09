@@ -188,7 +188,7 @@ void LoginWindow::handleLogin()
         }
     }
 
-    database userDb(dbPath, "DB_USERS");
+    Database userDb(dbPath, "DB_USERS");
 
 
     if (!userDb.openDB()) {

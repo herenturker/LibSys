@@ -74,7 +74,8 @@
         "source_location": "cpp",
         "shared_mutex": "cpp",
         "qcoreapplication": "cpp",
-        "qvboxlayout": "cpp"
+        "qvboxlayout": "cpp",
+        "qstyle": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

@@ -19,6 +19,33 @@
 #ifndef STUDENT_INTERFACE_H_
 #define STUDENT_INTERFACE_H_
 
+#include <QWidget>
+#include <QPushButton>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QTimer>
+
+#include "BookSearchWindow.h"
+class StudentInterface : public QWidget
+
+{
+    Q_OBJECT
+
+    public:
+        explicit StudentInterface(QWidget *parent = nullptr);
+
+    private slots:
+        void updateDateTime();
+
+    private:
+        QLabel *dateLabel;
+        QLabel *dayLabel;
+        QLabel *timeLabel;
+        QTimer *timer;
+        QWidget *searchContainer;
+        BookSearchWindow *bookSearchWindow;
+        QPushButton *openButton;
+};
 
 
 #endif // STUDENT_INTERFACE_H_

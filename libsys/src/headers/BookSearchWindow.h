@@ -16,23 +16,26 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <QMessageBox>
+#ifndef BOOKSEARCHWINDOW_H_
+#define BOOKSEARCHWINDOW_H_
+
 #include <QWidget>
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
 
-#include "headers/Graphical.h"
-
-Graphical::Graphical(QWidget *parent)
+class BookSearchWindow : public QWidget
 {
-    Q_UNUSED(parent);
+    Q_OBJECT
 
-}
+    public:
+        explicit BookSearchWindow(QWidget *parent = nullptr);
 
-bool Graphical::performAction(QWidget *parent, const QString &text) {
-    QMessageBox::StandardButton reply = QMessageBox::question(
-        parent,
-        "Confirmation",
-        text,
-        QMessageBox::Yes | QMessageBox::No
-    );
-    return reply == QMessageBox::Yes;
-}
+    signals:
+        void windowClosed();
+
+    protected:
+        void closeEvent(QCloseEvent *event) override;
+};
+
+#endif // BOOKSEARCHWINDOW_H_

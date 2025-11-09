@@ -20,6 +20,7 @@
 #include <QApplication>
 
 #include "headers/AdminInterface.h"
+#include "headers/StudentInterface.h"
 #include "headers/LoginWindow.h"
 #include "headers/Database.h"
 
@@ -30,7 +31,6 @@ int main(int argc, char *argv[])
     libsys.setWindowIcon(QIcon(":/LibSys.ico"));
 
     LoginWindow loginWindow;
-
 
     loginWindow.show();
 
@@ -43,16 +43,12 @@ int main(int argc, char *argv[])
                 AdminInterface *adminInterface = new AdminInterface();
                 adminInterface->show();
             }
-            else if (accountType == "Teacher") {
-                // teacherInterface.show();
-            }
             else if (accountType == "Student") {
-                // studentInterface.show();
+                loginWindow.close();
+                StudentInterface *studentInterface = new StudentInterface();
+                studentInterface->show();
             }
         });
-
-
-
 
     return libsys.exec();
 }

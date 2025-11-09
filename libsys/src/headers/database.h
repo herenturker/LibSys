@@ -27,11 +27,11 @@
 #include <QDebug>
 #include <QString>
 
-class database
+class Database
 {
     public:
-        database(const QString& dbName, const QString& connectionName);
-        ~database();
+        Database(const QString& dbName, const QString& connectionName);
+        ~Database();
 
         bool openDB();
         void closeDB();

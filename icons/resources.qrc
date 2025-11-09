@@ -4,5 +4,6 @@
         <file>LibSys.ico</file>
         <file>LibSysInstaller.png</file>
         <file>LibSysUpdater.png</file>
+        <file>magnifier.ico</file>
     </qresource>
 </RCC>

@@ -323,6 +323,30 @@ libsys/src/LoginWindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.s
 .PHONY : libsys/src/LoginWindow.cpp.s
 
+libsys/src/StudentInterface.obj: libsys/src/StudentInterface.cpp.obj
+.PHONY : libsys/src/StudentInterface.obj
+
+# target to build an object file
+libsys/src/StudentInterface.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj
+.PHONY : libsys/src/StudentInterface.cpp.obj
+
+libsys/src/StudentInterface.i: libsys/src/StudentInterface.cpp.i
+.PHONY : libsys/src/StudentInterface.i
+
+# target to preprocess a source file
+libsys/src/StudentInterface.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.i
+.PHONY : libsys/src/StudentInterface.cpp.i
+
+libsys/src/StudentInterface.s: libsys/src/StudentInterface.cpp.s
+.PHONY : libsys/src/StudentInterface.s
+
+# target to generate assembly for a file
+libsys/src/StudentInterface.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.s
+.PHONY : libsys/src/StudentInterface.cpp.s
+
 libsys/src/StudentOperations.obj: libsys/src/StudentOperations.cpp.obj
 .PHONY : libsys/src/StudentOperations.obj
 
@@ -451,6 +475,9 @@ help:
 	@echo "... libsys/src/LoginWindow.obj"
 	@echo "... libsys/src/LoginWindow.i"
 	@echo "... libsys/src/LoginWindow.s"
+	@echo "... libsys/src/StudentInterface.obj"
+	@echo "... libsys/src/StudentInterface.i"
+	@echo "... libsys/src/StudentInterface.s"
 	@echo "... libsys/src/StudentOperations.obj"
 	@echo "... libsys/src/StudentOperations.i"
 	@echo "... libsys/src/StudentOperations.s"

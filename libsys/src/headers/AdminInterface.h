@@ -50,6 +50,8 @@ class AdminInterface : public QWidget
         QPushButton* changeBookInfo_Button;
         QPushButton* inquireBookRegistiration_Button;
 
+        QPushButton* backToLoginWindow_Button;
+
         QLabel *dateLabel;
         QLabel *dayLabel;
         QLabel *timeLabel;

@@ -23,7 +23,7 @@
 
 #include "headers/Database.h"
 
-database::database(const QString& dbName, const QString& connectionName)
+Database::Database(const QString& dbName, const QString& connectionName)
     : m_dbName(dbName)
 {
     if (QSqlDatabase::contains(connectionName)) {
@@ -35,7 +35,7 @@ database::database(const QString& dbName, const QString& connectionName)
 }
 
 
-database::~database()
+Database::~Database()
 {
 
      if (m_db.isOpen()){
@@ -44,7 +44,7 @@ database::~database()
         
 }
 
-bool database::openDB()
+bool Database::openDB()
 {
     if (!m_db.open()) {
         qDebug() << "Could not open the database:" << m_db.lastError().text();
@@ -54,13 +54,13 @@ bool database::openDB()
     return true;
 }
 
-void database::closeDB()
+void Database::closeDB()
 {
     if (m_db.isOpen())
         m_db.close();
 }
 
-bool database::createUsersTable()
+bool Database::createUsersTable()
 {
     QSqlQuery query(m_db);
     QString createTable = R"(
@@ -81,7 +81,7 @@ bool database::createUsersTable()
     return true;
 }
 
-bool database::addUser(const QString& username, const QString& schoolNo,
+bool Database::addUser(const QString& username, const QString& schoolNo,
                        const QString& password, const QString& accountType)
 {
     QSqlQuery query(m_db);
@@ -102,7 +102,7 @@ bool database::addUser(const QString& username, const QString& schoolNo,
     return true;
 }
 
-bool database::updateUserPassword(const QString& username, const QString& newPassword)
+bool Database::updateUserPassword(const QString& username, const QString& newPassword)
 {
     QSqlQuery query(m_db);
     query.prepare("UPDATE users SET password = :password WHERE username = :username");
@@ -117,7 +117,7 @@ bool database::updateUserPassword(const QString& username, const QString& newPas
     return true;
 }
 
-bool database::deleteUser(const QString& username)
+bool Database::deleteUser(const QString& username)
 {
     QSqlQuery query(m_db);
     query.prepare("DELETE FROM users WHERE username = :username");
@@ -131,7 +131,7 @@ bool database::deleteUser(const QString& username)
     return true;
 }
 
-QSqlQuery database::selectUsers(const QString& condition)
+QSqlQuery Database::selectUsers(const QString& condition)
 {
     QSqlQuery query(m_db);
     QString sql = "SELECT * FROM users";
@@ -145,7 +145,7 @@ QSqlQuery database::selectUsers(const QString& condition)
 
     return query;
 }
-bool database::isUserMatchedInDataBase(const QString& username,
+bool Database::isUserMatchedInDataBase(const QString& username,
                                        const QString& schoolNo,
                                        const QString& password,
                                        const QString& accountType) const
@@ -186,7 +186,7 @@ bool database::isUserMatchedInDataBase(const QString& username,
 
     return false;
 }
-bool database::addUserIfNotExists(const QString& username,
+bool Database::addUserIfNotExists(const QString& username,
                                   const QString& schoolNo,
                                   const QString& password,
                                   const QString& accountType)
@@ -209,7 +209,7 @@ bool database::addUserIfNotExists(const QString& username,
     return addUser(username, schoolNo, password, accountType);
 }
 
-void database::debugPrintAllUsers() const
+void Database::debugPrintAllUsers() const
 {
     QSqlQuery query(m_db);
     if (!query.exec("SELECT username, school_no, password, account_type FROM users")) {

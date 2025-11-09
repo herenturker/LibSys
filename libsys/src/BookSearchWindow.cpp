@@ -16,23 +16,29 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <QMessageBox>
-#include <QWidget>
+#include "headers/BookSearchWindow.h"
+#include <QCloseEvent>
 
-#include "headers/Graphical.h"
-
-Graphical::Graphical(QWidget *parent)
+BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 {
-    Q_UNUSED(parent);
+    setWindowTitle("Child Window");
+    resize(300, 200);
 
+    QVBoxLayout *layout = new QVBoxLayout(this);
+
+    QLabel *label = new QLabel("This is a child window.", this);
+    QPushButton *okButton = new QPushButton("OK", this);
+
+    layout->addWidget(label);
+    layout->addWidget(okButton);
+
+    connect(okButton, &QPushButton::clicked, this, &BookSearchWindow::close);
+
+    
 }
 
-bool Graphical::performAction(QWidget *parent, const QString &text) {
-    QMessageBox::StandardButton reply = QMessageBox::question(
-        parent,
-        "Confirmation",
-        text,
-        QMessageBox::Yes | QMessageBox::No
-    );
-    return reply == QMessageBox::Yes;
+void BookSearchWindow::closeEvent(QCloseEvent *event)
+{
+    emit windowClosed(); 
+    QWidget::closeEvent(event);
 }
