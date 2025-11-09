@@ -19,6 +19,8 @@
 #ifndef ADMIN_OPERATIONS_H_
 #define ADMIN_OPERATIONS_H_
 
+#include "GeneralOperations.h"
+
 
 class AdminOperations
 
@@ -29,7 +31,7 @@ class AdminOperations
 
     protected:
 
-        void doConfirmation();
+        void performConfirmation();
 
         void addBook();
 

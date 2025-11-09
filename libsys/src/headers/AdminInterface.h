@@ -23,6 +23,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QTimer>
 
 
 class AdminInterface : public QWidget
@@ -32,6 +33,9 @@ class AdminInterface : public QWidget
 
     public:
         explicit AdminInterface(QWidget *parent = nullptr);
+
+    private slots:
+        void updateDateTime();
 
     private:
         QPushButton* logHistory_Button;
@@ -45,6 +49,11 @@ class AdminInterface : public QWidget
         QPushButton* reportLostBook_Button;
         QPushButton* changeBookInfo_Button;
         QPushButton* inquireBookRegistiration_Button;
+
+        QLabel *dateLabel;
+        QLabel *dayLabel;
+        QLabel *timeLabel;
+        QTimer *timer;
 
 };
 

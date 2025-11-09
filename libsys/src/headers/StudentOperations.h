@@ -15,3 +15,37 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+#ifndef STUDENT_OPERATIONS_H_
+#define STUDENT_OPERATIONS_H_
+
+#include "GeneralOperations.h"
+
+class StudentOperations
+
+{
+    protected:
+        void borrowBookFromLibrary();
+
+        void returnBorrowedBook();
+
+        void recordTransactionDate();
+
+        void requestConfirmation();
+
+        void displayBookDueDate();
+
+        void displayBookBorrowDate();
+
+        void hasBookBeenReturned();
+
+        void displayBorrowedBooks();
+
+        void displayUnreturnedBooks();
+        
+        void displayOverdueBooks();
+
+
+};
+
+#endif // STUDENT_OPERATIONS_H_

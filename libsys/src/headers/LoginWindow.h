@@ -37,6 +37,8 @@ public:
   
     explicit LoginWindow(QWidget *parent = nullptr);
 
+    
+
 signals:
     void loginSuccess(const QString &accountType);
 
@@ -56,12 +58,11 @@ private:
     QRadioButton *accountType_Student_Button;
 
     QPushButton *login_Button;
-
-
     QTimer *timer;
     QLabel *dateLabel;
     QLabel *dayLabel;
     QLabel *timeLabel;
+
 };
 
 
