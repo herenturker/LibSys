@@ -6,6 +6,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj"
   "CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj.d"
+  "CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.obj"
+  "CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/Database.cpp.obj"
   "CMakeFiles/libsys.dir/libsys/src/Database.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj"

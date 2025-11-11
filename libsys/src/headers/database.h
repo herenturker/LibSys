@@ -42,7 +42,11 @@ class Database
                     const QString& password, const QString& accountType);
 
         bool updateUserPassword(const QString& username, const QString& newPassword);
+
         bool deleteUser(const QString& username);
+
+        bool createBooksTable();
+
         QSqlQuery selectUsers(const QString& condition = "");
 
         bool isUserMatchedInDataBase(const QString& username,
@@ -54,9 +58,22 @@ class Database
                         const QString& schoolNo,
                         const QString& password,
                         const QString& accountType);
+
         void debugPrintAllUsers() const;
 
-    private:
+        void deleteBook(const QString& bookTitle, const QString& author1, const QString& ISBN);
+
+        void addBook(const QString& bookTitle, const QString& author1, 
+            const QString& author2, const QString& author3, 
+            const QString& author4, const QString& author5, 
+            const QString& publisher, const QString& publicationYear,
+            const QString& edition, const QString& ISBN, 
+            const QString& volume, const QString& pageCount,
+            const QString& seriesInformation, const QString& language,
+            const QString& DDC, const QString& additionalInfo
+            );
+
+    private: 
         QSqlDatabase m_db;
         QString m_dbName;
 };

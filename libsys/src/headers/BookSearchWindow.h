@@ -23,6 +23,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QLineEdit>
+#include <QTextEdit>
 
 class BookSearchWindow : public QWidget
 {
@@ -36,6 +38,30 @@ class BookSearchWindow : public QWidget
 
     protected:
         void closeEvent(QCloseEvent *event) override;
+        void showEvent(QShowEvent *event) override;
+    
+    private:
+        QLineEdit  *bookTitle;
+        QLineEdit  *author1;
+        QLineEdit  *author2;
+        QLineEdit  *author3;
+        QLineEdit  *author4;
+        QLineEdit  *author5;
+        QLineEdit  *publisher;
+        QLineEdit  *publicationYear;
+        QLineEdit  *edition;
+        QLineEdit  *ISBN;
+        QLineEdit  *volume;
+        QLineEdit  *pageCount;
+        QLineEdit  *seriesInformation;
+        QLineEdit  *language;
+        QLineEdit  *DDC;
+        QLineEdit  *Topic;
+        QTextEdit  *additionalInfo;
+
+        QWidget *extraAuthorsWindow  = nullptr;
+
+
 };
 
 #endif // BOOKSEARCHWINDOW_H_

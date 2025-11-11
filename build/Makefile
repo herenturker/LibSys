@@ -203,6 +203,30 @@ libsys/src/AdminOperations.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.s
 .PHONY : libsys/src/AdminOperations.cpp.s
 
+libsys/src/BookSearchWindow.obj: libsys/src/BookSearchWindow.cpp.obj
+.PHONY : libsys/src/BookSearchWindow.obj
+
+# target to build an object file
+libsys/src/BookSearchWindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.obj
+.PHONY : libsys/src/BookSearchWindow.cpp.obj
+
+libsys/src/BookSearchWindow.i: libsys/src/BookSearchWindow.cpp.i
+.PHONY : libsys/src/BookSearchWindow.i
+
+# target to preprocess a source file
+libsys/src/BookSearchWindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.i
+.PHONY : libsys/src/BookSearchWindow.cpp.i
+
+libsys/src/BookSearchWindow.s: libsys/src/BookSearchWindow.cpp.s
+.PHONY : libsys/src/BookSearchWindow.s
+
+# target to generate assembly for a file
+libsys/src/BookSearchWindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.s
+.PHONY : libsys/src/BookSearchWindow.cpp.s
+
 libsys/src/Database.obj: libsys/src/Database.cpp.obj
 .PHONY : libsys/src/Database.obj
 
@@ -460,6 +484,9 @@ help:
 	@echo "... libsys/src/AdminOperations.obj"
 	@echo "... libsys/src/AdminOperations.i"
 	@echo "... libsys/src/AdminOperations.s"
+	@echo "... libsys/src/BookSearchWindow.obj"
+	@echo "... libsys/src/BookSearchWindow.i"
+	@echo "... libsys/src/BookSearchWindow.s"
 	@echo "... libsys/src/Database.obj"
 	@echo "... libsys/src/Database.i"
 	@echo "... libsys/src/Database.s"

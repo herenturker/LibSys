@@ -22,7 +22,7 @@
 #include "GeneralOperations.h"
 
 
-class AdminOperations
+class AdminOperations : public GeneralOperations
 
 {
     private:
@@ -33,11 +33,7 @@ class AdminOperations
 
         void performConfirmation();
 
-        void addBook();
-
         void inquireSubmissionLatency();
-
-        void deleteBook();
 
         void inquireBookSubmission();
 

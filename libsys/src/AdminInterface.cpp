@@ -44,25 +44,39 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
 
     logHistory_Button = new QPushButton("Log History", this);
+    logHistory_Button->setToolTip("View the system's activity and log history.");
+
     books_Button = new QPushButton("Books", this);
+    books_Button->setToolTip("Browse all available books in the library.");
+
     users_Button = new QPushButton("Users", this);
+    users_Button->setToolTip("View and manage registered users.");
 
     addBook_Button = new QPushButton("Add Book", this);
+    addBook_Button->setToolTip("Add a new book to the library database.");
 
     deleteBook_Button = new QPushButton("Delete Book", this);
+    deleteBook_Button->setToolTip("Remove a book from the library database.");
 
     changeBookInfo_Button = new QPushButton("Change\nBook Info", this);
+    changeBookInfo_Button->setToolTip("Edit or update details of an existing book.");
 
     confirmationRequests_Button = new QPushButton("Confirmation Requests", this);
+    confirmationRequests_Button->setToolTip("Review and manage pending confirmation requests.");
 
     inquireBookSubmission_Button = new QPushButton("Book Submissions", this);
+    inquireBookSubmission_Button->setToolTip("Check the submission status of borrowed books.");
 
     reportLostBook_Button = new QPushButton("Report Lost Book", this);
+    reportLostBook_Button->setToolTip("Report a lost book and update its record.");
 
     inquireBookRegistiration_Button = new QPushButton("Inquiry Book Registiration", this);
+    inquireBookRegistiration_Button->setToolTip("Check whether a book is registered to a user and view its details.");
 
     backToLoginWindow_Button = new QPushButton("Return to\nLogin", this);
-    // setToolTip
+    backToLoginWindow_Button->setToolTip("Return to the login window.");
+
+    // ->setToolTip("E");
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;

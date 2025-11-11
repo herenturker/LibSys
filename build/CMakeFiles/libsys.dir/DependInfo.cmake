@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "" "libsys_autogen/timestamp" "custom" "libsys_autogen/deps"
   "C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp" "CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp" "CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj.d"
+  "C:/Users/habil/Desktop/libsys/libsys/src/BookSearchWindow.cpp" "CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/libsys/src/Database.cpp" "CMakeFiles/libsys.dir/libsys/src/Database.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/Database.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/libsys/src/GeneralOperations.cpp" "CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj.d"
   "C:/Users/habil/Desktop/libsys/libsys/src/Graphical.cpp" "CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj" "gcc" "CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj.d"

@@ -358,6 +358,12 @@
 			null
 		],
 		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/BookSearchWindow.h",
+			"MU",
+			"P7CQ3PBK3U/moc_BookSearchWindow.cpp",
+			null
+		],
+		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/headers/Database.h",
 			"MU",
 			"P7CQ3PBK3U/moc_Database.cpp",
@@ -485,6 +491,11 @@
 		],
 		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/BookSearchWindow.cpp",
 			"MU",
 			null
 		],

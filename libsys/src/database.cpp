@@ -226,3 +226,116 @@ void Database::debugPrintAllUsers() const
     }
     qDebug() << "------------------------------";
 }
+
+void Database::addBook(const QString& bookTitle, const QString& author1, 
+                       const QString& author2, const QString& author3, 
+                       const QString& author4, const QString& author5, 
+                       const QString& publisher, const QString& publicationYear,
+                       const QString& edition, const QString& ISBN, 
+                       const QString& volume, const QString& pageCount,
+                       const QString& seriesInformation, const QString& language,
+                       const QString& DDC, const QString& additionalInfo)
+{
+    if (!m_db.isOpen() && !m_db.open()) {
+        qDebug() << "Could not open database when adding book.";
+        return;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare(R"(
+        INSERT INTO books (
+            title, author1, author2, author3, author4, author5,
+            publisher, publication_year, edition, isbn, volume,
+            page_count, series_information, language, ddc, additional_info
+        )
+        VALUES (
+            :title, :author1, :author2, :author3, :author4, :author5,
+            :publisher, :publication_year, :edition, :isbn, :volume,
+            :page_count, :series_information, :language, :ddc, :additional_info
+        )
+    )");
+
+    query.bindValue(":title", bookTitle); 
+    query.bindValue(":author1", author1);
+    query.bindValue(":author2", author2);
+    query.bindValue(":author3", author3);
+    query.bindValue(":author4", author4);
+    query.bindValue(":author5", author5);
+    query.bindValue(":publisher", publisher);
+    query.bindValue(":publication_year", publicationYear);
+    query.bindValue(":edition", edition);
+    query.bindValue(":isbn", ISBN);
+    query.bindValue(":volume", volume);
+    query.bindValue(":page_count", pageCount);
+    query.bindValue(":series_information", seriesInformation);
+    query.bindValue(":language", language);
+    query.bindValue(":ddc", DDC);
+    query.bindValue(":additional_info", additionalInfo);
+
+    if (!query.exec()) {
+        qDebug() << "Could not add book:" << query.lastError().text();
+        return;
+    }
+
+    qDebug() << "Added book:" << bookTitle << "by" << author1;
+}
+
+
+void Database::deleteBook(const QString& bookTitle, const QString& author1, const QString& ISBN)
+{
+    if (!m_db.isOpen() && !m_db.open()) {
+        qDebug() << "Could not open database when deleting book.";
+        return;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare(R"(
+        DELETE FROM books 
+        WHERE title = :title AND author1 = :author1 AND isbn = :isbn
+    )");
+
+    query.bindValue(":title", bookTitle);
+    query.bindValue(":author1", author1);
+    query.bindValue(":isbn", ISBN);
+
+    if (!query.exec()) {
+        qDebug() << "Could not delete book:" << query.lastError().text();
+        return;
+    }
+
+    qDebug() << "Deleted book:" << bookTitle << "by" << author1 << "(ISBN:" << ISBN << ")";
+}
+ 
+
+bool Database::createBooksTable()
+{
+    QSqlQuery query(m_db);
+    QString createTable = R"(
+        CREATE TABLE IF NOT EXISTS books (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            author1 TEXT,
+            author2 TEXT,
+            author3 TEXT,
+            author4 TEXT,
+            author5 TEXT,
+            publisher TEXT,
+            publication_year TEXT,
+            edition TEXT,
+            isbn TEXT,
+            volume TEXT,
+            page_count TEXT,
+            series_information TEXT,
+            language TEXT,
+            ddc TEXT,
+            additional_info TEXT
+        )
+    )";
+
+    if (!query.exec(createTable)) {
+        qDebug() << "Could not create books table:" << query.lastError().text();
+        return false;
+    }
+    qDebug() << "books table is ready.";
+    return true;
+}

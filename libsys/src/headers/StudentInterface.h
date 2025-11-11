@@ -43,8 +43,11 @@ class StudentInterface : public QWidget
         QLabel *timeLabel;
         QTimer *timer;
         QWidget *searchContainer;
+
         BookSearchWindow *bookSearchWindow;
+
         QPushButton *openButton;
+        QPushButton *displayBookList;
 };
 
 

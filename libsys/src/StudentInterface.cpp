@@ -65,17 +65,29 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     openButton = new QPushButton("Open Book Search", this);
     openButton->setGeometry(500, 40, 150, 40);
 
-        connect(openButton, &QPushButton::clicked, [=]() {
-        openButton->setEnabled(false);
-        bookSearchWindow->show();
-    });
+    bookSearchWindow->close();
 
-    connect(bookSearchWindow, &BookSearchWindow::windowClosed, [=]() {
-        openButton->setEnabled(true);
+    connect(openButton, &QPushButton::clicked, [=]() {
+
+        if (bookSearchWindow->isVisible()) {
+            bookSearchWindow->close();
+        } else {
+            bookSearchWindow->show();
+        }
     });
 
     searchContainer = new QWidget(this);
     searchContainer->setGeometry(75, 40, 400, 40);
+
+    displayBookList = new QPushButton("Books", this);
+    displayBookList->setToolTip("Browse all available books in the library.");
+
+    unsigned short buttonWidth = 130;
+    unsigned short buttonHeight = 50;
+    // unsigned short buttonSquare = 170;
+
+    displayBookList->setGeometry(840, 640, buttonWidth, buttonHeight);
+
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
     searchLayout->setContentsMargins(0, 0, 0, 0);
@@ -96,21 +108,56 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     searchButton->setObjectName("searchButton");
     searchEdit->setObjectName("searchEdit");
+    openButton->setObjectName("bookSearchButton");
 
         this->setStyleSheet(R"(
-        QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333333;
-        }
+            QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
+                font-size: 20px;
+                font-weight: bold;
+                color: #333333;
+            }
 
             QToolButton#searchButton, QLineEdit#searchEdit {
                 color: black;
                 font-size: 14px;
             }
 
+            QPushButton#bookSearchButton {
+
+                color: black;
+                font-size: 14px;
+                border: 2px solid #0D045F;
+                border-radius: 4px;
+                background-color: #C5C4C4;
+            
+            }
+
+            QPushButton#bookSearchButton:hover {
+                border: 2px solid #0D045F;
+                background-color: #a8a3a3;
+            }
+
+            QPushButton#bookSearchButton:pressed {
+                border: 2px solid #0D045F;
+                background-color: #555252;
+            }
+
         )");
-    // TODO: BU ÖZELLİKLERİ BOOK SEARCH WINDOW İÇİNE KOY
+
+    QString buttonStyle = R"(
+        QPushButton { 
+            background-color: #f1b5f1; 
+            color: white; 
+            border-radius: 5px; 
+            font-size: 18px;
+        }
+        QPushButton:hover { 
+            background-color: #9c859e;
+        }
+    )";
+
+        displayBookList->setStyleSheet(buttonStyle);
+
     // YORUM EKLEME ÖZELLİĞİ GETİR
     // ADMİN HER ŞEYİ GÖRÜP SİLME YETKİSİNE SAHİP OLMALI
 }
