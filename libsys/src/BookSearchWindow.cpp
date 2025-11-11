@@ -135,7 +135,6 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
             extraAuthorsWindow->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
             extraAuthorsWindow->setObjectName("extraAuthorsWindow");
 
-
             QLabel *lblA2 = new QLabel("Author 2", extraAuthorsWindow);
             lblA2->setGeometry(20, 20, 100, 20);
             author2 = new QLineEdit(extraAuthorsWindow);
@@ -160,12 +159,9 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
             author5->setGeometry(20, 220, 200, 25);
             author5->setPlaceholderText("Enter author 5");
 
-            
             QPushButton *closeBtn = new QPushButton("Close", extraAuthorsWindow);
             closeBtn->setGeometry(75, 260, 100, 30);
-
             connect(closeBtn, &QPushButton::clicked, extraAuthorsWindow, &QWidget::hide);
-            
 
             QPoint parentPos = this->pos();
             extraAuthorsWindow->move(parentPos.x() + 400, parentPos.y() + 150);
@@ -175,6 +171,34 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
         extraAuthorsWindow->raise();
         extraAuthorsWindow->activateWindow();
     });
+
+
+    QPushButton *confirmBtn = new QPushButton("Confirm", this); // BUG:  Hiç bir alan doldurulu değilken onaylayınca program çöküyor
+    confirmBtn->setGeometry(320, 530, 100, 30);
+
+    connect(confirmBtn, &QPushButton::clicked, this, [=]() {
+        emit bookDataReady(
+            bookTitle->text(),
+            author1->text(),
+            author2 ? author2->text() : "",
+            author3 ? author3->text() : "",
+            author4 ? author4->text() : "",
+            author5 ? author5->text() : "",
+            publisher->text(),
+            publicationYear->text(),
+            edition->text(),
+            ISBN->text(),
+            volume->text(),
+            pageCount->text(),
+            seriesInformation->text(),
+            language->text(),
+            DDC->text(),
+            additionalInfo->toPlainText()
+        );
+
+        this->close();
+    });
+
 
 
     layout->addWidget(label);
@@ -244,6 +268,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
         
         
         )");
+
     
 }
 

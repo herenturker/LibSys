@@ -25,6 +25,9 @@
 #include <QVBoxLayout>
 #include <QTimer>
 
+#include "BookSearchWindow.h"
+#include "Database.h"
+
 
 class AdminInterface : public QWidget
 
@@ -56,11 +59,15 @@ class AdminInterface : public QWidget
         QPushButton* punishUser_Button;
 
         QPushButton* backToLoginWindow_Button;
+        BookSearchWindow* bookSearchWindow;
 
         QLabel *dateLabel;
         QLabel *dayLabel;
         QLabel *timeLabel;
         QTimer *timer;
+
+        Database userDb;
+        Database libraryDb;
 
 };
 

@@ -19,14 +19,20 @@
 #include <QPushButton>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QFile>
+#include <QMessageBox>
 
 #include "headers/AdminInterface.h"
 #include "headers/AdminOperations.h"
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
+#include "headers/BookSearchWindow.h"
+#include "headers/Database.h"
 
 
-AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
+AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent), 
+    userDb(QCoreApplication::applicationDirPath() + "/users.db", "DB_USERS"),
+      libraryDb(QCoreApplication::applicationDirPath() + "/library.db", "DB_LIBRARY")
 {
     setWindowTitle("LibSys Admin Dashboard");
 
@@ -245,6 +251,84 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     punishUser_Button->setStyleSheet(buttonStyle);
 
+    // CONNECTIONS
+
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString userdbPath = exePath + "/users.db";
+    QString librarydbPath = exePath + "/library.db";
+
+    if (!QFile::exists(userdbPath)) {
+        QFile file(userdbPath);
+        if (!file.open(QIODevice::WriteOnly)) {
+            qDebug() << "Could not create \"users.db\" !";
+        } else {
+            file.close();
+            qDebug() << "Created \"users.db\" .";
+        }
+    }
+
+    if (!QFile::exists(librarydbPath)) {
+        QFile file(librarydbPath);
+        if (!file.open(QIODevice::WriteOnly)) {
+            qDebug() << "Could not create \"library.db\" !";
+        } else {
+            file.close();
+            qDebug() << "Created \"library.db\" .";
+        }
+    }
+
+
+    if (!userDb.openDB()) {
+        QMessageBox::critical(this, "Error", "Could not open the database!");
+        return;
+    }
+
+    if (!libraryDb.openDB()) {
+        QMessageBox::critical(this, "Error", "Could not open the database!");
+        return;
+    }
+
+
+    userDb.createUsersTable();
+    libraryDb.createBooksTable();
+
+    bookSearchWindow = new BookSearchWindow(this);
+
+    connect(addBook_Button, &QPushButton::clicked, [&](){
+        if (bookSearchWindow->isVisible()) {
+            bookSearchWindow->close();
+        } else {
+            bookSearchWindow->show();
+            bookSearchWindow->raise();
+            bookSearchWindow->activateWindow();
+        }
+    });
+
+    connect(bookSearchWindow, &BookSearchWindow::bookDataReady, [&](const QString &bookTitle,
+        const QString &author1,
+        const QString &author2,
+        const QString &author3,
+        const QString &author4,
+        const QString &author5,
+        const QString &publisher,
+        const QString &publicationYear,
+        const QString &edition,
+        const QString &ISBN,
+        const QString &volume,
+        const QString &pageCount,
+        const QString &seriesInformation,
+        const QString &language,
+        const QString &DDC,
+        const QString &additionalInfo
+    ) {
+        bool success = libraryDb.addBook(bookTitle, author1, author2, author3, author4, author5,
+                        publisher, publicationYear, edition, ISBN, volume,
+                        pageCount, seriesInformation, language, DDC, additionalInfo);
+
+        if (!success) {
+            QMessageBox::warning(this, "Error", "Could not add book to database!");
+        }
+    });
 
 }
 

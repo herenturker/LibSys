@@ -63,7 +63,7 @@ class Database
 
         void deleteBook(const QString& bookTitle, const QString& author1, const QString& ISBN);
 
-        void addBook(const QString& bookTitle, const QString& author1, 
+        bool addBook(const QString& bookTitle, const QString& author1, 
             const QString& author2, const QString& author3, 
             const QString& author4, const QString& author5, 
             const QString& publisher, const QString& publicationYear,

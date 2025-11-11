@@ -227,7 +227,7 @@ void Database::debugPrintAllUsers() const
     qDebug() << "------------------------------";
 }
 
-void Database::addBook(const QString& bookTitle, const QString& author1, 
+bool Database::addBook(const QString& bookTitle, const QString& author1, 
                        const QString& author2, const QString& author3, 
                        const QString& author4, const QString& author5, 
                        const QString& publisher, const QString& publicationYear,
@@ -238,7 +238,7 @@ void Database::addBook(const QString& bookTitle, const QString& author1,
 {
     if (!m_db.isOpen() && !m_db.open()) {
         qDebug() << "Could not open database when adding book.";
-        return;
+        return false;
     }
 
     QSqlQuery query(m_db);
@@ -274,10 +274,11 @@ void Database::addBook(const QString& bookTitle, const QString& author1,
 
     if (!query.exec()) {
         qDebug() << "Could not add book:" << query.lastError().text();
-        return;
+        return false;
     }
 
     qDebug() << "Added book:" << bookTitle << "by" << author1;
+    return true;
 }
 
 

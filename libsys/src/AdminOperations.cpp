@@ -15,3 +15,35 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+#include "headers/AdminOperations.h"
+
+void AdminOperations::listUsers(){
+    
+}
+
+void AdminOperations::showLogs(){
+    
+}
+
+void AdminOperations::performConfirmation(){
+    
+}
+
+void AdminOperations::inquireSubmissionLatency(){
+    
+}
+
+void AdminOperations::inquireBookSubmission(){
+    
+}
+
+void AdminOperations::reportLostBook(){
+    
+}
+
+void AdminOperations::inquireBookRegistiration(){
+    
+}
+
+
