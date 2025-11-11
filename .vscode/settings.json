@@ -75,7 +75,8 @@
         "shared_mutex": "cpp",
         "qcoreapplication": "cpp",
         "qvboxlayout": "cpp",
-        "qstyle": "cpp"
+        "qstyle": "cpp",
+        "qcloseevent": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

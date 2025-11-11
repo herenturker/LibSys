@@ -10,8 +10,9 @@ OBJDIR = project/obj
 MOCDIR = project/moc
 RCCDIR = project/rcc
 
-
-CXXFLAGS = -O2 -std=c++17 -Wall -Wextra -Wpedantic -Wshadow \
+# -O2
+# -O0 -g
+CXXFLAGS = -O0 -g -std=c++17 -Wall -Wextra -Wpedantic -Wshadow \
   -Wformat=2 -Wfloat-equal -Wcast-align -Wpointer-arith -Wstrict-overflow=5 \
   -Wwrite-strings -Wno-unused-parameter -fstack-protector-strong -fPIC \
   -pipe -mwindows \

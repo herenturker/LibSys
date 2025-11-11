@@ -294,100 +294,101 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
     bookSearchWindow = new BookSearchWindow(this);
 
     connect(addBook_Button, &QPushButton::clicked, [&](){
-        if (bookSearchWindow->isVisible()) {
-            bookSearchWindow->close();
-        } else {
-            bookSearchWindow->show();
-            bookSearchWindow->raise();
-            bookSearchWindow->activateWindow();
-        }
+        bookSearchWindow->setMode(BookSearchWindow::Add);
+        bookSearchWindow->show();
+        bookSearchWindow->raise();
+        bookSearchWindow->activateWindow();
     });
 
-    connect(bookSearchWindow, &BookSearchWindow::bookAddDataReady, [&](const QString &bookTitle,
-        const QString &author1,
-        const QString &author2,
-        const QString &author3,
-        const QString &author4,
-        const QString &author5,
-        const QString &publisher,
-        const QString &publicationYear,
-        const QString &edition,
-        const QString &ISBN,
-        const QString &volume,
-        const QString &pageCount,
-        const QString &seriesInformation,
-        const QString &language,
-        const QString &DDC,
-        const QString &additionalInfo
-    ) {
+    connect(bookSearchWindow, &BookSearchWindow::bookAddDataReady,
+            [&](const QString &bookTitle,
+                const QString &author1,
+                const QString &author2,
+                const QString &author3,
+                const QString &author4,
+                const QString &author5,
+                const QString &publisher,
+                const QString &publicationYear,
+                const QString &edition,
+                const QString &ISBN,
+                const QString &volume,
+                const QString &pageCount,
+                const QString &seriesInformation,
+                const QString &language,
+                const QString &DDC,
+                const QString &additionalInfo
+            ) 
+    {
         bool success = libraryDb.addBook(bookTitle, author1, author2, author3, author4, author5,
                         publisher, publicationYear, edition, ISBN, volume,
                         pageCount, seriesInformation, language, DDC, additionalInfo);
 
         if (!success) {
             QMessageBox::warning(this, "Error", "Could not add book to database!");
+        } else {
+            bookSearchWindow->hide();
         }
     });
-
 
     connect(deleteBook_Button, &QPushButton::clicked, [&](){
-        if (bookSearchWindow->isVisible()) {
-            bookSearchWindow->close();
-        } else {
-            bookSearchWindow->show();
-            bookSearchWindow->raise();
-            bookSearchWindow->activateWindow();
-        }
+        bookSearchWindow->setMode(BookSearchWindow::Delete);
+        bookSearchWindow->show();
+        bookSearchWindow->raise();
+        bookSearchWindow->activateWindow();
     });
 
-    connect(bookSearchWindow, &BookSearchWindow::bookDeleteDataReady, [&](const QString &bookTitle,
-        const QString &author1,
-        const QString &ISBN
-    ) {
+    connect(bookSearchWindow, &BookSearchWindow::bookDeleteDataReady,
+            [&](const QString &bookTitle,
+                const QString &author1,
+                const QString &ISBN
+            ) 
+    {
         bool success = libraryDb.deleteBook(bookTitle, author1, ISBN);
 
         if (!success) {
             QMessageBox::warning(this, "Error", "Could not delete book!");
+        } else {
+            bookSearchWindow->hide();
         }
     });
-
-
 
     connect(changeBookInfo_Button, &QPushButton::clicked, [&](){
-        if (bookSearchWindow->isVisible()) {
-            bookSearchWindow->close();
-        } else {
-            bookSearchWindow->show();
-            bookSearchWindow->raise();
-            bookSearchWindow->activateWindow();
-        }
+        bookSearchWindow->setMode(BookSearchWindow::Update);
+        bookSearchWindow->show();
+        bookSearchWindow->raise();
+        bookSearchWindow->activateWindow();
     });
 
-    connect(bookSearchWindow, &BookSearchWindow::bookUpdateDataReady, [&](const QString &bookTitle,
-        const QString &author1,
-        const QString &author2,
-        const QString &author3,
-        const QString &author4,
-        const QString &author5,
-        const QString &publisher,
-        const QString &publicationYear,
-        const QString &edition,
-        const QString &ISBN,
-        const QString &volume,
-        const QString &pageCount,
-        const QString &seriesInformation,
-        const QString &language,
-        const QString &DDC,
-        const QString &additionalInfo
-    ) {
+    connect(bookSearchWindow, &BookSearchWindow::bookUpdateDataReady,
+            [&](const QString &bookTitle,
+                const QString &author1,
+                const QString &author2,
+                const QString &author3,
+                const QString &author4,
+                const QString &author5,
+                const QString &publisher,
+                const QString &publicationYear,
+                const QString &edition,
+                const QString &ISBN,
+                const QString &volume,
+                const QString &pageCount,
+                const QString &seriesInformation,
+                const QString &language,
+                const QString &DDC,
+                const QString &additionalInfo
+            ) 
+    {
         bool success = libraryDb.updateBook(bookTitle, author1, author2, author3, author4, author5,
                         publisher, publicationYear, edition, ISBN, volume,
                         pageCount, seriesInformation, language, DDC, additionalInfo);
 
         if (!success) {
             QMessageBox::warning(this, "Error", "Could not update book info!");
+        } else {
+            bookSearchWindow->hide();
         }
     });
+
 
 }
 

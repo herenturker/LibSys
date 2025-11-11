@@ -16,8 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "headers/BookSearchWindow.h"
 #include <QCloseEvent>
+#include <QMessageBox>
+#include <QTimer>
+
+#include "headers/BookSearchWindow.h"
+
 
 BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 {
@@ -173,58 +177,15 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     });
 
 
-    QPushButton *confirmBtn = new QPushButton("Confirm", this); // BUG:  Hiç bir alan doldurulu değilken onaylayınca program çöküyor
+    QPushButton *confirmBtn = new QPushButton("Confirm", this);
     confirmBtn->setGeometry(320, 530, 100, 30);
 
-    connect(confirmBtn, &QPushButton::clicked, this, [=]() {
-        emit bookAddDataReady(
-            bookTitle->text(),
-            author1->text(),
-            author2 ? author2->text() : "",
-            author3 ? author3->text() : "",
-            author4 ? author4->text() : "",
-            author5 ? author5->text() : "",
-            publisher->text(),
-            publicationYear->text(),
-            edition->text(),
-            ISBN->text(),
-            volume->text(),
-            pageCount->text(),
-            seriesInformation->text(),
-            language->text(),
-            DDC->text(),
-            additionalInfo->toPlainText()
-        );
-
-        emit bookDeleteDataReady(
-            bookTitle->text(),
-            author1->text(),
-            ISBN->text()
-        );
-
-        emit bookUpdateDataReady(
-            bookTitle->text(),
-            author1->text(),
-            author2 ? author2->text() : "",
-            author3 ? author3->text() : "",
-            author4 ? author4->text() : "",
-            author5 ? author5->text() : "",
-            publisher->text(),
-            publicationYear->text(),
-            edition->text(),
-            ISBN->text(),
-            volume->text(),
-            pageCount->text(),
-            seriesInformation->text(),
-            language->text(),
-            DDC->text(),
-            additionalInfo->toPlainText()
-        );
-
-        this->close();
+    connect(confirmBtn, &QPushButton::clicked, this, [this]() {
+    bool success = bookOperationMode();
+        if (success) {
+            QTimer::singleShot(0, this, &QWidget::close);
+        }
     });
-
-
 
     layout->addWidget(label);
 
@@ -294,7 +255,6 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
         
         )");
 
-    
 }
 
 void BookSearchWindow::showEvent(QShowEvent *event)
@@ -308,4 +268,92 @@ void BookSearchWindow::closeEvent(QCloseEvent *event)
 {
     emit windowClosed(); 
     QWidget::closeEvent(event);
+}
+
+bool BookSearchWindow::bookOperationMode()
+{
+    qDebug() << "===== [BookSearchWindow Debug] Checking pointers =====";
+    #define DBG_PTR(ptr) qDebug() << #ptr ":" << ((ptr) ? "OK" : "nullptr")
+
+    DBG_PTR(bookTitle);
+    DBG_PTR(author1);
+    DBG_PTR(author2);
+    DBG_PTR(author3);
+    DBG_PTR(author4);
+    DBG_PTR(author5);
+    DBG_PTR(publisher);
+    DBG_PTR(publicationYear);
+    DBG_PTR(edition);
+    DBG_PTR(ISBN);
+    DBG_PTR(volume);
+    DBG_PTR(pageCount);
+    DBG_PTR(seriesInformation);
+    DBG_PTR(language);
+    DBG_PTR(DDC);
+    DBG_PTR(Topic);
+    DBG_PTR(additionalInfo);
+
+    #undef DBG_PTR
+    qDebug() << "======================================================";
+
+    if (bookTitle->text().isEmpty() || author1->text().isEmpty() || ISBN->text().isEmpty()) {
+        QMessageBox::warning(this, "Missing Info", "Please fill in Book Title, Author 1 and ISBN!");
+        return false;
+    }
+
+    switch (currentMode){
+        case Add:
+            emit bookAddDataReady(
+                bookTitle->text(),
+                author1->text(),
+                author2 ? author2->text() : "",
+                author3 ? author3->text() : "",
+                author4 ? author4->text() : "",
+                author5 ? author5->text() : "",
+                publisher->text(),
+                publicationYear->text(),
+                edition->text(),
+                ISBN->text(),
+                volume->text(),
+                pageCount->text(),
+                seriesInformation->text(),
+                language->text(),
+                DDC->text(),
+                additionalInfo->toPlainText()
+            );
+            break;
+
+        case Delete:
+
+            emit bookDeleteDataReady(
+                bookTitle->text(),
+                author1->text(),
+                ISBN->text()
+            );
+            break;
+
+        case Update:
+
+            emit bookUpdateDataReady(
+                bookTitle->text(),
+                author1->text(),
+                author2 ? author2->text() : "",
+                author3 ? author3->text() : "",
+                author4 ? author4->text() : "",
+                author5 ? author5->text() : "",
+                publisher->text(),
+                publicationYear->text(),
+                edition->text(),
+                ISBN->text(),
+                volume->text(),
+                pageCount->text(),
+                seriesInformation->text(),
+                language->text(),
+                DDC->text(),
+                additionalInfo->toPlainText()
+            );
+            break;
+        
+    }
+    return true;
 }

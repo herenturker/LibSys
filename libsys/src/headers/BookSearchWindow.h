@@ -32,6 +32,11 @@ class BookSearchWindow : public QWidget
 
     public:
         explicit BookSearchWindow(QWidget *parent = nullptr);
+        enum Mode { Add, Delete, Update };
+    
+        void setMode(Mode m) { currentMode = m; }
+        Mode getMode() const { return currentMode; }
+        bool bookOperationMode();
 
     signals:
         void windowClosed();
@@ -76,25 +81,29 @@ class BookSearchWindow : public QWidget
         void showEvent(QShowEvent *event) override;
     
     public:
-        QLineEdit  *bookTitle;
-        QLineEdit  *author1;
-        QLineEdit  *author2;
-        QLineEdit  *author3;
-        QLineEdit  *author4;
-        QLineEdit  *author5;
-        QLineEdit  *publisher;
-        QLineEdit  *publicationYear;
-        QLineEdit  *edition;
-        QLineEdit  *ISBN;
-        QLineEdit  *volume;
-        QLineEdit  *pageCount;
-        QLineEdit  *seriesInformation;
-        QLineEdit  *language;
-        QLineEdit  *DDC;
-        QLineEdit  *Topic;
-        QTextEdit  *additionalInfo;
+        QLineEdit  *bookTitle        = nullptr;
+        QLineEdit  *author1          = nullptr;
+        QLineEdit  *author2          = nullptr;
+        QLineEdit  *author3          = nullptr;
+        QLineEdit  *author4          = nullptr;
+        QLineEdit  *author5          = nullptr;
+        QLineEdit  *publisher        = nullptr;
+        QLineEdit  *publicationYear  = nullptr;
+        QLineEdit  *edition          = nullptr;
+        QLineEdit  *ISBN             = nullptr;
+        QLineEdit  *volume           = nullptr;
+        QLineEdit  *pageCount        = nullptr;
+        QLineEdit  *seriesInformation = nullptr;
+        QLineEdit  *language         = nullptr;
+        QLineEdit  *DDC              = nullptr;
+        QLineEdit  *Topic            = nullptr;
+        QTextEdit  *additionalInfo   = nullptr;
 
         QWidget *extraAuthorsWindow  = nullptr;
+
+
+    private:
+         Mode currentMode = Add;
 
 
 };
