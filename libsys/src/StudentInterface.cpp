@@ -48,6 +48,11 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     dayLabel  = new QLabel(this);
     timeLabel = new QLabel(this);
 
+    overdueBooks = new QLabel("Overdue Books", this);
+    unreturnedBooks = new QLabel("Unreturned Books", this);
+    borrowedBooks = new QLabel("Borrowed Books", this);
+
+
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &StudentInterface::updateDateTime);
     timer->start(1000);
@@ -55,6 +60,15 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     dateLabel->setGeometry(75, 650, 200, 30);
     dayLabel->setGeometry(75, 620, 200, 30);
     timeLabel->setGeometry(75, 590, 200, 30);
+
+    borrowedBooks->setGeometry(75, 160, 190, 40);
+    unreturnedBooks->setGeometry(75, 310, 190, 40);
+    overdueBooks->setGeometry(75, 460, 190, 40);
+
+    overdueBooks->setObjectName("overdueBooks");
+    unreturnedBooks->setObjectName("unreturnedBooks");
+    borrowedBooks->setObjectName("borrowedBooks");
+
 
     dateLabel->setObjectName("dateLabel");
     dayLabel->setObjectName("dayLabel");
@@ -87,7 +101,6 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     // unsigned short buttonSquare = 170;
 
     displayBookList->setGeometry(840, 640, buttonWidth, buttonHeight);
-
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
     searchLayout->setContentsMargins(0, 0, 0, 0);
@@ -126,20 +139,27 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
                 color: black;
                 font-size: 14px;
-                border: 2px solid #0D045F;
+                border: 1px solid black;
                 border-radius: 4px;
-                background-color: #C5C4C4;
+                background-color: #e9e9e9;
             
             }
 
             QPushButton#bookSearchButton:hover {
-                border: 2px solid #0D045F;
+                border: 1px solid black;
                 background-color: #a8a3a3;
             }
 
             QPushButton#bookSearchButton:pressed {
-                border: 2px solid #0D045F;
+                border: 1px solid black;
                 background-color: #555252;
+            }
+
+            QLabel#overdueBooks, QLabel#unreturnedBooks, QLabel#borrowedBooks {
+                font-size: 20px;
+                font-weight: italic;
+                color: #333333;
+                border: 1px solid black;
             }
 
         )");
@@ -158,8 +178,6 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
         displayBookList->setStyleSheet(buttonStyle);
 
-    // YORUM EKLEME ÖZELLİĞİ GETİR
-    // ADMİN HER ŞEYİ GÖRÜP SİLME YETKİSİNE SAHİP OLMALI
 }
 
 void StudentInterface::updateDateTime()

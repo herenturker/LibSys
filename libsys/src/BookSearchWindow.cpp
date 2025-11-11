@@ -133,6 +133,8 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
             extraAuthorsWindow->setWindowTitle("Additional Authors");
             extraAuthorsWindow->setFixedSize(250, 300);
             extraAuthorsWindow->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+            extraAuthorsWindow->setObjectName("extraAuthorsWindow");
+
 
             QLabel *lblA2 = new QLabel("Author 2", extraAuthorsWindow);
             lblA2->setGeometry(20, 20, 100, 20);
@@ -169,10 +171,9 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
             extraAuthorsWindow->move(parentPos.x() + 400, parentPos.y() + 150);
         }
 
-                // Pencereyi göster (görünüyorsa tekrar göster)
         extraAuthorsWindow->show();
-        extraAuthorsWindow->raise();   // Her zaman üstte kalması için
-        extraAuthorsWindow->activateWindow(); // odak
+        extraAuthorsWindow->raise();
+        extraAuthorsWindow->activateWindow();
     });
 
 
@@ -189,6 +190,12 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
         QWidget {
             background-color: #dddcdc;
             border: 1px solid #000000;
+            border-radius: 2px;
+        }
+
+        QWidget#extraAuthorsWindow {
+            background-color: #dddcdc;
+            border: 2px solid #000000;
             border-radius: 2px;
         }
 

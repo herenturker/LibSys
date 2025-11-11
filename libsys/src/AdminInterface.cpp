@@ -58,7 +58,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     deleteBook_Button = new QPushButton("Delete Book", this);
     deleteBook_Button->setToolTip("Remove a book from the library database.");
 
-    changeBookInfo_Button = new QPushButton("Change\nBook Info", this);
+    changeBookInfo_Button = new QPushButton("Update\nBook Info", this);
     changeBookInfo_Button->setToolTip("Edit or update details of an existing book.");
 
     confirmationRequests_Button = new QPushButton("Confirmation Requests", this);
@@ -75,6 +75,18 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     backToLoginWindow_Button = new QPushButton("Return to\nLogin", this);
     backToLoginWindow_Button->setToolTip("Return to the login window.");
+
+    addUser_Button =  new QPushButton("Add User", this);
+    addUser_Button->setToolTip("Add a new user to the users database.");
+
+    deleteUser_Button = new QPushButton("Delete User", this);
+    deleteUser_Button->setToolTip("Delete an user from the users database.");
+
+    updateUserInfo_Button = new QPushButton("Update User Info", this);
+    updateUserInfo_Button->setToolTip("Update or edit an user's info.");
+
+    punishUser_Button = new QPushButton("Punish User", this);
+    punishUser_Button->setToolTip("Punish an user in LibSys.");
 
     // ->setToolTip("E");
 
@@ -107,6 +119,15 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     inquireBookRegistiration_Button->setGeometry(75, 50, 240, buttonHeight);
 
     backToLoginWindow_Button->setGeometry(860, 140, buttonWidth, buttonHeight);
+
+
+    addUser_Button->setGeometry(75, 410, buttonSquare, buttonSquare);
+
+    deleteUser_Button->setGeometry(265, 410, buttonSquare, buttonSquare);
+
+    updateUserInfo_Button->setGeometry(460, 410, buttonSquare, buttonSquare);
+
+    punishUser_Button->setGeometry(655, 410, buttonSquare, buttonSquare);
 
 
     QString buttonStyle = R"(
@@ -215,6 +236,15 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     changeBookInfo_Button->setStyleSheet(buttonStyle4);
 
     backToLoginWindow_Button->setStyleSheet(buttonStyle);
+
+    addUser_Button->setStyleSheet(buttonStyle);
+
+    deleteUser_Button->setStyleSheet(buttonStyle);
+
+    updateUserInfo_Button->setStyleSheet(buttonStyle);
+
+    punishUser_Button->setStyleSheet(buttonStyle);
+
 
 }
 

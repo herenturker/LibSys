@@ -176,10 +176,11 @@ void LoginWindow::handleLogin()
     QString password = password_Edit->text();
 
     QString exePath = QCoreApplication::applicationDirPath();
-    QString dbPath = exePath + "/users.db";
+    QString userdbPath = exePath + "/users.db";
+    QString librarydbPath = exePath + "/library.db";
 
-    if (!QFile::exists(dbPath)) {
-        QFile file(dbPath);
+    if (!QFile::exists(userdbPath)) {
+        QFile file(userdbPath);
         if (!file.open(QIODevice::WriteOnly)) {
             qDebug() << "Could not create \"users.db\" !";
         } else {
@@ -188,15 +189,34 @@ void LoginWindow::handleLogin()
         }
     }
 
-    Database userDb(dbPath, "DB_USERS");
+    if (!QFile::exists(librarydbPath)) {
+        QFile file(librarydbPath);
+        if (!file.open(QIODevice::WriteOnly)) {
+            qDebug() << "Could not create \"library.db\" !";
+        } else {
+            file.close();
+            qDebug() << "Created \"library.db\" .";
+        }
+    }
 
+
+    Database userDb(userdbPath, "DB_USERS");
+    Database libraryDb(librarydbPath, "DB_LIBRARY");
 
     if (!userDb.openDB()) {
         QMessageBox::critical(this, "Error", "Could not open the database!");
         return;
     }
 
+    if (!libraryDb.openDB()) {
+        QMessageBox::critical(this, "Error", "Could not open the database!");
+        return;
+    }
+
+
     userDb.createUsersTable();
+    libraryDb.createBooksTable();
+    
     userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
     userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
 

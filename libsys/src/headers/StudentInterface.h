@@ -22,7 +22,6 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
-#include <QVBoxLayout>
 #include <QTimer>
 
 #include "BookSearchWindow.h"
@@ -48,6 +47,12 @@ class StudentInterface : public QWidget
 
         QPushButton *openButton;
         QPushButton *displayBookList;
+
+        QLabel *overdueBooks;
+        QLabel *unreturnedBooks;
+        QLabel *borrowedBooks;
+
+
 };
 
 
