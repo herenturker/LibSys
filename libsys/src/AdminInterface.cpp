@@ -94,7 +94,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
     punishUser_Button = new QPushButton("Punish User", this);
     punishUser_Button->setToolTip("Punish an user in LibSys.");
 
-    // ->setToolTip("E");
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
@@ -304,7 +303,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
         }
     });
 
-    connect(bookSearchWindow, &BookSearchWindow::bookDataReady, [&](const QString &bookTitle,
+    connect(bookSearchWindow, &BookSearchWindow::bookAddDataReady, [&](const QString &bookTitle,
         const QString &author1,
         const QString &author2,
         const QString &author3,
@@ -327,6 +326,66 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
 
         if (!success) {
             QMessageBox::warning(this, "Error", "Could not add book to database!");
+        }
+    });
+
+
+    connect(deleteBook_Button, &QPushButton::clicked, [&](){
+        if (bookSearchWindow->isVisible()) {
+            bookSearchWindow->close();
+        } else {
+            bookSearchWindow->show();
+            bookSearchWindow->raise();
+            bookSearchWindow->activateWindow();
+        }
+    });
+
+    connect(bookSearchWindow, &BookSearchWindow::bookDeleteDataReady, [&](const QString &bookTitle,
+        const QString &author1,
+        const QString &ISBN
+    ) {
+        bool success = libraryDb.deleteBook(bookTitle, author1, ISBN);
+
+        if (!success) {
+            QMessageBox::warning(this, "Error", "Could not delete book!");
+        }
+    });
+
+
+
+    connect(changeBookInfo_Button, &QPushButton::clicked, [&](){
+        if (bookSearchWindow->isVisible()) {
+            bookSearchWindow->close();
+        } else {
+            bookSearchWindow->show();
+            bookSearchWindow->raise();
+            bookSearchWindow->activateWindow();
+        }
+    });
+
+    connect(bookSearchWindow, &BookSearchWindow::bookUpdateDataReady, [&](const QString &bookTitle,
+        const QString &author1,
+        const QString &author2,
+        const QString &author3,
+        const QString &author4,
+        const QString &author5,
+        const QString &publisher,
+        const QString &publicationYear,
+        const QString &edition,
+        const QString &ISBN,
+        const QString &volume,
+        const QString &pageCount,
+        const QString &seriesInformation,
+        const QString &language,
+        const QString &DDC,
+        const QString &additionalInfo
+    ) {
+        bool success = libraryDb.updateBook(bookTitle, author1, author2, author3, author4, author5,
+                        publisher, publicationYear, edition, ISBN, volume,
+                        pageCount, seriesInformation, language, DDC, additionalInfo);
+
+        if (!success) {
+            QMessageBox::warning(this, "Error", "Could not update book info!");
         }
     });
 

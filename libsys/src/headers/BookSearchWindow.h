@@ -36,7 +36,7 @@ class BookSearchWindow : public QWidget
     signals:
         void windowClosed();
         
-        void bookDataReady(
+        void bookAddDataReady(
         const QString &bookTitle,
         const QString &author1,
         const QString &author2,
@@ -53,7 +53,23 @@ class BookSearchWindow : public QWidget
         const QString &language,
         const QString &DDC,
         const QString &additionalInfo
-    );
+        );
+
+        void bookDeleteDataReady(const QString &bookTitle,
+                             const QString &author1,
+                             const QString &ISBN
+        );
+
+        void bookUpdateDataReady(const QString &bookTitle,
+                             const QString &author1, const QString &author2,
+                             const QString &author3, const QString &author4,
+                             const QString &author5, const QString &publisher,
+                             const QString &publicationYear, const QString &edition,
+                             const QString &ISBN, const QString &volume,
+                             const QString &pageCount, const QString &seriesInformation,
+                             const QString &language, const QString &DDC,
+                             const QString &additionalInfo
+        );
 
     protected:
         void closeEvent(QCloseEvent *event) override;

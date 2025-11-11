@@ -61,7 +61,7 @@ class Database
 
         void debugPrintAllUsers() const;
 
-        void deleteBook(const QString& bookTitle, const QString& author1, const QString& ISBN);
+        bool deleteBook(const QString& bookTitle, const QString& author1, const QString& ISBN);
 
         bool addBook(const QString& bookTitle, const QString& author1, 
             const QString& author2, const QString& author3, 
@@ -72,6 +72,16 @@ class Database
             const QString& seriesInformation, const QString& language,
             const QString& DDC, const QString& additionalInfo
             );
+
+        bool updateBook(const QString& bookTitle, const QString& author1, 
+            const QString& author2, const QString& author3, 
+            const QString& author4, const QString& author5, 
+            const QString& publisher, const QString& publicationYear,
+            const QString& edition, const QString& ISBN, 
+            const QString& volume, const QString& pageCount,
+            const QString& seriesInformation, const QString& language,
+            const QString& DDC, const QString& additionalInfo
+        );
 
     private: 
         QSqlDatabase m_db;

@@ -33,14 +33,14 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     QLabel *label = new QLabel("", this);
 
         // --- Book Title ---
-    QLabel *lblBookTitle = new QLabel("Book Title", this);
+    QLabel *lblBookTitle = new QLabel("Book Title*", this);
     lblBookTitle->setGeometry(50, 30, 110, 20);
     bookTitle = new QLineEdit(this);
     bookTitle->setGeometry(50, 50, 300, 30);
     bookTitle->setPlaceholderText("Enter book title");
 
     // --- Author 1 ---
-    QLabel *lblAuthor1 = new QLabel("Author 1", this);
+    QLabel *lblAuthor1 = new QLabel("Author 1*", this);
     lblAuthor1->setGeometry(50, 90, 110, 20);
     author1 = new QLineEdit(this);
     author1->setGeometry(50, 110, 300, 30);
@@ -71,7 +71,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     edition->setPlaceholderText("Enter edition");
 
     // --- ISBN ---
-    QLabel *lblISBN = new QLabel("ISBN", this);
+    QLabel *lblISBN = new QLabel("ISBN*", this);
     lblISBN->setGeometry(50, 330, 110, 20);
     ISBN = new QLineEdit(this);
     ISBN->setGeometry(50, 350, 300, 30);
@@ -177,7 +177,32 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     confirmBtn->setGeometry(320, 530, 100, 30);
 
     connect(confirmBtn, &QPushButton::clicked, this, [=]() {
-        emit bookDataReady(
+        emit bookAddDataReady(
+            bookTitle->text(),
+            author1->text(),
+            author2 ? author2->text() : "",
+            author3 ? author3->text() : "",
+            author4 ? author4->text() : "",
+            author5 ? author5->text() : "",
+            publisher->text(),
+            publicationYear->text(),
+            edition->text(),
+            ISBN->text(),
+            volume->text(),
+            pageCount->text(),
+            seriesInformation->text(),
+            language->text(),
+            DDC->text(),
+            additionalInfo->toPlainText()
+        );
+
+        emit bookDeleteDataReady(
+            bookTitle->text(),
+            author1->text(),
+            ISBN->text()
+        );
+
+        emit bookUpdateDataReady(
             bookTitle->text(),
             author1->text(),
             author2 ? author2->text() : "",
