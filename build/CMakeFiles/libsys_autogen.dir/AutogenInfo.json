@@ -364,12 +364,6 @@
 			null
 		],
 		[
-			"C:/Users/habil/Desktop/libsys/libsys/src/headers/Database.h",
-			"MU",
-			"P7CQ3PBK3U/moc_Database.cpp",
-			null
-		],
-		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/headers/GeneralOperations.h",
 			"MU",
 			"P7CQ3PBK3U/moc_GeneralOperations.cpp",
@@ -409,6 +403,12 @@
 			"C:/Users/habil/Desktop/libsys/libsys/src/headers/TimeClass.h",
 			"MU",
 			"P7CQ3PBK3U/moc_TimeClass.cpp",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/database.h",
+			"MU",
+			"P7CQ3PBK3U/moc_database.cpp",
 			null
 		]
 	],
@@ -499,7 +499,6 @@
 			"MU",
 			null
 		],
-		[ "C:/Users/habil/Desktop/libsys/libsys/src/Database.cpp", "MU", null ],
 		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/GeneralOperations.cpp",
 			"MU",
@@ -526,6 +525,7 @@
 			"MU",
 			null
 		],
+		[ "C:/Users/habil/Desktop/libsys/libsys/src/database.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/libsys/src/main.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],

@@ -21,6 +21,7 @@
 #include <QTimer>
 
 #include "headers/BookSearchWindow.h"
+#include "headers/Utils.h"
 
 BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 {
@@ -268,35 +269,10 @@ void BookSearchWindow::closeEvent(QCloseEvent *event)
 
 bool BookSearchWindow::bookOperationMode()
 {
-    /*
-    qDebug() << "===== [BookSearchWindow Debug] Checking pointers =====";
-    #define DBG_PTR(ptr) qDebug() << #ptr ":" << ((ptr) ? "OK" : "nullptr")
-
-    DBG_PTR(bookTitle);
-    DBG_PTR(author1);
-    DBG_PTR(author2);
-    DBG_PTR(author3);
-    DBG_PTR(author4);
-    DBG_PTR(author5);
-    DBG_PTR(publisher);
-    DBG_PTR(publicationYear);
-    DBG_PTR(edition);
-    DBG_PTR(ISBN);
-    DBG_PTR(volume);
-    DBG_PTR(pageCount);
-    DBG_PTR(seriesInformation);
-    DBG_PTR(language);
-    DBG_PTR(DDC);
-    DBG_PTR(Topic);
-    DBG_PTR(additionalInfo);
-
-    #undef DBG_PTR
-    qDebug() << "======================================================";
-    */
-
     if (bookTitle->text().isEmpty() || author1->text().isEmpty() || ISBN->text().isEmpty())
     {
-        QMessageBox::warning(this, "Missing Info", "Please fill in Book Title, Author 1 and ISBN!"); // kullanıcı bilmediği şeylere ? yazabilmeli
+        showMessage(this, "Missing Info", "Please fill in Book Title, Author 1 and ISBN!", true);
+             // kullanıcı bilmediği şeylere ? yazabilmeli
         return false;
     }
 

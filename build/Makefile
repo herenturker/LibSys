@@ -227,30 +227,6 @@ libsys/src/BookSearchWindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.s
 .PHONY : libsys/src/BookSearchWindow.cpp.s
 
-libsys/src/Database.obj: libsys/src/Database.cpp.obj
-.PHONY : libsys/src/Database.obj
-
-# target to build an object file
-libsys/src/Database.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Database.cpp.obj
-.PHONY : libsys/src/Database.cpp.obj
-
-libsys/src/Database.i: libsys/src/Database.cpp.i
-.PHONY : libsys/src/Database.i
-
-# target to preprocess a source file
-libsys/src/Database.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Database.cpp.i
-.PHONY : libsys/src/Database.cpp.i
-
-libsys/src/Database.s: libsys/src/Database.cpp.s
-.PHONY : libsys/src/Database.s
-
-# target to generate assembly for a file
-libsys/src/Database.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Database.cpp.s
-.PHONY : libsys/src/Database.cpp.s
-
 libsys/src/GeneralOperations.obj: libsys/src/GeneralOperations.cpp.obj
 .PHONY : libsys/src/GeneralOperations.obj
 
@@ -395,6 +371,30 @@ libsys/src/StudentOperations.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.s
 .PHONY : libsys/src/StudentOperations.cpp.s
 
+libsys/src/database.obj: libsys/src/database.cpp.obj
+.PHONY : libsys/src/database.obj
+
+# target to build an object file
+libsys/src/database.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/database.cpp.obj
+.PHONY : libsys/src/database.cpp.obj
+
+libsys/src/database.i: libsys/src/database.cpp.i
+.PHONY : libsys/src/database.i
+
+# target to preprocess a source file
+libsys/src/database.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/database.cpp.i
+.PHONY : libsys/src/database.cpp.i
+
+libsys/src/database.s: libsys/src/database.cpp.s
+.PHONY : libsys/src/database.s
+
+# target to generate assembly for a file
+libsys/src/database.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/database.cpp.s
+.PHONY : libsys/src/database.cpp.s
+
 libsys/src/main.obj: libsys/src/main.cpp.obj
 .PHONY : libsys/src/main.obj
 
@@ -487,9 +487,6 @@ help:
 	@echo "... libsys/src/BookSearchWindow.obj"
 	@echo "... libsys/src/BookSearchWindow.i"
 	@echo "... libsys/src/BookSearchWindow.s"
-	@echo "... libsys/src/Database.obj"
-	@echo "... libsys/src/Database.i"
-	@echo "... libsys/src/Database.s"
 	@echo "... libsys/src/GeneralOperations.obj"
 	@echo "... libsys/src/GeneralOperations.i"
 	@echo "... libsys/src/GeneralOperations.s"
@@ -508,6 +505,9 @@ help:
 	@echo "... libsys/src/StudentOperations.obj"
 	@echo "... libsys/src/StudentOperations.i"
 	@echo "... libsys/src/StudentOperations.s"
+	@echo "... libsys/src/database.obj"
+	@echo "... libsys/src/database.i"
+	@echo "... libsys/src/database.s"
 	@echo "... libsys/src/main.obj"
 	@echo "... libsys/src/main.i"
 	@echo "... libsys/src/main.s"

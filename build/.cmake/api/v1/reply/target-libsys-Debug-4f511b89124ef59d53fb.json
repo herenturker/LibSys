@@ -322,11 +322,11 @@
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 0,
-			"id" : "libsys_autogen::@6890427a1f51a3e7e1df"
+			"id" : "libsys_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		},
 		{
-			"id" : "libsys_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+			"backtrace" : 0,
+			"id" : "libsys_autogen::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "libsys::@6890427a1f51a3e7e1df",
@@ -493,12 +493,6 @@
 		{
 			"backtrace" : 4,
 			"compileGroupIndex" : 0,
-			"path" : "libsys/src/Database.cpp",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 4,
-			"compileGroupIndex" : 0,
 			"path" : "libsys/src/GeneralOperations.cpp",
 			"sourceGroupIndex" : 1
 		},
@@ -535,6 +529,12 @@
 		{
 			"backtrace" : 4,
 			"compileGroupIndex" : 0,
+			"path" : "libsys/src/database.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
 			"path" : "libsys/src/main.cpp",
 			"sourceGroupIndex" : 1
 		},
@@ -551,11 +551,6 @@
 		{
 			"backtrace" : 4,
 			"path" : "libsys/src/headers/BookSearchWindow.h",
-			"sourceGroupIndex" : 2
-		},
-		{
-			"backtrace" : 4,
-			"path" : "libsys/src/headers/Database.h",
 			"sourceGroupIndex" : 2
 		},
 		{
@@ -591,6 +586,11 @@
 		{
 			"backtrace" : 4,
 			"path" : "libsys/src/headers/TimeClass.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"path" : "libsys/src/headers/database.h",
 			"sourceGroupIndex" : 2
 		},
 		{

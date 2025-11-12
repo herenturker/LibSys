@@ -29,6 +29,7 @@
 #include "headers/BookSearchWindow.h"
 #include "headers/Database.h"
 #include "headers/Graphical.h"
+#include "headers/Utils.h"
 
 AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
                                                   userDb(QCoreApplication::applicationDirPath() + "/users.db", "DB_USERS"),
@@ -273,14 +274,13 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
                                                  publisher, publicationYear, edition, ISBN, volume,
                                                  pageCount, seriesInformation, language, DDC, additionalInfo);
 
-                if (!success)
-                {
-                    QMessageBox::warning(this, "Error", "Could not add book to database!");
-                }
-                else
-                {
+                if (!success) {
+                    showMessage(this, "Error", "Could not add book to database!", true);
+                } else {
                     bookSearchWindow->hide();
+                    showMessage(this, "Success", "Added new book!", false);
                 }
+
             });
 
     connect(deleteBook_Button, &QPushButton::clicked, [&]()
@@ -297,13 +297,11 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
             {
                 bool success = libraryDb.deleteBook(bookTitle, author1, ISBN);
 
-                if (!success)
-                {
-                    QMessageBox::warning(this, "Error", "Could not delete book!");
-                }
-                else
-                {
+                if (!success) {
+                    showMessage(this, "Error", "Could not delete book!", true);
+                } else {
                     bookSearchWindow->hide();
+                    showMessage(this, "Success", "Deleted the book!", false);
                 }
             });
 
@@ -336,50 +334,38 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
                                                     publisher, publicationYear, edition, ISBN, volume,
                                                     pageCount, seriesInformation, language, DDC, additionalInfo);
 
-                if (!success)
-                {
-                    QMessageBox::warning(this, "Error", "Could not update book info!");
-                }
-                else
-                {
+                if (!success) {
+                    showMessage(this, "Error", "Could not update book info!", true);
+                } else {
                     bookSearchWindow->hide();
+                    showMessage(this, "Success", "Updated the book info!", false);
                 }
             });
 
     connect(addUser_Button, &QPushButton::clicked, [=]()
-            {
+    {
         Graphical graphicalAddUser(this);
         bool success = graphicalAddUser.addUserGraphical(this);
 
         if (!success) {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("Error");
-            msgBox.setText("Could not add new user!");
-
-            msgBox.setStyleSheet(
-                "QMessageBox { background-color: #dadada; color: black; }"
-                "QLabel { color: black; font-weight: bold; font-size: 14px; background-color: #dadada; }"
-                "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; min-width: 80px; }"
-                "QPushButton:hover { background-color: #5f5f5f; }"
-                "QPushButton:pressed { background-color: #353535; }"
-            );
-
-                msgBox.exec();
+            showMessage(this, "Error", "Could not add new user!", true);
         } else {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("Success");
-            msgBox.setText("Added new user!");
+            showMessage(this, "Success", "Added new user!", false);
+        }
 
-            msgBox.setStyleSheet(
-                "QMessageBox { background-color: #dadada; color: black; }"
-                "QLabel { color: black; font-weight: bold; font-size: 14px; background-color: #dadada; }"
-                "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; min-width: 80px; }"
-                "QPushButton:hover { background-color: #5f5f5f; }"
-                "QPushButton:pressed { background-color: #353535; }"
-            );
+    });
 
-            msgBox.exec();
-        } });
+    connect(deleteUser_Button, &QPushButton::clicked, [=](){
+        Graphical graphicalDeleteUser(this);
+        bool success = graphicalDeleteUser.deleteUserGraphical(this);
+
+        if (!success) {
+            showMessage(this, "Error", "Could not delete the user!", true);
+        } else {
+            showMessage(this, "Success", "Deleted the user!", false);
+        }
+
+    });
 }
 
 void AdminInterface::updateDateTime()

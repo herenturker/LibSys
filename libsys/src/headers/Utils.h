@@ -16,22 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef GRAPHICAL_H_
-#define GRAPHICAL_H_
+#ifndef UTILS_H_
+#define UTILS_H_
 
 #include <QWidget>
 #include <QString>
 
-class Graphical
+#define DBG_PTR(ptr) qDebug() << #ptr ":" << ((ptr) ? "OK" : "nullptr")
 
-{
-    // Q_OBJECT
+void showMessage(QWidget *parent, const QString &title, const QString &text, bool isError = true);
 
-public:
-    explicit Graphical(QWidget *parent = nullptr);
-    bool performAction(QWidget *parent, const QString &text);
-    bool addUserGraphical(QWidget *parent);
-    bool deleteUserGraphical(QWidget *parent);
-};
-
-#endif // GRAPHICAL_H_
+#endif // UTILS_H_

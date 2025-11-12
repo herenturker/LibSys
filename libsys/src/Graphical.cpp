@@ -123,3 +123,58 @@ bool Graphical::addUserGraphical(QWidget *parent)
 
     return dialog.exec() == QDialog::Accepted;
 }
+
+bool Graphical::deleteUserGraphical(QWidget *parent){
+    QDialog dialog(parent);
+    dialog.setWindowTitle("Delete An User from LibSys");
+
+    QLineEdit *username = new QLineEdit;
+
+    username->setPlaceholderText("Username");
+
+    QFormLayout *formLayout = new QFormLayout;
+
+    formLayout->addRow("Username:", username);
+
+    QPushButton *deleteButton = new QPushButton("Delete");
+    QPushButton *cancelButton = new QPushButton("Cancel");
+
+    QHBoxLayout *buttonsLayout = new QHBoxLayout;
+
+    buttonsLayout->addWidget(deleteButton);
+    buttonsLayout->addWidget(cancelButton);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(&dialog);
+    mainLayout->addLayout(formLayout);
+    mainLayout->addLayout(buttonsLayout);
+
+    dialog.setStyleSheet(
+        "QDialog { background-color: #f0f0f0; color: black;}"
+        "QLineEdit { color: black; border: 1px solid black; border-radius: 4px; padding: 3px; }"
+        "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; }"
+        "QPushButton:hover { background-color: #5f5f5f; }"
+        "QPushButton:pressed { background-color: #353535ff; }"
+        "QLabel {color: black; background-color: #f0f0f0;}"
+
+    );
+
+    QObject::connect(deleteButton, &QPushButton::clicked, [&]()
+                     {
+                         QString exePath = QCoreApplication::applicationDirPath();
+                         QString userdbPath = exePath + "/users.db";
+
+                         Database db(userdbPath, "DB_USERS");
+                         if ((username->text() == ""))
+                         {
+                             dialog.reject();
+                         }
+
+                         bool isDeleted = db.deleteUser(username->text());
+                         if (isDeleted)
+                             dialog.accept();
+                     });
+                     
+    QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
+
+    return dialog.exec() == QDialog::Accepted;
+}

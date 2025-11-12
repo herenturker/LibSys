@@ -25,12 +25,6 @@
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",
-  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/Database.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/Database.cpp",
-  "file": "C:/Users/habil/Desktop/libsys/libsys/src/Database.cpp",
-  "output": "CMakeFiles/libsys.dir/libsys/src/Database.cpp.obj"
-},
-{
-  "directory": "C:/Users/habil/Desktop/libsys/build",
   "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/GeneralOperations.cpp",
   "file": "C:/Users/habil/Desktop/libsys/libsys/src/GeneralOperations.cpp",
   "output": "CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj"
@@ -64,6 +58,12 @@
   "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp",
   "file": "C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp",
   "output": "CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj"
+},
+{
+  "directory": "C:/Users/habil/Desktop/libsys/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/database.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/database.cpp",
+  "file": "C:/Users/habil/Desktop/libsys/libsys/src/database.cpp",
+  "output": "CMakeFiles/libsys.dir/libsys/src/database.cpp.obj"
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",
