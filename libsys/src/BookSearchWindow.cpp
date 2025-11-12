@@ -130,6 +130,14 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     additionalInfo->setGeometry(50, 420, 650, 100);
     additionalInfo->setPlaceholderText("Enter additional info if any");
 
+    // these things cause segfaults. so i initialized them without parents
+
+    author2 = new QLineEdit(); 
+    author3 = new QLineEdit();
+    author4 = new QLineEdit();
+    author5 = new QLineEdit();
+
+
     connect(addAuthors, &QPushButton::clicked, this, [=]()
             {
 
@@ -142,25 +150,25 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 
             QLabel *lblA2 = new QLabel("Author 2", extraAuthorsWindow);
             lblA2->setGeometry(20, 20, 100, 20);
-            author2 = new QLineEdit(extraAuthorsWindow);
+            author2->setParent(extraAuthorsWindow);
             author2->setGeometry(20, 40, 200, 25);
             author2->setPlaceholderText("Enter author 2");
 
             QLabel *lblA3 = new QLabel("Author 3", extraAuthorsWindow);
             lblA3->setGeometry(20, 80, 100, 20);
-            author3 = new QLineEdit(extraAuthorsWindow);
+            author3->setParent(extraAuthorsWindow);
             author3->setGeometry(20, 100, 200, 25);
             author3->setPlaceholderText("Enter author 3");
 
             QLabel *lblA4 = new QLabel("Author 4", extraAuthorsWindow);
             lblA4->setGeometry(20, 140, 100, 20);
-            author4 = new QLineEdit(extraAuthorsWindow);
+            author4->setParent(extraAuthorsWindow);
             author4->setGeometry(20, 160, 200, 25);
             author4->setPlaceholderText("Enter author 4");
 
             QLabel *lblA5 = new QLabel("Author 5", extraAuthorsWindow);
             lblA5->setGeometry(20, 200, 100, 20);
-            author5 = new QLineEdit(extraAuthorsWindow);
+            author5->setParent(extraAuthorsWindow);
             author5->setGeometry(20, 220, 200, 25);
             author5->setPlaceholderText("Enter author 5");
 

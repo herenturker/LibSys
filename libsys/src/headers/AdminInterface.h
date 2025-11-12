@@ -35,6 +35,7 @@ class AdminInterface : public QWidget
 
 public:
     explicit AdminInterface(QWidget *parent = nullptr);
+    ~AdminInterface();
 
 private slots:
     void updateDateTime();
@@ -65,8 +66,8 @@ private:
     QLabel *timeLabel;
     QTimer *timer;
 
-    Database userDb;
-    Database libraryDb;
+    Database *userDb;
+    Database *libraryDb;
 };
 
 #endif // ADMIN_INTERFACE_H_

@@ -19,9 +19,31 @@
 #ifndef LIBRARYSYSTEM_H_
 #define LIBRARYSYSTEM_H_
 
+#include <QString>
+
 class LibrarySystem
 
 {
+    public:
+        struct Book {
+            QString title;
+            QString author1;
+            QString author2;
+            QString author3;
+            QString author4;
+            QString author5;
+            QString publisher;
+            QString publicationYear;
+            QString edition;
+            QString ISBN;
+            QString volume;
+            QString pageCount;
+            QString seriesInformation;
+            QString language;
+            QString DDC;
+            QString additionalInfo;
+        };
+
 };
 
 #endif // LIBRARYSYSTEM_H_

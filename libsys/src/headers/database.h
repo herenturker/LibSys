@@ -32,6 +32,7 @@ class Database
 public:
     Database(const QString &dbName, const QString &connectionName);
     ~Database();
+    QSqlDatabase getDB() const { return m_db; }
 
     bool openDB();
     void closeDB();

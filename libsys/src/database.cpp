@@ -95,7 +95,7 @@ bool Database::addUser(const QString &username, const QString &schoolNo,
         VALUES (:username, :school_no, :password, :account_type)
     )");
 
-    if ((username == "") | (schoolNo == "") | (password == "") | (accountType == ""))
+    if ((username == "") || (schoolNo == "") || (password == "") || (accountType == ""))
     {
         return false;
     }
@@ -215,6 +215,7 @@ QSqlQuery Database::selectUsers(const QString &condition)
 
     return query;
 }
+
 bool Database::isUserMatchedInDataBase(const QString &username,
                                        const QString &schoolNo,
                                        const QString &password,

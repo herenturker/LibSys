@@ -19,15 +19,35 @@
 #ifndef GENERAL_OPERATIONS_H_
 #define GENERAL_OPERATIONS_H_
 
+#include <QString>
+#include <QList>
+
+#include "LibrarySystem.h"
+#include "database.h"
+
 class GeneralOperations
 
 {
-protected:
-    void searchBook();
+    public:
+        explicit GeneralOperations(Database *db) : libraryDb(db) {}
 
-    void listBooks();
+        QList<LibrarySystem::Book> searchBook(const QString &bookTitl = QString(), const QString &author1 = QString(),
+                        const QString &author2 = QString(), const QString &author3 = QString(),
+                        const QString &author4 = QString(), const QString &author5 = QString(),
+                        const QString &publisher = QString(), const QString &publicationYear = QString(),
+                        const QString &edition = QString(), const QString &ISBN = QString(),
+                        const QString &volume = QString(), const QString &pageCount = QString(),
+                        const QString &seriesInformation = QString(), const QString &language = QString(),
+                        const QString &DDC = QString(), const QString &additionalInfo = QString());
 
-    void showBookInfo(); // take parameter as book, book can be a struct.
+        bool listBooks();
+
+        bool showBookInfo(LibrarySystem::Book book); 
+            
+    protected:
+        Database *libraryDb;
+
+
 };
 
 #endif // GENERAL_OPERATIONS_H_

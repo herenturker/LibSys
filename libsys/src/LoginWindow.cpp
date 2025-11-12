@@ -25,6 +25,7 @@
 #include <QTimer>
 #include <QCoreApplication>
 #include <QFile>
+#include <QDir>
 
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
@@ -171,49 +172,56 @@ void LoginWindow::handleLogin()
     QString password = password_Edit->text();
 
     QString exePath = QCoreApplication::applicationDirPath();
-    QString userdbPath = exePath + "/users.db";
-    QString librarydbPath = exePath + "/library.db";
+    QString dbDirPath = exePath + "/databases";
 
-    if (!QFile::exists(userdbPath))
+    QDir dbDir(dbDirPath);
+    if (!dbDir.exists())
     {
-        QFile file(userdbPath);
-        if (!file.open(QIODevice::WriteOnly))
+        if (dbDir.mkpath("."))
         {
-            qDebug() << "Could not create \"users.db\" !";
+            qDebug() << "Created databases directory at:" << dbDirPath;
         }
         else
         {
-            file.close();
-            qDebug() << "Created \"users.db\" .";
+            QMessageBox::critical(this, "Error", "Could not create databases directory!");
+            return;
         }
     }
 
-    if (!QFile::exists(librarydbPath))
-    {
-        QFile file(librarydbPath);
-        if (!file.open(QIODevice::WriteOnly))
+    QString userdbPath = dbDirPath + "/users.db";
+    QString librarydbPath = dbDirPath + "/library.db";
+
+    auto createEmptyDBFile = [](const QString &path) {
+        if (!QFile::exists(path))
         {
-            qDebug() << "Could not create \"library.db\" !";
+            QFile file(path);
+            if (!file.open(QIODevice::WriteOnly))
+            {
+                qDebug() << "Could not create database file:" << path;
+            }
+            else
+            {
+                file.close();
+                qDebug() << "Created database file:" << path;
+            }
         }
-        else
-        {
-            file.close();
-            qDebug() << "Created \"library.db\" .";
-        }
-    }
+    };
+
+    createEmptyDBFile(userdbPath);
+    createEmptyDBFile(librarydbPath);
 
     Database userDb(userdbPath, "DB_USERS");
     Database libraryDb(librarydbPath, "DB_LIBRARY");
 
     if (!userDb.openDB())
     {
-        QMessageBox::critical(this, "Error", "Could not open the database!");
+        QMessageBox::critical(this, "Error", "Could not open users database!");
         return;
     }
 
     if (!libraryDb.openDB())
     {
-        QMessageBox::critical(this, "Error", "Could not open the database!");
+        QMessageBox::critical(this, "Error", "Could not open library database!");
         return;
     }
 
@@ -224,9 +232,9 @@ void LoginWindow::handleLogin()
     userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
 
     bool loginSuccessFlag = userDb.isUserMatchedInDataBase(
-        username_Edit->text(),
-        schoolNo_Edit->text(),
-        password_Edit->text(),
+        username,
+        schoolNo,
+        password,
         radioButton_Group->checkedButton()->text());
 
     qDebug() << "DEBUG — Login check:";
@@ -247,6 +255,7 @@ void LoginWindow::handleLogin()
         QMessageBox::warning(this, "Error", "Login Error!");
     }
 }
+
 
 void LoginWindow::updateDateTime()
 {

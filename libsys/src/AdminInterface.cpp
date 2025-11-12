@@ -21,6 +21,7 @@
 #include <QScreen>
 #include <QFile>
 #include <QMessageBox>
+#include <QDir>
 
 #include "headers/AdminInterface.h"
 #include "headers/AdminOperations.h"
@@ -31,10 +32,20 @@
 #include "headers/Graphical.h"
 #include "headers/Utils.h"
 
-AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
-                                                  userDb(QCoreApplication::applicationDirPath() + "/users.db", "DB_USERS"),
-                                                  libraryDb(QCoreApplication::applicationDirPath() + "/library.db", "DB_LIBRARY")
+AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
+                                                  
 {
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString dbDirPath = exePath + "/databases";
+
+    QDir().mkpath(dbDirPath);
+
+    QString userdbPath = dbDirPath + "/users.db";
+    QString librarydbPath = dbDirPath + "/library.db";
+
+    userDb = new Database(userdbPath, "DB_USERS");
+    libraryDb = new Database(librarydbPath, "DB_LIBRARY");
+
     setWindowTitle("LibSys Admin Dashboard");
 
     resize(1080, 720);
@@ -196,10 +207,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
 
     // CONNECTIONS
 
-    QString exePath = QCoreApplication::applicationDirPath();
-    QString userdbPath = exePath + "/users.db";
-    QString librarydbPath = exePath + "/library.db";
-
     if (!QFile::exists(userdbPath))
     {
         QFile file(userdbPath);
@@ -228,20 +235,20 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
         }
     }
 
-    if (!userDb.openDB())
+    if (!userDb->openDB())
     {
         QMessageBox::critical(this, "Error", "Could not open the database!");
         return;
     }
 
-    if (!libraryDb.openDB())
+    if (!libraryDb->openDB())
     {
         QMessageBox::critical(this, "Error", "Could not open the database!");
         return;
     }
 
-    userDb.createUsersTable();
-    libraryDb.createBooksTable();
+    userDb->createUsersTable();
+    libraryDb->createBooksTable();
 
     bookSearchWindow = new BookSearchWindow(this);
 
@@ -270,7 +277,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
                 const QString &DDC,
                 const QString &additionalInfo)
             {
-                bool success = libraryDb.addBook(bookTitle, author1, author2, author3, author4, author5,
+                bool success = libraryDb->addBook(bookTitle, author1, author2, author3, author4, author5,
                                                  publisher, publicationYear, edition, ISBN, volume,
                                                  pageCount, seriesInformation, language, DDC, additionalInfo);
 
@@ -295,7 +302,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
                 const QString &author1,
                 const QString &ISBN)
             {
-                bool success = libraryDb.deleteBook(bookTitle, author1, ISBN);
+                bool success = libraryDb->deleteBook(bookTitle, author1, ISBN);
 
                 if (!success) {
                     showMessage(this, "Error", "Could not delete book!", true);
@@ -330,7 +337,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
                 const QString &DDC,
                 const QString &additionalInfo)
             {
-                bool success = libraryDb.updateBook(bookTitle, author1, author2, author3, author4, author5,
+                bool success = libraryDb->updateBook(bookTitle, author1, author2, author3, author4, author5,
                                                     publisher, publicationYear, edition, ISBN, volume,
                                                     pageCount, seriesInformation, language, DDC, additionalInfo);
 
@@ -384,4 +391,10 @@ void AdminInterface::updateDateTime()
     dateLabel->setText("Date: " + TimeClass::showDate());
     dayLabel->setText("Day: " + TimeClass::showDay());
     timeLabel->setText("Time: " + TimeClass::showTime());
+}
+
+AdminInterface::~AdminInterface()
+{
+    delete userDb;
+    delete libraryDb;
 }

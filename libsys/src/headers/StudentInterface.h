@@ -25,6 +25,7 @@
 #include <QTimer>
 
 #include "BookSearchWindow.h"
+#include "database.h"
 class StudentInterface : public QWidget
 
 {
@@ -51,6 +52,9 @@ private:
     QLabel *overdueBooks;
     QLabel *unreturnedBooks;
     QLabel *borrowedBooks;
+
+    Database* userDb;
+    Database* libraryDb;
 };
 
 #endif // STUDENT_INTERFACE_H_

@@ -28,15 +28,30 @@
 #include <QVBoxLayout>
 #include <QStyle>
 #include <QIcon>
+#include <QDir>
 
 #include "headers/StudentInterface.h"
 #include "headers/StudentOperations.h"
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
 #include "headers/BookSearchWindow.h"
+#include "headers/GeneralOperations.h"
+#include "headers/database.h"
+#include "headers/LibrarySystem.h"
 
 StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 {
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString dbDirPath = exePath + "/databases";
+
+    QDir().mkpath(dbDirPath);
+
+    QString userdbPath = dbDirPath + "/users.db";
+    QString librarydbPath = dbDirPath + "/library.db";
+
+    userDb = new Database(userdbPath, "DB_USERS");
+    libraryDb = new Database(librarydbPath, "DB_LIBRARY");
+
     setWindowTitle("LibSys Student Dashboard");
 
     resize(1080, 720);
@@ -118,6 +133,34 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     searchButton->setObjectName("searchButton");
     searchEdit->setObjectName("searchEdit");
     openButton->setObjectName("bookSearchButton");
+
+    connect(searchButton, &QToolButton::clicked, [=](){
+        QString bookTitle = bookSearchWindow->bookTitle->text();
+        QString author1 = bookSearchWindow->author1->text();
+        QString author2 = bookSearchWindow->author2->text();
+        QString author3 = bookSearchWindow->author3->text();
+        QString author4 = bookSearchWindow->author4->text();
+        QString author5 = bookSearchWindow->author5->text();
+        QString publisher = bookSearchWindow->publisher->text();
+        QString publicationYear = bookSearchWindow->publicationYear->text();
+        QString edition = bookSearchWindow->edition->text();
+        QString ISBN = bookSearchWindow->ISBN->text();
+        QString volume = bookSearchWindow->volume->text();
+        QString pageCount = bookSearchWindow->pageCount->text();
+        QString seriesInformation = bookSearchWindow->seriesInformation->text();
+        QString language = bookSearchWindow->language->text();
+        QString DDC = bookSearchWindow->DDC->text();
+        QString additionalInfo = bookSearchWindow->additionalInfo->toPlainText();
+
+        GeneralOperations generalOperations(libraryDb);
+
+        QList<LibrarySystem::Book> results = generalOperations.searchBook(
+            bookTitle, author1, author2, author3, author4, author5,
+            publisher, publicationYear, edition, ISBN,
+            volume, pageCount, seriesInformation, language, DDC, additionalInfo
+        );
+
+    });
 
     this->setStyleSheet(R"(
             QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
