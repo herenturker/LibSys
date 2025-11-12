@@ -28,11 +28,11 @@
 #include "headers/TimeClass.h"
 #include "headers/BookSearchWindow.h"
 #include "headers/Database.h"
+#include "headers/Graphical.h"
 
-
-AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent), 
-    userDb(QCoreApplication::applicationDirPath() + "/users.db", "DB_USERS"),
-      libraryDb(QCoreApplication::applicationDirPath() + "/library.db", "DB_LIBRARY")
+AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
+                                                  userDb(QCoreApplication::applicationDirPath() + "/users.db", "DB_USERS"),
+                                                  libraryDb(QCoreApplication::applicationDirPath() + "/library.db", "DB_LIBRARY")
 {
     setWindowTitle("LibSys Admin Dashboard");
 
@@ -41,13 +41,12 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
     setMaximumSize(1080, 720);
 
     dateLabel = new QLabel(this);
-    dayLabel  = new QLabel(this);
+    dayLabel = new QLabel(this);
     timeLabel = new QLabel(this);
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &AdminInterface::updateDateTime);
     timer->start(1000);
-
 
     logHistory_Button = new QPushButton("Log History", this);
     logHistory_Button->setToolTip("View the system's activity and log history.");
@@ -82,7 +81,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
     backToLoginWindow_Button = new QPushButton("Return to\nLogin", this);
     backToLoginWindow_Button->setToolTip("Return to the login window.");
 
-    addUser_Button =  new QPushButton("Add User", this);
+    addUser_Button = new QPushButton("Add User", this);
     addUser_Button->setToolTip("Add a new user to the users database.");
 
     deleteUser_Button = new QPushButton("Delete User", this);
@@ -93,7 +92,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
 
     punishUser_Button = new QPushButton("Punish User", this);
     punishUser_Button->setToolTip("Punish an user in LibSys.");
-
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
@@ -125,7 +123,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
 
     backToLoginWindow_Button->setGeometry(860, 140, buttonWidth, buttonHeight);
 
-
     addUser_Button->setGeometry(75, 410, buttonSquare, buttonSquare);
 
     deleteUser_Button->setGeometry(265, 410, buttonSquare, buttonSquare);
@@ -134,78 +131,23 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
 
     punishUser_Button->setGeometry(655, 410, buttonSquare, buttonSquare);
 
-
     QString buttonStyle = R"(
         QPushButton { 
-            background-color: #424242; 
+            background-color: #a3a3a3; 
             color: white; 
             border-radius: 5px; 
             font-size: 18px;
+            border: 1px solid #000000;
         }
         QPushButton:hover { 
-            background-color: #a3a3a3;
+            background-color: #727272;
+            border: 1px solid #000000;
+        }
+        QPushButton:pressed { 
+            background-color: #424242;
+            border: 1px solid #000000;
         }
 
-    )";
-
-        QString buttonStyle2 = R"(
-        QPushButton { 
-            background-color: #aa0000; 
-            color: white; 
-            border-radius: 5px; 
-            font-size: 18px;
-        }
-        QPushButton:hover { 
-            background-color: #6b0404;
-        }
-    )";
-
-        QString buttonStyle3 = R"(
-        QPushButton { 
-            background-color: #18a30b; 
-            color: white; 
-            border-radius: 5px; 
-            font-size: 18px;
-        }
-        QPushButton:hover { 
-            background-color: #054e05;
-        }
-    )";
-
-        QString buttonStyle4 = R"(
-        QPushButton { 
-            background-color: #0543d4; 
-            color: white; 
-            border-radius: 5px; 
-            font-size: 18px;
-        }
-        QPushButton:hover { 
-            background-color: #06045c;
-        }
-    )";
-
-        QString buttonStyle5 = R"(
-        QPushButton { 
-            background-color: #babd04; 
-            color: white; 
-            border-radius: 5px; 
-            font-size: 18px;
-        }
-        QPushButton:hover { 
-            background-color: #534e05;
-        }
-    )";
-
-        QString buttonStyle6 = R"(
-        QPushButton { 
-            background-color: #bd08bd; 
-            color: white; 
-            border-radius: 5px; 
-            font-size: 18px;
-        }
-        QPushButton:hover { 
-            background-color: #4d0153;
-        }
     )";
 
     this->setStyleSheet(R"(
@@ -214,15 +156,16 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
             font-weight: bold;
             color: #333333;
         }
+            
         )");
 
     dateLabel->setObjectName("dateLabel");
     dayLabel->setObjectName("dayLabel");
     timeLabel->setObjectName("timeLabel");
 
-    logHistory_Button->setStyleSheet(buttonStyle5);
+    logHistory_Button->setStyleSheet(buttonStyle);
 
-    books_Button->setStyleSheet(buttonStyle6);
+    books_Button->setStyleSheet(buttonStyle);
 
     users_Button->setStyleSheet(buttonStyle);
 
@@ -230,15 +173,15 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
 
     inquireBookRegistiration_Button->setStyleSheet(buttonStyle);
 
-    confirmationRequests_Button->setStyleSheet(buttonStyle4);
+    confirmationRequests_Button->setStyleSheet(buttonStyle);
 
-    reportLostBook_Button->setStyleSheet(buttonStyle2);
+    reportLostBook_Button->setStyleSheet(buttonStyle);
 
-    addBook_Button->setStyleSheet(buttonStyle3);
+    addBook_Button->setStyleSheet(buttonStyle);
 
-    deleteBook_Button->setStyleSheet(buttonStyle2);
+    deleteBook_Button->setStyleSheet(buttonStyle);
 
-    changeBookInfo_Button->setStyleSheet(buttonStyle4);
+    changeBookInfo_Button->setStyleSheet(buttonStyle);
 
     backToLoginWindow_Button->setStyleSheet(buttonStyle);
 
@@ -256,49 +199,57 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
     QString userdbPath = exePath + "/users.db";
     QString librarydbPath = exePath + "/library.db";
 
-    if (!QFile::exists(userdbPath)) {
+    if (!QFile::exists(userdbPath))
+    {
         QFile file(userdbPath);
-        if (!file.open(QIODevice::WriteOnly)) {
+        if (!file.open(QIODevice::WriteOnly))
+        {
             qDebug() << "Could not create \"users.db\" !";
-        } else {
+        }
+        else
+        {
             file.close();
             qDebug() << "Created \"users.db\" .";
         }
     }
 
-    if (!QFile::exists(librarydbPath)) {
+    if (!QFile::exists(librarydbPath))
+    {
         QFile file(librarydbPath);
-        if (!file.open(QIODevice::WriteOnly)) {
+        if (!file.open(QIODevice::WriteOnly))
+        {
             qDebug() << "Could not create \"library.db\" !";
-        } else {
+        }
+        else
+        {
             file.close();
             qDebug() << "Created \"library.db\" .";
         }
     }
 
-
-    if (!userDb.openDB()) {
+    if (!userDb.openDB())
+    {
         QMessageBox::critical(this, "Error", "Could not open the database!");
         return;
     }
 
-    if (!libraryDb.openDB()) {
+    if (!libraryDb.openDB())
+    {
         QMessageBox::critical(this, "Error", "Could not open the database!");
         return;
     }
-
 
     userDb.createUsersTable();
     libraryDb.createBooksTable();
 
     bookSearchWindow = new BookSearchWindow(this);
 
-    connect(addBook_Button, &QPushButton::clicked, [&](){
+    connect(addBook_Button, &QPushButton::clicked, [&]()
+            {
         bookSearchWindow->setMode(BookSearchWindow::Add);
         bookSearchWindow->show();
         bookSearchWindow->raise();
-        bookSearchWindow->activateWindow();
-    });
+        bookSearchWindow->activateWindow(); });
 
     connect(bookSearchWindow, &BookSearchWindow::bookAddDataReady,
             [&](const QString &bookTitle,
@@ -316,48 +267,52 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
                 const QString &seriesInformation,
                 const QString &language,
                 const QString &DDC,
-                const QString &additionalInfo
-            ) 
-    {
-        bool success = libraryDb.addBook(bookTitle, author1, author2, author3, author4, author5,
-                        publisher, publicationYear, edition, ISBN, volume,
-                        pageCount, seriesInformation, language, DDC, additionalInfo);
+                const QString &additionalInfo)
+            {
+                bool success = libraryDb.addBook(bookTitle, author1, author2, author3, author4, author5,
+                                                 publisher, publicationYear, edition, ISBN, volume,
+                                                 pageCount, seriesInformation, language, DDC, additionalInfo);
 
-        if (!success) {
-            QMessageBox::warning(this, "Error", "Could not add book to database!");
-        } else {
-            bookSearchWindow->hide();
-        }
-    });
+                if (!success)
+                {
+                    QMessageBox::warning(this, "Error", "Could not add book to database!");
+                }
+                else
+                {
+                    bookSearchWindow->hide();
+                }
+            });
 
-    connect(deleteBook_Button, &QPushButton::clicked, [&](){
+    connect(deleteBook_Button, &QPushButton::clicked, [&]()
+            {
         bookSearchWindow->setMode(BookSearchWindow::Delete);
         bookSearchWindow->show();
         bookSearchWindow->raise();
-        bookSearchWindow->activateWindow();
-    });
+        bookSearchWindow->activateWindow(); });
 
     connect(bookSearchWindow, &BookSearchWindow::bookDeleteDataReady,
             [&](const QString &bookTitle,
                 const QString &author1,
-                const QString &ISBN
-            ) 
-    {
-        bool success = libraryDb.deleteBook(bookTitle, author1, ISBN);
+                const QString &ISBN)
+            {
+                bool success = libraryDb.deleteBook(bookTitle, author1, ISBN);
 
-        if (!success) {
-            QMessageBox::warning(this, "Error", "Could not delete book!");
-        } else {
-            bookSearchWindow->hide();
-        }
-    });
+                if (!success)
+                {
+                    QMessageBox::warning(this, "Error", "Could not delete book!");
+                }
+                else
+                {
+                    bookSearchWindow->hide();
+                }
+            });
 
-    connect(changeBookInfo_Button, &QPushButton::clicked, [&](){
+    connect(changeBookInfo_Button, &QPushButton::clicked, [&]()
+            {
         bookSearchWindow->setMode(BookSearchWindow::Update);
         bookSearchWindow->show();
         bookSearchWindow->raise();
-        bookSearchWindow->activateWindow();
-    });
+        bookSearchWindow->activateWindow(); });
 
     connect(bookSearchWindow, &BookSearchWindow::bookUpdateDataReady,
             [&](const QString &bookTitle,
@@ -375,21 +330,56 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
                 const QString &seriesInformation,
                 const QString &language,
                 const QString &DDC,
-                const QString &additionalInfo
-            ) 
-    {
-        bool success = libraryDb.updateBook(bookTitle, author1, author2, author3, author4, author5,
-                        publisher, publicationYear, edition, ISBN, volume,
-                        pageCount, seriesInformation, language, DDC, additionalInfo);
+                const QString &additionalInfo)
+            {
+                bool success = libraryDb.updateBook(bookTitle, author1, author2, author3, author4, author5,
+                                                    publisher, publicationYear, edition, ISBN, volume,
+                                                    pageCount, seriesInformation, language, DDC, additionalInfo);
+
+                if (!success)
+                {
+                    QMessageBox::warning(this, "Error", "Could not update book info!");
+                }
+                else
+                {
+                    bookSearchWindow->hide();
+                }
+            });
+
+    connect(addUser_Button, &QPushButton::clicked, [=]()
+            {
+        Graphical graphicalAddUser(this);
+        bool success = graphicalAddUser.addUserGraphical(this);
 
         if (!success) {
-            QMessageBox::warning(this, "Error", "Could not update book info!");
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Could not add new user!");
+
+            msgBox.setStyleSheet(
+                "QMessageBox { background-color: #dadada; color: black; }"
+                "QLabel { color: black; font-weight: bold; font-size: 14px; background-color: #dadada; }"
+                "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; min-width: 80px; }"
+                "QPushButton:hover { background-color: #5f5f5f; }"
+                "QPushButton:pressed { background-color: #353535; }"
+            );
+
+                msgBox.exec();
         } else {
-            bookSearchWindow->hide();
-        }
-    });
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Success");
+            msgBox.setText("Added new user!");
 
+            msgBox.setStyleSheet(
+                "QMessageBox { background-color: #dadada; color: black; }"
+                "QLabel { color: black; font-weight: bold; font-size: 14px; background-color: #dadada; }"
+                "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; min-width: 80px; }"
+                "QPushButton:hover { background-color: #5f5f5f; }"
+                "QPushButton:pressed { background-color: #353535; }"
+            );
 
+            msgBox.exec();
+        } });
 }
 
 void AdminInterface::updateDateTime()

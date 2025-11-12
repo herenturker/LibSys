@@ -35,7 +35,6 @@
 #include "headers/TimeClass.h"
 #include "headers/BookSearchWindow.h"
 
-
 StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 {
     setWindowTitle("LibSys Student Dashboard");
@@ -45,13 +44,12 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     setMaximumSize(1080, 720);
 
     dateLabel = new QLabel(this);
-    dayLabel  = new QLabel(this);
+    dayLabel = new QLabel(this);
     timeLabel = new QLabel(this);
 
     overdueBooks = new QLabel("Overdue Books", this);
     unreturnedBooks = new QLabel("Unreturned Books", this);
     borrowedBooks = new QLabel("Borrowed Books", this);
-
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &StudentInterface::updateDateTime);
@@ -69,7 +67,6 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     unreturnedBooks->setObjectName("unreturnedBooks");
     borrowedBooks->setObjectName("borrowedBooks");
 
-
     dateLabel->setObjectName("dateLabel");
     dayLabel->setObjectName("dayLabel");
     timeLabel->setObjectName("timeLabel");
@@ -81,14 +78,14 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     bookSearchWindow->close();
 
-    connect(openButton, &QPushButton::clicked, [=]() {
+    connect(openButton, &QPushButton::clicked, [=]()
+            {
 
         if (bookSearchWindow->isVisible()) {
             bookSearchWindow->close();
         } else {
             bookSearchWindow->show();
-        }
-    });
+        } });
 
     searchContainer = new QWidget(this);
     searchContainer->setGeometry(75, 40, 400, 40);
@@ -104,7 +101,6 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
     searchLayout->setContentsMargins(0, 0, 0, 0);
-
 
     QToolButton *searchButton = new QToolButton(searchContainer);
     searchButton->setIcon(QIcon(":/magnifier.ico"));
@@ -123,7 +119,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     searchEdit->setObjectName("searchEdit");
     openButton->setObjectName("bookSearchButton");
 
-        this->setStyleSheet(R"(
+    this->setStyleSheet(R"(
             QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
                 font-size: 20px;
                 font-weight: bold;
@@ -135,7 +131,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                 font-size: 14px;
             }
 
-            QPushButton#bookSearchButton {
+            QPushButton#bookSearchButton, QToolButton#searchButton {
 
                 color: black;
                 font-size: 14px;
@@ -145,12 +141,12 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             
             }
 
-            QPushButton#bookSearchButton:hover {
+            QPushButton#bookSearchButton:hover, QToolButton#searchButton:hover {
                 border: 1px solid black;
                 background-color: #a8a3a3;
             }
 
-            QPushButton#bookSearchButton:pressed {
+            QPushButton#bookSearchButton:pressed, QToolButton#searchButton:pressed {
                 border: 1px solid black;
                 background-color: #555252;
             }
@@ -166,18 +162,23 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     QString buttonStyle = R"(
         QPushButton { 
-            background-color: #f1b5f1; 
+            background-color: #a3a3a3; 
             color: white; 
             border-radius: 5px; 
             font-size: 18px;
+            border: 1px solid #000000;
         }
         QPushButton:hover { 
-            background-color: #9c859e;
+            background-color: #727272;
+            border: 1px solid #000000;
+        }
+        QPushButton:pressed { 
+            background-color: #424242;
+            border: 1px solid #000000;
         }
     )";
 
-        displayBookList->setStyleSheet(buttonStyle);
-
+    displayBookList->setStyleSheet(buttonStyle);
 }
 
 void StudentInterface::updateDateTime()

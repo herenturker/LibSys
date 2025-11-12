@@ -28,48 +28,45 @@
 #include "BookSearchWindow.h"
 #include "Database.h"
 
-
 class AdminInterface : public QWidget
 
 {
     Q_OBJECT
 
-    public:
-        explicit AdminInterface(QWidget *parent = nullptr);
+public:
+    explicit AdminInterface(QWidget *parent = nullptr);
 
-    private slots:
-        void updateDateTime();
+private slots:
+    void updateDateTime();
 
-    private:
-        QPushButton* logHistory_Button;
-        QPushButton* books_Button;
-        QPushButton* users_Button;
+private:
+    QPushButton *logHistory_Button;
+    QPushButton *books_Button;
+    QPushButton *users_Button;
 
-        QPushButton* addBook_Button;
-        QPushButton* confirmationRequests_Button;
-        QPushButton* inquireBookSubmission_Button;
-        QPushButton* deleteBook_Button;
-        QPushButton* reportLostBook_Button;
-        QPushButton* changeBookInfo_Button;
-        QPushButton* inquireBookRegistiration_Button;
+    QPushButton *addBook_Button;
+    QPushButton *confirmationRequests_Button;
+    QPushButton *inquireBookSubmission_Button;
+    QPushButton *deleteBook_Button;
+    QPushButton *reportLostBook_Button;
+    QPushButton *changeBookInfo_Button;
+    QPushButton *inquireBookRegistiration_Button;
 
-        QPushButton* addUser_Button;
-        QPushButton* deleteUser_Button;
-        QPushButton* updateUserInfo_Button;
-        QPushButton* punishUser_Button;
+    QPushButton *addUser_Button;
+    QPushButton *deleteUser_Button;
+    QPushButton *updateUserInfo_Button;
+    QPushButton *punishUser_Button;
 
-        QPushButton* backToLoginWindow_Button;
-        BookSearchWindow* bookSearchWindow;
+    QPushButton *backToLoginWindow_Button;
+    BookSearchWindow *bookSearchWindow;
 
-        QLabel *dateLabel;
-        QLabel *dayLabel;
-        QLabel *timeLabel;
-        QTimer *timer;
+    QLabel *dateLabel;
+    QLabel *dayLabel;
+    QLabel *timeLabel;
+    QTimer *timer;
 
-        Database userDb;
-        Database libraryDb;
-
+    Database userDb;
+    Database libraryDb;
 };
-
 
 #endif // ADMIN_INTERFACE_H_

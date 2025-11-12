@@ -30,18 +30,23 @@ class BookSearchWindow : public QWidget
 {
     Q_OBJECT
 
-    public:
-        explicit BookSearchWindow(QWidget *parent = nullptr);
-        enum Mode { Add, Delete, Update };
-    
-        void setMode(Mode m) { currentMode = m; }
-        Mode getMode() const { return currentMode; }
-        bool bookOperationMode();
+public:
+    explicit BookSearchWindow(QWidget *parent = nullptr);
+    enum Mode
+    {
+        Add,
+        Delete,
+        Update
+    };
 
-    signals:
-        void windowClosed();
-        
-        void bookAddDataReady(
+    void setMode(Mode m) { currentMode = m; }
+    Mode getMode() const { return currentMode; }
+    bool bookOperationMode();
+
+signals:
+    void windowClosed();
+
+    void bookAddDataReady(
         const QString &bookTitle,
         const QString &author1,
         const QString &author2,
@@ -57,15 +62,13 @@ class BookSearchWindow : public QWidget
         const QString &seriesInformation,
         const QString &language,
         const QString &DDC,
-        const QString &additionalInfo
-        );
+        const QString &additionalInfo);
 
-        void bookDeleteDataReady(const QString &bookTitle,
+    void bookDeleteDataReady(const QString &bookTitle,
                              const QString &author1,
-                             const QString &ISBN
-        );
+                             const QString &ISBN);
 
-        void bookUpdateDataReady(const QString &bookTitle,
+    void bookUpdateDataReady(const QString &bookTitle,
                              const QString &author1, const QString &author2,
                              const QString &author3, const QString &author4,
                              const QString &author5, const QString &publisher,
@@ -73,39 +76,35 @@ class BookSearchWindow : public QWidget
                              const QString &ISBN, const QString &volume,
                              const QString &pageCount, const QString &seriesInformation,
                              const QString &language, const QString &DDC,
-                             const QString &additionalInfo
-        );
+                             const QString &additionalInfo);
 
-    protected:
-        void closeEvent(QCloseEvent *event) override;
-        void showEvent(QShowEvent *event) override;
-    
-    public:
-        QLineEdit  *bookTitle        = nullptr;
-        QLineEdit  *author1          = nullptr;
-        QLineEdit  *author2          = nullptr;
-        QLineEdit  *author3          = nullptr;
-        QLineEdit  *author4          = nullptr;
-        QLineEdit  *author5          = nullptr;
-        QLineEdit  *publisher        = nullptr;
-        QLineEdit  *publicationYear  = nullptr;
-        QLineEdit  *edition          = nullptr;
-        QLineEdit  *ISBN             = nullptr;
-        QLineEdit  *volume           = nullptr;
-        QLineEdit  *pageCount        = nullptr;
-        QLineEdit  *seriesInformation = nullptr;
-        QLineEdit  *language         = nullptr;
-        QLineEdit  *DDC              = nullptr;
-        QLineEdit  *Topic            = nullptr;
-        QTextEdit  *additionalInfo   = nullptr;
+protected:
+    void closeEvent(QCloseEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
-        QWidget *extraAuthorsWindow  = nullptr;
+public:
+    QLineEdit *bookTitle = nullptr;
+    QLineEdit *author1 = nullptr;
+    QLineEdit *author2 = nullptr;
+    QLineEdit *author3 = nullptr;
+    QLineEdit *author4 = nullptr;
+    QLineEdit *author5 = nullptr;
+    QLineEdit *publisher = nullptr;
+    QLineEdit *publicationYear = nullptr;
+    QLineEdit *edition = nullptr;
+    QLineEdit *ISBN = nullptr;
+    QLineEdit *volume = nullptr;
+    QLineEdit *pageCount = nullptr;
+    QLineEdit *seriesInformation = nullptr;
+    QLineEdit *language = nullptr;
+    QLineEdit *DDC = nullptr;
+    QLineEdit *Topic = nullptr;
+    QTextEdit *additionalInfo = nullptr;
 
+    QWidget *extraAuthorsWindow = nullptr;
 
-    private:
-         Mode currentMode = Add;
-
-
+private:
+    Mode currentMode = Add;
 };
 
 #endif // BOOKSEARCHWINDOW_H_

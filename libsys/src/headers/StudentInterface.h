@@ -30,30 +30,27 @@ class StudentInterface : public QWidget
 {
     Q_OBJECT
 
-    public:
-        explicit StudentInterface(QWidget *parent = nullptr);
+public:
+    explicit StudentInterface(QWidget *parent = nullptr);
 
-    private slots:
-        void updateDateTime();
+private slots:
+    void updateDateTime();
 
-    private:
-        QLabel *dateLabel;
-        QLabel *dayLabel;
-        QLabel *timeLabel;
-        QTimer *timer;
-        QWidget *searchContainer;
+private:
+    QLabel *dateLabel;
+    QLabel *dayLabel;
+    QLabel *timeLabel;
+    QTimer *timer;
+    QWidget *searchContainer;
 
-        BookSearchWindow *bookSearchWindow;
+    BookSearchWindow *bookSearchWindow;
 
-        QPushButton *openButton;
-        QPushButton *displayBookList;
+    QPushButton *openButton;
+    QPushButton *displayBookList;
 
-        QLabel *overdueBooks;
-        QLabel *unreturnedBooks;
-        QLabel *borrowedBooks;
-
-
+    QLabel *overdueBooks;
+    QLabel *unreturnedBooks;
+    QLabel *borrowedBooks;
 };
-
 
 #endif // STUDENT_INTERFACE_H_

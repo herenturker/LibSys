@@ -18,32 +18,30 @@
 
 #include "headers/AdminOperations.h"
 
-void AdminOperations::listUsers(){
-    
+void AdminOperations::listUsers()
+{
 }
 
-void AdminOperations::showLogs(){
-    
+void AdminOperations::showLogs()
+{
 }
 
-void AdminOperations::performConfirmation(){
-    
+void AdminOperations::performConfirmation()
+{
 }
 
-void AdminOperations::inquireSubmissionLatency(){
-    
+void AdminOperations::inquireSubmissionLatency()
+{
 }
 
-void AdminOperations::inquireBookSubmission(){
-    
+void AdminOperations::inquireBookSubmission()
+{
 }
 
-void AdminOperations::reportLostBook(){
-    
+void AdminOperations::reportLostBook()
+{
 }
 
-void AdminOperations::inquireBookRegistiration(){
-    
+void AdminOperations::inquireBookRegistiration()
+{
 }
-
-

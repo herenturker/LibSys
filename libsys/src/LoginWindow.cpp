@@ -70,9 +70,8 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 
     // === DATE / TIME ===
     dateLabel = new QLabel();
-    dayLabel  = new QLabel();
+    dayLabel = new QLabel();
     timeLabel = new QLabel();
-
 
     // === LAYOUTS ===
 
@@ -87,7 +86,6 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     layout_Form->addWidget(login_Button, 0, Qt::AlignHCenter);
     layout_Form->setSpacing(8);
 
-   
     QVBoxLayout *layout_Radio = new QVBoxLayout;
     layout_Radio->addWidget(accountType_Student_Button);
     layout_Radio->addWidget(accountType_Admin_Button);
@@ -99,14 +97,12 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     layout_Radio->setSpacing(6);
     layout_Radio->setContentsMargins(20, 0, 20, 10);
 
-
     QHBoxLayout *layout_Center = new QHBoxLayout;
     layout_Center->addStretch();
     layout_Center->addLayout(layout_Radio, 1);
     layout_Center->addSpacing(40);
     layout_Center->addLayout(layout_Form, 2);
     layout_Center->addStretch();
-
 
     QVBoxLayout *layout_Main = new QVBoxLayout(this);
     layout_Main->addSpacing(0);
@@ -168,7 +164,6 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     timeLabel->setObjectName("timeLabel");
 }
 
-
 void LoginWindow::handleLogin()
 {
     QString username = username_Edit->text();
@@ -179,44 +174,52 @@ void LoginWindow::handleLogin()
     QString userdbPath = exePath + "/users.db";
     QString librarydbPath = exePath + "/library.db";
 
-    if (!QFile::exists(userdbPath)) {
+    if (!QFile::exists(userdbPath))
+    {
         QFile file(userdbPath);
-        if (!file.open(QIODevice::WriteOnly)) {
+        if (!file.open(QIODevice::WriteOnly))
+        {
             qDebug() << "Could not create \"users.db\" !";
-        } else {
+        }
+        else
+        {
             file.close();
             qDebug() << "Created \"users.db\" .";
         }
     }
 
-    if (!QFile::exists(librarydbPath)) {
+    if (!QFile::exists(librarydbPath))
+    {
         QFile file(librarydbPath);
-        if (!file.open(QIODevice::WriteOnly)) {
+        if (!file.open(QIODevice::WriteOnly))
+        {
             qDebug() << "Could not create \"library.db\" !";
-        } else {
+        }
+        else
+        {
             file.close();
             qDebug() << "Created \"library.db\" .";
         }
     }
 
-
     Database userDb(userdbPath, "DB_USERS");
     Database libraryDb(librarydbPath, "DB_LIBRARY");
 
-    if (!userDb.openDB()) {
+    if (!userDb.openDB())
+    {
         QMessageBox::critical(this, "Error", "Could not open the database!");
         return;
     }
 
-    if (!libraryDb.openDB()) {
+    if (!libraryDb.openDB())
+    {
         QMessageBox::critical(this, "Error", "Could not open the database!");
         return;
     }
-
 
     userDb.createUsersTable();
     libraryDb.createBooksTable();
-    
+
     userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
     userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
 
@@ -224,8 +227,7 @@ void LoginWindow::handleLogin()
         username_Edit->text(),
         schoolNo_Edit->text(),
         password_Edit->text(),
-        radioButton_Group->checkedButton()->text()
-    );
+        radioButton_Group->checkedButton()->text());
 
     qDebug() << "DEBUG — Login check:";
     qDebug() << "username:" << username;
@@ -234,15 +236,16 @@ void LoginWindow::handleLogin()
     qDebug() << "accountType:" << radioButton_Group->checkedButton()->text();
     userDb.debugPrintAllUsers();
 
-
-    if (loginSuccessFlag) {
+    if (loginSuccessFlag)
+    {
         QString accountType = radioButton_Group->checkedButton()->text();
         emit loginSuccess(accountType);
         close();
-    } else {
-            QMessageBox::warning(this, "Error", "Login Error!");
-        }
-
+    }
+    else
+    {
+        QMessageBox::warning(this, "Error", "Login Error!");
+    }
 }
 
 void LoginWindow::updateDateTime()

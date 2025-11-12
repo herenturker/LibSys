@@ -22,7 +22,6 @@
 
 #include "headers/BookSearchWindow.h"
 
-
 BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 {
     setWindowTitle("Enter Book Information");
@@ -36,7 +35,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     QLabel *label = new QLabel("", this);
 
-        // --- Book Title ---
+    // --- Book Title ---
     QLabel *lblBookTitle = new QLabel("Book Title*", this);
     lblBookTitle->setGeometry(50, 30, 110, 20);
     bookTitle = new QLineEdit(this);
@@ -130,7 +129,8 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     additionalInfo->setGeometry(50, 420, 650, 100);
     additionalInfo->setPlaceholderText("Enter additional info if any");
 
-    connect(addAuthors, &QPushButton::clicked, this, [=]() {
+    connect(addAuthors, &QPushButton::clicked, this, [=]()
+            {
 
         if (!extraAuthorsWindow) {
             extraAuthorsWindow = new QWidget(this);
@@ -173,19 +173,17 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 
         extraAuthorsWindow->show();
         extraAuthorsWindow->raise();
-        extraAuthorsWindow->activateWindow();
-    });
-
+        extraAuthorsWindow->activateWindow(); });
 
     QPushButton *confirmBtn = new QPushButton("Confirm", this);
     confirmBtn->setGeometry(320, 530, 100, 30);
 
-    connect(confirmBtn, &QPushButton::clicked, this, [this]() {
+    connect(confirmBtn, &QPushButton::clicked, this, [this]()
+            {
     bool success = bookOperationMode();
         if (success) {
             QTimer::singleShot(0, this, &QWidget::close);
-        }
-    });
+        } });
 
     layout->addWidget(label);
 
@@ -254,7 +252,6 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
         
         
         )");
-
 }
 
 void BookSearchWindow::showEvent(QShowEvent *event)
@@ -263,15 +260,15 @@ void BookSearchWindow::showEvent(QShowEvent *event)
     move(100, 100);
 }
 
-
 void BookSearchWindow::closeEvent(QCloseEvent *event)
 {
-    emit windowClosed(); 
+    emit windowClosed();
     QWidget::closeEvent(event);
 }
 
 bool BookSearchWindow::bookOperationMode()
 {
+    /*
     qDebug() << "===== [BookSearchWindow Debug] Checking pointers =====";
     #define DBG_PTR(ptr) qDebug() << #ptr ":" << ((ptr) ? "OK" : "nullptr")
 
@@ -295,65 +292,64 @@ bool BookSearchWindow::bookOperationMode()
 
     #undef DBG_PTR
     qDebug() << "======================================================";
+    */
 
-    if (bookTitle->text().isEmpty() || author1->text().isEmpty() || ISBN->text().isEmpty()) {
-        QMessageBox::warning(this, "Missing Info", "Please fill in Book Title, Author 1 and ISBN!");
+    if (bookTitle->text().isEmpty() || author1->text().isEmpty() || ISBN->text().isEmpty())
+    {
+        QMessageBox::warning(this, "Missing Info", "Please fill in Book Title, Author 1 and ISBN!"); // kullanıcı bilmediği şeylere ? yazabilmeli
         return false;
     }
 
-    switch (currentMode){
-        case Add:
-            emit bookAddDataReady(
-                bookTitle->text(),
-                author1->text(),
-                author2 ? author2->text() : "",
-                author3 ? author3->text() : "",
-                author4 ? author4->text() : "",
-                author5 ? author5->text() : "",
-                publisher->text(),
-                publicationYear->text(),
-                edition->text(),
-                ISBN->text(),
-                volume->text(),
-                pageCount->text(),
-                seriesInformation->text(),
-                language->text(),
-                DDC->text(),
-                additionalInfo->toPlainText()
-            );
-            break;
+    switch (currentMode)
+    {
+    case Add:
+        emit bookAddDataReady(
+            bookTitle->text(),
+            author1->text(),
+            author2 ? author2->text() : "",
+            author3 ? author3->text() : "",
+            author4 ? author4->text() : "",
+            author5 ? author5->text() : "",
+            publisher->text(),
+            publicationYear->text(),
+            edition->text(),
+            ISBN->text(),
+            volume->text(),
+            pageCount->text(),
+            seriesInformation->text(),
+            language->text(),
+            DDC->text(),
+            additionalInfo->toPlainText());
+        break;
 
-        case Delete:
+    case Delete:
 
-            emit bookDeleteDataReady(
-                bookTitle->text(),
-                author1->text(),
-                ISBN->text()
-            );
-            break;
+        emit bookDeleteDataReady(
+            bookTitle->text(),
+            author1->text(),
+            ISBN->text());
+        break;
 
-        case Update:
+    case Update:
 
-            emit bookUpdateDataReady(
-                bookTitle->text(),
-                author1->text(),
-                author2 ? author2->text() : "",
-                author3 ? author3->text() : "",
-                author4 ? author4->text() : "",
-                author5 ? author5->text() : "",
-                publisher->text(),
-                publicationYear->text(),
-                edition->text(),
-                ISBN->text(),
-                volume->text(),
-                pageCount->text(),
-                seriesInformation->text(),
-                language->text(),
-                DDC->text(),
-                additionalInfo->toPlainText()
-            );
-            break;
-        
+        emit bookUpdateDataReady(
+            bookTitle->text(),
+            author1->text(),
+            author2 ? author2->text() : "",
+            author3 ? author3->text() : "",
+            author4 ? author4->text() : "",
+            author5 ? author5->text() : "",
+            publisher->text(),
+            publicationYear->text(),
+            edition->text(),
+            ISBN->text(),
+            volume->text(),
+            pageCount->text(),
+            seriesInformation->text(),
+            language->text(),
+            DDC->text(),
+            additionalInfo->toPlainText());
+        break;
     }
     return true;
 }

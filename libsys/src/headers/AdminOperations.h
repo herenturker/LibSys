@@ -21,26 +21,23 @@
 
 #include "GeneralOperations.h"
 
-
 class AdminOperations : public GeneralOperations
 
 {
-    private:
-        void listUsers();
-        void showLogs();
+private:
+    void listUsers();
+    void showLogs();
 
-    protected:
+protected:
+    void performConfirmation();
 
-        void performConfirmation();
+    void inquireSubmissionLatency();
 
-        void inquireSubmissionLatency();
+    void inquireBookSubmission();
 
-        void inquireBookSubmission();
+    void reportLostBook();
 
-        void reportLostBook();
-
-        void inquireBookRegistiration();
-        
+    void inquireBookRegistiration();
 };
 
 #endif // ADMIN_OPERATIONS_H_

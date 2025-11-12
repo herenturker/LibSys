@@ -24,28 +24,26 @@
 class StudentOperations
 
 {
-    protected:
-        void borrowBookFromLibrary();
+protected:
+    void borrowBookFromLibrary();
 
-        void returnBorrowedBook();
+    void returnBorrowedBook();
 
-        void recordTransactionDate();
+    void recordTransactionDate();
 
-        void requestConfirmation();
+    void requestConfirmation();
 
-        void displayBookDueDate();
+    void displayBookDueDate();
 
-        void displayBookBorrowDate();
+    void displayBookBorrowDate();
 
-        void hasBookBeenReturned();
+    void hasBookBeenReturned();
 
-        void displayBorrowedBooks();
+    void displayBorrowedBooks();
 
-        void displayUnreturnedBooks();
-        
-        void displayOverdueBooks();
+    void displayUnreturnedBooks();
 
-
+    void displayOverdueBooks();
 };
 
 #endif // STUDENT_OPERATIONS_H_

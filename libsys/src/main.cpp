@@ -16,7 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-
 #include <QApplication>
 
 #include "headers/AdminInterface.h"
@@ -37,18 +36,21 @@ int main(int argc, char *argv[])
     libsys.setStyleSheet("QWidget { background-color: #DFDEDE; }");
 
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess,
-        [&](const QString &accountType) {
-            if (accountType == "Admin") {
-                loginWindow.close();
-                AdminInterface *adminInterface = new AdminInterface();
-                adminInterface->show();
-            }
-            else if (accountType == "Student") {
-                loginWindow.close();
-                StudentInterface *studentInterface = new StudentInterface();
-                studentInterface->show();
-            }
-        });
+                     [&](const QString &accountType)
+                     {
+                         if (accountType == "Admin")
+                         {
+                             loginWindow.close();
+                             AdminInterface *adminInterface = new AdminInterface();
+                             adminInterface->show();
+                         }
+                         else if (accountType == "Student")
+                         {
+                             loginWindow.close();
+                             StudentInterface *studentInterface = new StudentInterface();
+                             studentInterface->show();
+                         }
+                     });
 
     return libsys.exec();
 }

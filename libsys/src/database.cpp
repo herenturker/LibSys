@@ -23,30 +23,33 @@
 
 #include "headers/Database.h"
 
-Database::Database(const QString& dbName, const QString& connectionName)
+Database::Database(const QString &dbName, const QString &connectionName)
     : m_dbName(dbName)
 {
-    if (QSqlDatabase::contains(connectionName)) {
+    if (QSqlDatabase::contains(connectionName))
+    {
         m_db = QSqlDatabase::database(connectionName);
-    } else {
+    }
+    else
+    {
         m_db = QSqlDatabase::addDatabase("QSQLITE", connectionName);
         m_db.setDatabaseName(m_dbName);
     }
 }
 
-
 Database::~Database()
 {
 
-     if (m_db.isOpen()){
+    if (m_db.isOpen())
+    {
         m_db.close();
-     }
-        
+    }
 }
 
 bool Database::openDB()
 {
-    if (!m_db.open()) {
+    if (!m_db.open())
+    {
         qDebug() << "Could not open the database:" << m_db.lastError().text();
         return false;
     }
@@ -73,7 +76,8 @@ bool Database::createUsersTable()
         )
     )";
 
-    if (!query.exec(createTable)) {
+    if (!query.exec(createTable))
+    {
         qDebug() << "Could not create the table:" << query.lastError().text();
         return false;
     }
@@ -81,20 +85,27 @@ bool Database::createUsersTable()
     return true;
 }
 
-bool Database::addUser(const QString& username, const QString& schoolNo,
-                       const QString& password, const QString& accountType)
+bool Database::addUser(const QString &username, const QString &schoolNo,
+                       const QString &password, const QString &accountType)
 {
     QSqlQuery query(m_db);
     query.prepare(R"(
         INSERT INTO users (username, school_no, password, account_type)
         VALUES (:username, :school_no, :password, :account_type)
     )");
+
+    if ((username == "") | (schoolNo == "") | (password == "") | (accountType == ""))
+    {
+        return false;
+    }
+
     query.bindValue(":username", username);
     query.bindValue(":school_no", schoolNo);
     query.bindValue(":password", password);
     query.bindValue(":account_type", accountType);
 
-    if (!query.exec()) {
+    if (!query.exec())
+    {
         qDebug() << "Could not add the user:" << query.lastError().text();
         return false;
     }
@@ -102,14 +113,15 @@ bool Database::addUser(const QString& username, const QString& schoolNo,
     return true;
 }
 
-bool Database::updateUserPassword(const QString& username, const QString& newPassword)
+bool Database::updateUserPassword(const QString &username, const QString &newPassword)
 {
     QSqlQuery query(m_db);
     query.prepare("UPDATE users SET password = :password WHERE username = :username");
     query.bindValue(":password", newPassword);
     query.bindValue(":username", username);
 
-    if (!query.exec()) {
+    if (!query.exec())
+    {
         qDebug() << "Could not update the password:" << query.lastError().text();
         return false;
     }
@@ -117,13 +129,14 @@ bool Database::updateUserPassword(const QString& username, const QString& newPas
     return true;
 }
 
-bool Database::deleteUser(const QString& username)
+bool Database::deleteUser(const QString &username)
 {
     QSqlQuery query(m_db);
     query.prepare("DELETE FROM users WHERE username = :username");
     query.bindValue(":username", username);
 
-    if (!query.exec()) {
+    if (!query.exec())
+    {
         qDebug() << "Could not delete the user:" << query.lastError().text();
         return false;
     }
@@ -131,24 +144,26 @@ bool Database::deleteUser(const QString& username)
     return true;
 }
 
-QSqlQuery Database::selectUsers(const QString& condition)
+QSqlQuery Database::selectUsers(const QString &condition)
 {
     QSqlQuery query(m_db);
     QString sql = "SELECT * FROM users";
-    if (!condition.isEmpty()) {
+    if (!condition.isEmpty())
+    {
         sql += " WHERE " + condition;
     }
 
-    if (!query.exec(sql)) {
+    if (!query.exec(sql))
+    {
         qDebug() << "SELECT error:" << query.lastError().text();
     }
 
     return query;
 }
-bool Database::isUserMatchedInDataBase(const QString& username,
-                                       const QString& schoolNo,
-                                       const QString& password,
-                                       const QString& accountType) const
+bool Database::isUserMatchedInDataBase(const QString &username,
+                                       const QString &schoolNo,
+                                       const QString &password,
+                                       const QString &accountType) const
 {
     qDebug() << "DEBUG — Login check:";
     qDebug() << "username:" << username;
@@ -171,36 +186,42 @@ bool Database::isUserMatchedInDataBase(const QString& username,
     query.bindValue(":password", password);
     query.bindValue(":account_type", accountType);
 
-    if (!query.exec()) {
+    if (!query.exec())
+    {
         qDebug() << "Login check error:" << query.lastError().text();
         return false;
     }
 
-    if (query.next()) {
+    if (query.next())
+    {
         int count = query.value(0).toInt();
         qDebug() << "Matching user count:" << count;
         return count > 0;
-    } else {
+    }
+    else
+    {
         qDebug() << "Could not get data from query.";
     }
 
     return false;
 }
-bool Database::addUserIfNotExists(const QString& username,
-                                  const QString& schoolNo,
-                                  const QString& password,
-                                  const QString& accountType)
+bool Database::addUserIfNotExists(const QString &username,
+                                  const QString &schoolNo,
+                                  const QString &password,
+                                  const QString &accountType)
 {
     QSqlQuery checkQuery(m_db);
     checkQuery.prepare("SELECT COUNT(*) FROM users WHERE username = :username");
     checkQuery.bindValue(":username", username);
 
-    if (!checkQuery.exec()) {
+    if (!checkQuery.exec())
+    {
         qDebug() << "User check error:" << checkQuery.lastError().text();
         return false;
     }
 
-    if (checkQuery.next() && checkQuery.value(0).toInt() > 0) {
+    if (checkQuery.next() && checkQuery.value(0).toInt() > 0)
+    {
         qDebug() << "User already exists:" << username;
         return true; // user already exists, not an error
     }
@@ -212,13 +233,15 @@ bool Database::addUserIfNotExists(const QString& username,
 void Database::debugPrintAllUsers() const
 {
     QSqlQuery query(m_db);
-    if (!query.exec("SELECT username, school_no, password, account_type FROM users")) {
+    if (!query.exec("SELECT username, school_no, password, account_type FROM users"))
+    {
         qDebug() << "Error in listing users" << query.lastError().text();
         return;
     }
 
     qDebug() << "---- USERS TABLE CONTENTS ----";
-    while (query.next()) {
+    while (query.next())
+    {
         qDebug() << "username:" << query.value(0).toString()
                  << "| school_no:" << query.value(1).toString()
                  << "| password:" << query.value(2).toString()
@@ -227,16 +250,17 @@ void Database::debugPrintAllUsers() const
     qDebug() << "------------------------------";
 }
 
-bool Database::addBook(const QString& bookTitle, const QString& author1, 
-                       const QString& author2, const QString& author3, 
-                       const QString& author4, const QString& author5, 
-                       const QString& publisher, const QString& publicationYear,
-                       const QString& edition, const QString& ISBN, 
-                       const QString& volume, const QString& pageCount,
-                       const QString& seriesInformation, const QString& language,
-                       const QString& DDC, const QString& additionalInfo)
+bool Database::addBook(const QString &bookTitle, const QString &author1,
+                       const QString &author2, const QString &author3,
+                       const QString &author4, const QString &author5,
+                       const QString &publisher, const QString &publicationYear,
+                       const QString &edition, const QString &ISBN,
+                       const QString &volume, const QString &pageCount,
+                       const QString &seriesInformation, const QString &language,
+                       const QString &DDC, const QString &additionalInfo)
 {
-    if (!m_db.isOpen() && !m_db.open()) {
+    if (!m_db.isOpen() && !m_db.open())
+    {
         qDebug() << "Could not open database when adding book.";
         return false;
     }
@@ -255,7 +279,7 @@ bool Database::addBook(const QString& bookTitle, const QString& author1,
         )
     )");
 
-    query.bindValue(":title", bookTitle); 
+    query.bindValue(":title", bookTitle);
     query.bindValue(":author1", author1);
     query.bindValue(":author2", author2);
     query.bindValue(":author3", author3);
@@ -272,7 +296,8 @@ bool Database::addBook(const QString& bookTitle, const QString& author1,
     query.bindValue(":ddc", DDC);
     query.bindValue(":additional_info", additionalInfo);
 
-    if (!query.exec()) {
+    if (!query.exec())
+    {
         qDebug() << "Could not add book:" << query.lastError().text();
         return false;
     }
@@ -281,10 +306,10 @@ bool Database::addBook(const QString& bookTitle, const QString& author1,
     return true;
 }
 
-
-bool Database::deleteBook(const QString& bookTitle, const QString& author1, const QString& ISBN)
+bool Database::deleteBook(const QString &bookTitle, const QString &author1, const QString &ISBN)
 {
-    if (!m_db.isOpen() && !m_db.open()) {
+    if (!m_db.isOpen() && !m_db.open())
+    {
         qDebug() << "Could not open database when deleting book.";
         return false;
     }
@@ -299,7 +324,8 @@ bool Database::deleteBook(const QString& bookTitle, const QString& author1, cons
     query.bindValue(":author1", author1);
     query.bindValue(":isbn", ISBN);
 
-    if (!query.exec()) {
+    if (!query.exec())
+    {
         qDebug() << "Could not delete book:" << query.lastError().text();
         return false;
     }
@@ -308,21 +334,23 @@ bool Database::deleteBook(const QString& bookTitle, const QString& author1, cons
     return true;
 }
 
-bool Database::updateBook(const QString& bookTitle, const QString& author1, 
-                          const QString& author2, const QString& author3, 
-                          const QString& author4, const QString& author5, 
-                          const QString& publisher, const QString& publicationYear,
-                          const QString& edition, const QString& ISBN, 
-                          const QString& volume, const QString& pageCount,
-                          const QString& seriesInformation, const QString& language,
-                          const QString& DDC, const QString& additionalInfo)
+bool Database::updateBook(const QString &bookTitle, const QString &author1,
+                          const QString &author2, const QString &author3,
+                          const QString &author4, const QString &author5,
+                          const QString &publisher, const QString &publicationYear,
+                          const QString &edition, const QString &ISBN,
+                          const QString &volume, const QString &pageCount,
+                          const QString &seriesInformation, const QString &language,
+                          const QString &DDC, const QString &additionalInfo)
 {
-    if (ISBN.trimmed().isEmpty()) {
+    if (ISBN.trimmed().isEmpty())
+    {
         qDebug() << "Cannot update book: ISBN is empty!";
         return false;
     }
 
-    if (!m_db.isOpen() && !m_db.open()) {
+    if (!m_db.isOpen() && !m_db.open())
+    {
         qDebug() << "Could not open database when updating book info.";
         return false;
     }
@@ -365,7 +393,8 @@ bool Database::updateBook(const QString& bookTitle, const QString& author1,
     query.bindValue(":additional_info", additionalInfo);
     query.bindValue(":isbn", ISBN);
 
-    if (!query.exec()) {
+    if (!query.exec())
+    {
         qDebug() << "Could not update book:" << query.lastError().text();
         return false;
     }
@@ -373,8 +402,6 @@ bool Database::updateBook(const QString& bookTitle, const QString& author1,
     qDebug() << "Updated book:" << bookTitle << "(ISBN:" << ISBN << ")";
     return true;
 }
-
-
 
 bool Database::createBooksTable()
 {
@@ -401,7 +428,8 @@ bool Database::createBooksTable()
         )
     )";
 
-    if (!query.exec(createTable)) {
+    if (!query.exec(createTable))
+    {
         qDebug() << "Could not create books table:" << query.lastError().text();
         return false;
     }

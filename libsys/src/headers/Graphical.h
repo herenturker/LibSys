@@ -27,10 +27,10 @@ class Graphical
 {
     // Q_OBJECT
 
-    public:
-        explicit Graphical(QWidget *parent = nullptr);
-        bool performAction(QWidget *parent, const QString &text);
-
+public:
+    explicit Graphical(QWidget *parent = nullptr);
+    bool performAction(QWidget *parent, const QString &text);
+    bool addUserGraphical(QWidget *parent);
 };
 
 #endif // GRAPHICAL_H_

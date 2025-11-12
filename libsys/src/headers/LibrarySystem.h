@@ -19,11 +19,9 @@
 #ifndef LIBRARYSYSTEM_H_
 #define LIBRARYSYSTEM_H_
 
-class LibrarySystem 
+class LibrarySystem
 
 {
-
-
 };
 
 #endif // LIBRARYSYSTEM_H_

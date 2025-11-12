@@ -27,17 +27,12 @@
 #include <QRadioButton>
 #include <QTimer>
 
-
-
 class LoginWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-  
     explicit LoginWindow(QWidget *parent = nullptr);
-
-    
 
 signals:
     void loginSuccess(const QString &accountType);
@@ -47,7 +42,6 @@ private slots:
     void updateDateTime();
 
 private:
-
     QLineEdit *username_Edit;
     QLineEdit *password_Edit;
     QLineEdit *schoolNo_Edit;
@@ -62,8 +56,6 @@ private:
     QLabel *dateLabel;
     QLabel *dayLabel;
     QLabel *timeLabel;
-
 };
-
 
 #endif // LOGINWINDOW_H_

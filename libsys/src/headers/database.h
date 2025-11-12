@@ -23,69 +23,66 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 
-
 #include <QDebug>
 #include <QString>
 
 class Database
 {
-    public:
-        Database(const QString& dbName, const QString& connectionName);
-        ~Database();
+public:
+    Database(const QString &dbName, const QString &connectionName);
+    ~Database();
 
-        bool openDB();
-        void closeDB();
+    bool openDB();
+    void closeDB();
 
-        bool createUsersTable();
+    bool createUsersTable();
 
-        bool addUser(const QString& username, const QString& schoolNo,
-                    const QString& password, const QString& accountType);
+    bool addUser(const QString &username, const QString &schoolNo,
+                 const QString &password, const QString &accountType);
 
-        bool updateUserPassword(const QString& username, const QString& newPassword);
+    bool updateUserPassword(const QString &username, const QString &newPassword);
 
-        bool deleteUser(const QString& username);
+    bool deleteUser(const QString &username);
 
-        bool createBooksTable();
+    bool createBooksTable();
 
-        QSqlQuery selectUsers(const QString& condition = "");
+    QSqlQuery selectUsers(const QString &condition = "");
 
-        bool isUserMatchedInDataBase(const QString& username,
-                    const QString& schoolNo,
-                    const QString& password,
-                    const QString& accountType) const;
+    bool isUserMatchedInDataBase(const QString &username,
+                                 const QString &schoolNo,
+                                 const QString &password,
+                                 const QString &accountType) const;
 
-        bool addUserIfNotExists(const QString& username,
-                        const QString& schoolNo,
-                        const QString& password,
-                        const QString& accountType);
+    bool addUserIfNotExists(const QString &username,
+                            const QString &schoolNo,
+                            const QString &password,
+                            const QString &accountType);
 
-        void debugPrintAllUsers() const;
+    void debugPrintAllUsers() const;
 
-        bool deleteBook(const QString& bookTitle, const QString& author1, const QString& ISBN);
+    bool deleteBook(const QString &bookTitle, const QString &author1, const QString &ISBN);
 
-        bool addBook(const QString& bookTitle, const QString& author1, 
-            const QString& author2, const QString& author3, 
-            const QString& author4, const QString& author5, 
-            const QString& publisher, const QString& publicationYear,
-            const QString& edition, const QString& ISBN, 
-            const QString& volume, const QString& pageCount,
-            const QString& seriesInformation, const QString& language,
-            const QString& DDC, const QString& additionalInfo
-            );
+    bool addBook(const QString &bookTitle, const QString &author1,
+                 const QString &author2, const QString &author3,
+                 const QString &author4, const QString &author5,
+                 const QString &publisher, const QString &publicationYear,
+                 const QString &edition, const QString &ISBN,
+                 const QString &volume, const QString &pageCount,
+                 const QString &seriesInformation, const QString &language,
+                 const QString &DDC, const QString &additionalInfo);
 
-        bool updateBook(const QString& bookTitle, const QString& author1, 
-            const QString& author2, const QString& author3, 
-            const QString& author4, const QString& author5, 
-            const QString& publisher, const QString& publicationYear,
-            const QString& edition, const QString& ISBN, 
-            const QString& volume, const QString& pageCount,
-            const QString& seriesInformation, const QString& language,
-            const QString& DDC, const QString& additionalInfo
-        );
+    bool updateBook(const QString &bookTitle, const QString &author1,
+                    const QString &author2, const QString &author3,
+                    const QString &author4, const QString &author5,
+                    const QString &publisher, const QString &publicationYear,
+                    const QString &edition, const QString &ISBN,
+                    const QString &volume, const QString &pageCount,
+                    const QString &seriesInformation, const QString &language,
+                    const QString &DDC, const QString &additionalInfo);
 
-    private: 
-        QSqlDatabase m_db;
-        QString m_dbName;
+private:
+    QSqlDatabase m_db;
+    QString m_dbName;
 };
 
 #endif // DATABASE_H_

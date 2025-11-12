@@ -22,15 +22,12 @@
 class GeneralOperations
 
 {
-    protected:
+protected:
+    void searchBook();
 
-        void searchBook();
+    void listBooks();
 
-        void listBooks();
-        
-        void showBookInfo(); // take parameter as book, book can be a struct.
-
-        
+    void showBookInfo(); // take parameter as book, book can be a struct.
 };
 
 #endif // GENERAL_OPERATIONS_H_
