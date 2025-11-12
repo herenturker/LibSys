@@ -22,6 +22,7 @@
 #include <QDebug>
 
 #include "headers/Database.h"
+#include "headers/Utils.h"
 
 Database::Database(const QString &dbName, const QString &connectionName)
     : m_dbName(dbName)
@@ -129,6 +130,60 @@ bool Database::updateUserPassword(const QString &username, const QString &newPas
     return true;
 }
 
+bool Database::updateUserInfo(QWidget *parent, const QString &username, const QString &schoolNo,
+                              const QString &password, const QString &accountType)
+{
+    if (username.isEmpty()) {
+        showMessage(parent, "Error", "Username cannot be empty!", true);
+        return false;
+    }
+
+    QStringList updates;
+    QMap<QString, QVariant> bindings;
+
+    if (!schoolNo.isEmpty()) {
+        updates << "school_no = :school_no";
+        bindings[":school_no"] = schoolNo;
+    }
+
+    if (!password.isEmpty()) {
+        updates << "password = :password";
+        bindings[":password"] = password;
+    }
+
+    if (!accountType.isEmpty()) {
+        updates << "account_type = :account_type";
+        bindings[":account_type"] = accountType;
+    }
+
+    if (updates.isEmpty()) {
+        showMessage(parent, "Warning", "No fields to update.", true);
+        return false;
+    }
+
+    QString sql = QString("UPDATE users SET %1 WHERE username = :username")
+                      .arg(updates.join(", "));
+
+    QSqlQuery query(m_db);
+    query.prepare(sql);
+
+    for (auto it = bindings.constBegin(); it != bindings.constEnd(); ++it)
+        query.bindValue(it.key(), it.value());
+
+    query.bindValue(":username", username);
+
+    if (!query.exec()) {
+        qDebug() << "Could not update user info:" << query.lastError().text();
+        showMessage(parent, "Error", "Database update failed!", true);
+        return false;
+    }
+
+    qDebug() << "Updated user info for:" << username;
+    showMessage(parent, "Success", "User information updated successfully!", false);
+    return true;
+}
+
+
 bool Database::deleteUser(const QString &username)
 {
     QSqlQuery query(m_db);
@@ -223,7 +278,8 @@ bool Database::addUserIfNotExists(const QString &username,
     if (checkQuery.next() && checkQuery.value(0).toInt() > 0)
     {
         qDebug() << "User already exists:" << username;
-        return true; // user already exists, not an error
+        showMessage(nullptr, "Error", "User already exists.", true);
+        return false;
     }
 
     // User not found -> safely add

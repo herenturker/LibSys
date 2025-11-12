@@ -110,12 +110,12 @@ bool Graphical::addUserGraphical(QWidget *parent)
                          QString userdbPath = exePath + "/users.db";
 
                          Database db(userdbPath, "DB_USERS");
-                         if ((username->text() == "") | (schoolNo->text() == "") | (password->text() == "") | (accountType == ""))
+                         if ((username->text() == "") || (schoolNo->text() == "") || (password->text() == "") || (accountType == ""))
                          {
                              dialog.reject();
                          }
 
-                         bool isAdded = db.addUser(username->text(), schoolNo->text(), password->text(), accountType);
+                         bool isAdded = db.addUserIfNotExists(username->text(), schoolNo->text(), password->text(), accountType);
                          if (isAdded)
                              dialog.accept();
                      });
@@ -174,6 +174,83 @@ bool Graphical::deleteUserGraphical(QWidget *parent){
                              dialog.accept();
                      });
                      
+    QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
+
+    return dialog.exec() == QDialog::Accepted;
+}
+
+bool Graphical::updateUserGraphical(QWidget *parent){
+    QDialog dialog(parent);
+    dialog.setWindowTitle("Update An User's Information");
+
+    QLineEdit *username = new QLineEdit;
+
+    QLineEdit *schoolNo = new QLineEdit;
+
+    QLineEdit *password = new QLineEdit;
+
+    username->setPlaceholderText("Username");
+    schoolNo->setPlaceholderText("School Number");
+    password->setPlaceholderText("Password");
+
+    QButtonGroup *radioButton_Group = new QButtonGroup(&dialog);
+    QRadioButton *accountType_Admin_Button = new QRadioButton("Admin", &dialog);
+    QRadioButton *accountType_Student_Button = new QRadioButton("Student", &dialog);
+    accountType_Student_Button->setChecked(true);
+
+    radioButton_Group->addButton(accountType_Student_Button);
+    radioButton_Group->addButton(accountType_Admin_Button);
+
+    QFormLayout *formLayout = new QFormLayout;
+
+    formLayout->addRow("Username:", username);
+    formLayout->addRow("School Number:", schoolNo);
+    formLayout->addRow("Password:", password);
+    QHBoxLayout *radioLayout = new QHBoxLayout;
+    radioLayout->addWidget(accountType_Student_Button);
+    radioLayout->addWidget(accountType_Admin_Button);
+    formLayout->addRow("Account Type:", radioLayout);
+
+    QPushButton *updateButton = new QPushButton("Update");
+    QPushButton *cancelButton = new QPushButton("Cancel");
+
+    QHBoxLayout *buttonsLayout = new QHBoxLayout;
+
+    buttonsLayout->addWidget(updateButton);
+    buttonsLayout->addWidget(cancelButton);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(&dialog);
+    mainLayout->addLayout(formLayout);
+    mainLayout->addLayout(buttonsLayout);
+
+    dialog.setStyleSheet(
+        "QDialog { background-color: #f0f0f0; color: black;}"
+        "QLineEdit { color: black; border: 1px solid black; border-radius: 4px; padding: 3px; }"
+        "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; }"
+        "QPushButton:hover { background-color: #5f5f5f; }"
+        "QPushButton:pressed { background-color: #353535ff; }"
+        "QLabel {color: black; background-color: #f0f0f0;}"
+        "QRadioButton { padding: 2px; }"
+        "QRadioButton::indicator:checked { background-color: #8a0b0b; border-radius: 6px; }"
+
+    );
+
+    QObject::connect(updateButton, &QPushButton::clicked, [&]()
+                     {
+                         QString accountType = radioButton_Group->checkedButton()->text();
+                         QString exePath = QCoreApplication::applicationDirPath();
+                         QString userdbPath = exePath + "/users.db";
+
+                         Database db(userdbPath, "DB_USERS");
+                         if ((username->text() == "") || (schoolNo->text() == "") || (password->text() == "") || (accountType == ""))
+                         {
+                             dialog.reject();
+                         }
+
+                         bool isUpdated = db.updateUserInfo(parent, username->text(), schoolNo->text(), password->text(), accountType);
+                         if (isUpdated)
+                             dialog.accept();
+                     });
     QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
 
     return dialog.exec() == QDialog::Accepted;

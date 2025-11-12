@@ -32,6 +32,7 @@ public:
     bool performAction(QWidget *parent, const QString &text);
     bool addUserGraphical(QWidget *parent);
     bool deleteUserGraphical(QWidget *parent);
+    bool updateUserGraphical(QWidget *parent);
 };
 
 #endif // GRAPHICAL_H_

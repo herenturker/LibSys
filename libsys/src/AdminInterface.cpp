@@ -366,6 +366,17 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent),
         }
 
     });
+
+    connect(updateUserInfo_Button, &QPushButton::clicked, [=](){
+        Graphical graphicalUpdateUser(this);
+        bool success = graphicalUpdateUser.updateUserGraphical(this);
+
+        if (!success) {
+            showMessage(this, "Error", "Could not update the user info!", true);
+        } else {
+            showMessage(this, "Success", "Update the user info!", false);
+        }
+    });
 }
 
 void AdminInterface::updateDateTime()

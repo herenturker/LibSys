@@ -25,6 +25,7 @@
 
 #include <QDebug>
 #include <QString>
+#include <QWidget>
 
 class Database
 {
@@ -39,6 +40,9 @@ public:
 
     bool addUser(const QString &username, const QString &schoolNo,
                  const QString &password, const QString &accountType);
+
+    bool updateUserInfo(QWidget *parent, const QString &username, const QString &schoolNo,
+                        const QString &password, const QString &accountType);
 
     bool updateUserPassword(const QString &username, const QString &newPassword);
 
