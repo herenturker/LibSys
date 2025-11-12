@@ -33,6 +33,7 @@ class LoginWindow : public QWidget
 
 public:
     explicit LoginWindow(QWidget *parent = nullptr);
+    QString getSchoolNo() const;
 
 signals:
     void loginSuccess(const QString &accountType);
@@ -56,6 +57,7 @@ private:
     QLabel *dateLabel;
     QLabel *dayLabel;
     QLabel *timeLabel;
+    QString schoolNumber;
 };
 
 #endif // LOGINWINDOW_H_

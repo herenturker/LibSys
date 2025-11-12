@@ -20,30 +20,35 @@
 #define STUDENT_OPERATIONS_H_
 
 #include "GeneralOperations.h"
+#include "database.h"
 
 class StudentOperations
 
 {
-protected:
-    void borrowBookFromLibrary();
+    public:
+        void borrowBookFromLibrary(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
 
-    void returnBorrowedBook();
+        void returnBorrowedBook(const QString &schoolNo, const QString &bookISBN);
 
-    void recordTransactionDate();
+        void recordTransactionDate();
 
-    void requestConfirmation();
+        void requestConfirmation();
 
-    void displayBookDueDate();
+        void displayBookDueDate();
 
-    void displayBookBorrowDate();
+        void displayBookBorrowDate();
 
-    void hasBookBeenReturned();
+        void hasBookBeenReturned();
 
-    void displayBorrowedBooks();
+        void displayBorrowedBooks();
 
-    void displayUnreturnedBooks();
+        void displayUnreturnedBooks();
 
-    void displayOverdueBooks();
+        void displayOverdueBooks();
+
+    private:
+        Database* userDb;
+        Database* libraryDb;
 };
 
 #endif // STUDENT_OPERATIONS_H_

@@ -25,6 +25,7 @@
 
 BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 {
+    graphical = new Graphical(this);
     setWindowTitle("Enter Book Information");
     resize(855, 600);
 
@@ -340,4 +341,8 @@ bool BookSearchWindow::bookOperationMode()
         break;
     }
     return true;
+}
+
+BookSearchWindow::~BookSearchWindow() {
+    delete graphical;
 }

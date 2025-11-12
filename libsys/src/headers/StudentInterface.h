@@ -23,6 +23,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QTimer>
+#include <QString>
 
 #include "BookSearchWindow.h"
 #include "database.h"
@@ -33,6 +34,10 @@ class StudentInterface : public QWidget
 
 public:
     explicit StudentInterface(QWidget *parent = nullptr);
+
+    void setCurrentStudentSchoolNo(const QString &schoolNo) {
+        currentStudentSchoolNo = schoolNo;
+    }
 
 private slots:
     void updateDateTime();
@@ -57,6 +62,8 @@ private:
 
     Database* userDb;
     Database* libraryDb;
+
+    QString currentStudentSchoolNo;
 };
 
 #endif // STUDENT_INTERFACE_H_

@@ -22,6 +22,7 @@
 #include <QWidget>
 #include <QString>
 #include <QList>
+#include <QTableWidget>
 
 #include "LibrarySystem.h"
 
@@ -37,6 +38,10 @@ class Graphical
         bool deleteUserGraphical(QWidget *parent);
         bool updateUserGraphical(QWidget *parent);
         void displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results);
+        bool borrowBookGraphical(QWidget *parent);
+        QTableWidget* getBookTable();
+    private:
+        QWidget *bookWindow = nullptr;
 
 };
 

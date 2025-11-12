@@ -21,17 +21,16 @@
 #include "headers/GeneralOperations.h"
 #include "headers/database.h"
 
-QList<LibrarySystem::Book> GeneralOperations::searchBook( const QString &bookTitle, const QString &author1,
-                                    const QString &author2, const QString &author3,
-                                    const QString &author4, const QString &author5,
-                                    const QString &publisher, const QString &publicationYear,
-                                    const QString &edition, const QString &ISBN,
-                                    const QString &volume, const QString &pageCount,
-                                    const QString &seriesInformation, const QString &language,
-                                    const QString &DDC, const QString &additionalInfo
-                                )
-{
-
+QList<LibrarySystem::Book> GeneralOperations::searchBook(
+    const QString &bookTitle, const QString &author1,
+    const QString &author2, const QString &author3,
+    const QString &author4, const QString &author5,
+    const QString &publisher, const QString &publicationYear,
+    const QString &edition, const QString &ISBN,
+    const QString &volume, const QString &pageCount,
+    const QString &seriesInformation, const QString &language,
+    const QString &DDC, const QString &additionalInfo
+) {
     QList<LibrarySystem::Book> results;
 
     if (!libraryDb->openDB()) {
@@ -41,7 +40,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook( const QString &bookTit
 
     QSqlQuery query(libraryDb->getDB());
 
-    QString sql = "SELECT * FROM books WHERE 1=1";
+    QString sql = "SELECT *, is_borrowed, borrowed_by FROM books WHERE 1=1";
 
     if (!bookTitle.isEmpty()) sql += " AND title LIKE '%' || :bookTitle || '%'";
     if (!author1.isEmpty()) sql += " AND author1 LIKE '%' || :author1 || '%'";
@@ -50,15 +49,15 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook( const QString &bookTit
     if (!author4.isEmpty()) sql += " AND author4 LIKE '%' || :author4 || '%'";
     if (!author5.isEmpty()) sql += " AND author5 LIKE '%' || :author5 || '%'";
     if (!publisher.isEmpty()) sql += " AND publisher LIKE '%' || :publisher || '%'";
-    if (!publicationYear.isEmpty()) sql += " AND publicationYear = :publicationYear";
+    if (!publicationYear.isEmpty()) sql += " AND publication_year = :publicationYear";
     if (!edition.isEmpty()) sql += " AND edition LIKE '%' || :edition || '%'";
-    if (!ISBN.isEmpty()) sql += " AND ISBN = :ISBN";
+    if (!ISBN.isEmpty()) sql += " AND isbn = :ISBN";
     if (!volume.isEmpty()) sql += " AND volume LIKE '%' || :volume || '%'";
-    if (!pageCount.isEmpty()) sql += " AND pageCount = :pageCount";
-    if (!seriesInformation.isEmpty()) sql += " AND seriesInformation LIKE '%' || :seriesInformation || '%'";
+    if (!pageCount.isEmpty()) sql += " AND page_count = :pageCount";
+    if (!seriesInformation.isEmpty()) sql += " AND series_information LIKE '%' || :seriesInformation || '%'";
     if (!language.isEmpty()) sql += " AND language LIKE '%' || :language || '%'";
-    if (!DDC.isEmpty()) sql += " AND DDC LIKE '%' || :DDC || '%'";
-    if (!additionalInfo.isEmpty()) sql += " AND additionalInfo LIKE '%' || :additionalInfo || '%'";
+    if (!DDC.isEmpty()) sql += " AND ddc LIKE '%' || :DDC || '%'";
+    if (!additionalInfo.isEmpty()) sql += " AND additional_info LIKE '%' || :additionalInfo || '%'";
 
     query.prepare(sql);
 
@@ -94,22 +93,25 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook( const QString &bookTit
         book.author4 = query.value("author4").toString();
         book.author5 = query.value("author5").toString();
         book.publisher = query.value("publisher").toString();
-        book.publicationYear = query.value("publicationYear").toString();
+        book.publicationYear = query.value("publication_year").toString();
         book.edition = query.value("edition").toString();
-        book.ISBN = query.value("ISBN").toString();
+        book.ISBN = query.value("isbn").toString();
         book.volume = query.value("volume").toString();
-        book.pageCount = query.value("pageCount").toString();
-        book.seriesInformation = query.value("seriesInformation").toString();
+        book.pageCount = query.value("page_count").toString();
+        book.seriesInformation = query.value("series_information").toString();
         book.language = query.value("language").toString();
-        book.DDC = query.value("DDC").toString();
-        book.additionalInfo = query.value("additionalInfo").toString();
+        book.DDC = query.value("ddc").toString();
+        book.additionalInfo = query.value("additional_info").toString();
+
+        book.isBorrowed = query.value("is_borrowed").toInt() == 1;
+        book.borrowedBy = query.value("borrowed_by").toString();
 
         results.append(book);
     }
 
-    return results;    
-
+    return results;
 }
+
 
 bool GeneralOperations::listBooks(){
     

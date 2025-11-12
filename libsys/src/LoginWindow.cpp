@@ -227,6 +227,7 @@ void LoginWindow::handleLogin()
 
     userDb.createUsersTable();
     libraryDb.createBooksTable();
+    libraryDb.createBorrowedBooksTable();
 
     userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
     userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
@@ -247,6 +248,7 @@ void LoginWindow::handleLogin()
     if (loginSuccessFlag)
     {
         QString accountType = radioButton_Group->checkedButton()->text();
+        schoolNumber = schoolNo;
         emit loginSuccess(accountType);
         close();
     }
@@ -262,4 +264,9 @@ void LoginWindow::updateDateTime()
     dateLabel->setText("Date: " + TimeClass::showDate());
     dayLabel->setText("Day: " + TimeClass::showDay());
     timeLabel->setText("Time: " + TimeClass::showTime());
+}
+
+
+QString LoginWindow::getSchoolNo() const { 
+    return schoolNumber; 
 }

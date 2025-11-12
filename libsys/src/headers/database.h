@@ -51,6 +51,16 @@ public:
 
     bool createBooksTable();
 
+    bool createBorrowedBooksTable();
+
+    bool borrowBook(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
+
+    bool returnBook(const QString &schoolNo, const QString &bookISBN);
+
+    bool getBookBorrowInfo(const QString &bookISBN, QString &borrowedBy);
+
+    int getBorrowedBookCount(const QString &schoolNo);
+
     QSqlQuery selectUsers(const QString &condition = "");
 
     bool isUserMatchedInDataBase(const QString &username,

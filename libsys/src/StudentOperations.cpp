@@ -15,3 +15,69 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+#include <QString>
+#include <QCoreApplication>
+#include <QDir>
+
+#include "headers/StudentOperations.h"
+#include "headers/database.h"
+#include "headers/Utils.h"
+
+
+void StudentOperations::borrowBookFromLibrary(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate){
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString dbDirPath = exePath + "/databases";
+
+    QDir().mkpath(dbDirPath);
+
+    //QString userdbPath = dbDirPath + "/users.db";
+    QString librarydbPath = dbDirPath + "/library.db";
+
+    //userDb = new Database(userdbPath, "DB_USERS");
+    libraryDb = new Database(librarydbPath, "DB_LIBRARY");
+
+    bool success = libraryDb->borrowBook(schoolNo, bookISBN, borrowDate, dueDate);
+        if (!success) {
+            showMessage(nullptr, "Error", "Could not borrow the book", true);
+        } else {
+            showMessage(nullptr, "Success", "Borrowed the book!", false);
+        }
+
+}
+
+void StudentOperations::returnBorrowedBook(const QString &schoolNo, const QString &bookISBN){
+
+}
+
+void StudentOperations::recordTransactionDate(){
+
+}
+
+void StudentOperations::requestConfirmation(){
+
+}
+
+void StudentOperations::displayBookDueDate(){
+
+}
+
+void StudentOperations::displayBookBorrowDate(){
+
+}
+
+void StudentOperations::hasBookBeenReturned(){
+
+}
+
+void StudentOperations::displayBorrowedBooks(){
+
+}
+
+void StudentOperations::displayUnreturnedBooks(){
+
+}
+
+void StudentOperations::displayOverdueBooks(){
+
+}

@@ -316,25 +316,50 @@ bool Database::addBook(const QString &bookTitle, const QString &author1,
                        const QString &seriesInformation, const QString &language,
                        const QString &DDC, const QString &additionalInfo)
 {
-    if (!m_db.isOpen() && !m_db.open())
-    {
+    qDebug() << "DEBUG addBook called with parameters:";
+    qDebug() << "Title:" << bookTitle
+             << "Author1:" << author1
+             << "Author2:" << author2
+             << "Author3:" << author3
+             << "Author4:" << author4
+             << "Author5:" << author5
+             << "Publisher:" << publisher
+             << "Year:" << publicationYear
+             << "Edition:" << edition
+             << "ISBN:" << ISBN
+             << "Volume:" << volume
+             << "PageCount:" << pageCount
+             << "Series:" << seriesInformation
+             << "Language:" << language
+             << "DDC:" << DDC
+             << "AdditionalInfo:" << additionalInfo;
+
+    if (!m_db.isOpen() && !m_db.open()) {
         qDebug() << "Could not open database when adding book.";
         return false;
     }
 
     QSqlQuery query(m_db);
-    query.prepare(R"(
+
+    QString sql = R"(
         INSERT INTO books (
             title, author1, author2, author3, author4, author5,
             publisher, publication_year, edition, isbn, volume,
-            page_count, series_information, language, ddc, additional_info
+            page_count, series_information, language, ddc, additional_info,
+            is_borrowed, borrowed_by
         )
         VALUES (
             :title, :author1, :author2, :author3, :author4, :author5,
             :publisher, :publication_year, :edition, :isbn, :volume,
-            :page_count, :series_information, :language, :ddc, :additional_info
+            :page_count, :series_information, :language, :ddc, :additional_info,
+            0, ''
         )
-    )");
+    )";
+
+    if (!query.prepare(sql)) {
+        qDebug() << "Failed to prepare SQL query:" << query.lastError().text();
+        return false;
+    }
 
     query.bindValue(":title", bookTitle);
     query.bindValue(":author1", author1);
@@ -353,15 +378,20 @@ bool Database::addBook(const QString &bookTitle, const QString &author1,
     query.bindValue(":ddc", DDC);
     query.bindValue(":additional_info", additionalInfo);
 
-    if (!query.exec())
-    {
+    qDebug() << "Executing query with bound values...";
+
+    if (!query.exec()) {
         qDebug() << "Could not add book:" << query.lastError().text();
+        qDebug() << "Last query:" << query.lastQuery();
         return false;
     }
 
-    qDebug() << "Added book:" << bookTitle << "by" << author1;
+    qDebug() << "Added book successfully:" << bookTitle << "by" << author1;
     return true;
 }
+
+
+
 
 bool Database::deleteBook(const QString &bookTitle, const QString &author1, const QString &ISBN)
 {
@@ -481,7 +511,9 @@ bool Database::createBooksTable()
             series_information TEXT,
             language TEXT,
             ddc TEXT,
-            additional_info TEXT
+            additional_info TEXT,
+            is_borrowed INTEGER DEFAULT 0,
+            borrowed_by TEXT DEFAULT ''
         )
     )";
 
@@ -492,4 +524,149 @@ bool Database::createBooksTable()
     }
     qDebug() << "books table is ready.";
     return true;
+}
+
+bool Database::createBorrowedBooksTable() {
+    QSqlQuery query(m_db);
+    QString createTable = R"(
+        CREATE TABLE IF NOT EXISTS borrowed_books (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            school_no TEXT NOT NULL,
+            book_isbn TEXT NOT NULL,
+            borrow_date TEXT,
+            due_date TEXT,
+            UNIQUE(school_no, book_isbn)
+        )
+    )";
+
+    if (!query.exec(createTable)) {
+        qDebug() << "Could not create borrowed_books table:" << query.lastError().text();
+        return false;
+    }
+    qDebug() << "borrowed_books table is ready.";
+    return true;
+}
+
+bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate) {
+    if (!m_db.isOpen() && !m_db.open()) {
+        qDebug() << "Database not open for borrowing.";
+        return false;
+    }
+
+    int borrowedCount = getBorrowedBookCount(schoolNo);
+    if (borrowedCount >= 3) {
+        qDebug() << "User already has 3 borrowed books!";
+        return false;
+    }
+
+
+    QString existingBorrowedBy;
+    if (getBookBorrowInfo(bookISBN, existingBorrowedBy)) {
+        qDebug() << "Book already borrowed by:" << existingBorrowedBy;
+        return false;
+    }
+
+    QSqlQuery insertQuery(m_db);
+    insertQuery.prepare(R"(
+        INSERT INTO borrowed_books (school_no, book_isbn, borrow_date, due_date)
+        VALUES (:school_no, :book_isbn, :borrow_date, :due_date)
+    )");
+    insertQuery.bindValue(":school_no", schoolNo);
+    insertQuery.bindValue(":book_isbn", bookISBN);
+    insertQuery.bindValue(":borrow_date", borrowDate);
+    insertQuery.bindValue(":due_date", dueDate);
+
+    if (!insertQuery.exec()) {
+        qDebug() << "Could not borrow book:" << insertQuery.lastError().text();
+        return false;
+    }
+
+    QSqlQuery updateQuery(m_db);
+    updateQuery.prepare(R"(
+        UPDATE books SET is_borrowed = 1, borrowed_by = :school_no WHERE isbn = :isbn
+    )");
+    updateQuery.bindValue(":school_no", schoolNo);
+    updateQuery.bindValue(":isbn", bookISBN);
+
+    if (!updateQuery.exec()) {
+        qDebug() << "Could not update books table:" << updateQuery.lastError().text();
+        return false;
+    }
+
+    qDebug() << "Book borrowed successfully!";
+    return true;
+}
+
+
+bool Database::returnBook(const QString &schoolNo, const QString &bookISBN) {
+    if (!m_db.isOpen() && !m_db.open()) {
+        qDebug() << "Database not open for returning.";
+        return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("DELETE FROM borrowed_books WHERE school_no = :school_no AND book_isbn = :book_isbn");
+    query.bindValue(":school_no", schoolNo);
+    query.bindValue(":book_isbn", bookISBN);
+
+    if (!query.exec()) {
+        qDebug() << "Could not return book:" << query.lastError().text();
+        return false;
+    }
+
+    QSqlQuery updateQuery(m_db);
+    updateQuery.prepare(R"(
+        UPDATE books SET is_borrowed = 0, borrowed_by = '' WHERE isbn = :isbn
+    )");
+    updateQuery.bindValue(":isbn", bookISBN);
+
+    if (!updateQuery.exec()) {
+        qDebug() << "Could not update books table:" << updateQuery.lastError().text();
+        return false;
+    }
+
+    qDebug() << "Book returned successfully!";
+    return true;
+}
+
+
+
+int Database::getBorrowedBookCount(const QString &schoolNo) {
+    if (!m_db.isOpen() && !m_db.open()) return 0;
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT COUNT(*) FROM borrowed_books WHERE school_no = :school_no");
+    query.bindValue(":school_no", schoolNo);
+
+    if (!query.exec()) {
+        qDebug() << "Count borrowed books failed:" << query.lastError().text();
+        return 0;
+    }
+
+    if (query.next()) {
+        return query.value(0).toInt();
+    }
+
+    return 0;
+}
+
+bool Database::getBookBorrowInfo(const QString &bookISBN, QString &borrowedBy) {
+    if (!m_db.isOpen() && !m_db.open()) return false;
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT school_no FROM borrowed_books WHERE book_isbn = :isbn");
+    query.bindValue(":isbn", bookISBN);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to check borrowed book:" << query.lastError().text();
+        return false;
+    }
+
+    if (query.next()) {
+        borrowedBy = query.value(0).toString();
+        return true;
+    }
+
+    borrowedBy = "";
+    return false;
 }

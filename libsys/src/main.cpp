@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
                          {
                              loginWindow.close();
                              StudentInterface *studentInterface = new StudentInterface();
+                             studentInterface->setCurrentStudentSchoolNo(loginWindow.getSchoolNo());
                              studentInterface->show();
                          }
                      });

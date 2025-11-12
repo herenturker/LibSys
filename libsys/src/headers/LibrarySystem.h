@@ -42,6 +42,8 @@ class LibrarySystem
             QString language;
             QString DDC;
             QString additionalInfo;
+            bool isBorrowed = false;
+            QString borrowedBy;
         };
 
 };

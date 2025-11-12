@@ -26,12 +26,16 @@
 #include <QLineEdit>
 #include <QTextEdit>
 
+#include "Graphical.h"
+
 class BookSearchWindow : public QWidget
 {
     Q_OBJECT
 
 public:
     explicit BookSearchWindow(QWidget *parent = nullptr);
+    Graphical* graphical;
+    ~BookSearchWindow();
     enum Mode
     {
         Add,

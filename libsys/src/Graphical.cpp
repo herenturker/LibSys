@@ -29,6 +29,8 @@
 #include <QCoreApplication>
 #include <QTableWidget>
 #include <QHeaderView>
+#include <QGuiApplication>
+#include <QScreen>
 
 #include "headers/Graphical.h"
 #include "headers/Database.h"
@@ -260,12 +262,11 @@ bool Graphical::updateUserGraphical(QWidget *parent){
 }
 
 void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results) {
-    static QWidget *bookWindow = nullptr;
 
     if (!bookWindow) {
-        bookWindow = new QWidget(parent);
+        bookWindow = new QWidget(nullptr, Qt::Window);
         bookWindow->setWindowTitle("Filtered Books");
-        bookWindow->resize(1000, 600);
+        bookWindow->resize(1100, 600);
         bookWindow->setAttribute(Qt::WA_DeleteOnClose);
 
         bookWindow->setStyleSheet(R"(
@@ -280,11 +281,11 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
 
         QTableWidget *table = new QTableWidget(bookWindow);
         table->setObjectName("BookTable");
-        table->setColumnCount(16);
+        table->setColumnCount(18);
         table->setHorizontalHeaderLabels({
             "Title", "Author1", "Author2", "Author3", "Author4", "Author5",
             "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
-            "Series Info", "Language", "DDC", "Additional Info"
+            "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By"
         });
 
         table->setShowGrid(true);
@@ -318,33 +319,43 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         )");
 
         QObject::connect(closeBtn, &QPushButton::clicked, bookWindow, &QWidget::close);
-        QObject::connect(bookWindow, &QWidget::destroyed, [](){ bookWindow = nullptr; });
+        QObject::connect(bookWindow, &QWidget::destroyed, [this](){
+            this->bookWindow = nullptr;
+        });
 
-        int parentWidth = 1080;
-        int parentHeight = 720;
-        int bookWidth = bookWindow->width();
-        int bookHeight = bookWindow->height();
-        int x = (parentWidth - bookWidth) / 2;
-        int y = (parentHeight - bookHeight) / 2;
+        int x = 0, y = 0;
+        if (parent) {
+            QRect parentRect = parent->geometry();
+            x = parentRect.x() + (parentRect.width() - bookWindow->width()) / 2;
+            y = parentRect.y() + (parentRect.height() - bookWindow->height()) / 2;
+        } else {
+            QScreen *screen = QGuiApplication::primaryScreen();
+            QRect screenGeometry = screen->geometry();
+            x = (screenGeometry.width() - bookWindow->width()) / 2;
+            y = (screenGeometry.height() - bookWindow->height()) / 2;
+        }
         bookWindow->move(x, y);
     }
 
     QTableWidget *table = bookWindow->findChild<QTableWidget*>("BookTable");
     if (table) {
         table->setRowCount(results.size());
+
         for (int row = 0; row < results.size(); ++row) {
             const LibrarySystem::Book &book = results[row];
+
             QStringList cells = {
                 book.title, book.author1, book.author2, book.author3, book.author4, book.author5,
                 book.publisher, book.publicationYear, book.edition, book.ISBN, book.volume,
                 book.pageCount, book.seriesInformation, book.language, book.DDC, book.additionalInfo
             };
+
             for (int col = 0; col < cells.size(); ++col) {
-                if (!table->item(row, col))
-                    table->setItem(row, col, new QTableWidgetItem(cells[col]));
-                else
-                    table->item(row, col)->setText(cells[col]);
+                table->setItem(row, col, new QTableWidgetItem(cells[col]));
             }
+
+            table->setItem(row, 16, new QTableWidgetItem(book.isBorrowed ? "Yes" : "No"));
+            table->setItem(row, 17, new QTableWidgetItem(book.borrowedBy.isEmpty() ? "-" : book.borrowedBy));
         }
     }
 
@@ -353,3 +364,13 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
     bookWindow->activateWindow();
 }
 
+
+bool Graphical::borrowBookGraphical(QWidget *parent){
+
+}
+
+QTableWidget* Graphical::getBookTable() {
+    if (bookWindow)
+        return bookWindow->findChild<QTableWidget*>("BookTable");
+    return nullptr;
+}
