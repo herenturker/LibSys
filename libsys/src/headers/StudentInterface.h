@@ -47,7 +47,9 @@ private:
     BookSearchWindow *bookSearchWindow;
 
     QPushButton *openButton;
-    QPushButton *displayBookList;
+    QPushButton *borrowBook_Button;
+    QPushButton *returnBook_Button;
+    QPushButton *myAccount_Button;
 
     QLabel *overdueBooks;
     QLabel *unreturnedBooks;

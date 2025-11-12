@@ -147,6 +147,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
             extraAuthorsWindow->setFixedSize(250, 300);
             extraAuthorsWindow->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
             extraAuthorsWindow->setObjectName("extraAuthorsWindow");
+            extraAuthorsWindow->setAttribute(Qt::WA_DeleteOnClose);
 
             QLabel *lblA2 = new QLabel("Author 2", extraAuthorsWindow);
             lblA2->setGeometry(20, 20, 100, 20);
@@ -174,7 +175,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 
             QPushButton *closeBtn = new QPushButton("Close", extraAuthorsWindow);
             closeBtn->setGeometry(75, 260, 100, 30);
-            connect(closeBtn, &QPushButton::clicked, extraAuthorsWindow, &QWidget::hide);
+            connect(closeBtn, &QPushButton::clicked, extraAuthorsWindow, &QWidget::close);
 
             QPoint parentPos = this->pos();
             extraAuthorsWindow->move(parentPos.x() + 400, parentPos.y() + 150);
@@ -272,6 +273,9 @@ void BookSearchWindow::showEvent(QShowEvent *event)
 void BookSearchWindow::closeEvent(QCloseEvent *event)
 {
     emit windowClosed();
+        if (extraAuthorsWindow) {
+        extraAuthorsWindow->close();
+    }
     QWidget::closeEvent(event);
 }
 

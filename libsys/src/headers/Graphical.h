@@ -21,18 +21,23 @@
 
 #include <QWidget>
 #include <QString>
+#include <QList>
+
+#include "LibrarySystem.h"
 
 class Graphical
 
 {
     // Q_OBJECT
 
-public:
-    explicit Graphical(QWidget *parent = nullptr);
-    bool performAction(QWidget *parent, const QString &text);
-    bool addUserGraphical(QWidget *parent);
-    bool deleteUserGraphical(QWidget *parent);
-    bool updateUserGraphical(QWidget *parent);
+    public:
+        explicit Graphical(QWidget *parent = nullptr);
+        bool performAction(QWidget *parent, const QString &text);
+        bool addUserGraphical(QWidget *parent);
+        bool deleteUserGraphical(QWidget *parent);
+        bool updateUserGraphical(QWidget *parent);
+        void displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results);
+
 };
 
 #endif // GRAPHICAL_H_

@@ -38,6 +38,7 @@
 #include "headers/GeneralOperations.h"
 #include "headers/database.h"
 #include "headers/LibrarySystem.h"
+#include "headers/Graphical.h"
 
 StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 {
@@ -105,14 +106,22 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     searchContainer = new QWidget(this);
     searchContainer->setGeometry(75, 40, 400, 40);
 
-    displayBookList = new QPushButton("Books", this);
-    displayBookList->setToolTip("Browse all available books in the library.");
+    borrowBook_Button = new QPushButton("Borrow", this);
+    borrowBook_Button->setToolTip("Borrow a book from the library.");
+
+    returnBook_Button = new QPushButton("Return", this);
+    returnBook_Button->setToolTip("Return a book to the library.");
+
+    myAccount_Button = new QPushButton("Account", this);
+    myAccount_Button->setToolTip("Display account settings");
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
     // unsigned short buttonSquare = 170;
 
-    displayBookList->setGeometry(840, 640, buttonWidth, buttonHeight);
+    borrowBook_Button->setGeometry(540, 640, buttonWidth, buttonHeight);
+    returnBook_Button->setGeometry(680, 640, buttonWidth, buttonHeight);
+    myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
     searchLayout->setContentsMargins(0, 0, 0, 0);
@@ -159,6 +168,9 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             publisher, publicationYear, edition, ISBN,
             volume, pageCount, seriesInformation, language, DDC, additionalInfo
         );
+
+        Graphical searchResults;
+        searchResults.displayBooksWithFilters(this, results);
 
     });
 
@@ -221,7 +233,9 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
         }
     )";
 
-    displayBookList->setStyleSheet(buttonStyle);
+    borrowBook_Button->setStyleSheet(buttonStyle);
+    returnBook_Button->setStyleSheet(buttonStyle);
+    myAccount_Button->setStyleSheet(buttonStyle);
 }
 
 void StudentInterface::updateDateTime()

@@ -27,9 +27,12 @@
 #include <QButtonGroup>
 #include <QRadioButton>
 #include <QCoreApplication>
+#include <QTableWidget>
+#include <QHeaderView>
 
 #include "headers/Graphical.h"
 #include "headers/Database.h"
+#include "headers/GeneralOperations.h"
 
 Graphical::Graphical(QWidget *parent)
 {
@@ -255,3 +258,98 @@ bool Graphical::updateUserGraphical(QWidget *parent){
 
     return dialog.exec() == QDialog::Accepted;
 }
+
+void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results) {
+    static QWidget *bookWindow = nullptr;
+
+    if (!bookWindow) {
+        bookWindow = new QWidget(parent);
+        bookWindow->setWindowTitle("Filtered Books");
+        bookWindow->resize(1000, 600);
+        bookWindow->setAttribute(Qt::WA_DeleteOnClose);
+
+        bookWindow->setStyleSheet(R"(
+            QWidget {
+                border: 1px solid black;
+                border-radius: 2px;
+                background-color: #cccbcb;
+            }
+        )");
+
+        QVBoxLayout *layout = new QVBoxLayout(bookWindow);
+
+        QTableWidget *table = new QTableWidget(bookWindow);
+        table->setObjectName("BookTable");
+        table->setColumnCount(16);
+        table->setHorizontalHeaderLabels({
+            "Title", "Author1", "Author2", "Author3", "Author4", "Author5",
+            "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
+            "Series Info", "Language", "DDC", "Additional Info"
+        });
+
+        table->setShowGrid(true);
+        table->setGridStyle(Qt::DashLine);
+        table->horizontalHeader()->setStretchLastSection(true);
+        table->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        table->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+        table->setStyleSheet(R"(
+            QTableWidget { font-size: 16px; gridline-color: #888888; }
+            QTableWidget::item { color: black; }
+            QHeaderView::section { background-color: #f0f0f0; color: black; border: 1px solid #a0a0a0; }
+        )");
+
+        layout->addWidget(table);
+
+        QPushButton *closeBtn = new QPushButton("Close", bookWindow);
+        closeBtn->setFixedSize(80, 25);
+        layout->addWidget(closeBtn, 0, Qt::AlignRight);
+        closeBtn->setStyleSheet(R"(
+            QPushButton {
+                color: black;
+                background-color: #e9e8e8;
+                border: 1px solid #a0a0a0;
+                border-radius: 4px;
+                font-size: 12px;
+                padding: 2px 5px;
+            }
+            QPushButton:hover { background-color: #d0d0d0; border: 1px solid #888888; }
+            QPushButton:pressed { background-color: #a8a8a8; border: 1px solid #555555; }
+        )");
+
+        QObject::connect(closeBtn, &QPushButton::clicked, bookWindow, &QWidget::close);
+        QObject::connect(bookWindow, &QWidget::destroyed, [](){ bookWindow = nullptr; });
+
+        int parentWidth = 1080;
+        int parentHeight = 720;
+        int bookWidth = bookWindow->width();
+        int bookHeight = bookWindow->height();
+        int x = (parentWidth - bookWidth) / 2;
+        int y = (parentHeight - bookHeight) / 2;
+        bookWindow->move(x, y);
+    }
+
+    QTableWidget *table = bookWindow->findChild<QTableWidget*>("BookTable");
+    if (table) {
+        table->setRowCount(results.size());
+        for (int row = 0; row < results.size(); ++row) {
+            const LibrarySystem::Book &book = results[row];
+            QStringList cells = {
+                book.title, book.author1, book.author2, book.author3, book.author4, book.author5,
+                book.publisher, book.publicationYear, book.edition, book.ISBN, book.volume,
+                book.pageCount, book.seriesInformation, book.language, book.DDC, book.additionalInfo
+            };
+            for (int col = 0; col < cells.size(); ++col) {
+                if (!table->item(row, col))
+                    table->setItem(row, col, new QTableWidgetItem(cells[col]));
+                else
+                    table->item(row, col)->setText(cells[col]);
+            }
+        }
+    }
+
+    bookWindow->show();
+    bookWindow->raise();
+    bookWindow->activateWindow();
+}
+
