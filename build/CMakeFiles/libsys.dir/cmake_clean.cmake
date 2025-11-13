@@ -12,8 +12,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj"
   "CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj.d"
-  "CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj"
-  "CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj"
   "CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj"

@@ -40,4 +40,8 @@ void writeEncryptedLog(const std::string &message, char key = 'K');
 
 std::vector<QString> readEncryptedLog(char key);
 
+QString convertToAes(const QString &password);
+
+QString convertFromAes(const QString &aesText);
+
 #endif // UTILS_H_

@@ -17,6 +17,8 @@
 */
 
 #include <QMessageBox>
+#include <QByteArray>
+#include "headers/AES.h"
 
 #include "headers/Utils.h"
 
@@ -134,3 +136,51 @@ std::vector<QString> readEncryptedLog(char key) {
     return logEntries;
 }
 
+
+static const QByteArray AES_KEY = QByteArray::fromHex("9f1a3b7c5d8e2f0412ab6c9d0e3f4a1b");
+
+static const QByteArray AES_IV  = QByteArray::fromHex("1c2d3e4f5a6b7c8091a2b3c4d5e6f708");
+
+
+QString convertToAes(const QString &password) {
+    AES aes(AESKeyLength::AES_128);
+
+    // QString -> std::vector<unsigned char>
+    QByteArray passBytes = password.toUtf8();
+
+    // AES CBC için input 16 byte katı olmalı → basit padding
+    int padLen = 16 - (passBytes.size() % 16);
+    QByteArray padded = passBytes;
+    padded.append(QByteArray(padLen, char(padLen))); // PKCS7 benzeri padding
+
+    std::vector<unsigned char> input(padded.begin(), padded.end());
+    std::vector<unsigned char> key(AES_KEY.begin(), AES_KEY.end());
+    std::vector<unsigned char> iv(AES_IV.begin(), AES_IV.end());
+
+    std::vector<unsigned char> encrypted = aes.EncryptCBC(input, key, iv);
+
+    QByteArray encryptedBA(reinterpret_cast<const char*>(encrypted.data()), encrypted.size());
+    return QString(encryptedBA.toBase64());
+}
+
+QString convertFromAes(const QString &aesText) {
+    AES aes(AESKeyLength::AES_128);
+
+    QByteArray encryptedBA = QByteArray::fromBase64(aesText.toUtf8());
+
+    std::vector<unsigned char> input(encryptedBA.begin(), encryptedBA.end());
+    std::vector<unsigned char> key(AES_KEY.begin(), AES_KEY.end());
+    std::vector<unsigned char> iv(AES_IV.begin(), AES_IV.end());
+
+    std::vector<unsigned char> decrypted = aes.DecryptCBC(input, key, iv);
+
+    QByteArray decryptedBA(reinterpret_cast<const char*>(decrypted.data()), decrypted.size());
+
+    // PKCS7 padding temizleme
+    int padLen = decryptedBA.back();
+    if(padLen > 0 && padLen <= 16) {
+        decryptedBA.chop(padLen);
+    }
+
+    return QString::fromUtf8(decryptedBA);
+}

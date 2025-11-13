@@ -181,26 +181,11 @@ CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.s"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:/Users/habil/Desktop/libsys/libsys/src/Graphical.cpp -o CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.s
 
-CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj: CMakeFiles/libsys.dir/flags.make
-CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj: CMakeFiles/libsys.dir/includes_CXX.rsp
-CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj: C:/Users/habil/Desktop/libsys/libsys/src/LibrarySystem.cpp
-CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj: CMakeFiles/libsys.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj"
-	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj -MF CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj.d -o CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/LibrarySystem.cpp
-
-CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.i"
-	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:/Users/habil/Desktop/libsys/libsys/src/LibrarySystem.cpp > CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.i
-
-CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.s"
-	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:/Users/habil/Desktop/libsys/libsys/src/LibrarySystem.cpp -o CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.s
-
 CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj: CMakeFiles/libsys.dir/flags.make
 CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj: CMakeFiles/libsys.dir/includes_CXX.rsp
 CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj: C:/Users/habil/Desktop/libsys/libsys/src/LoginWindow.cpp
 CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj: CMakeFiles/libsys.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj -MF CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj.d -o CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/LoginWindow.cpp
 
 CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.i: cmake_force
@@ -215,7 +200,7 @@ CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj: CMakeFiles/libsys.dir
 CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj: CMakeFiles/libsys.dir/includes_CXX.rsp
 CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj: C:/Users/habil/Desktop/libsys/libsys/src/StudentInterface.cpp
 CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj: CMakeFiles/libsys.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj -MF CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj.d -o CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/StudentInterface.cpp
 
 CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.i: cmake_force
@@ -230,7 +215,7 @@ CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj: CMakeFiles/libsys.di
 CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj: CMakeFiles/libsys.dir/includes_CXX.rsp
 CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj: C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp
 CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj: CMakeFiles/libsys.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj -MF CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj.d -o CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/StudentOperations.cpp
 
 CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.i: cmake_force
@@ -245,7 +230,7 @@ CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj: CMakeFiles/libsys.dir/flags.make
 CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj: CMakeFiles/libsys.dir/includes_CXX.rsp
 CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj: C:/Users/habil/Desktop/libsys/libsys/src/Utils.cpp
 CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj: CMakeFiles/libsys.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj -MF CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj.d -o CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/Utils.cpp
 
 CMakeFiles/libsys.dir/libsys/src/Utils.cpp.i: cmake_force
@@ -260,7 +245,7 @@ CMakeFiles/libsys.dir/libsys/src/database.cpp.obj: CMakeFiles/libsys.dir/flags.m
 CMakeFiles/libsys.dir/libsys/src/database.cpp.obj: CMakeFiles/libsys.dir/includes_CXX.rsp
 CMakeFiles/libsys.dir/libsys/src/database.cpp.obj: C:/Users/habil/Desktop/libsys/libsys/src/database.cpp
 CMakeFiles/libsys.dir/libsys/src/database.cpp.obj: CMakeFiles/libsys.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/libsys.dir/libsys/src/database.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/libsys.dir/libsys/src/database.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/libsys.dir/libsys/src/database.cpp.obj -MF CMakeFiles/libsys.dir/libsys/src/database.cpp.obj.d -o CMakeFiles/libsys.dir/libsys/src/database.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/database.cpp
 
 CMakeFiles/libsys.dir/libsys/src/database.cpp.i: cmake_force
@@ -275,7 +260,7 @@ CMakeFiles/libsys.dir/libsys/src/main.cpp.obj: CMakeFiles/libsys.dir/flags.make
 CMakeFiles/libsys.dir/libsys/src/main.cpp.obj: CMakeFiles/libsys.dir/includes_CXX.rsp
 CMakeFiles/libsys.dir/libsys/src/main.cpp.obj: C:/Users/habil/Desktop/libsys/libsys/src/main.cpp
 CMakeFiles/libsys.dir/libsys/src/main.cpp.obj: CMakeFiles/libsys.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/libsys.dir/libsys/src/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/libsys.dir/libsys/src/main.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/libsys.dir/libsys/src/main.cpp.obj -MF CMakeFiles/libsys.dir/libsys/src/main.cpp.obj.d -o CMakeFiles/libsys.dir/libsys/src/main.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/main.cpp
 
 CMakeFiles/libsys.dir/libsys/src/main.cpp.i: cmake_force
@@ -290,7 +275,7 @@ CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj: CMakeFile
 CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj: CMakeFiles/libsys.dir/includes_CXX.rsp
 CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj: libsys_autogen/2SEMU33LXP/qrc_resources.cpp
 CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj: CMakeFiles/libsys.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj -MF CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj.d -o CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.obj -c C:/Users/habil/Desktop/libsys/build/libsys_autogen/2SEMU33LXP/qrc_resources.cpp
 
 CMakeFiles/libsys.dir/libsys_autogen/2SEMU33LXP/qrc_resources.cpp.i: cmake_force
@@ -309,7 +294,6 @@ libsys_OBJECTS = \
 "CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.obj" \
 "CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj" \
 "CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj" \
-"CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj" \
 "CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj" \
 "CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj" \
 "CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj" \
@@ -327,7 +311,6 @@ libsys.exe: CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj
 libsys.exe: CMakeFiles/libsys.dir/libsys/src/BookSearchWindow.cpp.obj
 libsys.exe: CMakeFiles/libsys.dir/libsys/src/GeneralOperations.cpp.obj
 libsys.exe: CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.obj
-libsys.exe: CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj
 libsys.exe: CMakeFiles/libsys.dir/libsys/src/LoginWindow.cpp.obj
 libsys.exe: CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj
 libsys.exe: CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj
@@ -342,7 +325,7 @@ libsys.exe: C:/Qt/6.9.2/mingw_64/lib/libQt6Gui.a
 libsys.exe: C:/Qt/6.9.2/mingw_64/lib/libQt6Core.a
 libsys.exe: CMakeFiles/libsys.dir/linkLibs.rsp
 libsys.exe: CMakeFiles/libsys.dir/objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable libsys.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:/Users/habil/Desktop/libsys/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable libsys.exe"
 	"C:/Program Files/CMake/bin/cmake.exe" -E rm -f CMakeFiles/libsys.dir/objects.a
 	C:/msys64/mingw64/bin/ar.exe qc CMakeFiles/libsys.dir/objects.a @CMakeFiles/libsys.dir/objects1.rsp
 	C:/msys64/mingw64/bin/g++.exe -g -Wl,--whole-archive CMakeFiles/libsys.dir/objects.a -Wl,--no-whole-archive -o libsys.exe -Wl,--out-implib,liblibsys.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles/libsys.dir/linkLibs.rsp

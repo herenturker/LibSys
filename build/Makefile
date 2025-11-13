@@ -275,30 +275,6 @@ libsys/src/Graphical.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/Graphical.cpp.s
 .PHONY : libsys/src/Graphical.cpp.s
 
-libsys/src/LibrarySystem.obj: libsys/src/LibrarySystem.cpp.obj
-.PHONY : libsys/src/LibrarySystem.obj
-
-# target to build an object file
-libsys/src/LibrarySystem.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.obj
-.PHONY : libsys/src/LibrarySystem.cpp.obj
-
-libsys/src/LibrarySystem.i: libsys/src/LibrarySystem.cpp.i
-.PHONY : libsys/src/LibrarySystem.i
-
-# target to preprocess a source file
-libsys/src/LibrarySystem.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.i
-.PHONY : libsys/src/LibrarySystem.cpp.i
-
-libsys/src/LibrarySystem.s: libsys/src/LibrarySystem.cpp.s
-.PHONY : libsys/src/LibrarySystem.s
-
-# target to generate assembly for a file
-libsys/src/LibrarySystem.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/libsys.dir/build.make CMakeFiles/libsys.dir/libsys/src/LibrarySystem.cpp.s
-.PHONY : libsys/src/LibrarySystem.cpp.s
-
 libsys/src/LoginWindow.obj: libsys/src/LoginWindow.cpp.obj
 .PHONY : libsys/src/LoginWindow.obj
 
@@ -517,9 +493,6 @@ help:
 	@echo "... libsys/src/Graphical.obj"
 	@echo "... libsys/src/Graphical.i"
 	@echo "... libsys/src/Graphical.s"
-	@echo "... libsys/src/LibrarySystem.obj"
-	@echo "... libsys/src/LibrarySystem.i"
-	@echo "... libsys/src/LibrarySystem.s"
 	@echo "... libsys/src/LoginWindow.obj"
 	@echo "... libsys/src/LoginWindow.i"
 	@echo "... libsys/src/LoginWindow.s"
