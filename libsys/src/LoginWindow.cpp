@@ -233,21 +233,22 @@ void LoginWindow::handleLogin()
     userDb.createUsersTable();
     libraryDb.createBooksTable();
     libraryDb.createBorrowedBooksTable();
-
+    //qDebug() << "password:" << password;
     // userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
     bool success = userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
     
+    QString passwordAES = convertToAes(password);
 
     bool loginSuccessFlag = userDb.isUserMatchedInDataBase(
         username,
         schoolNo,
-        password,
+        passwordAES,
         radioButton_Group->checkedButton()->text());
 
     // qDebug() << "DEBUG — Login check:";
     // qDebug() << "username:" << username;
     // qDebug() << "schoolNo:" << schoolNo;
-    // qDebug() << "password:" << password;
+    //qDebug() << "passwordAES:" << passwordAES;
     // qDebug() << "accountType:" << radioButton_Group->checkedButton()->text();
     // userDb.debugPrintAllUsers();
 

@@ -29,7 +29,6 @@
 #include <QHeaderView>
 
 #include "headers/AdminInterface.h"
-#include "headers/AdminOperations.h"
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
 #include "headers/BookSearchWindow.h"
@@ -398,7 +397,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         } else {
             std::string logString = "UPDATED USER INFO";
             writeEncryptedLog(logString);
-            showMessage(this, "Success", "Update the user info!", false);
+            showMessage(this, "Success", "Updated the user info!", false);
         }
     });
 
@@ -497,7 +496,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
             QTableWidgetItem *usernameItem = new QTableWidgetItem(query.value("username").toString());
             QTableWidgetItem *schoolNoItem = new QTableWidgetItem(query.value("school_no").toString());
-            QTableWidgetItem *passwordItem = new QTableWidgetItem(query.value("password").toString()); // şifre açık
+            QTableWidgetItem *passwordItem = new QTableWidgetItem(convertFromAes(query.value("password").toString())); 
             QTableWidgetItem *accountTypeItem = new QTableWidgetItem(query.value("account_type").toString());
 
             usernameItem->setForeground(QBrush(Qt::black));

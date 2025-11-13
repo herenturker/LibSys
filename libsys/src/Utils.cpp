@@ -145,13 +145,12 @@ static const QByteArray AES_IV  = QByteArray::fromHex("1c2d3e4f5a6b7c8091a2b3c4d
 QString convertToAes(const QString &password) {
     AES aes(AESKeyLength::AES_128);
 
-    // QString -> std::vector<unsigned char>
+
     QByteArray passBytes = password.toUtf8();
 
-    // AES CBC için input 16 byte katı olmalı → basit padding
     int padLen = 16 - (passBytes.size() % 16);
     QByteArray padded = passBytes;
-    padded.append(QByteArray(padLen, char(padLen))); // PKCS7 benzeri padding
+    padded.append(QByteArray(padLen, char(padLen)));
 
     std::vector<unsigned char> input(padded.begin(), padded.end());
     std::vector<unsigned char> key(AES_KEY.begin(), AES_KEY.end());
@@ -176,7 +175,7 @@ QString convertFromAes(const QString &aesText) {
 
     QByteArray decryptedBA(reinterpret_cast<const char*>(decrypted.data()), decrypted.size());
 
-    // PKCS7 padding temizleme
+ 
     int padLen = decryptedBA.back();
     if(padLen > 0 && padLen <= 16) {
         decryptedBA.chop(padLen);

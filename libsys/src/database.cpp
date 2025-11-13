@@ -100,6 +100,8 @@ bool Database::addUser(const QString &username, const QString &schoolNo,
         return false;
     }
 
+    // QString passwordAES = convertToAes(password);
+
     query.bindValue(":username", username);
     query.bindValue(":school_no", schoolNo);
     query.bindValue(":password", password);
@@ -118,7 +120,10 @@ bool Database::updateUserPassword(const QString &username, const QString &newPas
 {
     QSqlQuery query(m_db);
     query.prepare("UPDATE users SET password = :password WHERE username = :username");
-    query.bindValue(":password", newPassword);
+
+    QString passwordAES = convertToAes(newPassword);
+
+    query.bindValue(":password", passwordAES);
     query.bindValue(":username", username);
 
     if (!query.exec())
@@ -145,10 +150,11 @@ bool Database::updateUserInfo(QWidget *parent, const QString &username, const QS
         updates << "school_no = :school_no";
         bindings[":school_no"] = schoolNo;
     }
+    QString passwordAES = convertToAes(password);
 
     if (!password.isEmpty()) {
         updates << "password = :password";
-        bindings[":password"] = password;
+        bindings[":password"] = passwordAES;
     }
 
     if (!accountType.isEmpty()) {
@@ -237,6 +243,8 @@ bool Database::isUserMatchedInDataBase(const QString &username,
           AND account_type = :account_type
     )");
 
+    //QString passwordAES = convertToAes(password);
+
     query.bindValue(":username", username);
     query.bindValue(":school_no", schoolNo);
     query.bindValue(":password", password);
@@ -284,7 +292,9 @@ bool Database::addUserIfNotExists(const QString &username,
     }
 
     // User not found -> safely add
-    return addUser(username, schoolNo, password, accountType);
+    QString passwordAES = convertToAes(password);
+
+    return addUser(username, schoolNo, passwordAES, accountType);
 }
 
 void Database::debugPrintAllUsers() const
