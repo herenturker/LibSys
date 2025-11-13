@@ -19,7 +19,11 @@
 #ifndef LIBRARYSYSTEM_H_
 #define LIBRARYSYSTEM_H_
 
+#include <string>
+#include <vector>
+
 #include <QString>
+
 
 class LibrarySystem
 
@@ -28,10 +32,6 @@ class LibrarySystem
         struct Book {
             QString title;
             QString author1;
-            QString author2;
-            QString author3;
-            QString author4;
-            QString author5;
             QString publisher;
             QString publicationYear;
             QString edition;
@@ -45,6 +45,7 @@ class LibrarySystem
             bool isBorrowed = false;
             QString borrowedBy;
         };
+
 
 };
 

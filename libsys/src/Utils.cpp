@@ -24,6 +24,7 @@ void showMessage(QWidget *parent, const QString &title, const QString &text, boo
     QMessageBox msgBox(parent);
     msgBox.setWindowTitle(title);
     msgBox.setText(text);
+    msgBox.setWindowModality(Qt::ApplicationModal);
 
     QString backgroundColor = "#dadada";
     QString labelColor = isError ? "red" : "black";
@@ -38,5 +39,67 @@ void showMessage(QWidget *parent, const QString &title, const QString &text, boo
         ).arg(backgroundColor, labelColor)
     );
 
+    msgBox.raise();
+    msgBox.activateWindow();
     msgBox.exec();
+}
+
+std::string xorEncryptDecrypt(const std::string &input, char key) {
+    std::string output = input;
+    for (size_t i = 0; i < input.size(); ++i) {
+        output[i] = input[i] ^ key;
+    }
+    return output;
+}
+
+void writeEncryptedLog(const std::string &message, char key) {
+    std::filesystem::path exePath = std::filesystem::current_path();
+    std::filesystem::path logPath = exePath / "log.log";
+
+    std::ofstream logFile(logPath, std::ios::app | std::ios::binary);
+    if (!logFile.is_open()) {
+        std::cerr << "Cannot open or create log file: " << logPath << std::endl;
+        return;
+    }
+
+    std::time_t now = std::time(nullptr);
+    char buf[20];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+
+    std::string logLine = "[" + std::string(buf) + "] " + message + "\n";
+
+    std::string encrypted = xorEncryptDecrypt(logLine, key);
+
+    logFile.write(encrypted.c_str(), encrypted.size());
+    logFile.close();
+}
+
+std::vector<QString> readEncryptedLog(char key) {
+    std::vector<QString> lines;
+    std::ifstream logFile("log.log", std::ios::binary);
+    if (!logFile.is_open()) {
+        std::cerr << "Cannot open log file for reading!" << std::endl;
+        return lines;
+    }
+
+    std::string encryptedLine;
+    std::string decryptedLine;
+    char ch;
+
+    while (logFile.get(ch)) {
+        encryptedLine += ch;
+        if (ch == '\n') {
+            decryptedLine = xorEncryptDecrypt(encryptedLine, key);
+            lines.push_back(QString::fromStdString(decryptedLine));
+            encryptedLine.clear();
+        }
+    }
+
+    if (!encryptedLine.empty()) {
+        decryptedLine = xorEncryptDecrypt(encryptedLine, key);
+        lines.push_back(QString::fromStdString(decryptedLine));
+    }
+
+    logFile.close();
+    return lines;
 }

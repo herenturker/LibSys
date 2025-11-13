@@ -76,7 +76,11 @@
         "qcoreapplication": "cpp",
         "qvboxlayout": "cpp",
         "qstyle": "cpp",
-        "qcloseevent": "cpp"
+        "qcloseevent": "cpp",
+        "qsqlquery": "cpp",
+        "qsqlrecord": "cpp",
+        "fstream": "cpp",
+        "iostream": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

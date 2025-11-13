@@ -131,14 +131,18 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     additionalInfo->setGeometry(50, 420, 650, 100);
     additionalInfo->setPlaceholderText("Enter additional info if any");
 
-    // these things cause segfaults. so i initialized them without parents
+    /*
+
+    // ATTENTION: The following author fields are created but not added to the main window directly.
+    // Because they create SEGFAULT which I, Habil Eren, couldn't figure out why.
 
     author2 = new QLineEdit(); 
     author3 = new QLineEdit();
     author4 = new QLineEdit();
     author5 = new QLineEdit();
+    */
 
-
+    /*
     connect(addAuthors, &QPushButton::clicked, this, [=]()
             {
 
@@ -185,6 +189,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
         extraAuthorsWindow->show();
         extraAuthorsWindow->raise();
         extraAuthorsWindow->activateWindow(); });
+    */
 
     QPushButton *confirmBtn = new QPushButton("Confirm", this);
     confirmBtn->setGeometry(320, 530, 100, 30);
@@ -282,66 +287,43 @@ void BookSearchWindow::closeEvent(QCloseEvent *event)
 
 bool BookSearchWindow::bookOperationMode()
 {
-    if (bookTitle->text().isEmpty() || author1->text().isEmpty() || ISBN->text().isEmpty())
-    {
-        showMessage(this, "Missing Info", "Please fill in Book Title, Author 1 and ISBN!", true);
-             // kullanıcı bilmediği şeylere ? yazabilmeli
-        return false;
-    }
+    QString title = bookTitle->text();
+    QString author = author1->text();
+    QString publisherText = publisher->text();
+    QString pubYear = publicationYear->text();
+    QString editionText = edition->text();
+    QString ISBNText = ISBN->text();
+    QString volumeText = volume->text();
+    QString pageCountText = pageCount->text();
+    QString seriesText = seriesInformation->text();
+    QString languageText = language->text();
+    QString DDCText = DDC->text();
+    QString additionalInfoText = additionalInfo->toPlainText();
 
     switch (currentMode)
     {
-    case Add:
-        emit bookAddDataReady(
-            bookTitle->text(),
-            author1->text(),
-            author2 ? author2->text() : "",
-            author3 ? author3->text() : "",
-            author4 ? author4->text() : "",
-            author5 ? author5->text() : "",
-            publisher->text(),
-            publicationYear->text(),
-            edition->text(),
-            ISBN->text(),
-            volume->text(),
-            pageCount->text(),
-            seriesInformation->text(),
-            language->text(),
-            DDC->text(),
-            additionalInfo->toPlainText());
-        break;
+        case Add:
+            emit bookAddDataReady(
+                title, author, publisherText, pubYear, editionText,
+                ISBNText, volumeText, pageCountText,
+                seriesText, languageText, DDCText, additionalInfoText);
+            break;
 
-    case Delete:
+        case Delete:
+            emit bookDeleteDataReady(title, author, ISBNText);
+            break;
 
-        emit bookDeleteDataReady(
-            bookTitle->text(),
-            author1->text(),
-            ISBN->text());
-        break;
-
-    case Update:
-
-        emit bookUpdateDataReady(
-            bookTitle->text(),
-            author1->text(),
-            author2 ? author2->text() : "",
-            author3 ? author3->text() : "",
-            author4 ? author4->text() : "",
-            author5 ? author5->text() : "",
-            publisher->text(),
-            publicationYear->text(),
-            edition->text(),
-            ISBN->text(),
-            volume->text(),
-            pageCount->text(),
-            seriesInformation->text(),
-            language->text(),
-            DDC->text(),
-            additionalInfo->toPlainText());
-        break;
+        case Update:
+            emit bookUpdateDataReady(
+                title, author, publisherText, pubYear, editionText,
+                ISBNText, volumeText, pageCountText,
+                seriesText, languageText, DDCText, additionalInfoText);
+            break;
     }
+
     return true;
 }
+
 
 BookSearchWindow::~BookSearchWindow() {
     delete graphical;

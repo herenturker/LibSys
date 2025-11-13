@@ -53,10 +53,6 @@ signals:
     void bookAddDataReady(
         const QString &bookTitle,
         const QString &author1,
-        const QString &author2,
-        const QString &author3,
-        const QString &author4,
-        const QString &author5,
         const QString &publisher,
         const QString &publicationYear,
         const QString &edition,
@@ -73,9 +69,7 @@ signals:
                              const QString &ISBN);
 
     void bookUpdateDataReady(const QString &bookTitle,
-                             const QString &author1, const QString &author2,
-                             const QString &author3, const QString &author4,
-                             const QString &author5, const QString &publisher,
+                             const QString &author1, const QString &publisher,
                              const QString &publicationYear, const QString &edition,
                              const QString &ISBN, const QString &volume,
                              const QString &pageCount, const QString &seriesInformation,
@@ -89,10 +83,6 @@ protected:
 public:
     QLineEdit *bookTitle = nullptr;
     QLineEdit *author1 = nullptr;
-    QLineEdit *author2 = nullptr;
-    QLineEdit *author3 = nullptr;
-    QLineEdit *author4 = nullptr;
-    QLineEdit *author5 = nullptr;
     QLineEdit *publisher = nullptr;
     QLineEdit *publicationYear = nullptr;
     QLineEdit *edition = nullptr;

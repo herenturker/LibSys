@@ -19,11 +19,25 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include <ctime>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <filesystem>
+#include <vector>
+
 #include <QWidget>
 #include <QString>
+
 
 #define DBG_PTR(ptr) qDebug() << #ptr ":" << ((ptr) ? "OK" : "nullptr")
 
 void showMessage(QWidget *parent, const QString &title, const QString &text, bool isError = true);
+
+std::string xorEncryptDecrypt(const std::string &input, char key);
+
+void writeEncryptedLog(const std::string &message, char key = 'K');
+
+std::vector<QString> readEncryptedLog(char key);
 
 #endif // UTILS_H_

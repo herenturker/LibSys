@@ -25,6 +25,7 @@
 #include <QTableWidget>
 
 #include "LibrarySystem.h"
+#include "database.h"
 
 class Graphical
 
@@ -36,14 +37,16 @@ class Graphical
         bool performAction(QWidget *parent, const QString &text);
         bool addUserGraphical(QWidget *parent);
         bool deleteUserGraphical(QWidget *parent);
+        bool reportLostBookGraphical(QWidget *parent);
         bool updateUserGraphical(QWidget *parent);
         void displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results);
-        bool borrowBookGraphical(QWidget *parent);
         QTableWidget* getBookTable();
         QWidget* getBookWindow() const { return bookWindow; }
     private:
         QWidget *bookWindow = nullptr;
         QTableWidget *bookTable = nullptr;
+        Database *libraryDb;
+
 
 };
 

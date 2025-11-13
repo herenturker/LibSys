@@ -31,10 +31,14 @@
 #include <QHeaderView>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QDir>
+#include <QInputDialog>
+#include <QtSql/QSqlError>
 
 #include "headers/Graphical.h"
 #include "headers/Database.h"
 #include "headers/GeneralOperations.h"
+#include "headers/Utils.h"
 
 Graphical::Graphical(QWidget *parent)
 {
@@ -283,9 +287,9 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         bookTable->setObjectName("BookTable");
 
         bookTable->setObjectName("BookTable");
-        bookTable->setColumnCount(18);
+        bookTable->setColumnCount(14);
         bookTable->setHorizontalHeaderLabels({
-            "Title", "Author1", "Author2", "Author3", "Author4", "Author5",
+            "Title", "Author1",
             "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
             "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By"
         });
@@ -347,7 +351,7 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
             const LibrarySystem::Book &book = results[row];
 
             QStringList cells = {
-                book.title, book.author1, book.author2, book.author3, book.author4, book.author5,
+                book.title, book.author1,
                 book.publisher, book.publicationYear, book.edition, book.ISBN, book.volume,
                 book.pageCount, book.seriesInformation, book.language, book.DDC, book.additionalInfo
             };
@@ -356,8 +360,8 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
                 table->setItem(row, col, new QTableWidgetItem(cells[col]));
             }
 
-            table->setItem(row, 16, new QTableWidgetItem(book.isBorrowed ? "Yes" : "No"));
-            table->setItem(row, 17, new QTableWidgetItem(book.borrowedBy.isEmpty() ? "-" : book.borrowedBy));
+            table->setItem(row, 12, new QTableWidgetItem(book.isBorrowed ? "Yes" : "No"));
+            table->setItem(row, 13, new QTableWidgetItem(book.borrowedBy.isEmpty() ? "-" : book.borrowedBy));
         }
     }
 
@@ -367,10 +371,75 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
 }
 
 
-bool Graphical::borrowBookGraphical(QWidget *parent){
 
-}
 
 QTableWidget* Graphical::getBookTable() {
     return bookTable;
+}
+
+bool Graphical::reportLostBookGraphical(QWidget *parent) {
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString dbDirPath = exePath + "/databases";
+
+    QDir().mkpath(dbDirPath);
+
+    QString librarydbPath = dbDirPath + "/library.db";
+    libraryDb = new Database(librarydbPath, "DB_LIBRARY");
+
+    QInputDialog inputDialog(parent);
+    inputDialog.setWindowTitle("Report Lost Book");
+    inputDialog.setLabelText("Enter ISBN of the lost book:");
+    inputDialog.setTextValue("");
+    inputDialog.setInputMode(QInputDialog::TextInput);
+    inputDialog.setModal(true);
+
+    inputDialog.setStyleSheet(R"(
+        QDialog { background-color: #dadada; }
+        QLabel { color: black; font-weight: bold; }
+        QLineEdit { color: black; background-color: #ffffff; }
+        QPushButton { color: black; background-color: #c0c0c0; border-radius: 4px; padding: 5px; }
+        QPushButton:hover { background-color: #a0a0a0; }
+        QPushButton:pressed { background-color: #808080; }
+    )");
+
+    bool ok = false;
+    QString ISBN;
+    if (inputDialog.exec() == QDialog::Accepted) {
+        ISBN = inputDialog.textValue().trimmed();
+        if (ISBN.isEmpty()) {
+            showMessage(parent, "Input Error", "ISBN cannot be empty.", true);
+            return false;
+        }
+        ok = true;
+    }
+
+    if (!ok) {
+        return false;
+    }
+
+    QSqlQuery checkQuery(libraryDb->getDB());
+    checkQuery.prepare("SELECT COUNT(*) FROM books WHERE isbn = :isbn");
+    checkQuery.bindValue(":isbn", ISBN);
+
+    if (!checkQuery.exec() || !checkQuery.next()) {
+        showMessage(parent, "Database Error", "Failed to query the database.", true);
+        return false;
+    }
+
+    if (checkQuery.value(0).toInt() == 0) {
+        showMessage(parent, "Book Not Found", "No book found with ISBN: " + ISBN, true);
+        return false;
+    }
+
+    QSqlQuery updateQuery(libraryDb->getDB());
+    updateQuery.prepare("UPDATE books SET additional_info = 'LOST' WHERE isbn = :isbn");
+    updateQuery.bindValue(":isbn", ISBN);
+
+    if (!updateQuery.exec()) {
+        showMessage(parent, "Update Error", "Could not mark book as lost: " + updateQuery.lastError().text(), true);
+        return false;
+    }
+
+    showMessage(parent, "Success", "Book with ISBN " + ISBN + " marked as LOST.", false);
+    return true;
 }

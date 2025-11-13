@@ -32,8 +32,6 @@ class GeneralOperations
         explicit GeneralOperations(Database *db) : libraryDb(db) {}
 
         QList<LibrarySystem::Book> searchBook(const QString &bookTitl = QString(), const QString &author1 = QString(),
-                        const QString &author2 = QString(), const QString &author3 = QString(),
-                        const QString &author4 = QString(), const QString &author5 = QString(),
                         const QString &publisher = QString(), const QString &publicationYear = QString(),
                         const QString &edition = QString(), const QString &ISBN = QString(),
                         const QString &volume = QString(), const QString &pageCount = QString(),

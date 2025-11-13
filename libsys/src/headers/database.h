@@ -81,25 +81,21 @@ public:
 
     void debugPrintAllUsers() const;
 
-    bool deleteBook(const QString &bookTitle, const QString &author1, const QString &ISBN);
+    bool deleteBook(QWidget *parent, const QString &bookTitle, const QString &author1, const QString &ISBN);
 
-    bool addBook(const QString &bookTitle, const QString &author1,
-                 const QString &author2, const QString &author3,
-                 const QString &author4, const QString &author5,
+    bool addBook(QWidget* parent, const QString &bookTitle, const QString &author1,
                  const QString &publisher, const QString &publicationYear,
                  const QString &edition, const QString &ISBN,
                  const QString &volume, const QString &pageCount,
                  const QString &seriesInformation, const QString &language,
                  const QString &DDC, const QString &additionalInfo);
 
-    bool updateBook(const QString &bookTitle, const QString &author1,
-                    const QString &author2, const QString &author3,
-                    const QString &author4, const QString &author5,
-                    const QString &publisher, const QString &publicationYear,
-                    const QString &edition, const QString &ISBN,
-                    const QString &volume, const QString &pageCount,
-                    const QString &seriesInformation, const QString &language,
-                    const QString &DDC, const QString &additionalInfo);
+    bool updateBook(QWidget* parent, const QString &bookTitle, const QString &author1,
+                          const QString &publisher, const QString &publicationYear,
+                          const QString &edition, const QString &ISBN,
+                          const QString &volume, const QString &pageCount,
+                          const QString &seriesInformation, const QString &language,
+                          const QString &DDC, const QString &additionalInfo);
 
 private:
     QSqlDatabase m_db;

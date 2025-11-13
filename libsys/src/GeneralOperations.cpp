@@ -17,14 +17,14 @@
 */
 
 #include <QtSql/QSqlError>
+#include <QtSql/QSqlRecord>
+#include <QtSql/QSqlQuery>
 
 #include "headers/GeneralOperations.h"
 #include "headers/database.h"
 
 QList<LibrarySystem::Book> GeneralOperations::searchBook(
     const QString &bookTitle, const QString &author1,
-    const QString &author2, const QString &author3,
-    const QString &author4, const QString &author5,
     const QString &publisher, const QString &publicationYear,
     const QString &edition, const QString &ISBN,
     const QString &volume, const QString &pageCount,
@@ -34,20 +34,16 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     QList<LibrarySystem::Book> results;
 
     if (!libraryDb->openDB()) {
-        qDebug() << "Database not open!";
+        //  qDebug() << "Database not open!";
         return results;
     }
 
     QSqlQuery query(libraryDb->getDB());
 
-    QString sql = "SELECT *, is_borrowed, borrowed_by FROM books WHERE 1=1";
+    QString sql = "SELECT * FROM books WHERE 1=1";
 
     if (!bookTitle.isEmpty()) sql += " AND title LIKE '%' || :bookTitle || '%'";
     if (!author1.isEmpty()) sql += " AND author1 LIKE '%' || :author1 || '%'";
-    if (!author2.isEmpty()) sql += " AND author2 LIKE '%' || :author2 || '%'";
-    if (!author3.isEmpty()) sql += " AND author3 LIKE '%' || :author3 || '%'";
-    if (!author4.isEmpty()) sql += " AND author4 LIKE '%' || :author4 || '%'";
-    if (!author5.isEmpty()) sql += " AND author5 LIKE '%' || :author5 || '%'";
     if (!publisher.isEmpty()) sql += " AND publisher LIKE '%' || :publisher || '%'";
     if (!publicationYear.isEmpty()) sql += " AND publication_year = :publicationYear";
     if (!edition.isEmpty()) sql += " AND edition LIKE '%' || :edition || '%'";
@@ -63,10 +59,6 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
 
     if (!bookTitle.isEmpty()) query.bindValue(":bookTitle", bookTitle);
     if (!author1.isEmpty()) query.bindValue(":author1", author1);
-    if (!author2.isEmpty()) query.bindValue(":author2", author2);
-    if (!author3.isEmpty()) query.bindValue(":author3", author3);
-    if (!author4.isEmpty()) query.bindValue(":author4", author4);
-    if (!author5.isEmpty()) query.bindValue(":author5", author5);
     if (!publisher.isEmpty()) query.bindValue(":publisher", publisher);
     if (!publicationYear.isEmpty()) query.bindValue(":publicationYear", publicationYear);
     if (!edition.isEmpty()) query.bindValue(":edition", edition);
@@ -79,7 +71,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     if (!additionalInfo.isEmpty()) query.bindValue(":additionalInfo", additionalInfo);
 
     if (!query.exec()) {
-        qDebug() << "Search query failed:" << query.lastError().text();
+        //  qDebug() << "Search query failed:" << query.lastError().text();
         return results;
     }
 
@@ -88,10 +80,6 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
 
         book.title = query.value("title").toString();
         book.author1 = query.value("author1").toString();
-        book.author2 = query.value("author2").toString();
-        book.author3 = query.value("author3").toString();
-        book.author4 = query.value("author4").toString();
-        book.author5 = query.value("author5").toString();
         book.publisher = query.value("publisher").toString();
         book.publicationYear = query.value("publication_year").toString();
         book.edition = query.value("edition").toString();
@@ -103,14 +91,23 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
         book.DDC = query.value("ddc").toString();
         book.additionalInfo = query.value("additional_info").toString();
 
-        book.isBorrowed = query.value("is_borrowed").toInt() == 1;
-        book.borrowedBy = query.value("borrowed_by").toString();
+        int borrowedIndex = query.record().indexOf("is_borrowed");
+        int borrowedByIndex = query.record().indexOf("borrowed_by");
+
+        if (borrowedIndex != -1)
+            book.isBorrowed = query.value(borrowedIndex).toInt() == 1;
+        else
+            book.isBorrowed = false;
+
+        if (borrowedByIndex != -1)
+            book.borrowedBy = query.value(borrowedByIndex).toString();
 
         results.append(book);
     }
 
     return results;
 }
+
 
 
 bool GeneralOperations::listBooks(){

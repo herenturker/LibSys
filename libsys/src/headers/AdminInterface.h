@@ -46,7 +46,7 @@ private:
     QPushButton *users_Button;
 
     QPushButton *addBook_Button;
-    QPushButton *confirmationRequests_Button;
+    //QPushButton *confirmationRequests_Button;
     QPushButton *inquireBookSubmission_Button;
     QPushButton *deleteBook_Button;
     QPushButton *reportLostBook_Button;
@@ -56,9 +56,9 @@ private:
     QPushButton *addUser_Button;
     QPushButton *deleteUser_Button;
     QPushButton *updateUserInfo_Button;
-    QPushButton *punishUser_Button;
+    //QPushButton *punishUser_Button;
 
-    QPushButton *backToLoginWindow_Button;
+    //QPushButton *backToLoginWindow_Button;
     BookSearchWindow *bookSearchWindow;
 
     QLabel *dateLabel;

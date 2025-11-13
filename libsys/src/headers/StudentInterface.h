@@ -25,6 +25,7 @@
 #include <QTimer>
 #include <QString>
 #include <QScrollArea>
+#include <QListWidget>
 
 #include "BookSearchWindow.h"
 #include "database.h"
@@ -40,7 +41,7 @@ public:
     void setCurrentStudentSchoolNo(const QString &schoolNo);
     void refreshBorrowedBooks();
     QStringList getBorrowedBooksTextList() const;
-
+    void refreshBookLists();
 private slots:
     void updateDateTime();
 
@@ -59,7 +60,6 @@ private:
     QPushButton *myAccount_Button;
 
     QLabel *overdueBooks;
-    QLabel *unreturnedBooks;
     QLabel *borrowedBooks;
 
     Database* userDb;
@@ -67,6 +67,9 @@ private:
 
     QString currentStudentSchoolNo;
     Graphical* graphical;
+
+    QListWidget* borrowedBooksList;
+    QListWidget* overdueBooksList;
 
     
 };

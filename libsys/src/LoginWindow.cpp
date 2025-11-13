@@ -17,6 +17,7 @@
 */
 
 #include <string>
+
 #include <QMessageBox>
 #include <QButtonGroup>
 #include <QHBoxLayout>
@@ -30,6 +31,7 @@
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
 #include "headers/Database.h"
+#include "headers/Utils.h"
 
 LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 {
@@ -150,6 +152,9 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
         QPushButton:hover { 
             background-color: #2A6D2D;
         }
+        QPushButton:pressed { 
+            background-color: #153817;
+        }
         QRadioButton { 
             color: #333333; 
             font-size: 15px;
@@ -179,7 +184,7 @@ void LoginWindow::handleLogin()
     {
         if (dbDir.mkpath("."))
         {
-            qDebug() << "Created databases directory at:" << dbDirPath;
+            // qDebug() << "Created databases directory at:" << dbDirPath;
         }
         else
         {
@@ -197,12 +202,12 @@ void LoginWindow::handleLogin()
             QFile file(path);
             if (!file.open(QIODevice::WriteOnly))
             {
-                qDebug() << "Could not create database file:" << path;
+                //  qDebug() << "Could not create database file:" << path;
             }
             else
             {
                 file.close();
-                qDebug() << "Created database file:" << path;
+                //  qDebug() << "Created database file:" << path;
             }
         }
     };
@@ -229,8 +234,9 @@ void LoginWindow::handleLogin()
     libraryDb.createBooksTable();
     libraryDb.createBorrowedBooksTable();
 
-    userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
-    userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
+    // userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
+    bool success = userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
+    
 
     bool loginSuccessFlag = userDb.isUserMatchedInDataBase(
         username,
@@ -238,17 +244,19 @@ void LoginWindow::handleLogin()
         password,
         radioButton_Group->checkedButton()->text());
 
-    qDebug() << "DEBUG — Login check:";
-    qDebug() << "username:" << username;
-    qDebug() << "schoolNo:" << schoolNo;
-    qDebug() << "password:" << password;
-    qDebug() << "accountType:" << radioButton_Group->checkedButton()->text();
-    userDb.debugPrintAllUsers();
+    // qDebug() << "DEBUG — Login check:";
+    // qDebug() << "username:" << username;
+    // qDebug() << "schoolNo:" << schoolNo;
+    // qDebug() << "password:" << password;
+    // qDebug() << "accountType:" << radioButton_Group->checkedButton()->text();
+    // userDb.debugPrintAllUsers();
 
     if (loginSuccessFlag)
     {
         QString accountType = radioButton_Group->checkedButton()->text();
         schoolNumber = schoolNo;
+        std::string logString = "LOGIN: " + username.toStdString() + " with school number: " + schoolNo.toStdString();
+        writeEncryptedLog(logString);
         emit loginSuccess(accountType, schoolNumber);
         close();
     }
