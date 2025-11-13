@@ -47,11 +47,11 @@ private:
 
     QPushButton *addBook_Button;
     //QPushButton *confirmationRequests_Button;
-    QPushButton *inquireBookSubmission_Button;
+    // QPushButton *inquireBookSubmission_Button;
     QPushButton *deleteBook_Button;
     QPushButton *reportLostBook_Button;
     QPushButton *changeBookInfo_Button;
-    QPushButton *inquireBookRegistiration_Button;
+    // QPushButton *inquireBookRegistiration_Button;
 
     QPushButton *addUser_Button;
     QPushButton *deleteUser_Button;

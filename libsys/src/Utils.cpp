@@ -75,31 +75,62 @@ void writeEncryptedLog(const std::string &message, char key) {
 }
 
 std::vector<QString> readEncryptedLog(char key) {
-    std::vector<QString> lines;
+    std::vector<QString> logEntries;
     std::ifstream logFile("log.log", std::ios::binary);
     if (!logFile.is_open()) {
         std::cerr << "Cannot open log file for reading!" << std::endl;
-        return lines;
+        return logEntries;
     }
 
-    std::string encryptedLine;
-    std::string decryptedLine;
+    std::string buffer;
+    std::string currentEntry;
     char ch;
 
     while (logFile.get(ch)) {
-        encryptedLine += ch;
+        buffer += ch;
+
         if (ch == '\n') {
-            decryptedLine = xorEncryptDecrypt(encryptedLine, key);
-            lines.push_back(QString::fromStdString(decryptedLine));
-            encryptedLine.clear();
+            std::string decrypted = xorEncryptDecrypt(buffer, key);
+            QString qline = QString::fromStdString(decrypted).trimmed();
+
+            if (qline.startsWith('[')) {
+                if (!currentEntry.empty()) {
+                    logEntries.push_back(QString::fromStdString(currentEntry));
+                }
+                currentEntry = qline.toStdString();
+            } else {
+                if (!currentEntry.empty()) {
+                    currentEntry += " " + qline.toStdString();
+                } else {
+                    currentEntry = qline.toStdString();
+                }
+            }
+            buffer.clear();
         }
     }
 
-    if (!encryptedLine.empty()) {
-        decryptedLine = xorEncryptDecrypt(encryptedLine, key);
-        lines.push_back(QString::fromStdString(decryptedLine));
+    if (!buffer.empty()) {
+        std::string decrypted = xorEncryptDecrypt(buffer, key);
+        QString qline = QString::fromStdString(decrypted).trimmed();
+        if (qline.startsWith('[')) {
+            if (!currentEntry.empty()) {
+                logEntries.push_back(QString::fromStdString(currentEntry));
+            }
+            currentEntry = qline.toStdString();
+        } else {
+            if (!currentEntry.empty()) {
+                currentEntry += " " + qline.toStdString();
+            } else {
+                currentEntry = qline.toStdString();
+            }
+        }
+    }
+
+    if (!currentEntry.empty()) {
+        logEntries.push_back(QString::fromStdString(currentEntry));
     }
 
     logFile.close();
-    return lines;
+    return logEntries;
 }
+

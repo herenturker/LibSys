@@ -23,6 +23,10 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QList>
+#include <QPlainTextEdit>
+#include <QTableWidget>
+#include <QVBoxLayout>
+#include <QHeaderView>
 
 #include "headers/AdminInterface.h"
 #include "headers/AdminOperations.h"
@@ -81,17 +85,23 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     changeBookInfo_Button = new QPushButton("Update\nBook Info", this);
     changeBookInfo_Button->setToolTip("Edit or update details of an existing book.");
 
+    QLabel* adminDashboard = new QLabel("Admin\nDashboard", this);
+    adminDashboard->setStyleSheet("QLabel { color: black; font-size: 48pt; font-weight: bold; }");
+    adminDashboard->move(75, 30);
+    adminDashboard->resize(500, 170); 
+
+
     //confirmationRequests_Button = new QPushButton("Confirmation Requests", this);
     //confirmationRequests_Button->setToolTip("Review and manage pending confirmation requests.");
 
-    inquireBookSubmission_Button = new QPushButton("Book Submissions", this);
-    inquireBookSubmission_Button->setToolTip("Check the submission status of borrowed books.");
+    // inquireBookSubmission_Button = new QPushButton("Book Submissions", this);
+    // inquireBookSubmission_Button->setToolTip("Check the submission status of borrowed books.");
 
     reportLostBook_Button = new QPushButton("Report Lost Book", this);
     reportLostBook_Button->setToolTip("Report a lost book and update its record.");
 
-    inquireBookRegistiration_Button = new QPushButton("Inquiry Book Registiration", this);
-    inquireBookRegistiration_Button->setToolTip("Check whether a book is registered to a user and view its details.");
+    // inquireBookRegistiration_Button = new QPushButton("Inquiry Book Registiration", this);
+    // inquireBookRegistiration_Button->setToolTip("Check whether a book is registered to a user and view its details.");
 
     //backToLoginWindow_Button = new QPushButton("Return to\nLogin", this);
     //backToLoginWindow_Button->setToolTip("Return to the login window.");
@@ -130,11 +140,11 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     //confirmationRequests_Button->setGeometry(75, 140, 210, buttonHeight);
 
-    inquireBookSubmission_Button->setGeometry(330, 50, 170, buttonHeight);
+    // inquireBookSubmission_Button->setGeometry(330, 50, 170, buttonHeight);
 
     reportLostBook_Button->setGeometry(265, 620, 160, buttonHeight);
 
-    inquireBookRegistiration_Button->setGeometry(75, 50, 240, buttonHeight);
+    // inquireBookRegistiration_Button->setGeometry(75, 50, 240, buttonHeight);
 
     //backToLoginWindow_Button->setGeometry(860, 140, buttonWidth, buttonHeight);
 
@@ -184,9 +194,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     users_Button->setStyleSheet(buttonStyle);
 
-    inquireBookSubmission_Button->setStyleSheet(buttonStyle);
+    // inquireBookSubmission_Button->setStyleSheet(buttonStyle);
 
-    inquireBookRegistiration_Button->setStyleSheet(buttonStyle);
+    // inquireBookRegistiration_Button->setStyleSheet(buttonStyle);
 
     //confirmationRequests_Button->setStyleSheet(buttonStyle);
 
@@ -419,6 +429,95 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             showMessage(this, "Success", "Reported book as lost!", false);
         }
 
+    });
+
+    
+    connect(logHistory_Button, &QPushButton::clicked, [=]() {
+        char key = 0x4B; // letter K
+
+        std::vector<QString> logLines = readEncryptedLog(key);
+
+        if (logLines.empty()) {
+            showMessage(nullptr, "Log", "No log entries found.", false);
+            return;
+        }
+
+        QWidget *logWindow = new QWidget;
+        logWindow->setWindowTitle("Log History");
+        logWindow->resize(600, 400);
+
+        QVBoxLayout *layout = new QVBoxLayout(logWindow);
+        QPlainTextEdit *textEdit = new QPlainTextEdit;
+        textEdit->setReadOnly(true);
+
+        textEdit->setStyleSheet(
+            "QPlainTextEdit { background-color: #ffffff; color: black; font-size: 12px; }"
+        );
+
+        for (const QString &line : logLines) {
+            textEdit->appendPlainText(line);
+        }
+
+        layout->addWidget(textEdit);
+        logWindow->setLayout(layout);
+        logWindow->show();
+    });
+
+    connect(users_Button, &QPushButton::clicked, [=]() {
+
+        if (!userDb->openDB()) {
+            showMessage(nullptr, "Error", "Could not open users.db", true);
+            return;
+        }
+
+        QSqlQuery query = userDb->selectUsers("");
+
+        QWidget *userWindow = new QWidget;
+        userWindow->setWindowTitle("Users List");
+        userWindow->resize(600, 400);
+
+        QVBoxLayout *layout = new QVBoxLayout(userWindow);
+        QTableWidget *table = new QTableWidget;
+        table->setColumnCount(4);
+        table->setHorizontalHeaderLabels({"Username", "School No", "Password", "Account Type"});
+        table->horizontalHeader()->setStretchLastSection(true);
+        table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        table->setSelectionBehavior(QAbstractItemView::SelectRows);
+        table->setSelectionMode(QAbstractItemView::SingleSelection);
+
+        table->setStyleSheet(
+            "QTableWidget { background-color: white; font-size: 12pt; }"
+            "QTableWidget::item { color: black; }"
+            "QHeaderView::section { background-color: #dadada; font-weight: bold; }"
+        );
+
+        int row = 0;
+        while (query.next()) {
+            table->insertRow(row);
+
+            QTableWidgetItem *usernameItem = new QTableWidgetItem(query.value("username").toString());
+            QTableWidgetItem *schoolNoItem = new QTableWidgetItem(query.value("school_no").toString());
+            QTableWidgetItem *passwordItem = new QTableWidgetItem(query.value("password").toString()); // şifre açık
+            QTableWidgetItem *accountTypeItem = new QTableWidgetItem(query.value("account_type").toString());
+
+            usernameItem->setForeground(QBrush(Qt::black));
+            schoolNoItem->setForeground(QBrush(Qt::black));
+            passwordItem->setForeground(QBrush(Qt::black));
+            accountTypeItem->setForeground(QBrush(Qt::black));
+
+            table->setItem(row, 0, usernameItem);
+            table->setItem(row, 1, schoolNoItem);
+            table->setItem(row, 2, passwordItem);
+            table->setItem(row, 3, accountTypeItem);
+
+            row++;
+        }
+
+        layout->addWidget(table);
+        userWindow->setLayout(layout);
+        userWindow->show();
+
+        userDb->closeDB();
     });
 
 }
