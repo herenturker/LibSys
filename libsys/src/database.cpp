@@ -670,3 +670,28 @@ bool Database::getBookBorrowInfo(const QString &bookISBN, QString &borrowedBy) {
     borrowedBy = "";
     return false;
 }
+
+bool Database::isBookExists(const QString &ISBN)
+{
+    if (!m_db.isOpen() && !m_db.open()) {
+        qDebug() << "Database not open for checking book existence.";
+        return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT COUNT(*) FROM books WHERE isbn = :isbn");
+    query.bindValue(":isbn", ISBN);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to check book existence:" << query.lastError().text();
+        return false;
+    }
+
+    if (query.next()) {
+        int count = query.value(0).toInt();
+        return count > 0;
+    }
+
+    return false;
+}
+

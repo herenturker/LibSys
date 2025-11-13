@@ -59,6 +59,8 @@ public:
 
     bool getBookBorrowInfo(const QString &bookISBN, QString &borrowedBy);
 
+    bool isBookExists(const QString &ISBN);
+
     int getBorrowedBookCount(const QString &schoolNo);
 
     QSqlQuery selectUsers(const QString &condition = "");

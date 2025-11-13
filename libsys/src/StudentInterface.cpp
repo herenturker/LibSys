@@ -32,6 +32,7 @@
 #include <QDialog>
 #include <QCalendarWidget>
 #include <QTableWidget>
+#include <QPointer>
 
 #include "headers/StudentInterface.h"
 #include "headers/StudentOperations.h"
@@ -46,6 +47,7 @@
 
 StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 {
+    graphical = new Graphical(this);
     QString exePath = QCoreApplication::applicationDirPath();
     QString dbDirPath = exePath + "/databases";
 
@@ -173,8 +175,9 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             volume, pageCount, seriesInformation, language, DDC, additionalInfo
         );
 
+
         for (auto &book : results) {
-            QString borrowedBy;
+            QString borrowedBy = "";
             if (libraryDb->getBookBorrowInfo(book.ISBN, borrowedBy)) {
                 book.isBorrowed = !borrowedBy.isEmpty();
                 book.borrowedBy = borrowedBy;
@@ -184,61 +187,104 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             }
         }
 
-        Graphical searchResults;
-        searchResults.displayBooksWithFilters(this, results);
+        bookSearchWindow->graphical->displayBooksWithFilters(this, results);
+        // bookSearchWindow->graphical->displayBooksWithFilters(bookSearchWindow, results);
     });
 
 
-
-    connect(borrowBook_Button, &QPushButton::clicked, [=](){
-        qDebug() << "Borrow button clicked!";
-        QTableWidget *table = bookSearchWindow->graphical->getBookTable();
-        if (!table) {
-            showMessage(this, "Error", "No books to borrow!", true);
-            return;
-        }
-        
-
-        int row = table->currentRow();
-        if (row < 0) {
-            showMessage(this, "Error", "Please select a book!", true);
-            return;
-        }
-
-        QString bookISBN = table->item(row, 9)->text();
-        QString schoolNo = this->currentStudentSchoolNo;
-
-        QString borrowedBy;
-
-        libraryDb->openDB();
-        if (libraryDb->getBookBorrowInfo(bookISBN, borrowedBy) && !borrowedBy.isEmpty()) {
-            showMessage(this, "Error", "This book is already borrowed!", true);
-            return;
-        }
-
+    connect(borrowBook_Button, &QPushButton::clicked, [=]() {
         QDialog *borrowDialog = new QDialog(this);
         borrowDialog->setWindowTitle("Borrow Book");
-        borrowDialog->resize(300, 150);
+        borrowDialog->resize(300, 250);
 
         QVBoxLayout *layout = new QVBoxLayout(borrowDialog);
+
+        QLabel *isbnLabel = new QLabel("Enter Book ISBN:", borrowDialog);
+        isbnLabel->setStyleSheet("color: black;");
+        QLineEdit *isbnEdit = new QLineEdit(borrowDialog);
+        isbnEdit->setStyleSheet("color: black;");
+
+        layout->addWidget(isbnLabel);
+        layout->addWidget(isbnEdit);
+
         QLabel *dueLabel = new QLabel("Select Due Date:", borrowDialog);
+        dueLabel->setStyleSheet("color: black;");
         QCalendarWidget *calendar = new QCalendarWidget(borrowDialog);
-        calendar->setMinimumDate(QDate::currentDate().addDays(1));
-        calendar->setMaximumDate(QDate::currentDate().addYears(1));
+
+        calendar->setMinimumDate(QDate::currentDate());
+        calendar->setMaximumDate(QDate::currentDate().addMonths(1));
+
+        calendar->setStyleSheet(R"(
+            QCalendarWidget QWidget { 
+                background-color: #f0f0f0; 
+                color: black;
+            }
+            QCalendarWidget QToolButton {
+                background-color: #8b8b8b; 
+                color: black;
+                border-radius: 4px; 
+                padding: 2px 5px;
+            }
+            QCalendarWidget QToolButton:hover {
+                background-color: #999999;
+            }
+            QCalendarWidget QMenu {
+                background-color: #f0f0f0; 
+                color: black;
+            }
+            QCalendarWidget QSpinBox {
+                min-width: 60px;
+                color: black;
+            }
+            QCalendarWidget QAbstractItemView:enabled {
+                color: black;
+                background-color: white;
+                selection-background-color: #0078d7;
+                selection-color: white;
+            }
+            QCalendarWidget QAbstractItemView::item:selected {
+                background-color: #0078d7;
+                color: white;
+            }
+        )");
 
         layout->addWidget(dueLabel);
         layout->addWidget(calendar);
 
         QHBoxLayout *btnLayout = new QHBoxLayout();
         QPushButton *okBtn = new QPushButton("OK", borrowDialog);
+        okBtn->setStyleSheet("color: black;");
         QPushButton *cancelBtn = new QPushButton("Cancel", borrowDialog);
+        cancelBtn->setStyleSheet("color: black;");
         btnLayout->addWidget(okBtn);
         btnLayout->addWidget(cancelBtn);
         layout->addLayout(btnLayout);
 
+        QString schoolNo = this->currentStudentSchoolNo;
+
         QObject::connect(okBtn, &QPushButton::clicked, [=]() {
+            QString bookISBN = isbnEdit->text().trimmed();
+            if (bookISBN.isEmpty()) {
+                showMessage(this, "Error", "Please enter an ISBN!", true);
+                return;
+            }
+
+            QString borrowedBy;
+            libraryDb->openDB();
+            if (libraryDb->getBookBorrowInfo(bookISBN, borrowedBy) && !borrowedBy.isEmpty()) {
+                showMessage(this, "Error", "This book is already borrowed!", true);
+                libraryDb->closeDB();
+                return;
+            }
+
             QDate borrowDate = QDate::currentDate();
             QDate dueDate = calendar->selectedDate();
+
+            if(libraryDb->isBookExists(bookISBN) == false) {
+                showMessage(this, "Error", "No book found with the provided ISBN!", true);
+                libraryDb->closeDB();
+                return;
+            }
 
             if (!libraryDb->borrowBook(schoolNo, bookISBN,
                             borrowDate.toString("yyyy-MM-dd"),
@@ -248,13 +294,13 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                 showMessage(this, "Success", "Book borrowed successfully!", false);
             }
 
+            libraryDb->closeDB();
             borrowDialog->accept();
         });
 
         QObject::connect(cancelBtn, &QPushButton::clicked, borrowDialog, &QDialog::reject);
 
         borrowDialog->exec();
-        libraryDb->closeDB();
     });
 
 

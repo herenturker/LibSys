@@ -20,6 +20,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/libsys.dir/libsys/src/StudentInterface.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj"
   "CMakeFiles/libsys.dir/libsys/src/StudentOperations.cpp.obj.d"
+  "CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj"
+  "CMakeFiles/libsys.dir/libsys/src/Utils.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/database.cpp.obj"
   "CMakeFiles/libsys.dir/libsys/src/database.cpp.obj.d"
   "CMakeFiles/libsys.dir/libsys/src/main.cpp.obj"

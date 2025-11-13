@@ -27,6 +27,7 @@
 
 #include "BookSearchWindow.h"
 #include "database.h"
+#include "Graphical.h"
 class StudentInterface : public QWidget
 
 {
@@ -64,6 +65,7 @@ private:
     Database* libraryDb;
 
     QString currentStudentSchoolNo;
+    Graphical* graphical;
 };
 
 #endif // STUDENT_INTERFACE_H_

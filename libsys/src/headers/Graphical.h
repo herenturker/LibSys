@@ -40,8 +40,10 @@ class Graphical
         void displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results);
         bool borrowBookGraphical(QWidget *parent);
         QTableWidget* getBookTable();
+        QWidget* getBookWindow() const { return bookWindow; }
     private:
         QWidget *bookWindow = nullptr;
+        QTableWidget *bookTable = nullptr;
 
 };
 

@@ -279,28 +279,30 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
 
         QVBoxLayout *layout = new QVBoxLayout(bookWindow);
 
-        QTableWidget *table = new QTableWidget(bookWindow);
-        table->setObjectName("BookTable");
-        table->setColumnCount(18);
-        table->setHorizontalHeaderLabels({
+        bookTable = new QTableWidget(bookWindow);
+        bookTable->setObjectName("BookTable");
+
+        bookTable->setObjectName("BookTable");
+        bookTable->setColumnCount(18);
+        bookTable->setHorizontalHeaderLabels({
             "Title", "Author1", "Author2", "Author3", "Author4", "Author5",
             "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
             "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By"
         });
 
-        table->setShowGrid(true);
-        table->setGridStyle(Qt::DashLine);
-        table->horizontalHeader()->setStretchLastSection(true);
-        table->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        table->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        bookTable->setShowGrid(true);
+        bookTable->setGridStyle(Qt::DashLine);
+        bookTable->horizontalHeader()->setStretchLastSection(true);
+        bookTable->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        bookTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-        table->setStyleSheet(R"(
+        bookTable->setStyleSheet(R"(
             QTableWidget { font-size: 16px; gridline-color: #888888; }
             QTableWidget::item { color: black; }
             QHeaderView::section { background-color: #f0f0f0; color: black; border: 1px solid #a0a0a0; }
         )");
 
-        layout->addWidget(table);
+        layout->addWidget(bookTable);
 
         QPushButton *closeBtn = new QPushButton("Close", bookWindow);
         closeBtn->setFixedSize(80, 25);
@@ -370,7 +372,5 @@ bool Graphical::borrowBookGraphical(QWidget *parent){
 }
 
 QTableWidget* Graphical::getBookTable() {
-    if (bookWindow)
-        return bookWindow->findChild<QTableWidget*>("BookTable");
-    return nullptr;
+    return bookTable;
 }
