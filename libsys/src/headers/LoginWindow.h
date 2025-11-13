@@ -36,7 +36,7 @@ public:
     QString getSchoolNo() const;
 
 signals:
-    void loginSuccess(const QString &accountType);
+    void loginSuccess(const QString &accountType, const QString &schoolNo);
 
 private slots:
     void handleLogin();

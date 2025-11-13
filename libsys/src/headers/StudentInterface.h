@@ -24,6 +24,7 @@
 #include <QLabel>
 #include <QTimer>
 #include <QString>
+#include <QScrollArea>
 
 #include "BookSearchWindow.h"
 #include "database.h"
@@ -36,9 +37,9 @@ class StudentInterface : public QWidget
 public:
     explicit StudentInterface(QWidget *parent = nullptr);
 
-    void setCurrentStudentSchoolNo(const QString &schoolNo) {
-        currentStudentSchoolNo = schoolNo;
-    }
+    void setCurrentStudentSchoolNo(const QString &schoolNo);
+    void refreshBorrowedBooks();
+    QStringList getBorrowedBooksTextList() const;
 
 private slots:
     void updateDateTime();
@@ -66,6 +67,8 @@ private:
 
     QString currentStudentSchoolNo;
     Graphical* graphical;
+
+    
 };
 
 #endif // STUDENT_INTERFACE_H_

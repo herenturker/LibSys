@@ -49,9 +49,13 @@ public:
 
     bool deleteUser(const QString &username);
 
+    QList<QMap<QString, QString>> getBorrowedBooksByStudent(const QString &schoolNo);
+
     bool createBooksTable();
 
     bool createBorrowedBooksTable();
+
+    bool isBookBorrowedByStudent(const QString &schoolNo, const QString &bookISBN);
 
     bool borrowBook(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
 

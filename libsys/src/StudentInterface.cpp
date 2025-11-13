@@ -280,8 +280,14 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             QDate borrowDate = QDate::currentDate();
             QDate dueDate = calendar->selectedDate();
 
-            if(libraryDb->isBookExists(bookISBN) == false) {
+            if (libraryDb->isBookExists(bookISBN) == false) {
                 showMessage(this, "Error", "No book found with the provided ISBN!", true);
+                libraryDb->closeDB();
+                return;
+            }
+
+            if (libraryDb->getBorrowedBookCount(schoolNo) > 3) {
+                showMessage(this, "Error", "You have reached the maximum borrow limit!", true);
                 libraryDb->closeDB();
                 return;
             }
@@ -302,6 +308,66 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
         borrowDialog->exec();
     });
+
+        connect(returnBook_Button, &QPushButton::clicked, [this]() {
+            QDialog *returnDialog = new QDialog(this);
+            returnDialog->setWindowTitle("Return Book");
+            returnDialog->resize(300, 100);
+
+            QVBoxLayout *layout = new QVBoxLayout(returnDialog);
+            QLabel *isbnLabel = new QLabel("Enter Book ISBN:", returnDialog);
+            isbnLabel->setStyleSheet("color: black;");
+            QLineEdit *isbnEdit = new QLineEdit(returnDialog);
+            isbnEdit->setStyleSheet("color: black;");
+
+            layout->addWidget(isbnLabel);
+            layout->addWidget(isbnEdit);
+
+            QHBoxLayout *btnLayout = new QHBoxLayout();
+            QPushButton *okBtn = new QPushButton("OK", returnDialog);
+            okBtn->setStyleSheet("color: black;");
+            QPushButton *cancelBtn = new QPushButton("Cancel", returnDialog);
+            cancelBtn->setStyleSheet("color: black;");
+
+            btnLayout->addWidget(okBtn);
+            btnLayout->addWidget(cancelBtn);
+            layout->addLayout(btnLayout);
+
+            QString schoolNo = this->currentStudentSchoolNo;
+
+            connect(okBtn, &QPushButton::clicked, [this, returnDialog, isbnEdit, schoolNo]() {
+                QString bookISBN = isbnEdit->text().trimmed();
+                if (bookISBN.isEmpty()) {
+                    showMessage(this, "Error", "Please enter an ISBN!", true);
+                    return;
+                }
+
+                if (!libraryDb->openDB()) {
+                    showMessage(this, "Error", "Could not open database!", true);
+                    return;
+                }
+
+                if (!libraryDb->isBookBorrowedByStudent(schoolNo, bookISBN)) {
+                    showMessage(this, "Error", "This book is not borrowed by you!", true);
+                    libraryDb->closeDB();
+                    return;
+                }
+
+                if (!libraryDb->returnBook(schoolNo, bookISBN)) {
+                    showMessage(this, "Error", "Failed to return book!", true);
+                } else {
+                    showMessage(this, "Success", "Book returned successfully!", false);
+                }
+
+                libraryDb->closeDB();
+                returnDialog->accept();
+            });
+
+            connect(cancelBtn, &QPushButton::clicked, returnDialog, &QDialog::reject);
+
+            returnDialog->exec();
+    });
+
 
 
     this->setStyleSheet(R"(
@@ -373,4 +439,60 @@ void StudentInterface::updateDateTime()
     dateLabel->setText("Date: " + TimeClass::showDate());
     dayLabel->setText("Day: " + TimeClass::showDay());
     timeLabel->setText("Time: " + TimeClass::showTime());
+}
+
+void StudentInterface::refreshBorrowedBooks()
+{
+    if (!libraryDb->openDB()) {
+        qDebug() << "Cannot open library DB!";
+        return;
+    }
+
+    QList<QMap<QString, QString>> books = libraryDb->getBorrowedBooksByStudent(currentStudentSchoolNo);
+    qDebug() << "[DEBUG] Borrowed books for:" << currentStudentSchoolNo;
+    qDebug() << "[DEBUG] Borrowed books count:" << books.size();
+
+    for (const auto &book : books) {
+        qDebug() << "title:" << book["title"]
+                 << "| author1:" << book["author1"]
+                 << "| ISBN:" << book["isbn"]
+                 << "| borrow_date:" << book["borrow_date"]
+                 << "| due_date:" << book["due_date"];
+    }
+
+    libraryDb->closeDB();
+}
+
+void StudentInterface::setCurrentStudentSchoolNo(const QString &schoolNo)
+{
+    currentStudentSchoolNo = schoolNo;
+    qDebug() << "[DEBUG] currentStudentSchoolNo set to:" << currentStudentSchoolNo;
+
+    refreshBorrowedBooks();
+}
+
+QStringList StudentInterface::getBorrowedBooksTextList() const
+{
+    QStringList borrowedBooksText;
+
+    if (!libraryDb->openDB()) {
+        qDebug() << "Cannot open library DB!";
+        return borrowedBooksText;
+    }
+
+    QList<QMap<QString, QString>> books = libraryDb->getBorrowedBooksByStudent(currentStudentSchoolNo);
+
+    for (const auto &book : books) {
+        QString bookLine = QString("Title: %1 | Author1: %2 | ISBN: %3 | Borrow Date: %4 | Due Date: %5")
+            .arg(book["title"])
+            .arg(book["author1"])
+            .arg(book["isbn"])
+            .arg(book["borrow_date"])
+            .arg(book["due_date"]);
+
+        borrowedBooksText.append(bookLine);
+    }
+
+    libraryDb->closeDB();
+    return borrowedBooksText;
 }

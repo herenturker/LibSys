@@ -249,7 +249,7 @@ void LoginWindow::handleLogin()
     {
         QString accountType = radioButton_Group->checkedButton()->text();
         schoolNumber = schoolNo;
-        emit loginSuccess(accountType);
+        emit loginSuccess(accountType, schoolNumber);
         close();
     }
     else

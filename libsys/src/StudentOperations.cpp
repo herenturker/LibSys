@@ -47,7 +47,23 @@ void StudentOperations::borrowBookFromLibrary(const QString &schoolNo, const QSt
 }
 
 void StudentOperations::returnBorrowedBook(const QString &schoolNo, const QString &bookISBN){
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString dbDirPath = exePath + "/databases";
 
+    QDir().mkpath(dbDirPath);
+
+    //QString userdbPath = dbDirPath + "/users.db";
+    QString librarydbPath = dbDirPath + "/library.db";
+
+    //userDb = new Database(userdbPath, "DB_USERS");
+    libraryDb = new Database(librarydbPath, "DB_LIBRARY");
+
+    bool success = libraryDb->returnBook(schoolNo, bookISBN);
+        if (!success) {
+            showMessage(nullptr, "Error", "Could not return the book", true);
+        } else {
+            showMessage(nullptr, "Success", "Returned the book!", false);
+        }
 }
 
 void StudentOperations::recordTransactionDate(){

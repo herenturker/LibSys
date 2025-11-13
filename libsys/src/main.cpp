@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     libsys.setStyleSheet("QWidget { background-color: #DFDEDE; }");
 
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess,
-                     [&](const QString &accountType)
+                     [&](const QString &accountType, const QString &schoolNo)
                      {
                          if (accountType == "Admin")
                          {

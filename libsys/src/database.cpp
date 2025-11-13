@@ -554,7 +554,7 @@ bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, cons
     }
 
     int borrowedCount = getBorrowedBookCount(schoolNo);
-    if (borrowedCount >= 3) {
+    if (borrowedCount > 3) {
         qDebug() << "User already has 3 borrowed books!";
         return false;
     }
@@ -693,5 +693,76 @@ bool Database::isBookExists(const QString &ISBN)
     }
 
     return false;
+}
+
+bool Database::isBookBorrowedByStudent(const QString &schoolNo, const QString &bookISBN){
+    if (!m_db.isOpen() && !m_db.open()) {
+        qDebug() << "Database not open for checking book borrow status.";
+        return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare(R"(
+        SELECT COUNT(*) 
+        FROM borrowed_books 
+        WHERE school_no = :school_no 
+          AND book_isbn = :book_isbn
+    )");
+
+    query.bindValue(":school_no", schoolNo);
+    query.bindValue(":book_isbn", bookISBN);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to check if book is borrowed by student:" << query.lastError().text();
+        return false;
+    }
+
+    if (query.next()) {
+        int count = query.value(0).toInt();
+        return count > 0;
+    }
+
+    return false;
+}
+
+QList<QMap<QString, QString>> Database::getBorrowedBooksByStudent(const QString &schoolNo)
+{
+    QList<QMap<QString, QString>> borrowedBooks;
+
+    if (!m_db.isOpen() && !m_db.open()) {
+        qDebug() << "Database not open for fetching borrowed books.";
+        return borrowedBooks;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare(R"(
+        SELECT 
+            b.title AS book_title, 
+            b.author1 AS book_author1, 
+            b.isbn AS book_isbn, 
+            bb.borrow_date AS borrow_date, 
+            bb.due_date AS due_date
+        FROM borrowed_books AS bb
+        JOIN books AS b ON bb.book_isbn = b.isbn
+        WHERE bb.school_no = :school_no
+    )");
+    query.bindValue(":school_no", schoolNo);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to fetch borrowed books:" << query.lastError().text();
+        return borrowedBooks;
+    }
+
+    while (query.next()) {
+        QMap<QString, QString> book;
+        book["title"] = query.value("book_title").toString();
+        book["author1"] = query.value("book_author1").toString();
+        book["isbn"] = query.value("book_isbn").toString();
+        book["borrow_date"] = query.value("borrow_date").toString();
+        book["due_date"] = query.value("due_date").toString();
+        borrowedBooks.append(book);
+    }
+
+    return borrowedBooks;
 }
 
