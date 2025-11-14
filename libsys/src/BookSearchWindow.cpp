@@ -278,7 +278,7 @@ void BookSearchWindow::showEvent(QShowEvent *event)
 
 void BookSearchWindow::closeEvent(QCloseEvent *event)
 {
-    emit windowClosed();
+    // emit windowClosed();
     if (extraAuthorsWindow)
     {
         extraAuthorsWindow->close();

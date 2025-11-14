@@ -23,10 +23,16 @@
 #include "headers/Utils.h"
 
 void showMessage(QWidget *parent, const QString &title, const QString &text, bool isError) {
+
+    if (parent) {
+        parent->raise();
+        parent->activateWindow();
+    }
+
     QMessageBox msgBox(parent);
     msgBox.setWindowTitle(title);
     msgBox.setText(text);
-    msgBox.setWindowModality(Qt::ApplicationModal);
+    msgBox.setWindowModality(Qt::WindowModal);
 
     QString backgroundColor = "#dadada";
     QString labelColor = isError ? "red" : "black";

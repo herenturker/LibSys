@@ -53,7 +53,7 @@ private:
     // So I did not remove them. 
 
     // QPushButton *confirmationRequests_Button;
-    //  QPushButton *inquireBookSubmission_Button;
+    // QPushButton *inquireBookSubmission_Button;
     QPushButton *deleteBook_Button;
     QPushButton *reportLostBook_Button;
     QPushButton *changeBookInfo_Button;
@@ -74,6 +74,9 @@ private:
 
     Database *userDb;
     Database *libraryDb;
+
+    QWidget *logWindow = nullptr;
+    QWidget *userWindow = nullptr;
 };
 
 #endif // ADMIN_INTERFACE_H_

@@ -268,7 +268,10 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         bookSearchWindow->setMode(BookSearchWindow::Add);
         bookSearchWindow->show();
         bookSearchWindow->raise();
-        bookSearchWindow->activateWindow(); });
+        bookSearchWindow->activateWindow();
+         });
+
+         
 
     connect(bookSearchWindow, &BookSearchWindow::bookAddDataReady,
             [&](const QString &bookTitle,
@@ -290,14 +293,14 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
                 if (!success)
                 {
-                    showMessage(this, "Error", "Could not add book to database!", true);
+                    showMessage(bookSearchWindow, "Error", "Could not add book to database!", true);
                 }
                 else
                 {
                     bookSearchWindow->hide();
                     std::string logString = "ADD BOOK:  " + ISBN.toStdString();
                     writeEncryptedLog(logString);
-                    showMessage(this, "Success", "Added new book!", false);
+                    showMessage(bookSearchWindow, "Success", "Added new book!", false);
                 }
             });
 
@@ -443,39 +446,54 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 }
             });
 
-    connect(logHistory_Button, &QPushButton::clicked, [=]()
-            {
-        char key = 0x4B; // letter K
+    connect(logHistory_Button, &QPushButton::clicked, this, [this]() {
 
-        std::vector<QString> logLines = readEncryptedLog(key);
+        if (!logWindow) {
+            char key = 0x4B; // letter K
+            std::vector<QString> logLines = readEncryptedLog(key);
 
-        if (logLines.empty()) {
-            showMessage(nullptr, "Log", "No log entries found.", false);
+            if (logLines.empty()) {
+                showMessage(nullptr, "Log", "No log entries found.", false);
+                return;
+            }
+
+            logWindow = new QWidget;
+            logWindow->setWindowTitle("Log History");
+            logWindow->resize(600, 400);
+
+            QVBoxLayout *layout = new QVBoxLayout(logWindow);
+            QPlainTextEdit *textEdit = new QPlainTextEdit;
+            textEdit->setReadOnly(true);
+            textEdit->setStyleSheet(
+                "QPlainTextEdit { background-color: #ffffff; color: black; font-size: 12px; }"
+            );
+
+            for (const QString &line : logLines) {
+                textEdit->appendPlainText(line);
+            }
+
+            layout->addWidget(textEdit);
+            logWindow->setLayout(layout);
+
+            logWindow->setAttribute(Qt::WA_DeleteOnClose);
+            QObject::connect(logWindow, &QWidget::destroyed, [=]() {
+                logWindow = nullptr;
+            });
+
+            logWindow->show();
+        } else {
+            logWindow->raise();
+            logWindow->activateWindow();
+        }
+    });
+
+
+    connect(users_Button, &QPushButton::clicked, this, [this]() {
+        if (userWindow) {
+            userWindow->raise();
+            userWindow->activateWindow();
             return;
         }
-
-        QWidget *logWindow = new QWidget;
-        logWindow->setWindowTitle("Log History");
-        logWindow->resize(600, 400);
-
-        QVBoxLayout *layout = new QVBoxLayout(logWindow);
-        QPlainTextEdit *textEdit = new QPlainTextEdit;
-        textEdit->setReadOnly(true);
-
-        textEdit->setStyleSheet(
-            "QPlainTextEdit { background-color: #ffffff; color: black; font-size: 12px; }"
-        );
-
-        for (const QString &line : logLines) {
-            textEdit->appendPlainText(line);
-        }
-
-        layout->addWidget(textEdit);
-        logWindow->setLayout(layout);
-        logWindow->show(); });
-
-    connect(users_Button, &QPushButton::clicked, [=]()
-            {
 
         if (!userDb->openDB()) {
             showMessage(nullptr, "Error", "Could not open users.db", true);
@@ -484,7 +502,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         QSqlQuery query = userDb->selectUsers("");
 
-        QWidget *userWindow = new QWidget;
+        userWindow = new QWidget;
         userWindow->setWindowTitle("Users List");
         userWindow->resize(600, 400);
 
@@ -527,9 +545,16 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         layout->addWidget(table);
         userWindow->setLayout(layout);
-        userWindow->show();
 
-        userDb->closeDB(); });
+        userWindow->setAttribute(Qt::WA_DeleteOnClose);
+        QObject::connect(userWindow, &QWidget::destroyed, [this]() {
+            userWindow = nullptr;
+        });
+
+        userWindow->show();
+        userDb->closeDB();
+    });
+
 }
 
 void AdminInterface::updateDateTime()

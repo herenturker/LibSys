@@ -199,11 +199,7 @@ bool Database::deleteUser(const QString &username)
 {
     QSqlQuery query(m_db);
 
-    if (username == "Admin") return false;
-
-    if (username == "") return false;
-
-    if (!(isUserExists(username))) return false;
+    if ((username == "Admin") || (username == "") || (!(isUserExists(username)))) return false;
 
     query.prepare("DELETE FROM users WHERE username = :username");
     query.bindValue(":username", username);
@@ -290,6 +286,10 @@ bool Database::addUserIfNotExists(const QString &username,
     checkQuery.prepare("SELECT COUNT(*) FROM users WHERE username = :username");
     checkQuery.bindValue(":username", username);
 
+    if ((username == "" ) || (password == "" ) || (schoolNo == "")) {
+        return false;
+    }
+
     if (!checkQuery.exec())
     {
         //  qDebug() << "User check error:" << checkQuery.lastError().text();
@@ -339,14 +339,14 @@ bool Database::addBook(QWidget *parent,
 {
     if (bookTitle.trimmed().isEmpty() || ISBN.trimmed().isEmpty())
     {
-        showMessage(parent, "Add Book Error", "Book Title and ISBN cannot be empty!", true);
+        // showMessage(parent, "Add Book Error", "Book Title and ISBN cannot be empty!", true);
         return false;
     }
 
     if (!m_db.isOpen() && !m_db.open())
     {
         //  qDebug() << "Could not open database when adding book.";
-        showMessage(parent, "Database Error", "Could not open database connection.", true);
+        // showMessage(parent, "Database Error", "Could not open database connection.", true);
         return false;
     }
 

@@ -52,7 +52,7 @@ public:
     bool bookOperationMode();
 
 signals:
-    void windowClosed();
+    // void windowClosed();
 
     // For sending current mode's required datas
     
