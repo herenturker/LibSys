@@ -39,49 +39,58 @@ InstallerWindow::InstallerWindow(QWidget *parent)
     : QWidget(parent)
 {
     setWindowTitle("LibSys Installer");
-    resize(480, 220);
+    setMinimumSize(600, 450);
+    setMaximumSize(600, 450);
 
-    auto *layout = new QVBoxLayout(this);
+    QLabel *libsys_Label = new QLabel(this);
+    QPixmap pixmap(":/LibSysInstaller.png");
+    libsys_Label->setPixmap(pixmap.scaled(450, 250, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    libsys_Label->setAlignment(Qt::AlignCenter);
+
+    auto *mainLayout = new QVBoxLayout(this);
+
+    mainLayout->addWidget(libsys_Label);
 
     auto *pathLayout = new QHBoxLayout;
     pathEdit = new QLineEdit("C:/Program Files/LibSys", this);
     browseButton = new QPushButton("Browse...", this);
-
-    LibSys_CheckBox = new QCheckBox("LibSys", this);
-    LibSysUpdater_CheckBox = new QCheckBox("LibSys Updater", this);
-
-    QGroupBox *group = new QGroupBox("Settings", this);
-    QVBoxLayout *vbox = new QVBoxLayout;
-
-    vbox->addWidget(LibSys_CheckBox);
-    vbox->addWidget(LibSysUpdater_CheckBox);
-
-    LibSys_CheckBox->setChecked(true);
-
-    group->setLayout(vbox);
-
-    group->setGeometry(20, 70, 200, 100);
-
     browseButton->setObjectName("BrowseButton");
 
     pathLayout->addWidget(pathEdit);
     pathLayout->addWidget(browseButton);
+
+    mainLayout->addWidget(new QLabel("Select installation directory:", this));
+    mainLayout->addLayout(pathLayout);
+
+    LibSys_CheckBox = new QCheckBox("LibSys", this);
+    LibSysUpdater_CheckBox = new QCheckBox("LibSys Updater", this);
+    LibSys_CheckBox->setChecked(true);
+
+    QGroupBox *group = new QGroupBox("Settings", this);
+    auto *vbox = new QVBoxLayout;
+    vbox->addWidget(LibSys_CheckBox);
+    vbox->addWidget(LibSysUpdater_CheckBox);
+    group->setLayout(vbox);
+
+    mainLayout->addWidget(group);
 
     progressBar = new QProgressBar(this);
     progressBar->setRange(0, 100);
     progressBar->setValue(0);
     progressBar->setVisible(false);
 
+    mainLayout->addWidget(progressBar);
+
     installButton = new QPushButton("Install", this);
     installButton->setStyleSheet("font-weight: bold; padding: 6px;");
-
     installButton->setObjectName("InstallButton");
 
-    layout->addWidget(new QLabel("Select installation directory:", this));
-    layout->addLayout(pathLayout);
-    layout->addWidget(progressBar);
-    layout->addStretch();
-    layout->addWidget(installButton, 0, Qt::AlignRight);
+    auto *buttonLayout = new QHBoxLayout;
+    buttonLayout->addStretch();
+    buttonLayout->addWidget(installButton);
+    mainLayout->addLayout(buttonLayout);
+
+    mainLayout->addStretch();
 
     this->setStyleSheet(R"(
         QWidget {
