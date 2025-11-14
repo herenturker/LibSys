@@ -9,9 +9,7 @@
 	"INCLUDE_DIR" : "C:/Users/habil/Desktop/libsys/build/libsys_autogen/include",
 	"INPUTS" : 
 	[
-		"C:/Users/habil/Desktop/libsys/icons/LibSysUpdater.png",
 		"C:/Users/habil/Desktop/libsys/icons/magnifier.ico",
-		"C:/Users/habil/Desktop/libsys/icons/LibSysInstaller.png",
 		"C:/Users/habil/Desktop/libsys/icons/LibSys.ico",
 		"C:/Users/habil/Desktop/libsys/icons/LibSys.png"
 	],

@@ -80,7 +80,8 @@
         "qsqlquery": "cpp",
         "qsqlrecord": "cpp",
         "fstream": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "qnetworkaccessmanager": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

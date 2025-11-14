@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>LibSys.png</file>
+        <file>LibSys.ico</file>
+        <file>magnifier.ico</file>
+    </qresource>
+</RCC>

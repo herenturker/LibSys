@@ -346,15 +346,15 @@
 	"HEADERS" : 
 	[
 		[
-			"C:/Users/habil/Desktop/libsys/libsys/src/headers/AdminInterface.h",
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/AES.h",
 			"MU",
-			"P7CQ3PBK3U/moc_AdminInterface.cpp",
+			"P7CQ3PBK3U/moc_AES.cpp",
 			null
 		],
 		[
-			"C:/Users/habil/Desktop/libsys/libsys/src/headers/AdminOperations.h",
+			"C:/Users/habil/Desktop/libsys/libsys/src/headers/AdminInterface.h",
 			"MU",
-			"P7CQ3PBK3U/moc_AdminOperations.cpp",
+			"P7CQ3PBK3U/moc_AdminInterface.cpp",
 			null
 		],
 		[
@@ -490,13 +490,9 @@
 	"SETTINGS_FILE" : "C:/Users/habil/Desktop/libsys/build/CMakeFiles/libsys_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[ "C:/Users/habil/Desktop/libsys/libsys/src/AES.cpp", "MU", null ],
 		[
 			"C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp",
-			"MU",
-			null
-		],
-		[
-			"C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp",
 			"MU",
 			null
 		],
@@ -528,7 +524,17 @@
 		],
 		[ "C:/Users/habil/Desktop/libsys/libsys/src/Utils.cpp", "MU", null ],
 		[ "C:/Users/habil/Desktop/libsys/libsys/src/database.cpp", "MU", null ],
-		[ "C:/Users/habil/Desktop/libsys/libsys/src/main.cpp", "MU", null ]
+		[ "C:/Users/habil/Desktop/libsys/libsys/src/main.cpp", "MU", null ],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys_installer/src/InstallerWindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/habil/Desktop/libsys/libsys_installer/src/main.cpp",
+			"MU",
+			null
+		]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

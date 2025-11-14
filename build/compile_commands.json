@@ -7,15 +7,15 @@
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",
-  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp",
-  "file": "C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp",
-  "output": "CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj"
+  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/AES.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/AES.cpp",
+  "file": "C:/Users/habil/Desktop/libsys/libsys/src/AES.cpp",
+  "output": "CMakeFiles/libsys.dir/libsys/src/AES.cpp.obj"
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",
-  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp",
-  "file": "C:/Users/habil/Desktop/libsys/libsys/src/AdminOperations.cpp",
-  "output": "CMakeFiles/libsys.dir/libsys/src/AdminOperations.cpp.obj"
+  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp",
+  "file": "C:/Users/habil/Desktop/libsys/libsys/src/AdminInterface.cpp",
+  "output": "CMakeFiles/libsys.dir/libsys/src/AdminInterface.cpp.obj"
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",
@@ -70,6 +70,18 @@
   "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys/src/main.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys/src/main.cpp",
   "file": "C:/Users/habil/Desktop/libsys/libsys/src/main.cpp",
   "output": "CMakeFiles/libsys.dir/libsys/src/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/habil/Desktop/libsys/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys_installer/src/InstallerWindow.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys_installer/src/InstallerWindow.cpp",
+  "file": "C:/Users/habil/Desktop/libsys/libsys_installer/src/InstallerWindow.cpp",
+  "output": "CMakeFiles/libsys.dir/libsys_installer/src/InstallerWindow.cpp.obj"
+},
+{
+  "directory": "C:/Users/habil/Desktop/libsys/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/libsys.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles/libsys.dir/libsys_installer/src/main.cpp.obj -c C:/Users/habil/Desktop/libsys/libsys_installer/src/main.cpp",
+  "file": "C:/Users/habil/Desktop/libsys/libsys_installer/src/main.cpp",
+  "output": "CMakeFiles/libsys.dir/libsys_installer/src/main.cpp.obj"
 },
 {
   "directory": "C:/Users/habil/Desktop/libsys/build",

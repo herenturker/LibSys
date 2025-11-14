@@ -16,8 +16,6 @@ qt_standard_project_setup()
 
 file(GLOB_RECURSE SOURCES
     libsys/src/*.cpp
-    libsys_updater/src/*.cpp
-    libsys_installer/src/*.cpp
 )
 
 file(GLOB_RECURSE HEADERS
