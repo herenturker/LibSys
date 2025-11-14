@@ -33,7 +33,7 @@ class InstallerWindow : public QWidget
 
     public:
         explicit InstallerWindow(QWidget *parent = nullptr);
-        bool InstallerWindow::downloadFile(const QString &urlStr, const QString &savePath);
+        bool downloadFile(const QString &urlStr, const QString &savePath);
 
     private slots:
         void chooseDirectory();
