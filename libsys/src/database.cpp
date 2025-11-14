@@ -201,6 +201,10 @@ bool Database::deleteUser(const QString &username)
 
     if (username == "Admin") return false;
 
+    if (username == "") return false;
+
+    if (!(isUserExists(username))) return false;
+
     query.prepare("DELETE FROM users WHERE username = :username");
     query.bindValue(":username", username);
 
@@ -902,4 +906,29 @@ QList<QMap<QString, QString>> Database::getBorrowedBooksByStudent(const QString 
     }
 
     return borrowedBooks;
+}
+
+bool Database::isUserExists(const QString &username)
+{
+    if (!m_db.isOpen() && !m_db.open())
+    {
+        return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT COUNT(*) FROM users WHERE username = :username");
+    query.bindValue(":username", username);
+
+    if (!query.exec())
+    {
+        return false;
+    }
+
+    if (query.next())
+    {
+        int count = query.value(0).toInt();
+        return count > 0;
+    }
+
+    return false;
 }
