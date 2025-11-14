@@ -136,7 +136,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     // ATTENTION: The following author fields are created but not added to the main window directly.
     // Because they create SEGFAULT which I, Habil Eren, couldn't figure out why.
 
-    author2 = new QLineEdit(); 
+    author2 = new QLineEdit();
     author3 = new QLineEdit();
     author4 = new QLineEdit();
     author5 = new QLineEdit();
@@ -279,7 +279,8 @@ void BookSearchWindow::showEvent(QShowEvent *event)
 void BookSearchWindow::closeEvent(QCloseEvent *event)
 {
     emit windowClosed();
-        if (extraAuthorsWindow) {
+    if (extraAuthorsWindow)
+    {
         extraAuthorsWindow->close();
     }
     QWidget::closeEvent(event);
@@ -302,29 +303,29 @@ bool BookSearchWindow::bookOperationMode()
 
     switch (currentMode)
     {
-        case Add:
-            emit bookAddDataReady(
-                title, author, publisherText, pubYear, editionText,
-                ISBNText, volumeText, pageCountText,
-                seriesText, languageText, DDCText, additionalInfoText);
-            break;
+    case Add:
+        emit bookAddDataReady(
+            title, author, publisherText, pubYear, editionText,
+            ISBNText, volumeText, pageCountText,
+            seriesText, languageText, DDCText, additionalInfoText);
+        break;
 
-        case Delete:
-            emit bookDeleteDataReady(title, author, ISBNText);
-            break;
+    case Delete:
+        emit bookDeleteDataReady(title, author, ISBNText);
+        break;
 
-        case Update:
-            emit bookUpdateDataReady(
-                title, author, publisherText, pubYear, editionText,
-                ISBNText, volumeText, pageCountText,
-                seriesText, languageText, DDCText, additionalInfoText);
-            break;
+    case Update:
+        emit bookUpdateDataReady(
+            title, author, publisherText, pubYear, editionText,
+            ISBNText, volumeText, pageCountText,
+            seriesText, languageText, DDCText, additionalInfoText);
+        break;
     }
 
     return true;
 }
 
-
-BookSearchWindow::~BookSearchWindow() {
+BookSearchWindow::~BookSearchWindow()
+{
     delete graphical;
 }

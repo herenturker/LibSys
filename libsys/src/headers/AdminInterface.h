@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// Admin interface for LibSys admin dashboard.
+
 #ifndef ADMIN_INTERFACE_H_
 #define ADMIN_INTERFACE_H_
 
@@ -42,12 +44,16 @@ private slots:
 
 private:
     QPushButton *logHistory_Button;
-    QPushButton *books_Button;
-    QPushButton *users_Button;
+    QPushButton *books_Button; // Button for listing all books in the database
+    QPushButton *users_Button; // Button for listing all users in the database
 
     QPushButton *addBook_Button;
-    //QPushButton *confirmationRequests_Button;
-    // QPushButton *inquireBookSubmission_Button;
+
+    // Lines which are commented may be used in the future.
+    // So I did not remove them. 
+
+    // QPushButton *confirmationRequests_Button;
+    //  QPushButton *inquireBookSubmission_Button;
     QPushButton *deleteBook_Button;
     QPushButton *reportLostBook_Button;
     QPushButton *changeBookInfo_Button;
@@ -56,9 +62,9 @@ private:
     QPushButton *addUser_Button;
     QPushButton *deleteUser_Button;
     QPushButton *updateUserInfo_Button;
-    //QPushButton *punishUser_Button;
+    // QPushButton *punishUser_Button;
 
-    //QPushButton *backToLoginWindow_Button;
+    // QPushButton *backToLoginWindow_Button;
     BookSearchWindow *bookSearchWindow;
 
     QLabel *dateLabel;

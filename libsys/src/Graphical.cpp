@@ -126,14 +126,14 @@ bool Graphical::addUserGraphical(QWidget *parent)
 
                          bool isAdded = db.addUserIfNotExists(username->text(), schoolNo->text(), password->text(), accountType);
                          if (isAdded)
-                             dialog.accept();
-                     });
+                             dialog.accept(); });
     QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
 
     return dialog.exec() == QDialog::Accepted;
 }
 
-bool Graphical::deleteUserGraphical(QWidget *parent){
+bool Graphical::deleteUserGraphical(QWidget *parent)
+{
     QDialog dialog(parent);
     dialog.setWindowTitle("Delete An User from LibSys");
 
@@ -180,15 +180,15 @@ bool Graphical::deleteUserGraphical(QWidget *parent){
 
                          bool isDeleted = db.deleteUser(username->text());
                          if (isDeleted)
-                             dialog.accept();
-                     });
-                     
+                             dialog.accept(); });
+
     QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
 
     return dialog.exec() == QDialog::Accepted;
 }
 
-bool Graphical::updateUserGraphical(QWidget *parent){
+bool Graphical::updateUserGraphical(QWidget *parent)
+{
     QDialog dialog(parent);
     dialog.setWindowTitle("Update An User's Information");
 
@@ -258,16 +258,17 @@ bool Graphical::updateUserGraphical(QWidget *parent){
 
                          bool isUpdated = db.updateUserInfo(parent, username->text(), schoolNo->text(), password->text(), accountType);
                          if (isUpdated)
-                             dialog.accept();
-                     });
+                             dialog.accept(); });
     QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
 
     return dialog.exec() == QDialog::Accepted;
 }
 
-void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results) {
+void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results)
+{
 
-    if (!bookWindow) {
+    if (!bookWindow)
+    {
         bookWindow = new QWidget(nullptr, Qt::Window);
         bookWindow->setWindowTitle("Filtered Books");
         bookWindow->resize(1100, 600);
@@ -288,11 +289,9 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
 
         bookTable->setObjectName("BookTable");
         bookTable->setColumnCount(14);
-        bookTable->setHorizontalHeaderLabels({
-            "Title", "Author1",
-            "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
-            "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By"
-        });
+        bookTable->setHorizontalHeaderLabels({"Title", "Author1",
+                                              "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
+                                              "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By"});
 
         bookTable->setShowGrid(true);
         bookTable->setGridStyle(Qt::DashLine);
@@ -325,16 +324,18 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         )");
 
         QObject::connect(closeBtn, &QPushButton::clicked, bookWindow, &QWidget::close);
-        QObject::connect(bookWindow, &QWidget::destroyed, [this](){
-            this->bookWindow = nullptr;
-        });
+        QObject::connect(bookWindow, &QWidget::destroyed, [this]()
+                         { this->bookWindow = nullptr; });
 
         int x = 0, y = 0;
-        if (parent) {
+        if (parent)
+        {
             QRect parentRect = parent->geometry();
             x = parentRect.x() + (parentRect.width() - bookWindow->width()) / 2;
             y = parentRect.y() + (parentRect.height() - bookWindow->height()) / 2;
-        } else {
+        }
+        else
+        {
             QScreen *screen = QGuiApplication::primaryScreen();
             QRect screenGeometry = screen->geometry();
             x = (screenGeometry.width() - bookWindow->width()) / 2;
@@ -343,20 +344,22 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         bookWindow->move(x, y);
     }
 
-    QTableWidget *table = bookWindow->findChild<QTableWidget*>("BookTable");
-    if (table) {
+    QTableWidget *table = bookWindow->findChild<QTableWidget *>("BookTable");
+    if (table)
+    {
         table->setRowCount(results.size());
 
-        for (int row = 0; row < results.size(); ++row) {
+        for (int row = 0; row < results.size(); ++row)
+        {
             const LibrarySystem::Book &book = results[row];
 
             QStringList cells = {
                 book.title, book.author1,
                 book.publisher, book.publicationYear, book.edition, book.ISBN, book.volume,
-                book.pageCount, book.seriesInformation, book.language, book.DDC, book.additionalInfo
-            };
+                book.pageCount, book.seriesInformation, book.language, book.DDC, book.additionalInfo};
 
-            for (int col = 0; col < cells.size(); ++col) {
+            for (int col = 0; col < cells.size(); ++col)
+            {
                 table->setItem(row, col, new QTableWidgetItem(cells[col]));
             }
 
@@ -370,14 +373,13 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
     bookWindow->activateWindow();
 }
 
-
-
-
-QTableWidget* Graphical::getBookTable() {
+QTableWidget *Graphical::getBookTable()
+{
     return bookTable;
 }
 
-bool Graphical::reportLostBookGraphical(QWidget *parent) {
+bool Graphical::reportLostBookGraphical(QWidget *parent)
+{
     QString exePath = QCoreApplication::applicationDirPath();
     QString dbDirPath = exePath + "/databases";
 
@@ -404,16 +406,19 @@ bool Graphical::reportLostBookGraphical(QWidget *parent) {
 
     bool ok = false;
     QString ISBN;
-    if (inputDialog.exec() == QDialog::Accepted) {
+    if (inputDialog.exec() == QDialog::Accepted)
+    {
         ISBN = inputDialog.textValue().trimmed();
-        if (ISBN.isEmpty()) {
+        if (ISBN.isEmpty())
+        {
             showMessage(parent, "Input Error", "ISBN cannot be empty.", true);
             return false;
         }
         ok = true;
     }
 
-    if (!ok) {
+    if (!ok)
+    {
         return false;
     }
 
@@ -421,12 +426,14 @@ bool Graphical::reportLostBookGraphical(QWidget *parent) {
     checkQuery.prepare("SELECT COUNT(*) FROM books WHERE isbn = :isbn");
     checkQuery.bindValue(":isbn", ISBN);
 
-    if (!checkQuery.exec() || !checkQuery.next()) {
+    if (!checkQuery.exec() || !checkQuery.next())
+    {
         showMessage(parent, "Database Error", "Failed to query the database.", true);
         return false;
     }
 
-    if (checkQuery.value(0).toInt() == 0) {
+    if (checkQuery.value(0).toInt() == 0)
+    {
         showMessage(parent, "Book Not Found", "No book found with ISBN: " + ISBN, true);
         return false;
     }
@@ -435,7 +442,8 @@ bool Graphical::reportLostBookGraphical(QWidget *parent) {
     updateQuery.prepare("UPDATE books SET additional_info = 'LOST' WHERE isbn = :isbn");
     updateQuery.bindValue(":isbn", ISBN);
 
-    if (!updateQuery.exec()) {
+    if (!updateQuery.exec())
+    {
         showMessage(parent, "Update Error", "Could not mark book as lost: " + updateQuery.lastError().text(), true);
         return false;
     }

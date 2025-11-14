@@ -196,7 +196,8 @@ void LoginWindow::handleLogin()
     QString userdbPath = dbDirPath + "/users.db";
     QString librarydbPath = dbDirPath + "/library.db";
 
-    auto createEmptyDBFile = [](const QString &path) {
+    auto createEmptyDBFile = [](const QString &path)
+    {
         if (!QFile::exists(path))
         {
             QFile file(path);
@@ -233,10 +234,10 @@ void LoginWindow::handleLogin()
     userDb.createUsersTable();
     libraryDb.createBooksTable();
     libraryDb.createBorrowedBooksTable();
-    //qDebug() << "password:" << password;
-    // userDb.addUserIfNotExists("Eren", "110", "1234", "Student");
+
+    // Default user
     bool success = userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
-    
+
     QString passwordAES = convertToAes(password);
 
     bool loginSuccessFlag = userDb.isUserMatchedInDataBase(
@@ -244,13 +245,6 @@ void LoginWindow::handleLogin()
         schoolNo,
         passwordAES,
         radioButton_Group->checkedButton()->text());
-
-    // qDebug() << "DEBUG — Login check:";
-    // qDebug() << "username:" << username;
-    // qDebug() << "schoolNo:" << schoolNo;
-    //qDebug() << "passwordAES:" << passwordAES;
-    // qDebug() << "accountType:" << radioButton_Group->checkedButton()->text();
-    // userDb.debugPrintAllUsers();
 
     if (loginSuccessFlag)
     {
@@ -267,7 +261,6 @@ void LoginWindow::handleLogin()
     }
 }
 
-
 void LoginWindow::updateDateTime()
 {
     dateLabel->setText("Date: " + TimeClass::showDate());
@@ -275,7 +268,7 @@ void LoginWindow::updateDateTime()
     timeLabel->setText("Time: " + TimeClass::showTime());
 }
 
-
-QString LoginWindow::getSchoolNo() const { 
-    return schoolNumber; 
+QString LoginWindow::getSchoolNo() const
+{
+    return schoolNumber;
 }

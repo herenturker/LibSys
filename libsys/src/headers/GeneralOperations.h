@@ -37,11 +37,7 @@ class GeneralOperations
                         const QString &volume = QString(), const QString &pageCount = QString(),
                         const QString &seriesInformation = QString(), const QString &language = QString(),
                         const QString &DDC = QString(), const QString &additionalInfo = QString());
-
-        bool listBooks();
-
-        bool showBookInfo(LibrarySystem::Book book); 
-            
+     
     protected:
         Database *libraryDb;
 

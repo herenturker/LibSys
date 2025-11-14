@@ -30,6 +30,8 @@ class StudentOperations
 
         void returnBorrowedBook(const QString &schoolNo, const QString &bookISBN);
 
+        /*
+
         void recordTransactionDate();
 
         void requestConfirmation();
@@ -45,6 +47,8 @@ class StudentOperations
         void displayUnreturnedBooks();
 
         void displayOverdueBooks();
+        
+        */
 
     private:
         Database* userDb;

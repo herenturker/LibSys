@@ -1,17 +1,17 @@
-.PHONY: all libsys installer updater clean
+.PHONY: all LibSys Installer Updater clean
 
-all: libsys installer updater
+all: LibSys Installer Updater
 
-libsys:
-	$(MAKE) -C libsys
+LibSys:
+	$(MAKE) -C LibSys
 
-installer:
-	$(MAKE) -C libsys_installer
+Installer:
+	$(MAKE) -C LibSysInstaller
 
-updater:
-	$(MAKE) -C libsys_updater
+Updater:
+	$(MAKE) -C LibSysUpdater
 
 clean:
-	$(MAKE) -C libsys clean
-	$(MAKE) -C libsys_installer clean
-	$(MAKE) -C libsys_updater clean
+	$(MAKE) -C LibSys clean
+	$(MAKE) -C LibSysInstaller clean
+	$(MAKE) -C LibSysUpdater clean

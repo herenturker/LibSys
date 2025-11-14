@@ -39,7 +39,7 @@
 #include "headers/GeneralOperations.h"
 
 AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
-                                                  
+
 {
     QString exePath = QCoreApplication::applicationDirPath();
     QString dbDirPath = exePath + "/databases";
@@ -84,14 +84,13 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     changeBookInfo_Button = new QPushButton("Update\nBook Info", this);
     changeBookInfo_Button->setToolTip("Edit or update details of an existing book.");
 
-    QLabel* adminDashboard = new QLabel("Admin\nDashboard", this);
+    QLabel *adminDashboard = new QLabel("Admin\nDashboard", this);
     adminDashboard->setStyleSheet("QLabel { color: black; font-size: 48pt; font-weight: bold; }");
     adminDashboard->move(75, 30);
-    adminDashboard->resize(500, 170); 
+    adminDashboard->resize(500, 170);
 
-
-    //confirmationRequests_Button = new QPushButton("Confirmation Requests", this);
-    //confirmationRequests_Button->setToolTip("Review and manage pending confirmation requests.");
+    // confirmationRequests_Button = new QPushButton("Confirmation Requests", this);
+    // confirmationRequests_Button->setToolTip("Review and manage pending confirmation requests.");
 
     // inquireBookSubmission_Button = new QPushButton("Book Submissions", this);
     // inquireBookSubmission_Button->setToolTip("Check the submission status of borrowed books.");
@@ -102,8 +101,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     // inquireBookRegistiration_Button = new QPushButton("Inquiry Book Registiration", this);
     // inquireBookRegistiration_Button->setToolTip("Check whether a book is registered to a user and view its details.");
 
-    //backToLoginWindow_Button = new QPushButton("Return to\nLogin", this);
-    //backToLoginWindow_Button->setToolTip("Return to the login window.");
+    // backToLoginWindow_Button = new QPushButton("Return to\nLogin", this);
+    // backToLoginWindow_Button->setToolTip("Return to the login window.");
 
     addUser_Button = new QPushButton("Add User", this);
     addUser_Button->setToolTip("Add a new user to the users database.");
@@ -114,8 +113,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     updateUserInfo_Button = new QPushButton("Update User Info", this);
     updateUserInfo_Button->setToolTip("Update or edit an user's info.");
 
-    //punishUser_Button = new QPushButton("Punish User", this);
-    //punishUser_Button->setToolTip("Punish an user in LibSys.");
+    // punishUser_Button = new QPushButton("Punish User", this);
+    // punishUser_Button->setToolTip("Punish an user in LibSys.");
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
@@ -137,7 +136,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     changeBookInfo_Button->setGeometry(460, 215, buttonSquare, buttonSquare);
 
-    //confirmationRequests_Button->setGeometry(75, 140, 210, buttonHeight);
+    // confirmationRequests_Button->setGeometry(75, 140, 210, buttonHeight);
 
     // inquireBookSubmission_Button->setGeometry(330, 50, 170, buttonHeight);
 
@@ -145,7 +144,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     // inquireBookRegistiration_Button->setGeometry(75, 50, 240, buttonHeight);
 
-    //backToLoginWindow_Button->setGeometry(860, 140, buttonWidth, buttonHeight);
+    // backToLoginWindow_Button->setGeometry(860, 140, buttonWidth, buttonHeight);
 
     addUser_Button->setGeometry(75, 410, buttonSquare, buttonSquare);
 
@@ -153,7 +152,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     updateUserInfo_Button->setGeometry(460, 410, buttonSquare, buttonSquare);
 
-    //punishUser_Button->setGeometry(655, 410, buttonSquare, buttonSquare);
+    // punishUser_Button->setGeometry(655, 410, buttonSquare, buttonSquare);
 
     QString buttonStyle = R"(
         QPushButton { 
@@ -197,7 +196,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     // inquireBookRegistiration_Button->setStyleSheet(buttonStyle);
 
-    //confirmationRequests_Button->setStyleSheet(buttonStyle);
+    // confirmationRequests_Button->setStyleSheet(buttonStyle);
 
     reportLostBook_Button->setStyleSheet(buttonStyle);
 
@@ -207,7 +206,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     changeBookInfo_Button->setStyleSheet(buttonStyle);
 
-    //backToLoginWindow_Button->setStyleSheet(buttonStyle);
+    // backToLoginWindow_Button->setStyleSheet(buttonStyle);
 
     addUser_Button->setStyleSheet(buttonStyle);
 
@@ -215,7 +214,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     updateUserInfo_Button->setStyleSheet(buttonStyle);
 
-    //punishUser_Button->setStyleSheet(buttonStyle);
+    // punishUser_Button->setStyleSheet(buttonStyle);
 
     // CONNECTIONS
 
@@ -286,18 +285,20 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 const QString &additionalInfo)
             {
                 bool success = libraryDb->addBook(this, bookTitle, author1,
-                                                 publisher, publicationYear, edition, ISBN, volume,
-                                                 pageCount, seriesInformation, language, DDC, additionalInfo);
+                                                  publisher, publicationYear, edition, ISBN, volume,
+                                                  pageCount, seriesInformation, language, DDC, additionalInfo);
 
-                if (!success) {
+                if (!success)
+                {
                     showMessage(this, "Error", "Could not add book to database!", true);
-                } else {
+                }
+                else
+                {
                     bookSearchWindow->hide();
                     std::string logString = "ADD BOOK:  " + ISBN.toStdString();
                     writeEncryptedLog(logString);
                     showMessage(this, "Success", "Added new book!", false);
                 }
-
             });
 
     connect(deleteBook_Button, &QPushButton::clicked, [&]()
@@ -314,9 +315,12 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             {
                 bool success = libraryDb->deleteBook(this, bookTitle, author1, ISBN);
 
-                if (!success) {
+                if (!success)
+                {
                     showMessage(this, "Error", "Could not delete book!", true);
-                } else {
+                }
+                else
+                {
                     bookSearchWindow->hide();
                     std::string logString = "DELETE BOOK:  " + ISBN.toStdString();
                     writeEncryptedLog(logString);
@@ -346,12 +350,15 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 const QString &additionalInfo)
             {
                 bool success = libraryDb->updateBook(this, bookTitle, author1,
-                                                    publisher, publicationYear, edition, ISBN, volume,
-                                                    pageCount, seriesInformation, language, DDC, additionalInfo);
+                                                     publisher, publicationYear, edition, ISBN, volume,
+                                                     pageCount, seriesInformation, language, DDC, additionalInfo);
 
-                if (!success) {
+                if (!success)
+                {
                     showMessage(this, "Error", "Could not update book info!", true);
-                } else {
+                }
+                else
+                {
                     bookSearchWindow->hide();
                     std::string logString = "UPDATE BOOK INFO:  " + ISBN.toStdString();
                     writeEncryptedLog(logString);
@@ -360,35 +367,41 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             });
 
     connect(addUser_Button, &QPushButton::clicked, [=]()
-    {
-        Graphical graphicalAddUser(this);
-        bool success = graphicalAddUser.addUserGraphical(this);
+            {
+                Graphical graphicalAddUser(this);
+                bool success = graphicalAddUser.addUserGraphical(this);
 
-        if (!success) {
-            showMessage(this, "Error", "Could not add new user!", true);
-        } else {
-            std::string logString = "ADDED NEW USER";
-            writeEncryptedLog(logString);
-            showMessage(this, "Success", "Added new user!", false);
-        }
+                if (!success)
+                {
+                    showMessage(this, "Error", "Could not add new user!", true);
+                }
+                else
+                {
+                    std::string logString = "ADDED NEW USER";
+                    writeEncryptedLog(logString);
+                    showMessage(this, "Success", "Added new user!", false);
+                }
+            });
 
-    });
+    connect(deleteUser_Button, &QPushButton::clicked, [=]()
+            {
+                Graphical graphicalDeleteUser(this);
+                bool success = graphicalDeleteUser.deleteUserGraphical(this);
 
-    connect(deleteUser_Button, &QPushButton::clicked, [=](){
-        Graphical graphicalDeleteUser(this);
-        bool success = graphicalDeleteUser.deleteUserGraphical(this);
+                if (!success)
+                {
+                    showMessage(this, "Error", "Could not delete the user!", true);
+                }
+                else
+                {
+                    std::string logString = "DELETED AN USER";
+                    writeEncryptedLog(logString);
+                    showMessage(this, "Success", "Deleted the user!", false);
+                }
+            });
 
-        if (!success) {
-            showMessage(this, "Error", "Could not delete the user!", true);
-        } else {
-            std::string logString = "DELETED AN USER";
-            writeEncryptedLog(logString);
-            showMessage(this, "Success", "Deleted the user!", false);
-        }
-
-    });
-
-    connect(updateUserInfo_Button, &QPushButton::clicked, [=](){
+    connect(updateUserInfo_Button, &QPushButton::clicked, [=]()
+            {
         Graphical graphicalUpdateUser(this);
         bool success = graphicalUpdateUser.updateUserGraphical(this);
 
@@ -398,11 +411,10 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             std::string logString = "UPDATED USER INFO";
             writeEncryptedLog(logString);
             showMessage(this, "Success", "Updated the user info!", false);
-        }
-    });
+        } });
 
-    
-    connect(books_Button, &QPushButton::clicked, [=]() {
+    connect(books_Button, &QPushButton::clicked, [=]()
+            {
         GeneralOperations generalOperations(libraryDb);
 
         QList<LibrarySystem::Book> results = generalOperations.searchBook(
@@ -414,24 +426,25 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             return;
         }
 
-        bookSearchWindow->graphical->displayBooksWithFilters(this, results);
-    });
+        bookSearchWindow->graphical->displayBooksWithFilters(this, results); });
 
+    connect(reportLostBook_Button, &QPushButton::clicked, [=]()
+            {
+                Graphical graphicalReportLostBook(this);
+                bool success = graphicalReportLostBook.reportLostBookGraphical(this);
 
-    connect(reportLostBook_Button, &QPushButton::clicked, [=](){
-        Graphical graphicalReportLostBook(this);
-        bool success = graphicalReportLostBook.reportLostBookGraphical(this);
+                if (!success)
+                {
+                    showMessage(this, "Error", "Could not report book as lost", true);
+                }
+                else
+                {
+                    showMessage(this, "Success", "Reported book as lost!", false);
+                }
+            });
 
-        if (!success) {
-            showMessage(this, "Error", "Could not report book as lost", true);
-        } else {
-            showMessage(this, "Success", "Reported book as lost!", false);
-        }
-
-    });
-
-    
-    connect(logHistory_Button, &QPushButton::clicked, [=]() {
+    connect(logHistory_Button, &QPushButton::clicked, [=]()
+            {
         char key = 0x4B; // letter K
 
         std::vector<QString> logLines = readEncryptedLog(key);
@@ -459,10 +472,10 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         layout->addWidget(textEdit);
         logWindow->setLayout(layout);
-        logWindow->show();
-    });
+        logWindow->show(); });
 
-    connect(users_Button, &QPushButton::clicked, [=]() {
+    connect(users_Button, &QPushButton::clicked, [=]()
+            {
 
         if (!userDb->openDB()) {
             showMessage(nullptr, "Error", "Could not open users.db", true);
@@ -516,9 +529,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         userWindow->setLayout(layout);
         userWindow->show();
 
-        userDb->closeDB();
-    });
-
+        userDb->closeDB(); });
 }
 
 void AdminInterface::updateDateTime()

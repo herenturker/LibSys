@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// database.h is for database operations.
+
 #ifndef DATABASE_H_
 #define DATABASE_H_
 
@@ -30,8 +32,10 @@
 class Database
 {
 public:
+
     Database(const QString &dbName, const QString &connectionName);
     ~Database();
+
     QSqlDatabase getDB() const { return m_db; }
 
     bool openDB();

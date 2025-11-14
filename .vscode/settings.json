@@ -81,7 +81,11 @@
         "qsqlrecord": "cpp",
         "fstream": "cpp",
         "iostream": "cpp",
-        "qnetworkaccessmanager": "cpp"
+        "qnetworkaccessmanager": "cpp",
+        "qlineedit": "cpp",
+        "qcheckbox": "cpp",
+        "qgroupbox": "cpp",
+        "qhboxlayout": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

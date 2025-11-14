@@ -107,13 +107,3 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
 
     return results;
 }
-
-
-
-bool GeneralOperations::listBooks(){
-    
-}
-
-bool GeneralOperations::showBookInfo(LibrarySystem::Book book){
-    
-}

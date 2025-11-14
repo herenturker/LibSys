@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// Book searching window for searching books in the database.
+
 #ifndef BOOKSEARCHWINDOW_H_
 #define BOOKSEARCHWINDOW_H_
 
@@ -36,6 +38,8 @@ public:
     explicit BookSearchWindow(QWidget *parent = nullptr);
     Graphical* graphical;
     ~BookSearchWindow();
+
+    // For admin operations and choosing operation mode
     enum Mode
     {
         Add,
@@ -50,6 +54,8 @@ public:
 signals:
     void windowClosed();
 
+    // For sending current mode's required datas
+    
     void bookAddDataReady(
         const QString &bookTitle,
         const QString &author1,
