@@ -1,0 +1,22 @@
+name: Greetings
+
+on: 
+  - pull_request_target
+  - issues
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            Hello! 🖐  
+            Thanks for your interest! Please check the README for instructions before contributing.
+          pr-message: |
+            Hello! 🖐  
+            Thanks for your pull request! I will review it shortly. Make sure your commit messages and code style follow the README guidelines.
