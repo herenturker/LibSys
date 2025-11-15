@@ -32,6 +32,8 @@
 #include <QEventLoop>
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #include "headers/InstallerWindow.h"
 
@@ -225,8 +227,13 @@ void InstallerWindow::startInstall(int selection)
         return;
     }
 
-    QString urlLibSys = "https://github.com/herenturker/LibSys/releases/download/Test/LibSys.exe";
-    QString urlUpdater = "https://github.com/herenturker/LibSys/releases/download/Test/LibSysUpdater.exe";
+    QString rawJson = getJson("https://github.com/herenturker/LibSys/releases/tag/Test/version.json");
+
+    QJsonDocument doc = QJsonDocument::fromJson(rawJson.toUtf8());
+    QJsonObject obj = doc.object();
+
+    QString urlLibSys = obj["libsys_url"].toString();
+    QString urlUpdater = obj["updater_url"].toString();
 
     QString saveLibSys = target + "/LibSys.exe";
     QString saveUpdater = target + "/LibSysUpdater.exe";
@@ -265,4 +272,26 @@ void InstallerWindow::startInstall(int selection)
 
     progressBar->setVisible(false);
     QMessageBox::information(this, "Install", "Installation completed successfully!");
+}
+
+QString InstallerWindow::getJson(const QString &urlJson)
+{
+    QNetworkAccessManager manager;
+    QEventLoop loop;
+
+    QNetworkReply *reply = manager.get(QNetworkRequest(QUrl(urlJson)));
+
+
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    if (reply->error() != QNetworkReply::NoError) {
+        reply->deleteLater();
+        return "";
+    }
+
+    QString result = reply->readAll();
+    reply->deleteLater();
+
+    return result;
 }

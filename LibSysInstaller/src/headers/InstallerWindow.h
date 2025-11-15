@@ -24,6 +24,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QPair>
+#include <QString>
 
 class QPushButton;
 class QLineEdit;
@@ -38,6 +39,7 @@ class InstallerWindow : public QWidget
 public:
     explicit InstallerWindow(QWidget *parent = nullptr);
     bool downloadFile(const QString &urlStr, const QString &savePath);
+    QString getJson(const QString &urlJson);
 
 private slots:
     void chooseDirectory();

@@ -1,0 +1,10 @@
+{
+    "version": "0.9.0",
+    "installer_url": "https://github.com/herenturker/LibSys/releases/download/Test/LibSysInstaller.exe" ,
+    "libsys_url": "https://github.com/herenturker/LibSys/releases/download/Test/LibSys.exe",
+    "updater_url": "https://github.com/herenturker/LibSys/releases/download/Test/LibSysUpdater.exe",
+    "Change Log": [
+        "Added version.json",
+        "Improved installation and update system."
+    ]
+}
