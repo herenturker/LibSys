@@ -16,43 +16,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBRARYSYSTEM_H_
-#define LIBRARYSYSTEM_H_
-
 #include <string>
-#include <vector>
 
 #include <QString>
 
-#include "Utils.h"
+#include "headers/LibrarySystem.h"
 
+std::string LibrarySystem::rfid_data;
 
-class LibrarySystem
-
+void LibrarySystem::updateRFIDDataValue(const QString& RFIDdata)
 {
-    public:
-        struct Book {
-            QString title;
-            QString author1;
-            QString publisher;
-            QString publicationYear;
-            QString edition;
-            QString ISBN;
-            QString volume;
-            QString pageCount;
-            QString seriesInformation;
-            QString language;
-            QString DDC;
-            QString additionalInfo;
-            bool isBorrowed = false;
-            QString borrowedBy;
-        };
-
-        static std::string rfid_data;
-
-        void updateRFIDDataValue(const QString& RFIDdata);
-
-
-};
-
-#endif // LIBRARYSYSTEM_H_
+    rfid_data = QStringTostdString(RFIDdata);
+}

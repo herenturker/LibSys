@@ -85,7 +85,8 @@
         "qlineedit": "cpp",
         "qcheckbox": "cpp",
         "qgroupbox": "cpp",
-        "qhboxlayout": "cpp"
+        "qhboxlayout": "cpp",
+        "qdebug": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

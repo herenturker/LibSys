@@ -73,7 +73,8 @@ bool Database::createUsersTable()
             username TEXT NOT NULL UNIQUE,
             school_no TEXT NOT NULL,
             password TEXT NOT NULL,
-            account_type TEXT NOT NULL
+            account_type TEXT NOT NULL,
+            uid TEXT NOT NULL UNIQUE
         )
     )";
 
@@ -87,12 +88,12 @@ bool Database::createUsersTable()
 }
 
 bool Database::addUser(const QString &username, const QString &schoolNo,
-                       const QString &password, const QString &accountType)
+                       const QString &password, const QString &accountType, const QString &uid)
 {
     QSqlQuery query(m_db);
     query.prepare(R"(
-        INSERT INTO users (username, school_no, password, account_type)
-        VALUES (:username, :school_no, :password, :account_type)
+        INSERT INTO users (username, school_no, password, account_type, uid)
+        VALUES (:username, :school_no, :password, :account_type, :uid)
     )");
 
     if ((username == "") || (schoolNo == "") || (password == "") || (accountType == ""))
@@ -106,7 +107,7 @@ bool Database::addUser(const QString &username, const QString &schoolNo,
     query.bindValue(":school_no", schoolNo);
     query.bindValue(":password", password);
     query.bindValue(":account_type", accountType);
-
+    query.bindValue(":uid", uid);
     if (!query.exec())
     {
         //  qDebug() << "Could not add the user:" << query.lastError().text();
@@ -136,7 +137,7 @@ bool Database::updateUserPassword(const QString &username, const QString &newPas
 }
 
 bool Database::updateUserInfo(QWidget *parent, const QString &username, const QString &schoolNo,
-                              const QString &password, const QString &accountType)
+                              const QString &password, const QString &accountType, const QString &uid)
 {
     if (username.isEmpty())
     {
@@ -164,6 +165,12 @@ bool Database::updateUserInfo(QWidget *parent, const QString &username, const QS
     {
         updates << "account_type = :account_type";
         bindings[":account_type"] = accountType;
+    }
+
+    if (!uid.isEmpty())
+    {
+        updates << "uid = :uid";
+        bindings[":uid"] = uid;
     }
 
     if (updates.isEmpty())
@@ -199,7 +206,8 @@ bool Database::deleteUser(const QString &username)
 {
     QSqlQuery query(m_db);
 
-    if ((username == "Admin") || (username == "") || (!(isUserExists(username)))) return false;
+    if ((username == "Admin") || (username == "") || (!(isUserExists(username))))
+        return false;
 
     query.prepare("DELETE FROM users WHERE username = :username");
     query.bindValue(":username", username);
@@ -233,7 +241,7 @@ QSqlQuery Database::selectUsers(const QString &condition)
 bool Database::isUserMatchedInDataBase(const QString &username,
                                        const QString &schoolNo,
                                        const QString &password,
-                                       const QString &accountType) const
+                                       const QString &accountType, const QString &uid) const
 {
     //  qDebug() << "DEBUG — Login check:";
     //  qDebug() << "username:" << username;
@@ -249,6 +257,7 @@ bool Database::isUserMatchedInDataBase(const QString &username,
           AND school_no = :school_no 
           AND password = :password 
           AND account_type = :account_type
+          AND (:uid IS NULL OR uid = :uid)
     )");
 
     // QString passwordAES = convertToAes(password);
@@ -257,6 +266,16 @@ bool Database::isUserMatchedInDataBase(const QString &username,
     query.bindValue(":school_no", schoolNo);
     query.bindValue(":password", password);
     query.bindValue(":account_type", accountType);
+    query.bindValue(":uid", uid);
+
+    if (uid.isEmpty())
+    {
+        query.bindValue(":uid", QVariant(QVariant::String)); // NULL
+    }
+    else
+    {
+        query.bindValue(":uid", uid);
+    }
 
     if (!query.exec())
     {
@@ -280,13 +299,14 @@ bool Database::isUserMatchedInDataBase(const QString &username,
 bool Database::addUserIfNotExists(const QString &username,
                                   const QString &schoolNo,
                                   const QString &password,
-                                  const QString &accountType)
+                                  const QString &accountType, const QString &uid)
 {
     QSqlQuery checkQuery(m_db);
     checkQuery.prepare("SELECT COUNT(*) FROM users WHERE username = :username");
     checkQuery.bindValue(":username", username);
 
-    if ((username == "" ) || (password == "" ) || (schoolNo == "")) {
+    if ((username == "") || (password == "") || (schoolNo == ""))
+    {
         return false;
     }
 
@@ -306,7 +326,7 @@ bool Database::addUserIfNotExists(const QString &username,
     // User not found -> safely add
     QString passwordAES = convertToAes(password);
 
-    return addUser(username, schoolNo, passwordAES, accountType);
+    return addUser(username, schoolNo, passwordAES, accountType, uid);
 }
 
 void Database::debugPrintAllUsers() const
@@ -335,7 +355,7 @@ bool Database::addBook(QWidget *parent,
                        const QString &edition, const QString &ISBN,
                        const QString &volume, const QString &pageCount,
                        const QString &seriesInformation, const QString &language,
-                       const QString &DDC, const QString &additionalInfo)
+                       const QString &DDC, const QString &additionalInfo, const QString &uid)
 {
     if (bookTitle.trimmed().isEmpty() || ISBN.trimmed().isEmpty())
     {
@@ -373,13 +393,13 @@ bool Database::addBook(QWidget *parent,
             title, author1,
             publisher, publication_year, edition, isbn, volume,
             page_count, series_information, language, ddc, additional_info,
-            is_borrowed, borrowed_by
+            is_borrowed, borrowed_by, uid
         )
         VALUES (
             :title, :author1,
             :publisher, :publication_year, :edition, :isbn, :volume,
             :page_count, :series_information, :language, :ddc, :additional_info,
-            0, ''
+            0, '', ''
         )
     )";
 
@@ -402,6 +422,7 @@ bool Database::addBook(QWidget *parent,
     query.bindValue(":language", language);
     query.bindValue(":ddc", DDC);
     query.bindValue(":additional_info", additionalInfo);
+    query.bindValue(":uid", uid);
 
     if (!query.exec())
     {
@@ -414,7 +435,7 @@ bool Database::addBook(QWidget *parent,
     return true;
 }
 
-bool Database::deleteBook(QWidget *parent, const QString &bookTitle, const QString &author1, const QString &ISBN)
+bool Database::deleteBook(QWidget *parent, const QString &bookTitle, const QString &author1, const QString &ISBN, const QString &uid)
 {
     if (!m_db.isOpen() && !m_db.open())
     {
@@ -464,7 +485,7 @@ bool Database::updateBook(QWidget *parent, const QString &bookTitle, const QStri
                           const QString &edition, const QString &ISBN,
                           const QString &volume, const QString &pageCount,
                           const QString &seriesInformation, const QString &language,
-                          const QString &DDC, const QString &additionalInfo)
+                          const QString &DDC, const QString &additionalInfo, const QString &uid)
 {
     if (ISBN.trimmed().isEmpty() || bookTitle.trimmed().isEmpty())
     {
@@ -547,6 +568,11 @@ bool Database::updateBook(QWidget *parent, const QString &bookTitle, const QStri
         updates << "additional_info = :additional_info";
         binds[":additional_info"] = additionalInfo;
     }
+    if (!uid.trimmed().isEmpty())
+    {
+        updates << "uid = :uid";
+        binds[":uid"] = uid;
+    }
 
     if (updates.isEmpty())
     {
@@ -609,7 +635,8 @@ bool Database::createBooksTable()
             ddc TEXT,
             additional_info TEXT,
             is_borrowed INTEGER DEFAULT 0,
-            borrowed_by TEXT DEFAULT ''
+            borrowed_by TEXT DEFAULT '',
+            uid TEXT DEFAULT ''
         )
     )";
 
@@ -632,6 +659,7 @@ bool Database::createBorrowedBooksTable()
             book_isbn TEXT NOT NULL,
             borrow_date TEXT,
             due_date TEXT,
+            uid TEXT,
             UNIQUE(school_no, book_isbn)
         )
     )";
@@ -645,7 +673,7 @@ bool Database::createBorrowedBooksTable()
     return true;
 }
 
-bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate)
+bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid)
 {
     if (!m_db.isOpen() && !m_db.open())
     {
@@ -653,7 +681,7 @@ bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, cons
     }
 
     int borrowedCount = getBorrowedBookCount(schoolNo);
-    if (borrowedCount > 3)
+    if (borrowedCount >= 3)
     {
         return false;
     }
@@ -681,13 +709,14 @@ bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, cons
 
     QSqlQuery insertQuery(m_db);
     insertQuery.prepare(R"(
-        INSERT INTO borrowed_books (school_no, book_isbn, borrow_date, due_date)
-        VALUES (:school_no, :book_isbn, :borrow_date, :due_date)
+        INSERT INTO borrowed_books (school_no, book_isbn, borrow_date, due_date, uid)
+        VALUES (:school_no, :book_isbn, :borrow_date, :due_date, :uid)
     )");
     insertQuery.bindValue(":school_no", schoolNo);
     insertQuery.bindValue(":book_isbn", bookISBN);
     insertQuery.bindValue(":borrow_date", borrowDate);
     insertQuery.bindValue(":due_date", dueDate);
+    insertQuery.bindValue(":uid", uid);
 
     if (!insertQuery.exec())
     {
@@ -709,7 +738,7 @@ bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, cons
     return true;
 }
 
-bool Database::returnBook(const QString &schoolNo, const QString &bookISBN)
+bool Database::returnBook(const QString &schoolNo, const QString &bookISBN, const QString &uid)
 {
     if (!m_db.isOpen() && !m_db.open())
     {
@@ -918,6 +947,197 @@ bool Database::isUserExists(const QString &username)
     QSqlQuery query(m_db);
     query.prepare("SELECT COUNT(*) FROM users WHERE username = :username");
     query.bindValue(":username", username);
+
+    if (!query.exec())
+    {
+        return false;
+    }
+
+    if (query.next())
+    {
+        int count = query.value(0).toInt();
+        return count > 0;
+    }
+
+    return false;
+}
+
+QString Database::getUsernameWithUID(const QString &uid)
+{
+
+    if (!m_db.isOpen() && !m_db.open())
+        return "";
+
+    if (uid.isEmpty())
+        return "";
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT username FROM users WHERE uid = :uid LIMIT 1");
+    query.bindValue(":uid", uid);
+
+    if (!query.exec())
+    {
+        return "";
+    }
+
+    if (query.next())
+    {
+        return query.value(0).toString();
+    }
+
+    return "";
+}
+
+QString Database::getSchoolNoWithUID(const QString &uid)
+{
+
+    if (!m_db.isOpen() && !m_db.open())
+        return "";
+
+    if (uid.isEmpty())
+        return "";
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT school_no FROM users WHERE uid = :uid LIMIT 1");
+    query.bindValue(":uid", uid);
+
+    if (!query.exec())
+    {
+        return "";
+    }
+
+    if (query.next())
+    {
+        return query.value(0).toString();
+    }
+
+    return "";
+}
+
+QString Database::getPasswordWithUID(const QString &uid)
+{
+
+    if (!m_db.isOpen() && !m_db.open())
+        return "";
+
+    if (uid.isEmpty())
+        return "";
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT password FROM users WHERE uid = :uid LIMIT 1");
+    query.bindValue(":uid", uid);
+
+    if (!query.exec())
+    {
+        return "";
+    }
+
+    if (query.next())
+    {
+        return query.value(0).toString();
+    }
+
+    return "";
+}
+
+QString Database::getAccountTypeWithUID(const QString &uid)
+{
+
+    if (!m_db.isOpen() && !m_db.open())
+        return "";
+
+    if (uid.isEmpty())
+        return "";
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT account_type FROM users WHERE uid = :uid LIMIT 1");
+    query.bindValue(":uid", uid);
+
+    if (!query.exec())
+    {
+        return "";
+    }
+
+    if (query.next())
+    {
+        return query.value(0).toString();
+    }
+
+    return "";
+}
+
+QString Database::getUIDWithSchoolNo(const QString &schoolNo)
+{
+
+    if (!m_db.isOpen() && !m_db.open())
+        return "";
+
+    if (schoolNo.isEmpty())
+        return "";
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT uid FROM users WHERE schoolNo = :schoolNo LIMIT 1");
+    query.bindValue(":schoolNo", schoolNo);
+
+    if (!query.exec())
+    {
+        return "";
+    }
+
+    if (query.next())
+    {
+        return query.value(0).toString();
+    }
+
+    return "";
+}
+
+bool Database::addUIDtoUser(const QString &schoolNo, const QString &uid)
+{
+    if (!m_db.isOpen() && !m_db.open())
+        return false;
+
+    if (schoolNo.isEmpty() || uid.isEmpty())
+        return false;
+
+    QSqlQuery checkQuery(m_db);
+    checkQuery.prepare("SELECT COUNT(*) FROM users WHERE school_no = :school_no");
+    checkQuery.bindValue(":school_no", schoolNo);
+
+    if (!checkQuery.exec() || !checkQuery.next())
+    {
+        return false;
+    }
+
+    int count = checkQuery.value(0).toInt();
+    if (count == 0)
+    {
+        return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("UPDATE users SET uid = :uid WHERE school_no = :school_no");
+    query.bindValue(":uid", uid);
+    query.bindValue(":school_no", schoolNo);
+
+    if (!query.exec())
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool Database::isUserExistsUID(const QString &uid)
+{
+    if (!m_db.isOpen() && !m_db.open())
+    {
+        return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT COUNT(*) FROM users WHERE uid = :uid");
+    query.bindValue(":uid", uid);
 
     if (!query.exec())
     {

@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_PREFIX_PATH "C:/Qt/6.9.2/mingw_64")
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql SerialPort)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -35,4 +35,5 @@ qt_add_executable(libsys
 target_link_libraries(libsys PRIVATE
     Qt6::Widgets
     Qt6::Sql
+    Qt6::SerialPort
 )

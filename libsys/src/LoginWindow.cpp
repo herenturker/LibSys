@@ -32,6 +32,8 @@
 #include "headers/TimeClass.h"
 #include "headers/Database.h"
 #include "headers/Utils.h"
+#include "headers/SerialReader.h"
+#include "headers/LibrarySystem.h"
 
 LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 {
@@ -56,6 +58,12 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     password_Edit = new QLineEdit;
     password_Edit->setEchoMode(QLineEdit::Password);
 
+    QLabel *RFID_Data = new QLabel("RFID Data");
+    RFID_Data_Value = new QLabel("");
+
+    RFID_Data->setObjectName("RFID_Data");
+    RFID_Data_Value->setObjectName("RFID_Data_Value");
+
     login_Button = new QPushButton("Login");
 
     username_Edit->setPlaceholderText("Username");
@@ -64,12 +72,21 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 
     // === RADIO BUTTONS ===
     radioButton_Group = new QButtonGroup(this);
+    loginRadioButton_Group = new QButtonGroup(this);
+
     accountType_Admin_Button = new QRadioButton("Admin", this);
     accountType_Student_Button = new QRadioButton("Student", this);
     accountType_Student_Button->setChecked(true);
 
     radioButton_Group->addButton(accountType_Student_Button);
     radioButton_Group->addButton(accountType_Admin_Button);
+
+    normalLogin_Button = new QRadioButton("Normal Login", this);
+    quickLogin_Button = new QRadioButton("Quick Login", this);
+    normalLogin_Button->setChecked(true);
+
+    loginRadioButton_Group->addButton(normalLogin_Button);
+    loginRadioButton_Group->addButton(quickLogin_Button);
 
     // === DATE / TIME ===
     dateLabel = new QLabel();
@@ -89,6 +106,11 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     layout_Form->addWidget(login_Button, 0, Qt::AlignHCenter);
     layout_Form->setSpacing(8);
 
+    QVBoxLayout *layout_Login = new QVBoxLayout;
+    layout_Login->addWidget(normalLogin_Button);
+    layout_Login->addWidget(quickLogin_Button);
+    layout_Login->setSpacing(0);
+
     QVBoxLayout *layout_Radio = new QVBoxLayout;
     layout_Radio->addWidget(accountType_Student_Button);
     layout_Radio->addWidget(accountType_Admin_Button);
@@ -96,16 +118,28 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     layout_Radio->addWidget(dateLabel);
     layout_Radio->addWidget(dayLabel);
     layout_Radio->addWidget(timeLabel);
+
+    // Normally they are not radio buttons.
+    // But the position is great, so why not add here :)
+
+    layout_Radio->addWidget(RFID_Data);
+    layout_Radio->addWidget(RFID_Data_Value);
     layout_Radio->addStretch();
     layout_Radio->setSpacing(6);
-    layout_Radio->setContentsMargins(20, 0, 20, 10);
+
+    layout_Radio->setContentsMargins(20, 0, 15, 10);
 
     QHBoxLayout *layout_Center = new QHBoxLayout;
     layout_Center->addStretch();
-    layout_Center->addLayout(layout_Radio, 1);
-    layout_Center->addSpacing(40);
+    layout_Center->addLayout(layout_Radio, 1); // left
+    layout_Center->addSpacing(20);
+
     layout_Center->addLayout(layout_Form, 2);
+    layout_Center->addSpacing(20);
     layout_Center->addStretch();
+
+    layout_Center->addLayout(layout_Login, 1);
+    layout_Center->addSpacing(20);
 
     QVBoxLayout *layout_Main = new QVBoxLayout(this);
     layout_Main->addSpacing(0);
@@ -159,9 +193,16 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
             color: #333333; 
             font-size: 15px;
             font-weight: bold;
+            padding: 0px;
+            margin: 0px;
         }
         QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
             font-size: 15px;
+        }
+
+        QLabel#RFID_Data, QLabel#RFID_Data_Value {
+            font-size: 15px;
+            color: red;
         }
     )");
 
@@ -176,21 +217,13 @@ void LoginWindow::handleLogin()
     QString schoolNo = schoolNo_Edit->text();
     QString password = password_Edit->text();
 
+    // Database setup
     QString exePath = QCoreApplication::applicationDirPath();
     QString dbDirPath = exePath + "/databases";
-
     QDir dbDir(dbDirPath);
-    if (!dbDir.exists())
-    {
-        if (dbDir.mkpath("."))
-        {
-            // qDebug() << "Created databases directory at:" << dbDirPath;
-        }
-        else
-        {
-            QMessageBox::critical(this, "Error", "Could not create databases directory!");
-            return;
-        }
+    if (!dbDir.exists() && !dbDir.mkpath(".")) {
+        QMessageBox::critical(this, "Error", "Could not create databases directory!");
+        return;
     }
 
     QString userdbPath = dbDirPath + "/users.db";
@@ -198,68 +231,72 @@ void LoginWindow::handleLogin()
 
     auto createEmptyDBFile = [](const QString &path)
     {
-        if (!QFile::exists(path))
-        {
+        if (!QFile::exists(path)) {
             QFile file(path);
-            if (!file.open(QIODevice::WriteOnly))
-            {
-                //  qDebug() << "Could not create database file:" << path;
-            }
-            else
-            {
-                file.close();
-                //  qDebug() << "Created database file:" << path;
-            }
+            if (file.open(QIODevice::WriteOnly)) file.close();
         }
     };
-
     createEmptyDBFile(userdbPath);
     createEmptyDBFile(librarydbPath);
 
     Database userDb(userdbPath, "DB_USERS");
     Database libraryDb(librarydbPath, "DB_LIBRARY");
 
-    if (!userDb.openDB())
-    {
-        QMessageBox::critical(this, "Error", "Could not open users database!");
-        return;
-    }
-
-    if (!libraryDb.openDB())
-    {
-        QMessageBox::critical(this, "Error", "Could not open library database!");
-        return;
-    }
+    if (!userDb.openDB()) { QMessageBox::critical(this, "Error", "Could not open users database!"); return; }
+    if (!libraryDb.openDB()) { QMessageBox::critical(this, "Error", "Could not open library database!"); return; }
 
     userDb.createUsersTable();
     libraryDb.createBooksTable();
     libraryDb.createBorrowedBooksTable();
 
-    // Default user
-    bool success = userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
+    userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
 
-    QString passwordAES = convertToAes(password);
+    bool loginSuccessFlag = false;
+    QString accountType;
+    QString loginUsername;
+    QString loginSchoolNumber;
 
-    bool loginSuccessFlag = userDb.isUserMatchedInDataBase(
-        username,
-        schoolNo,
-        passwordAES,
-        radioButton_Group->checkedButton()->text());
-
-    if (loginSuccessFlag)
+    if (loginRadioButton_Group->checkedButton()->text() == "Normal Login") 
     {
-        QString accountType = radioButton_Group->checkedButton()->text();
-        schoolNumber = schoolNo;
-        std::string logString = "LOGIN: " + username.toStdString() + " with school number: " + schoolNo.toStdString();
-        writeEncryptedLog(logString);
-        emit loginSuccess(accountType, schoolNumber);
-        close();
+        QString accountTypeSelected = radioButton_Group->checkedButton()->text();
+        loginSuccessFlag = userDb.isUserMatchedInDataBase(username, schoolNo, convertToAes(password), accountTypeSelected);
+
+        if (loginSuccessFlag) {
+            accountType = accountTypeSelected;
+            loginUsername = username;
+            loginSchoolNumber = schoolNo;
+        }
     }
-    else
+    else if (loginRadioButton_Group->checkedButton()->text() == "Quick Login") 
     {
-        QMessageBox::warning(this, "Error", "Login Error!");
+        if (LibrarySystem::rfid_data.empty()) {
+            QMessageBox::warning(this, "Error", "No RFID data detected!");
+            return;
+        }
+
+        QString rfid = QString::fromStdString(LibrarySystem::rfid_data);
+        loginSuccessFlag = userDb.isUserExistsUID(rfid);
+
+        if (loginSuccessFlag) {
+            accountType = userDb.getAccountTypeWithUID(rfid);
+            loginUsername = userDb.getUsernameWithUID(rfid);
+            loginSchoolNumber = userDb.getSchoolNoWithUID(rfid);
+        }
+    }
+
+    if (loginSuccessFlag) {
+        schoolNumber = loginSchoolNumber;
+        std::string logString = "LOGIN: " + loginUsername.toStdString() + " with school number: " + loginSchoolNumber.toStdString();
+        writeEncryptedLog(logString);
+        emit loginSuccess(accountType, loginSchoolNumber);
+        close();
+    } 
+    else 
+    {
+        QMessageBox::warning(this, "Error", "Login Error!\nInvalid credentials or UID not found.");
     }
 }
+
 
 void LoginWindow::updateDateTime()
 {
@@ -271,4 +308,9 @@ void LoginWindow::updateDateTime()
 QString LoginWindow::getSchoolNo() const
 {
     return schoolNumber;
+}
+
+void LoginWindow::updateRFIDLabel(const QString &RFIDdata)
+{
+    RFID_Data_Value->setText(RFIDdata);
 }

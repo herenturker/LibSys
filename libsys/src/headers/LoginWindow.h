@@ -26,6 +26,7 @@
 #include <QVBoxLayout>
 #include <QRadioButton>
 #include <QTimer>
+#include <QButtonGroup>
 
 class LoginWindow : public QWidget
 {
@@ -34,10 +35,13 @@ class LoginWindow : public QWidget
 public:
     explicit LoginWindow(QWidget *parent = nullptr);
     QString getSchoolNo() const;
+    QLabel *RFID_Data_Value;
 
 signals:
     void loginSuccess(const QString &accountType, const QString &schoolNo);
 
+public slots:
+    void updateRFIDLabel(const QString& RFIDdata);
 private slots:
     void handleLogin();
     void updateDateTime();
@@ -47,10 +51,13 @@ private:
     QLineEdit *password_Edit;
     QLineEdit *schoolNo_Edit;
     QButtonGroup *radioButton_Group;
+    QButtonGroup *loginRadioButton_Group;
 
     QRadioButton *accountType_Admin_Button;
-    QRadioButton *accountType_Teacher_Button;
     QRadioButton *accountType_Student_Button;
+
+    QRadioButton *normalLogin_Button;
+    QRadioButton *quickLogin_Button;
 
     QPushButton *login_Button;
     QTimer *timer;
@@ -58,6 +65,8 @@ private:
     QLabel *dayLabel;
     QLabel *timeLabel;
     QString schoolNumber;
+
+
 };
 
 #endif // LOGINWINDOW_H_

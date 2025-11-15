@@ -18,6 +18,8 @@
 
 #include <QMessageBox>
 #include <QByteArray>
+#include <QString>
+
 #include "headers/AES.h"
 
 #include "headers/Utils.h"
@@ -189,3 +191,4 @@ QString convertFromAes(const QString &aesText) {
 
     return QString::fromUtf8(decryptedBA);
 }
+

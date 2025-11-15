@@ -44,4 +44,12 @@ QString convertToAes(const QString &password);
 
 QString convertFromAes(const QString &aesText);
 
+inline QString stdStringToQString(const std::string& text){
+    return QString::fromStdString(text);
+}
+
+inline std::string QStringTostdString(const QString& text){
+    return text.toStdString();
+}
+
 #endif // UTILS_H_

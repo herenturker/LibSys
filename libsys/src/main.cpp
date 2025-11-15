@@ -16,12 +16,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// #include <iostream>
+
 #include <QApplication>
 
 #include "headers/AdminInterface.h"
 #include "headers/StudentInterface.h"
 #include "headers/LoginWindow.h"
 #include "headers/Database.h"
+#include "headers/Utils.h"
+#include "headers/SerialReader.h"
+#include "headers/LibrarySystem.h"
 
 int main(int argc, char *argv[])
 {
@@ -29,29 +34,43 @@ int main(int argc, char *argv[])
 
     libsys.setWindowIcon(QIcon(":/LibSys.ico"));
 
-    LoginWindow loginWindow;
+    libsys.setStyleSheet("QWidget { background-color: #DFDEDE; }");
 
+    LoginWindow loginWindow;
     loginWindow.show();
 
-    libsys.setStyleSheet("QWidget { background-color: #DFDEDE; }");
+    SerialReader reader;
+    reader.startSerialConnection("\\\\.\\COM4", 115200);
+
+    LibrarySystem libSystem;
+
+    QObject::connect(&reader, &SerialReader::eightCharReceived,
+                 [&libSystem](const QString &data){
+                     libSystem.updateRFIDDataValue(data);
+                 });
+
+
+    QObject::connect(&reader, &SerialReader::eightCharReceived,
+                     &loginWindow, &LoginWindow::updateRFIDLabel);
 
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess,
                      [&](const QString &accountType, const QString &schoolNo)
                      {
+                         loginWindow.close();
                          if (accountType == "Admin")
                          {
-                             loginWindow.close();
                              AdminInterface *adminInterface = new AdminInterface();
                              adminInterface->show();
                          }
                          else if (accountType == "Student")
                          {
-                             loginWindow.close();
                              StudentInterface *studentInterface = new StudentInterface();
-                             studentInterface->setCurrentStudentSchoolNo(loginWindow.getSchoolNo());
+                             studentInterface->setCurrentStudentSchoolNo(schoolNo);
                              studentInterface->show();
                          }
                      });
 
-    return libsys.exec();
+    int ret = libsys.exec();
+
+    return ret;
 }

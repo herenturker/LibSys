@@ -16,43 +16,33 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef LIBRARYSYSTEM_H_
-#define LIBRARYSYSTEM_H_
+#ifndef SERIALREADER_H_
+#define SERIALREADER_H_
 
-#include <string>
-#include <vector>
-
+#include <QObject>
 #include <QString>
+#include <QThread>
+#include "serialib.h"
 
-#include "Utils.h"
-
-
-class LibrarySystem
-
+class SerialReader : public QObject
 {
-    public:
-        struct Book {
-            QString title;
-            QString author1;
-            QString publisher;
-            QString publicationYear;
-            QString edition;
-            QString ISBN;
-            QString volume;
-            QString pageCount;
-            QString seriesInformation;
-            QString language;
-            QString DDC;
-            QString additionalInfo;
-            bool isBorrowed = false;
-            QString borrowedBy;
-        };
+    Q_OBJECT
 
-        static std::string rfid_data;
+public:
+    explicit SerialReader(QObject* parent = nullptr);
+    ~SerialReader();
 
-        void updateRFIDDataValue(const QString& RFIDdata);
+    void startSerialConnection(const char* port, int baudrate);
 
+signals:
+    void eightCharReceived(const QString& data);
 
+private:
+    void readLoop();
+
+    QThread workerThread;
+    serialib serial;
+    std::string buffer;
 };
 
-#endif // LIBRARYSYSTEM_H_
+#endif // SERIALREADER_H_

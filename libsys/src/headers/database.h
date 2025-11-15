@@ -44,10 +44,10 @@ public:
     bool createUsersTable();
 
     bool addUser(const QString &username, const QString &schoolNo,
-                 const QString &password, const QString &accountType);
+                 const QString &password, const QString &accountType, const QString &uid = "");
 
     bool updateUserInfo(QWidget *parent, const QString &username, const QString &schoolNo,
-                        const QString &password, const QString &accountType);
+                        const QString &password, const QString &accountType, const QString &uid = "");
 
     bool updateUserPassword(const QString &username, const QString &newPassword);
 
@@ -61,15 +61,29 @@ public:
 
     bool isBookBorrowedByStudent(const QString &schoolNo, const QString &bookISBN);
 
-    bool borrowBook(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
+    bool borrowBook(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid = "");
 
-    bool returnBook(const QString &schoolNo, const QString &bookISBN);
+    bool returnBook(const QString &schoolNo, const QString &bookISBN, const QString &uid = "");
+
+    QString getUsernameWithUID(const QString &uid);
+
+    QString getSchoolNoWithUID(const QString &uid);
+
+    QString getPasswordWithUID(const QString &uid);
+
+    QString getAccountTypeWithUID(const QString &uid);
+
+    QString getUIDWithSchoolNo(const QString &schoolNo);
+
+    bool addUIDtoUser(const QString &schoolNo, const QString &uid);
 
     bool getBookBorrowInfo(const QString &bookISBN, QString &borrowedBy);
 
     bool isBookExists(const QString &ISBN);
 
     bool isUserExists(const QString &username);
+
+    bool isUserExistsUID(const QString &uid);
 
     int getBorrowedBookCount(const QString &schoolNo);
 
@@ -78,30 +92,30 @@ public:
     bool isUserMatchedInDataBase(const QString &username,
                                  const QString &schoolNo,
                                  const QString &password,
-                                 const QString &accountType) const;
+                                 const QString &accountType, const QString &uid = "") const;
 
     bool addUserIfNotExists(const QString &username,
                             const QString &schoolNo,
                             const QString &password,
-                            const QString &accountType);
+                            const QString &accountType, const QString &uid = "");
 
     void debugPrintAllUsers() const;
 
-    bool deleteBook(QWidget *parent, const QString &bookTitle, const QString &author1, const QString &ISBN);
+    bool deleteBook(QWidget *parent, const QString &bookTitle, const QString &author1, const QString &ISBN, const QString &uid = "");
 
     bool addBook(QWidget* parent, const QString &bookTitle, const QString &author1,
                  const QString &publisher, const QString &publicationYear,
                  const QString &edition, const QString &ISBN,
                  const QString &volume, const QString &pageCount,
                  const QString &seriesInformation, const QString &language,
-                 const QString &DDC, const QString &additionalInfo);
+                 const QString &DDC, const QString &additionalInfo, const QString &uid = "");
 
     bool updateBook(QWidget* parent, const QString &bookTitle, const QString &author1,
                           const QString &publisher, const QString &publicationYear,
                           const QString &edition, const QString &ISBN,
                           const QString &volume, const QString &pageCount,
                           const QString &seriesInformation, const QString &language,
-                          const QString &DDC, const QString &additionalInfo);
+                          const QString &DDC, const QString &additionalInfo, const QString &uid = "");
 
 private:
     QSqlDatabase m_db;
