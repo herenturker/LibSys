@@ -24,7 +24,7 @@
 #include "headers/database.h"
 #include "headers/Utils.h"
 
-void StudentOperations::borrowBookFromLibrary(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate)
+void StudentOperations::borrowBookFromLibrary(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid)
 {
     QString exePath = QCoreApplication::applicationDirPath();
     QString dbDirPath = exePath + "/databases";
@@ -37,7 +37,7 @@ void StudentOperations::borrowBookFromLibrary(const QString &schoolNo, const QSt
     // userDb = new Database(userdbPath, "DB_USERS");
     libraryDb = new Database(librarydbPath, "DB_LIBRARY");
 
-    bool success = libraryDb->borrowBook(schoolNo, bookISBN, borrowDate, dueDate);
+    bool success = libraryDb->borrowBook(schoolNo, bookISBN, borrowDate, dueDate, uid);
     if (!success)
     {
         showMessage(nullptr, "Error", "Could not borrow the book", true);
@@ -48,7 +48,7 @@ void StudentOperations::borrowBookFromLibrary(const QString &schoolNo, const QSt
     }
 }
 
-void StudentOperations::returnBorrowedBook(const QString &schoolNo, const QString &bookISBN)
+void StudentOperations::returnBorrowedBook(const QString &schoolNo, const QString &bookISBN, const QString &uid)
 {
     QString exePath = QCoreApplication::applicationDirPath();
     QString dbDirPath = exePath + "/databases";
@@ -61,7 +61,7 @@ void StudentOperations::returnBorrowedBook(const QString &schoolNo, const QStrin
     // userDb = new Database(userdbPath, "DB_USERS");
     libraryDb = new Database(librarydbPath, "DB_LIBRARY");
 
-    bool success = libraryDb->returnBook(schoolNo, bookISBN);
+    bool success = libraryDb->returnBook(schoolNo, bookISBN, uid);
     if (!success)
     {
         showMessage(nullptr, "Error", "Could not return the book", true);

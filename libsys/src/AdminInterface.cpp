@@ -120,8 +120,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     unsigned short buttonHeight = 50;
     unsigned short buttonSquare = 170;
 
-    // TODO: Add go back button
-
     logHistory_Button->setGeometry(860, 50, buttonWidth, buttonHeight);
     books_Button->setGeometry(860, 620, buttonWidth, buttonHeight);
     users_Button->setGeometry(710, 620, buttonWidth, buttonHeight);
@@ -267,8 +265,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             {
         bookSearchWindow->setMode(BookSearchWindow::Add);
         bookSearchWindow->show();
-        bookSearchWindow->raise();
-        bookSearchWindow->activateWindow();
          });
 
          
@@ -285,11 +281,11 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 const QString &seriesInformation,
                 const QString &language,
                 const QString &DDC,
-                const QString &additionalInfo)
+                const QString &additionalInfo, const QString &uid = "")
             {
                 bool success = libraryDb->addBook(this, bookTitle, author1,
                                                   publisher, publicationYear, edition, ISBN, volume,
-                                                  pageCount, seriesInformation, language, DDC, additionalInfo);
+                                                  pageCount, seriesInformation, language, DDC, additionalInfo, uid);
 
                 if (!success)
                 {
@@ -308,15 +304,14 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             {
         bookSearchWindow->setMode(BookSearchWindow::Delete);
         bookSearchWindow->show();
-        bookSearchWindow->raise();
-        bookSearchWindow->activateWindow(); });
+    });
 
     connect(bookSearchWindow, &BookSearchWindow::bookDeleteDataReady,
             [&](const QString &bookTitle,
                 const QString &author1,
-                const QString &ISBN)
+                const QString &ISBN, const QString &uid = "")
             {
-                bool success = libraryDb->deleteBook(this, bookTitle, author1, ISBN);
+                bool success = libraryDb->deleteBook(this, bookTitle, author1, ISBN, uid);
 
                 if (!success)
                 {
@@ -335,8 +330,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             {
         bookSearchWindow->setMode(BookSearchWindow::Update);
         bookSearchWindow->show();
-        bookSearchWindow->raise();
-        bookSearchWindow->activateWindow(); });
+    });
 
     connect(bookSearchWindow, &BookSearchWindow::bookUpdateDataReady,
             [&](const QString &bookTitle,
@@ -350,11 +344,11 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 const QString &seriesInformation,
                 const QString &language,
                 const QString &DDC,
-                const QString &additionalInfo)
+                const QString &additionalInfo, const QString &uid = "")
             {
                 bool success = libraryDb->updateBook(this, bookTitle, author1,
                                                      publisher, publicationYear, edition, ISBN, volume,
-                                                     pageCount, seriesInformation, language, DDC, additionalInfo);
+                                                     pageCount, seriesInformation, language, DDC, additionalInfo, uid);
 
                 if (!success)
                 {
@@ -421,7 +415,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         GeneralOperations generalOperations(libraryDb);
 
         QList<LibrarySystem::Book> results = generalOperations.searchBook(
-            "", "", "", "", "", "", "", "", "", "", "", ""
+            "", "", "", "", "", "", "", "", "", "", "", "", ""
         );
 
         if (results.isEmpty()) {
@@ -438,11 +432,11 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
                 if (!success)
                 {
-                    showMessage(this, "Error", "Could not report book as lost", true);
+                    showMessage(this, "Error", "Could not perform the operation.", true);
                 }
                 else
                 {
-                    showMessage(this, "Success", "Reported book as lost!", false);
+                    showMessage(this, "Success", "Operation successful.", false);
                 }
             });
 
@@ -508,8 +502,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         QVBoxLayout *layout = new QVBoxLayout(userWindow);
         QTableWidget *table = new QTableWidget;
-        table->setColumnCount(4);
-        table->setHorizontalHeaderLabels({"Username", "School No", "Password", "Account Type"});
+        table->setColumnCount(5);
+        table->setHorizontalHeaderLabels({"Username", "School No", "Password", "Account Type", "UID"});
         table->horizontalHeader()->setStretchLastSection(true);
         table->setEditTriggers(QAbstractItemView::NoEditTriggers);
         table->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -529,16 +523,19 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             QTableWidgetItem *schoolNoItem = new QTableWidgetItem(query.value("school_no").toString());
             QTableWidgetItem *passwordItem = new QTableWidgetItem(convertFromAes(query.value("password").toString())); 
             QTableWidgetItem *accountTypeItem = new QTableWidgetItem(query.value("account_type").toString());
+            QTableWidgetItem *uidItem = new QTableWidgetItem(query.value("uid").toString());
 
             usernameItem->setForeground(QBrush(Qt::black));
             schoolNoItem->setForeground(QBrush(Qt::black));
             passwordItem->setForeground(QBrush(Qt::black));
             accountTypeItem->setForeground(QBrush(Qt::black));
+            uidItem->setForeground(QBrush(Qt::black));
 
             table->setItem(row, 0, usernameItem);
             table->setItem(row, 1, schoolNoItem);
             table->setItem(row, 2, passwordItem);
             table->setItem(row, 3, accountTypeItem);
+            table->setItem(row, 4, uidItem);
 
             row++;
         }

@@ -26,9 +26,9 @@ class StudentOperations
 
 {
     public:
-        void borrowBookFromLibrary(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
+        void borrowBookFromLibrary(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid = "");
 
-        void returnBorrowedBook(const QString &schoolNo, const QString &bookISBN);
+        void returnBorrowedBook(const QString &schoolNo, const QString &bookISBN, const QString &uid = "");
 
         /*
 

@@ -81,6 +81,8 @@ public:
 
     bool isBookExists(const QString &ISBN);
 
+    bool isBookExistsUID(const QString &uid);
+
     bool isUserExists(const QString &username);
 
     bool isUserExistsUID(const QString &uid);

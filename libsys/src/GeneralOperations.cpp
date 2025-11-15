@@ -29,7 +29,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     const QString &edition, const QString &ISBN,
     const QString &volume, const QString &pageCount,
     const QString &seriesInformation, const QString &language,
-    const QString &DDC, const QString &additionalInfo
+    const QString &DDC, const QString &additionalInfo, const QString &uid
 ) {
     QList<LibrarySystem::Book> results;
 
@@ -54,6 +54,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     if (!language.isEmpty()) sql += " AND language LIKE '%' || :language || '%'";
     if (!DDC.isEmpty()) sql += " AND ddc LIKE '%' || :DDC || '%'";
     if (!additionalInfo.isEmpty()) sql += " AND additional_info LIKE '%' || :additionalInfo || '%'";
+    if (!uid.isEmpty()) sql += " AND uid LIKE '%' || :uid || '%'";
 
     query.prepare(sql);
 
@@ -69,6 +70,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     if (!language.isEmpty()) query.bindValue(":language", language);
     if (!DDC.isEmpty()) query.bindValue(":DDC", DDC);
     if (!additionalInfo.isEmpty()) query.bindValue(":additionalInfo", additionalInfo);
+    if (!uid.isEmpty()) query.bindValue(":uid", uid);
 
     if (!query.exec()) {
         //  qDebug() << "Search query failed:" << query.lastError().text();
@@ -90,6 +92,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
         book.language = query.value("language").toString();
         book.DDC = query.value("ddc").toString();
         book.additionalInfo = query.value("additional_info").toString();
+        book.uid = query.value("uid").toString();
 
         int borrowedIndex = query.record().indexOf("is_borrowed");
         int borrowedByIndex = query.record().indexOf("borrowed_by");

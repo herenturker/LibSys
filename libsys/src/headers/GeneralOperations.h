@@ -36,7 +36,7 @@ class GeneralOperations
                         const QString &edition = QString(), const QString &ISBN = QString(),
                         const QString &volume = QString(), const QString &pageCount = QString(),
                         const QString &seriesInformation = QString(), const QString &language = QString(),
-                        const QString &DDC = QString(), const QString &additionalInfo = QString());
+                        const QString &DDC = QString(), const QString &additionalInfo = QString(),  const QString &uid = QString());
      
     protected:
         Database *libraryDb;

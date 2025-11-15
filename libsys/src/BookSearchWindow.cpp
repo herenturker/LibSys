@@ -126,10 +126,17 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 
     // --- Additional Info ---
     QLabel *lblAdditional = new QLabel("Additional Information", this);
-    lblAdditional->setGeometry(50, 400, 150, 20);
+    lblAdditional->setGeometry(50, 430, 150, 20);
     additionalInfo = new QTextEdit(this);
-    additionalInfo->setGeometry(50, 420, 650, 100);
+    additionalInfo->setGeometry(50, 450, 650, 100);
     additionalInfo->setPlaceholderText("Enter additional info if any");
+
+    // --- UID Info ---
+    QLabel *lblUID = new QLabel("UID", this);
+    lblUID->setGeometry(400, 390, 110, 20);
+    uid = new QLineEdit(this);
+    uid->setGeometry(400, 410, 300, 30);
+    uid->setPlaceholderText("Enter UID info if any");
 
     /*
 
@@ -192,7 +199,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     */
 
     QPushButton *confirmBtn = new QPushButton("Confirm", this);
-    confirmBtn->setGeometry(320, 530, 100, 30);
+    confirmBtn->setGeometry(335, 555, 100, 30);
 
     connect(confirmBtn, &QPushButton::clicked, this, [this]()
             {
@@ -279,10 +286,12 @@ void BookSearchWindow::showEvent(QShowEvent *event)
 void BookSearchWindow::closeEvent(QCloseEvent *event)
 {
     // emit windowClosed();
+    /*
     if (extraAuthorsWindow)
     {
         extraAuthorsWindow->close();
     }
+    */
     QWidget::closeEvent(event);
 }
 
@@ -300,6 +309,7 @@ bool BookSearchWindow::bookOperationMode()
     QString languageText = language->text();
     QString DDCText = DDC->text();
     QString additionalInfoText = additionalInfo->toPlainText();
+    QString UID = uid->text();
 
     switch (currentMode)
     {
@@ -307,18 +317,18 @@ bool BookSearchWindow::bookOperationMode()
         emit bookAddDataReady(
             title, author, publisherText, pubYear, editionText,
             ISBNText, volumeText, pageCountText,
-            seriesText, languageText, DDCText, additionalInfoText);
+            seriesText, languageText, DDCText, additionalInfoText, UID);
         break;
 
     case Delete:
-        emit bookDeleteDataReady(title, author, ISBNText);
+        emit bookDeleteDataReady(title, author, ISBNText, UID);
         break;
 
     case Update:
         emit bookUpdateDataReady(
             title, author, publisherText, pubYear, editionText,
             ISBNText, volumeText, pageCountText,
-            seriesText, languageText, DDCText, additionalInfoText);
+            seriesText, languageText, DDCText, additionalInfoText, UID);
         break;
     }
 

@@ -124,8 +124,8 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     returnBook_Button = new QPushButton("Return", this);
     returnBook_Button->setToolTip("Return a book to the library.");
 
-    // myAccount_Button = new QPushButton("Account", this);
-    // myAccount_Button->setToolTip("Display account settings");
+    myAccount_Button = new QPushButton("Account", this);
+    myAccount_Button->setToolTip("Display account settings");
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
@@ -133,7 +133,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     borrowBook_Button->setGeometry(540, 640, buttonWidth, buttonHeight);
     returnBook_Button->setGeometry(680, 640, buttonWidth, buttonHeight);
-    // myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
+    myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
     searchLayout->setContentsMargins(0, 0, 0, 0);
@@ -169,13 +169,14 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                 QString language = bookSearchWindow->language->text();
                 QString DDC = bookSearchWindow->DDC->text();
                 QString additionalInfo = bookSearchWindow->additionalInfo->toPlainText();
+                QString uid = bookSearchWindow->uid->text();
 
                 GeneralOperations generalOperations(libraryDb);
 
                 QList<LibrarySystem::Book> results = generalOperations.searchBook(
                     bookTitle, author1,
                     publisher, publicationYear, edition, ISBN,
-                    volume, pageCount, seriesInformation, language, DDC, additionalInfo);
+                    volume, pageCount, seriesInformation, language, DDC, additionalInfo, uid);
 
                 for (auto &book : results)
                 {
@@ -327,7 +328,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
         GeneralOperations generalOperations(libraryDb);
 
         QList<LibrarySystem::Book> results = generalOperations.searchBook(
-            query, "", "", "", "", "", "", "", "", "", "", ""
+            query, "", "", "", "", "", "", "", "", "", "", "", ""
         );
 
         for (auto &book : results) {
@@ -466,7 +467,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     borrowBook_Button->setStyleSheet(buttonStyle);
     returnBook_Button->setStyleSheet(buttonStyle);
-    // myAccount_Button->setStyleSheet(buttonStyle);
+    myAccount_Button->setStyleSheet(buttonStyle);
 }
 
 void StudentInterface::updateDateTime()
@@ -507,7 +508,8 @@ void StudentInterface::refreshBookLists()
                                "Series Information: %10\n"
                                "Language: %11\n"
                                "DDC: %12\n"
-                               "Additional Info: %13\n\n")
+                               "Additional Info: %13\n"
+                                "UID: %14\n\n")
                                .arg(bookCounter)
                                .arg(book.value("title"))
                                .arg(book.value("author1"))
@@ -524,7 +526,8 @@ void StudentInterface::refreshBookLists()
                                .arg(book.value("series_information"))
                                .arg(book.value("language"))
                                .arg(book.value("ddc"))
-                               .arg(book.value("additional_info"));
+                               .arg(book.value("additional_info"))
+                               .arg(book.value("uid"));
 
         // ---------- Borrowed Books ----------
         QListWidgetItem *borrowedItem = new QListWidgetItem(bookText, borrowedBooksList);
@@ -571,12 +574,13 @@ QStringList StudentInterface::getBorrowedBooksTextList() const
 
     for (const auto &book : books)
     {
-        QString bookLine = QString("Title: %1 | Author1: %2 | ISBN: %3 | Borrow Date: %4 | Due Date: %5")
+        QString bookLine = QString("Title: %1 | Author1: %2 | ISBN: %3 | Borrow Date: %4 | Due Date: %5 | Book UID: %6")
                                .arg(book["title"])
                                .arg(book["author1"])
                                .arg(book["isbn"])
                                .arg(book["borrow_date"])
-                               .arg(book["due_date"]);
+                               .arg(book["due_date"])
+                               .arg(book["uid"]);
 
         borrowedBooksText.append(bookLine);
     }
@@ -613,7 +617,8 @@ void StudentInterface::refreshBorrowedBooks()
                                "Series Information: %10\n"
                                "Language: %11\n"
                                "DDC: %12\n"
-                               "Additional Info: %13\n\n")
+                               "Additional Info: %13\n"
+                               "UID: %14\n\n")
                                .arg(bookCounter++)
                                .arg(book.value("title"))
                                .arg(book.value("author1"))
@@ -626,7 +631,8 @@ void StudentInterface::refreshBorrowedBooks()
                                .arg(book.value("series_information"))
                                .arg(book.value("language"))
                                .arg(book.value("ddc"))
-                               .arg(book.value("additional_info"));
+                               .arg(book.value("additional_info"))
+                               .arg(book.value("uid"));
 
         QListWidgetItem *item = new QListWidgetItem(bookText, borrowedBooksList);
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignTop);

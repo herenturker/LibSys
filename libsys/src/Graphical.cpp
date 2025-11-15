@@ -66,9 +66,12 @@ bool Graphical::addUserGraphical(QWidget *parent)
 
     QLineEdit *password = new QLineEdit;
 
+    QLineEdit *uid = new QLineEdit;
+
     username->setPlaceholderText("Username");
     schoolNo->setPlaceholderText("School Number");
     password->setPlaceholderText("Password");
+    uid->setPlaceholderText("UID");
 
     QButtonGroup *radioButton_Group = new QButtonGroup(&dialog);
     QRadioButton *accountType_Admin_Button = new QRadioButton("Admin", &dialog);
@@ -83,6 +86,8 @@ bool Graphical::addUserGraphical(QWidget *parent)
     formLayout->addRow("Username:", username);
     formLayout->addRow("School Number:", schoolNo);
     formLayout->addRow("Password:", password);
+    formLayout->addRow("UID:", uid);
+
     QHBoxLayout *radioLayout = new QHBoxLayout;
     radioLayout->addWidget(accountType_Student_Button);
     radioLayout->addWidget(accountType_Admin_Button);
@@ -124,9 +129,10 @@ bool Graphical::addUserGraphical(QWidget *parent)
                              dialog.reject();
                          }
 
-                         bool isAdded = db.addUserIfNotExists(username->text(), schoolNo->text(), password->text(), accountType);
+                         bool isAdded = db.addUserIfNotExists(username->text(), schoolNo->text(), password->text(), accountType, uid->text());
                          if (isAdded)
                              dialog.accept(); });
+
     QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
 
     return dialog.exec() == QDialog::Accepted;
@@ -198,9 +204,12 @@ bool Graphical::updateUserGraphical(QWidget *parent)
 
     QLineEdit *password = new QLineEdit;
 
+    QLineEdit *uid = new QLineEdit;
+
     username->setPlaceholderText("Username");
     schoolNo->setPlaceholderText("School Number");
     password->setPlaceholderText("Password");
+    uid->setPlaceholderText("Password");
 
     QButtonGroup *radioButton_Group = new QButtonGroup(&dialog);
     QRadioButton *accountType_Admin_Button = new QRadioButton("Admin", &dialog);
@@ -215,6 +224,8 @@ bool Graphical::updateUserGraphical(QWidget *parent)
     formLayout->addRow("Username:", username);
     formLayout->addRow("School Number:", schoolNo);
     formLayout->addRow("Password:", password);
+    formLayout->addRow("UID:", uid);
+
     QHBoxLayout *radioLayout = new QHBoxLayout;
     radioLayout->addWidget(accountType_Student_Button);
     radioLayout->addWidget(accountType_Admin_Button);
@@ -256,9 +267,10 @@ bool Graphical::updateUserGraphical(QWidget *parent)
                              dialog.reject();
                          }
 
-                         bool isUpdated = db.updateUserInfo(parent, username->text(), schoolNo->text(), password->text(), accountType);
+                         bool isUpdated = db.updateUserInfo(parent, username->text(), schoolNo->text(), password->text(), accountType, uid->text());
                          if (isUpdated)
                              dialog.accept(); });
+                             
     QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
 
     return dialog.exec() == QDialog::Accepted;
@@ -271,7 +283,7 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
     {
         bookWindow = new QWidget(nullptr, Qt::Window);
         bookWindow->setWindowTitle("Filtered Books");
-        bookWindow->resize(1100, 600);
+        bookWindow->resize(1150, 600);
         bookWindow->setAttribute(Qt::WA_DeleteOnClose);
 
         bookWindow->setStyleSheet(R"(
@@ -287,11 +299,10 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         bookTable = new QTableWidget(bookWindow);
         bookTable->setObjectName("BookTable");
 
-        bookTable->setObjectName("BookTable");
-        bookTable->setColumnCount(14);
+        bookTable->setColumnCount(15);
         bookTable->setHorizontalHeaderLabels({"Title", "Author1",
                                               "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
-                                              "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By"});
+                                              "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By", "UID"});
 
         bookTable->setShowGrid(true);
         bookTable->setGridStyle(Qt::DashLine);
@@ -365,12 +376,13 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
 
             table->setItem(row, 12, new QTableWidgetItem(book.isBorrowed ? "Yes" : "No"));
             table->setItem(row, 13, new QTableWidgetItem(book.borrowedBy.isEmpty() ? "-" : book.borrowedBy));
+            table->setItem(row, 14, new QTableWidgetItem(book.uid.isEmpty() ? "-" : book.uid));
         }
     }
 
     bookWindow->show();
-    bookWindow->raise();
-    bookWindow->activateWindow();
+    // bookWindow->raise();
+    // bookWindow->activateWindow();
 }
 
 QTableWidget *Graphical::getBookTable()
@@ -418,12 +430,10 @@ bool Graphical::reportLostBookGraphical(QWidget *parent)
     }
 
     if (!ok)
-    {
         return false;
-    }
 
     QSqlQuery checkQuery(libraryDb->getDB());
-    checkQuery.prepare("SELECT COUNT(*) FROM books WHERE isbn = :isbn");
+    checkQuery.prepare("SELECT additional_info FROM books WHERE isbn = :isbn");
     checkQuery.bindValue(":isbn", ISBN);
 
     if (!checkQuery.exec() || !checkQuery.next())
@@ -432,22 +442,35 @@ bool Graphical::reportLostBookGraphical(QWidget *parent)
         return false;
     }
 
-    if (checkQuery.value(0).toInt() == 0)
-    {
-        showMessage(parent, "Book Not Found", "No book found with ISBN: " + ISBN, true);
-        return false;
-    }
+    QString currentInfo = checkQuery.value(0).toString();
 
     QSqlQuery updateQuery(libraryDb->getDB());
-    updateQuery.prepare("UPDATE books SET additional_info = 'LOST' WHERE isbn = :isbn");
-    updateQuery.bindValue(":isbn", ISBN);
-
-    if (!updateQuery.exec())
+    if (currentInfo == "LOST")
     {
-        showMessage(parent, "Update Error", "Could not mark book as lost: " + updateQuery.lastError().text(), true);
-        return false;
+        updateQuery.prepare("UPDATE books SET additional_info = '' WHERE isbn = :isbn");
+        updateQuery.bindValue(":isbn", ISBN);
+
+        if (!updateQuery.exec())
+        {
+            showMessage(parent, "Update Error", "Could not restore book info: " + updateQuery.lastError().text(), true);
+            return false;
+        }
+
+        showMessage(parent, "Success", "Book with ISBN " + ISBN + " restored from LOST.", false);
+    }
+    else
+    {
+        updateQuery.prepare("UPDATE books SET additional_info = 'LOST' WHERE isbn = :isbn");
+        updateQuery.bindValue(":isbn", ISBN);
+
+        if (!updateQuery.exec())
+        {
+            showMessage(parent, "Update Error", "Could not mark book as lost: " + updateQuery.lastError().text(), true);
+            return false;
+        }
+
+        showMessage(parent, "Success", "Book with ISBN " + ISBN + " marked as LOST.", false);
     }
 
-    showMessage(parent, "Success", "Book with ISBN " + ISBN + " marked as LOST.", false);
     return true;
 }

@@ -68,11 +68,13 @@ signals:
         const QString &seriesInformation,
         const QString &language,
         const QString &DDC,
-        const QString &additionalInfo);
+        const QString &additionalInfo,
+        const QString &uid = ""
+        );
 
     void bookDeleteDataReady(const QString &bookTitle,
                              const QString &author1,
-                             const QString &ISBN);
+                             const QString &ISBN, const QString &uid = "");
 
     void bookUpdateDataReady(const QString &bookTitle,
                              const QString &author1, const QString &publisher,
@@ -80,7 +82,7 @@ signals:
                              const QString &ISBN, const QString &volume,
                              const QString &pageCount, const QString &seriesInformation,
                              const QString &language, const QString &DDC,
-                             const QString &additionalInfo);
+                             const QString &additionalInfo, const QString &uid = "");
 
 protected:
     void closeEvent(QCloseEvent *event) override;
@@ -100,8 +102,9 @@ public:
     QLineEdit *DDC = nullptr;
     QLineEdit *Topic = nullptr;
     QTextEdit *additionalInfo = nullptr;
+    QLineEdit *uid = nullptr;
 
-    QWidget *extraAuthorsWindow = nullptr;
+    // QWidget *extraAuthorsWindow = nullptr;
 
 private:
     Mode currentMode = Add;

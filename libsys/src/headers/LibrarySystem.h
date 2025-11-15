@@ -46,6 +46,7 @@ class LibrarySystem
             QString additionalInfo;
             bool isBorrowed = false;
             QString borrowedBy;
+            QString uid;
         };
 
         static std::string rfid_data;
