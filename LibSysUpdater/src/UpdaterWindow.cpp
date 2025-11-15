@@ -227,7 +227,7 @@ void UpdaterWindow::startUpdate(int selection)
         return;
     }
 
-    QString rawJson = getJson("https://github.com/herenturker/LibSys/releases/tag/Test/version.json");
+    QString rawJson = getJson("https://raw.githubusercontent.com/herenturker/LibSys/master/version.json");
 
     QJsonDocument doc = QJsonDocument::fromJson(rawJson.toUtf8());
     QJsonObject obj = doc.object();
