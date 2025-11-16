@@ -1,5 +1,5 @@
 # Arduino Code and Connections
- I used RC-522 RFID Reader in this project. Here are the connectionsfor Arduino digital pins:
+ I used RC-522 RFID Reader in this project. Here are the connections for Arduino digital pins:
 
  ```bash
  GND: GND
