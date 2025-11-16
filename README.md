@@ -29,6 +29,20 @@ LibSys is an open-source library management system written in C++ that handles b
 
 ## Installation
 
+If you are using Windows, you must install mingw-w64/MSYS2 and tools G++, CMake and Makefile.
+Also you must install Qt Framework (Version at least 6.9.2).
+
+You can find more information here:
+([Qt](https://www.qt.io/product/framework))
+([MSYS2](https://www.msys2.org/))
+([mingw-w64](https://www.mingw-w64.org/))
+
+Also you must change all CMakeLists.txt files' 
+```bash
+set(CMAKE_PREFIX_PATH "C:/Qt/6.9.2/mingw_64")
+```
+part with the path you have Qt installed.
+
 Follow the steps below to run the project on your machine:
 
 ```bash
