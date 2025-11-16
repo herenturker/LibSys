@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QString>
 #include <QThread>
+
 #include "serialib.h"
 
 class SerialReader : public QObject

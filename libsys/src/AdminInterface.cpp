@@ -27,6 +27,7 @@
 #include <QTableWidget>
 #include <QVBoxLayout>
 #include <QHeaderView>
+#include <QSettings>
 
 #include "headers/AdminInterface.h"
 #include "headers/LoginWindow.h"
@@ -89,20 +90,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     adminDashboard->move(75, 30);
     adminDashboard->resize(500, 170);
 
-    // confirmationRequests_Button = new QPushButton("Confirmation Requests", this);
-    // confirmationRequests_Button->setToolTip("Review and manage pending confirmation requests.");
-
-    // inquireBookSubmission_Button = new QPushButton("Book Submissions", this);
-    // inquireBookSubmission_Button->setToolTip("Check the submission status of borrowed books.");
-
     reportLostBook_Button = new QPushButton("Report Lost Book", this);
     reportLostBook_Button->setToolTip("Report a lost book and update its record.");
-
-    // inquireBookRegistiration_Button = new QPushButton("Inquiry Book Registiration", this);
-    // inquireBookRegistiration_Button->setToolTip("Check whether a book is registered to a user and view its details.");
-
-    // backToLoginWindow_Button = new QPushButton("Return to\nLogin", this);
-    // backToLoginWindow_Button->setToolTip("Return to the login window.");
 
     addUser_Button = new QPushButton("Add User", this);
     addUser_Button->setToolTip("Add a new user to the users database.");
@@ -113,8 +102,19 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     updateUserInfo_Button = new QPushButton("Update User Info", this);
     updateUserInfo_Button->setToolTip("Update or edit an user's info.");
 
-    // punishUser_Button = new QPushButton("Punish User", this);
-    // punishUser_Button->setToolTip("Punish an user in LibSys.");
+    RFID_Data = new QLabel("RFID Data", this);
+    RFID_Data_Value = new QLabel("", this);
+
+    QPushButton *enterCOM_button = new QPushButton("COM", this);
+    enterCOM_button->setToolTip("Enter COM Info for RFID Serial Port");
+
+    RFID_Data->setObjectName("RFID_Data");
+    RFID_Data_Value->setObjectName("RFID_Data_Value");
+
+    updateRFIDLabel(stdStringToQString(LibrarySystem::rfid_data));
+
+    RFID_Data->setGeometry(860, 120, 120, 30);
+    RFID_Data_Value->setGeometry(860, 160, 120, 30);
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
@@ -123,6 +123,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     logHistory_Button->setGeometry(860, 50, buttonWidth, buttonHeight);
     books_Button->setGeometry(860, 620, buttonWidth, buttonHeight);
     users_Button->setGeometry(710, 620, buttonWidth, buttonHeight);
+
+    enterCOM_button->setGeometry(710, 50, buttonWidth, buttonHeight);
 
     dateLabel->setGeometry(75, 650, 200, 30);
     dayLabel->setGeometry(75, 620, 200, 30);
@@ -134,23 +136,13 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     changeBookInfo_Button->setGeometry(460, 215, buttonSquare, buttonSquare);
 
-    // confirmationRequests_Button->setGeometry(75, 140, 210, buttonHeight);
-
-    // inquireBookSubmission_Button->setGeometry(330, 50, 170, buttonHeight);
-
     reportLostBook_Button->setGeometry(265, 620, 160, buttonHeight);
-
-    // inquireBookRegistiration_Button->setGeometry(75, 50, 240, buttonHeight);
-
-    // backToLoginWindow_Button->setGeometry(860, 140, buttonWidth, buttonHeight);
 
     addUser_Button->setGeometry(75, 410, buttonSquare, buttonSquare);
 
     deleteUser_Button->setGeometry(265, 410, buttonSquare, buttonSquare);
 
     updateUserInfo_Button->setGeometry(460, 410, buttonSquare, buttonSquare);
-
-    // punishUser_Button->setGeometry(655, 410, buttonSquare, buttonSquare);
 
     QString buttonStyle = R"(
         QPushButton { 
@@ -177,6 +169,12 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             font-weight: bold;
             color: #333333;
         }
+
+        QLabel#RFID_Data, QLabel#RFID_Data_Value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #8c1818;
+        }
             
         )");
 
@@ -186,15 +184,11 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     logHistory_Button->setStyleSheet(buttonStyle);
 
+    enterCOM_button->setStyleSheet(buttonStyle);
+
     books_Button->setStyleSheet(buttonStyle);
 
     users_Button->setStyleSheet(buttonStyle);
-
-    // inquireBookSubmission_Button->setStyleSheet(buttonStyle);
-
-    // inquireBookRegistiration_Button->setStyleSheet(buttonStyle);
-
-    // confirmationRequests_Button->setStyleSheet(buttonStyle);
 
     reportLostBook_Button->setStyleSheet(buttonStyle);
 
@@ -204,15 +198,11 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     changeBookInfo_Button->setStyleSheet(buttonStyle);
 
-    // backToLoginWindow_Button->setStyleSheet(buttonStyle);
-
     addUser_Button->setStyleSheet(buttonStyle);
 
     deleteUser_Button->setStyleSheet(buttonStyle);
 
     updateUserInfo_Button->setStyleSheet(buttonStyle);
-
-    // punishUser_Button->setStyleSheet(buttonStyle);
 
     // CONNECTIONS
 
@@ -221,12 +211,12 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         QFile file(userdbPath);
         if (!file.open(QIODevice::WriteOnly))
         {
+            // We should not come here.
             //  qDebug() << "Could not create \"users.db\" !";
         }
         else
         {
             file.close();
-            //  qDebug() << "Created \"users.db\" .";
         }
     }
 
@@ -235,12 +225,12 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         QFile file(librarydbPath);
         if (!file.open(QIODevice::WriteOnly))
         {
+            // We should not come here.
             //  qDebug() << "Could not create \"library.db\" !";
         }
         else
         {
             file.close();
-            //  qDebug() << "Created \"library.db\" .";
         }
     }
 
@@ -264,10 +254,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     connect(addBook_Button, &QPushButton::clicked, [&]()
             {
         bookSearchWindow->setMode(BookSearchWindow::Add);
-        bookSearchWindow->show();
-         });
-
-         
+        bookSearchWindow->show(); });
 
     connect(bookSearchWindow, &BookSearchWindow::bookAddDataReady,
             [&](const QString &bookTitle,
@@ -303,8 +290,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     connect(deleteBook_Button, &QPushButton::clicked, [&]()
             {
         bookSearchWindow->setMode(BookSearchWindow::Delete);
-        bookSearchWindow->show();
-    });
+        bookSearchWindow->show(); });
 
     connect(bookSearchWindow, &BookSearchWindow::bookDeleteDataReady,
             [&](const QString &bookTitle,
@@ -329,8 +315,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     connect(changeBookInfo_Button, &QPushButton::clicked, [&]()
             {
         bookSearchWindow->setMode(BookSearchWindow::Update);
-        bookSearchWindow->show();
-    });
+        bookSearchWindow->show(); });
 
     connect(bookSearchWindow, &BookSearchWindow::bookUpdateDataReady,
             [&](const QString &bookTitle,
@@ -377,8 +362,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                     std::string logString = "ADDED NEW USER";
                     writeEncryptedLog(logString);
                     showMessage(this, "Success", "Added new user!", false);
-                }
-            });
+                } });
 
     connect(deleteUser_Button, &QPushButton::clicked, [=]()
             {
@@ -394,8 +378,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                     std::string logString = "DELETED AN USER";
                     writeEncryptedLog(logString);
                     showMessage(this, "Success", "Deleted the user!", false);
-                }
-            });
+                } });
 
     connect(updateUserInfo_Button, &QPushButton::clicked, [=]()
             {
@@ -425,6 +408,56 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         bookSearchWindow->graphical->displayBooksWithFilters(this, results); });
 
+    connect(enterCOM_button, &QPushButton::clicked, [=]()
+            {
+        QDialog comDialog;
+        comDialog.setWindowTitle("Enter Arduino COM Port");
+        comDialog.setModal(true);
+        comDialog.resize(300, 120);
+
+        QVBoxLayout *layout = new QVBoxLayout(&comDialog);
+
+        QLabel *label = new QLabel("Enter Arduino COM port (e.g., COM3):", &comDialog);
+        label->setStyleSheet("color: black;");
+        QLineEdit *comEdit = new QLineEdit(&comDialog);
+        comEdit->setStyleSheet("color: black;");
+
+        QSettings settings("LibSys", "ArduinoSettings");
+        QString savedPort = settings.value("ArduinoCOMPort", "").toString();
+        if (!savedPort.isEmpty()) {
+            comEdit->setText(savedPort);
+        }
+
+        QHBoxLayout *btnLayout = new QHBoxLayout();
+        QPushButton *okBtn = new QPushButton("OK", &comDialog);
+        okBtn->setStyleSheet("color: black;");
+        QPushButton *cancelBtn = new QPushButton("Cancel", &comDialog);
+        cancelBtn->setStyleSheet("color: black;");
+        btnLayout->addWidget(okBtn);
+        btnLayout->addWidget(cancelBtn);
+
+        layout->addWidget(label);
+        layout->addWidget(comEdit);
+        layout->addLayout(btnLayout);
+
+        QObject::connect(okBtn, &QPushButton::clicked, [&]() {
+            QString port = comEdit->text().trimmed();
+            if (!port.isEmpty()) {
+                LibrarySystem::ArduinoCOMPort = port;
+
+                settings.setValue("ArduinoCOMPort", port);
+
+                showMessage(nullptr, "Saved", "Arduino COM port saved: " + port, false);
+                comDialog.accept();
+            } else {
+                showMessage(nullptr, "Error", "Please enter a COM port!", true);
+            }
+        });
+
+        QObject::connect(cancelBtn, &QPushButton::clicked, &comDialog, &QDialog::reject);
+
+        comDialog.exec(); });
+
     connect(reportLostBook_Button, &QPushButton::clicked, [=]()
             {
                 Graphical graphicalReportLostBook(this);
@@ -437,10 +470,10 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 else
                 {
                     showMessage(this, "Success", "Operation successful.", false);
-                }
-            });
+                } });
 
-    connect(logHistory_Button, &QPushButton::clicked, this, [this]() {
+    connect(logHistory_Button, &QPushButton::clicked, this, [this]()
+            {
 
         if (!logWindow) {
             char key = 0x4B; // letter K
@@ -478,11 +511,10 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         } else {
             logWindow->raise();
             logWindow->activateWindow();
-        }
-    });
+        } });
 
-
-    connect(users_Button, &QPushButton::clicked, this, [this]() {
+    connect(users_Button, &QPushButton::clicked, this, [this]()
+            {
         if (userWindow) {
             userWindow->raise();
             userWindow->activateWindow();
@@ -549,9 +581,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         });
 
         userWindow->show();
-        userDb->closeDB();
-    });
-
+        userDb->closeDB(); });
 }
 
 void AdminInterface::updateDateTime()
@@ -565,4 +595,8 @@ AdminInterface::~AdminInterface()
 {
     delete userDb;
     delete libraryDb;
+}
+void AdminInterface::updateRFIDLabel(const QString &RFIDdata)
+{
+    RFID_Data_Value->setText(RFIDdata);
 }

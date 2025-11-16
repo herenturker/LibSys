@@ -22,6 +22,7 @@
 
 #include "headers/BookSearchWindow.h"
 #include "headers/Utils.h"
+#include "headers/LibrarySystem.h"
 
 BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 {
@@ -138,65 +139,8 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     uid->setGeometry(400, 410, 300, 30);
     uid->setPlaceholderText("Enter UID info if any");
 
-    /*
+    uid->setText(stdStringToQString(LibrarySystem::rfid_data));
 
-    // ATTENTION: The following author fields are created but not added to the main window directly.
-    // Because they create SEGFAULT which I, Habil Eren, couldn't figure out why.
-
-    author2 = new QLineEdit();
-    author3 = new QLineEdit();
-    author4 = new QLineEdit();
-    author5 = new QLineEdit();
-    */
-
-    /*
-    connect(addAuthors, &QPushButton::clicked, this, [=]()
-            {
-
-        if (!extraAuthorsWindow) {
-            extraAuthorsWindow = new QWidget(this);
-            extraAuthorsWindow->setWindowTitle("Additional Authors");
-            extraAuthorsWindow->setFixedSize(250, 300);
-            extraAuthorsWindow->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-            extraAuthorsWindow->setObjectName("extraAuthorsWindow");
-            extraAuthorsWindow->setAttribute(Qt::WA_DeleteOnClose);
-
-            QLabel *lblA2 = new QLabel("Author 2", extraAuthorsWindow);
-            lblA2->setGeometry(20, 20, 100, 20);
-            author2->setParent(extraAuthorsWindow);
-            author2->setGeometry(20, 40, 200, 25);
-            author2->setPlaceholderText("Enter author 2");
-
-            QLabel *lblA3 = new QLabel("Author 3", extraAuthorsWindow);
-            lblA3->setGeometry(20, 80, 100, 20);
-            author3->setParent(extraAuthorsWindow);
-            author3->setGeometry(20, 100, 200, 25);
-            author3->setPlaceholderText("Enter author 3");
-
-            QLabel *lblA4 = new QLabel("Author 4", extraAuthorsWindow);
-            lblA4->setGeometry(20, 140, 100, 20);
-            author4->setParent(extraAuthorsWindow);
-            author4->setGeometry(20, 160, 200, 25);
-            author4->setPlaceholderText("Enter author 4");
-
-            QLabel *lblA5 = new QLabel("Author 5", extraAuthorsWindow);
-            lblA5->setGeometry(20, 200, 100, 20);
-            author5->setParent(extraAuthorsWindow);
-            author5->setGeometry(20, 220, 200, 25);
-            author5->setPlaceholderText("Enter author 5");
-
-            QPushButton *closeBtn = new QPushButton("Close", extraAuthorsWindow);
-            closeBtn->setGeometry(75, 260, 100, 30);
-            connect(closeBtn, &QPushButton::clicked, extraAuthorsWindow, &QWidget::close);
-
-            QPoint parentPos = this->pos();
-            extraAuthorsWindow->move(parentPos.x() + 400, parentPos.y() + 150);
-        }
-
-        extraAuthorsWindow->show();
-        extraAuthorsWindow->raise();
-        extraAuthorsWindow->activateWindow(); });
-    */
 
     QPushButton *confirmBtn = new QPushButton("Confirm", this);
     confirmBtn->setGeometry(335, 555, 100, 30);
@@ -285,13 +229,6 @@ void BookSearchWindow::showEvent(QShowEvent *event)
 
 void BookSearchWindow::closeEvent(QCloseEvent *event)
 {
-    // emit windowClosed();
-    /*
-    if (extraAuthorsWindow)
-    {
-        extraAuthorsWindow->close();
-    }
-    */
     QWidget::closeEvent(event);
 }
 

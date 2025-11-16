@@ -51,10 +51,8 @@ bool Database::openDB()
 {
     if (!m_db.open())
     {
-        //  qDebug() << "Could not open the database:" << m_db.lastError().text();
         return false;
     }
-    //  qDebug() << "Opened the database:" << m_dbName;
     return true;
 }
 
@@ -80,10 +78,8 @@ bool Database::createUsersTable()
 
     if (!query.exec(createTable))
     {
-        //  qDebug() << "Could not create the table:" << query.lastError().text();
         return false;
     }
-    //  qDebug() << "users table is ready.";
     return true;
 }
 
@@ -101,8 +97,6 @@ bool Database::addUser(const QString &username, const QString &schoolNo,
         return false;
     }
 
-    // QString passwordAES = convertToAes(password);
-
     query.bindValue(":username", username);
     query.bindValue(":school_no", schoolNo);
     query.bindValue(":password", password);
@@ -110,10 +104,8 @@ bool Database::addUser(const QString &username, const QString &schoolNo,
     query.bindValue(":uid", uid);
     if (!query.exec())
     {
-        //  qDebug() << "Could not add the user:" << query.lastError().text();
         return false;
     }
-    //  qDebug() << "Added user:" << username;
     return true;
 }
 
@@ -129,10 +121,8 @@ bool Database::updateUserPassword(const QString &username, const QString &newPas
 
     if (!query.exec())
     {
-        //  qDebug() << "Could not update the password:" << query.lastError().text();
         return false;
     }
-    //  qDebug() << "Updated password:" << username;
     return true;
 }
 
@@ -141,7 +131,6 @@ bool Database::updateUserInfo(QWidget *parent, const QString &username, const QS
 {
     if (username.isEmpty())
     {
-        // showMessage(parent, "Error", "Username cannot be empty!", true);
         return false;
     }
 
@@ -175,7 +164,6 @@ bool Database::updateUserInfo(QWidget *parent, const QString &username, const QS
 
     if (updates.isEmpty())
     {
-        //showMessage(parent, "Warning", "No fields to update.", true);
         return false;
     }
 
@@ -192,13 +180,9 @@ bool Database::updateUserInfo(QWidget *parent, const QString &username, const QS
 
     if (!query.exec())
     {
-        //  qDebug() << "Could not update user info:" << query.lastError().text();
-        //showMessage(parent, "Error", "Database update failed!", true);
         return false;
     }
 
-    //  qDebug() << "Updated user info for:" << username;
-    //showMessage(parent, "Success", "User information updated successfully!", false);
     return true;
 }
 
@@ -214,10 +198,8 @@ bool Database::deleteUser(const QString &username)
 
     if (!query.exec())
     {
-        //  qDebug() << "Could not delete the user:" << query.lastError().text();
         return false;
     }
-    //  qDebug() << "Deleted the user:" << username;
     return true;
 }
 
@@ -232,7 +214,7 @@ QSqlQuery Database::selectUsers(const QString &condition)
 
     if (!query.exec(sql))
     {
-        //  qDebug() << "SELECT error:" << query.lastError().text();
+        // we should not come here.
     }
 
     return query;
@@ -243,11 +225,6 @@ bool Database::isUserMatchedInDataBase(const QString &username,
                                        const QString &password,
                                        const QString &accountType, const QString &uid) const
 {
-    //  qDebug() << "DEBUG — Login check:";
-    //  qDebug() << "username:" << username;
-    //  qDebug() << "schoolNo:" << schoolNo;
-    //  qDebug() << "password:" << password;
-    //  qDebug() << "accountType:" << accountType;
 
     QSqlQuery query(m_db);
     query.prepare(R"(
@@ -279,19 +256,17 @@ bool Database::isUserMatchedInDataBase(const QString &username,
 
     if (!query.exec())
     {
-        //  qDebug() << "Login check error:" << query.lastError().text();
         return false;
     }
 
     if (query.next())
     {
         int count = query.value(0).toInt();
-        //  qDebug() << "Matching user count:" << count;
         return count > 0;
     }
     else
     {
-        //  qDebug() << "Could not get data from query.";
+        //  We should not come here.
     }
 
     return false;
@@ -312,14 +287,11 @@ bool Database::addUserIfNotExists(const QString &username,
 
     if (!checkQuery.exec())
     {
-        //  qDebug() << "User check error:" << checkQuery.lastError().text();
         return false;
     }
 
     if (checkQuery.next() && checkQuery.value(0).toInt() > 0)
     {
-        //  qDebug() << "User already exists:" << username;
-        // showMessage(nullptr, "Error", "User already exists.", true);
         return true;
     }
 
@@ -331,10 +303,10 @@ bool Database::addUserIfNotExists(const QString &username,
 
 void Database::debugPrintAllUsers() const
 {
+    /*
     QSqlQuery query(m_db);
     if (!query.exec("SELECT username, school_no, password, account_type FROM users"))
     {
-        //  qDebug() << "Error in listing users" << query.lastError().text();
         return;
     }
 
@@ -347,6 +319,7 @@ void Database::debugPrintAllUsers() const
                  << "| account_type:" << query.value(3).toString();
     }
     qDebug() << "------------------------------";
+    */
 }
 
 bool Database::addBook(QWidget *parent,
@@ -359,14 +332,11 @@ bool Database::addBook(QWidget *parent,
 {
     if (bookTitle.trimmed().isEmpty() || ISBN.trimmed().isEmpty())
     {
-        // showMessage(parent, "Add Book Error", "Book Title and ISBN cannot be empty!", true);
         return false;
     }
 
     if (!m_db.isOpen() && !m_db.open())
     {
-        //  qDebug() << "Could not open database when adding book.";
-        // showMessage(parent, "Database Error", "Could not open database connection.", true);
         return false;
     }
 
@@ -376,14 +346,11 @@ bool Database::addBook(QWidget *parent,
     checkQuery.bindValue(":title", bookTitle);
     if (!checkQuery.exec())
     {
-        //  qDebug() << "Check query failed:" << checkQuery.lastError().text();
-        //showMessage(parent, "Database Error", "Failed to check if book exists: " + checkQuery.lastError().text(), true);
         return false;
     }
 
     if (checkQuery.next() && checkQuery.value(0).toInt() > 0)
     {
-        //showMessage(parent, "Duplicate Book", QString("Book with Title \"%1\" and ISBN \"%2\" already exists.").arg(bookTitle, ISBN), true);
         return false;
     }
 
@@ -405,8 +372,6 @@ bool Database::addBook(QWidget *parent,
 
     if (!query.prepare(sql))
     {
-        //  qDebug() << "Failed to prepare SQL query:" << query.lastError().text();
-        //showMessage(parent, "Database Error", "Failed to prepare SQL query: " + query.lastError().text(), true);
         return false;
     }
 
@@ -426,12 +391,9 @@ bool Database::addBook(QWidget *parent,
 
     if (!query.exec())
     {
-        //  qDebug() << "Could not add book:" << query.lastError().text();
-        //showMessage(nullptr, "Add Book Error", "Could not add book: " + query.lastError().text(), true);
         return false;
     }
 
-    //showMessage(nullptr, "Book Added", QString("Successfully added book:\nTitle: \"%1\"\nAuthor: \"%2\"\nISBN: \"%3\"").arg(bookTitle, author1, ISBN), false);
     return true;
 }
 
@@ -439,8 +401,6 @@ bool Database::deleteBook(QWidget *parent, const QString &bookTitle, const QStri
 {
     if (!m_db.isOpen() && !m_db.open())
     {
-        //  qDebug() << "Could not open database when deleting book.";
-        // showMessage(parent, "Database Error", "Could not open database.", true);
         return false;
     }
 
@@ -456,30 +416,14 @@ bool Database::deleteBook(QWidget *parent, const QString &bookTitle, const QStri
 
     if (!query.exec())
     {
-        //  qDebug() << "Could not delete book:" << query.lastError().text();
-        // showMessage(parent, "Deletion Error", "Could not delete book: " + query.lastError().text(), true);
         return false;
     }
 
     if (query.numRowsAffected() == 0)
     {
-        //  qDebug() << "No book found with the given Title, Author, and ISBN.";
-        /*
-        showMessage(parent, "Book Not Found",
-                    QString("No book found with Title: \"%1\", Author: \"%2\", ISBN: \"%3\"")
-                        .arg(bookTitle, author1, ISBN),
-                    true);
-        */
         return false;
     }
 
-    //  qDebug() << "Deleted book:" << bookTitle << "by" << author1 << "(ISBN:" << ISBN << ")";
-    /*
-    showMessage(parent, "Book Deleted",
-                QString("Deleted book:\nTitle: \"%1\"\nAuthor: \"%2\"\nISBN: \"%3\"")
-                    .arg(bookTitle, author1, ISBN),
-                false);
-    */
     return true;
 }
 
@@ -492,15 +436,11 @@ bool Database::updateBook(QWidget *parent, const QString &bookTitle, const QStri
 {
     if (ISBN.trimmed().isEmpty() || bookTitle.trimmed().isEmpty())
     {
-        //  qDebug() << "Cannot update book: ISBN or Title is empty!";
-        // showMessage(parent, "Update Error", "Cannot update book: ISBN or Title cannot be empty!", true);
         return false;
     }
 
     if (!m_db.isOpen() && !m_db.open())
     {
-        //  qDebug() << "Could not open database when updating book info.";
-        // showMessage(parent, "Database Error", "Could not open database connection.", true);
         return false;
     }
 
@@ -510,13 +450,6 @@ bool Database::updateBook(QWidget *parent, const QString &bookTitle, const QStri
     checkQuery.bindValue(":title", bookTitle);
     if (!checkQuery.exec() || !checkQuery.next() || checkQuery.value(0).toInt() == 0)
     {
-        //  qDebug() << "No book found with Title:" << bookTitle << "and ISBN:" << ISBN;
-        /*
-        showMessage(parent, "Book Not Found",
-                    QString("No book found with Title: \"%1\" and ISBN: \"%2\"")
-                        .arg(bookTitle, ISBN),
-                    true);
-        */
         return false;
     }
 
@@ -581,8 +514,6 @@ bool Database::updateBook(QWidget *parent, const QString &bookTitle, const QStri
 
     if (updates.isEmpty())
     {
-        //  qDebug() << "No fields provided to update for book:" << bookTitle;
-        //showMessage(parent, "No Changes", "No fields were provided to update.", true);
         return false;
     }
 
@@ -600,25 +531,13 @@ bool Database::updateBook(QWidget *parent, const QString &bookTitle, const QStri
 
     if (!query.exec())
     {
-        //  qDebug() << "Could not update book:" << query.lastError().text();
-        //showMessage(parent, "Update Error", "Could not update book: " + query.lastError().text(), true);
         return false;
     }
 
     if (query.numRowsAffected() == 0)
     {
-        //  qDebug() << "No rows updated. Possibly no changes were made.";
-        //showMessage(parent, "No Changes", "No rows were updated. Possibly the same values were submitted.", true);
         return false;
     }
-
-    //  qDebug() << "Successfully updated book:" << bookTitle << "(ISBN:" << ISBN << ")";
-    /*
-    showMessage(parent, "Book Updated",
-                QString("Book updated successfully:\nTitle: \"%1\"\nISBN: \"%2\"")
-                    .arg(bookTitle, ISBN),
-                false);
-    */
 
     return true;
 }
@@ -649,10 +568,8 @@ bool Database::createBooksTable()
 
     if (!query.exec(createTable))
     {
-        //  qDebug() << "Could not create books table:" << query.lastError().text();
         return false;
     }
-    //  qDebug() << "books table is ready.";
     return true;
 }
 
@@ -673,10 +590,8 @@ bool Database::createBorrowedBooksTable()
 
     if (!query.exec(createTable))
     {
-        //  qDebug() << "Could not create borrowed_books table:" << query.lastError().text();
         return false;
     }
-    //  qDebug() << "borrowed_books table is ready.";
     return true;
 }
 
@@ -702,8 +617,14 @@ bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, cons
     if (additionalInfo.contains("LOST", Qt::CaseInsensitive))
         return false;
 
-    if (!bookUid.isEmpty() && bookUid != uid)
-        return false;
+    if (!bookUid.isEmpty())
+    {
+        if (uid.isEmpty())
+            return false;
+
+        if (bookUid != uid)
+            return false;
+    }
 
     QString existingBorrowedBy;
     if (getBookBorrowInfo(bookISBN, existingBorrowedBy))
@@ -755,6 +676,9 @@ bool Database::returnBook(const QString &schoolNo, const QString &bookISBN, cons
     if (additionalInfo.contains("LOST", Qt::CaseInsensitive))
         return false;
 
+    if (!bookUid.isEmpty() && uid.isEmpty())
+        return false;
+
     if (!bookUid.isEmpty() && bookUid != uid)
         return false;
 
@@ -767,9 +691,7 @@ bool Database::returnBook(const QString &schoolNo, const QString &bookISBN, cons
         return false;
 
     QSqlQuery updateQuery(m_db);
-    updateQuery.prepare(R"(
-        UPDATE books SET is_borrowed = 0, borrowed_by = '' WHERE isbn = :isbn
-    )");
+    updateQuery.prepare("UPDATE books SET is_borrowed = 0, borrowed_by = '' WHERE isbn = :isbn");
     updateQuery.bindValue(":isbn", bookISBN);
 
     if (!updateQuery.exec())
@@ -789,7 +711,6 @@ int Database::getBorrowedBookCount(const QString &schoolNo)
 
     if (!query.exec())
     {
-        //  qDebug() << "Count borrowed books failed:" << query.lastError().text();
         return 0;
     }
 
@@ -812,7 +733,6 @@ bool Database::getBookBorrowInfo(const QString &bookISBN, QString &borrowedBy)
 
     if (!query.exec())
     {
-        //  qDebug() << "Failed to check borrowed book:" << query.lastError().text();
         return false;
     }
 
@@ -830,7 +750,6 @@ bool Database::isBookExists(const QString &ISBN)
 {
     if (!m_db.isOpen() && !m_db.open())
     {
-        //  qDebug() << "Database not open for checking book existence.";
         return false;
     }
 
@@ -840,7 +759,6 @@ bool Database::isBookExists(const QString &ISBN)
 
     if (!query.exec())
     {
-        //  qDebug() << "Failed to check book existence:" << query.lastError().text();
         return false;
     }
 
@@ -857,7 +775,6 @@ bool Database::isBookBorrowedByStudent(const QString &schoolNo, const QString &b
 {
     if (!m_db.isOpen() && !m_db.open())
     {
-        //  qDebug() << "Database not open for checking book borrow status.";
         return false;
     }
 
@@ -874,7 +791,6 @@ bool Database::isBookBorrowedByStudent(const QString &schoolNo, const QString &b
 
     if (!query.exec())
     {
-        //  qDebug() << "Failed to check if book is borrowed by student:" << query.lastError().text();
         return false;
     }
 
@@ -893,7 +809,6 @@ QList<QMap<QString, QString>> Database::getBorrowedBooksByStudent(const QString 
 
     if (!m_db.isOpen() && !m_db.open())
     {
-        //  qDebug() << "Database not open for fetching borrowed books.";
         return borrowedBooks;
     }
 
@@ -904,7 +819,8 @@ QList<QMap<QString, QString>> Database::getBorrowedBooksByStudent(const QString 
             b.author1 AS book_author1, 
             b.isbn AS book_isbn, 
             bb.borrow_date AS borrow_date, 
-            bb.due_date AS due_date
+            bb.due_date AS due_date,
+            bb.uid AS uid
         FROM borrowed_books AS bb
         JOIN books AS b ON bb.book_isbn = b.isbn
         WHERE bb.school_no = :school_no
@@ -913,7 +829,6 @@ QList<QMap<QString, QString>> Database::getBorrowedBooksByStudent(const QString 
 
     if (!query.exec())
     {
-        //  qDebug() << "Failed to fetch borrowed books:" << query.lastError().text();
         return borrowedBooks;
     }
 
@@ -925,6 +840,7 @@ QList<QMap<QString, QString>> Database::getBorrowedBooksByStudent(const QString 
         book["isbn"] = query.value("book_isbn").toString();
         book["borrow_date"] = query.value("borrow_date").toString();
         book["due_date"] = query.value("due_date").toString();
+        book["uid"] = query.value("uid").toString();
         borrowedBooks.append(book);
     }
 

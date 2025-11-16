@@ -38,6 +38,9 @@ class AdminInterface : public QWidget
 public:
     explicit AdminInterface(QWidget *parent = nullptr);
     ~AdminInterface();
+    QLabel *RFID_Data_Value;
+    QLabel *RFID_Data;
+    void updateRFIDLabel(const QString &RFIDdata);
 
 private slots:
     void updateDateTime();
@@ -49,22 +52,13 @@ private:
 
     QPushButton *addBook_Button;
 
-    // Lines which are commented may be used in the future.
-    // So I did not remove them. 
-
-    // QPushButton *confirmationRequests_Button;
-    // QPushButton *inquireBookSubmission_Button;
     QPushButton *deleteBook_Button;
     QPushButton *reportLostBook_Button;
     QPushButton *changeBookInfo_Button;
-    // QPushButton *inquireBookRegistiration_Button;
 
     QPushButton *addUser_Button;
     QPushButton *deleteUser_Button;
     QPushButton *updateUserInfo_Button;
-    // QPushButton *punishUser_Button;
-
-    // QPushButton *backToLoginWindow_Button;
     BookSearchWindow *bookSearchWindow;
 
     QLabel *dateLabel;

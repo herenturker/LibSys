@@ -36,7 +36,7 @@ class BookSearchWindow : public QWidget
 
 public:
     explicit BookSearchWindow(QWidget *parent = nullptr);
-    Graphical* graphical;
+    Graphical *graphical;
     ~BookSearchWindow();
 
     // For admin operations and choosing operation mode
@@ -52,10 +52,9 @@ public:
     bool bookOperationMode();
 
 signals:
-    // void windowClosed();
 
     // For sending current mode's required datas
-    
+
     void bookAddDataReady(
         const QString &bookTitle,
         const QString &author1,
@@ -69,8 +68,7 @@ signals:
         const QString &language,
         const QString &DDC,
         const QString &additionalInfo,
-        const QString &uid = ""
-        );
+        const QString &uid = "");
 
     void bookDeleteDataReady(const QString &bookTitle,
                              const QString &author1,
@@ -103,8 +101,6 @@ public:
     QLineEdit *Topic = nullptr;
     QTextEdit *additionalInfo = nullptr;
     QLineEdit *uid = nullptr;
-
-    // QWidget *extraAuthorsWindow = nullptr;
 
 private:
     Mode currentMode = Add;

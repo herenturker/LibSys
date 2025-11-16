@@ -221,7 +221,8 @@ void LoginWindow::handleLogin()
     QString exePath = QCoreApplication::applicationDirPath();
     QString dbDirPath = exePath + "/databases";
     QDir dbDir(dbDirPath);
-    if (!dbDir.exists() && !dbDir.mkpath(".")) {
+    if (!dbDir.exists() && !dbDir.mkpath("."))
+    {
         QMessageBox::critical(this, "Error", "Could not create databases directory!");
         return;
     }
@@ -231,9 +232,11 @@ void LoginWindow::handleLogin()
 
     auto createEmptyDBFile = [](const QString &path)
     {
-        if (!QFile::exists(path)) {
+        if (!QFile::exists(path))
+        {
             QFile file(path);
-            if (file.open(QIODevice::WriteOnly)) file.close();
+            if (file.open(QIODevice::WriteOnly))
+                file.close();
         }
     };
     createEmptyDBFile(userdbPath);
@@ -242,8 +245,16 @@ void LoginWindow::handleLogin()
     Database userDb(userdbPath, "DB_USERS");
     Database libraryDb(librarydbPath, "DB_LIBRARY");
 
-    if (!userDb.openDB()) { QMessageBox::critical(this, "Error", "Could not open users database!"); return; }
-    if (!libraryDb.openDB()) { QMessageBox::critical(this, "Error", "Could not open library database!"); return; }
+    if (!userDb.openDB())
+    {
+        QMessageBox::critical(this, "Error", "Could not open users database!");
+        return;
+    }
+    if (!libraryDb.openDB())
+    {
+        QMessageBox::critical(this, "Error", "Could not open library database!");
+        return;
+    }
 
     userDb.createUsersTable();
     libraryDb.createBooksTable();
@@ -256,20 +267,22 @@ void LoginWindow::handleLogin()
     QString loginUsername;
     QString loginSchoolNumber;
 
-    if (loginRadioButton_Group->checkedButton()->text() == "Normal Login") 
+    if (loginRadioButton_Group->checkedButton()->text() == "Normal Login")
     {
         QString accountTypeSelected = radioButton_Group->checkedButton()->text();
         loginSuccessFlag = userDb.isUserMatchedInDataBase(username, schoolNo, convertToAes(password), accountTypeSelected);
 
-        if (loginSuccessFlag) {
+        if (loginSuccessFlag)
+        {
             accountType = accountTypeSelected;
             loginUsername = username;
             loginSchoolNumber = schoolNo;
         }
     }
-    else if (loginRadioButton_Group->checkedButton()->text() == "Quick Login") 
+    else if (loginRadioButton_Group->checkedButton()->text() == "Quick Login")
     {
-        if (LibrarySystem::rfid_data.empty()) {
+        if (LibrarySystem::rfid_data.empty())
+        {
             QMessageBox::warning(this, "Error", "No RFID data detected!");
             return;
         }
@@ -277,26 +290,27 @@ void LoginWindow::handleLogin()
         QString rfid = QString::fromStdString(LibrarySystem::rfid_data);
         loginSuccessFlag = userDb.isUserExistsUID(rfid);
 
-        if (loginSuccessFlag) {
+        if (loginSuccessFlag)
+        {
             accountType = userDb.getAccountTypeWithUID(rfid);
             loginUsername = userDb.getUsernameWithUID(rfid);
             loginSchoolNumber = userDb.getSchoolNoWithUID(rfid);
         }
     }
 
-    if (loginSuccessFlag) {
+    if (loginSuccessFlag)
+    {
         schoolNumber = loginSchoolNumber;
         std::string logString = "LOGIN: " + loginUsername.toStdString() + " with school number: " + loginSchoolNumber.toStdString();
         writeEncryptedLog(logString);
         emit loginSuccess(accountType, loginSchoolNumber);
         close();
-    } 
-    else 
+    }
+    else
     {
         QMessageBox::warning(this, "Error", "Login Error!\nInvalid credentials or UID not found.");
     }
 }
-
 
 void LoginWindow::updateDateTime()
 {

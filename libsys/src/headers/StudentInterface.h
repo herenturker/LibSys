@@ -42,9 +42,13 @@ public:
     void refreshBorrowedBooks();
     QStringList getBorrowedBooksTextList() const;
     void refreshBookLists();
+    QLabel *RFID_Data;
+    QLabel *RFID_Data_Value;
+    void updateRFIDLabel(const QString& RFIDdata);
+    
 private slots:
-    void updateDateTime();
-
+    void updateDateTime(); 
+    
 private:
     QLabel *dateLabel;
     QLabel *dayLabel;

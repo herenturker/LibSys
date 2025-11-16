@@ -16,9 +16,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// #include <iostream>
-
 #include <QApplication>
+#include <QTimer>
+#include <QSettings>
+#include <QMessageBox>
+#include <QDebug>
 
 #include "headers/AdminInterface.h"
 #include "headers/StudentInterface.h"
@@ -31,46 +33,80 @@
 int main(int argc, char *argv[])
 {
     QApplication libsys(argc, argv);
-
     libsys.setWindowIcon(QIcon(":/LibSys.ico"));
-
     libsys.setStyleSheet("QWidget { background-color: #DFDEDE; }");
 
+    // ---- Login Window ----
     LoginWindow loginWindow;
     loginWindow.show();
 
+    // ---- Serial Reader ----
     SerialReader reader;
-    reader.startSerialConnection("\\\\.\\COM4", 115200);
 
-    LibrarySystem libSystem;
+    // ---- QSettings for reading COM port ----
+    QSettings settings("LibSys", "ArduinoSettings");
+    QString savedPort = settings.value("ArduinoCOMPort", "").toString();
+    LibrarySystem::ArduinoCOMPort = savedPort;
 
+    if (!savedPort.isEmpty())
+    {
+        std::string fullPort = "\\\\.\\" + QStringTostdString(savedPort);
+        reader.startSerialConnection(fullPort.c_str(), 115200);
+        qDebug() << "SerialReader started on port:" << savedPort;
+    }
+    else
+    {
+        qDebug() << "Arduino COM port not set. Admin must enter port first.";
+    }
+
+    // ---- RFID signal connections ----
     QObject::connect(&reader, &SerialReader::eightCharReceived,
-                 [&libSystem](const QString &data){
-                     libSystem.updateRFIDDataValue(data);
-                 });
-
+                     [](const QString &data)
+                     { LibrarySystem::updateRFIDDataValue(data); });
 
     QObject::connect(&reader, &SerialReader::eightCharReceived,
                      &loginWindow, &LoginWindow::updateRFIDLabel);
 
+    // ---- Timer to reset RFID labels ----
+    QTimer *resetTimer = new QTimer(&libsys);
+    resetTimer->start(5000);
+    QObject::connect(resetTimer, &QTimer::timeout, &loginWindow, [&]()
+                     { loginWindow.updateRFIDLabel(""); });
+
+    // ---- Login success ----
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess,
                      [&](const QString &accountType, const QString &schoolNo)
                      {
                          loginWindow.close();
+
                          if (accountType == "Admin")
                          {
                              AdminInterface *adminInterface = new AdminInterface();
+
+                             QObject::connect(&reader, &SerialReader::eightCharReceived,
+                                              adminInterface, &AdminInterface::updateRFIDLabel);
+
+                             QObject::connect(resetTimer, &QTimer::timeout,
+                                              adminInterface, [=]()
+                                              { adminInterface->updateRFIDLabel(""); });
+
                              adminInterface->show();
                          }
                          else if (accountType == "Student")
                          {
                              StudentInterface *studentInterface = new StudentInterface();
                              studentInterface->setCurrentStudentSchoolNo(schoolNo);
+
+                             QObject::connect(&reader, &SerialReader::eightCharReceived,
+                                              studentInterface, &StudentInterface::updateRFIDLabel);
+
+                             QObject::connect(resetTimer, &QTimer::timeout,
+                                              studentInterface, [=]()
+                                              { studentInterface->updateRFIDLabel(""); });
+
                              studentInterface->show();
                          }
                      });
 
-    int ret = libsys.exec();
-
-    return ret;
+    return libsys.exec();
 }

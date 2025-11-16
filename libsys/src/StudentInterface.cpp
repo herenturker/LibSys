@@ -70,6 +70,17 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     dayLabel = new QLabel(this);
     timeLabel = new QLabel(this);
 
+    RFID_Data = new QLabel("RFID Data", this);
+    RFID_Data_Value = new QLabel("", this);
+
+    RFID_Data->setObjectName("RFID_Data");
+    RFID_Data_Value->setObjectName("RFID_Data_Value");
+
+    RFID_Data->setGeometry(450, 140, 120, 30);
+    RFID_Data_Value->setGeometry(450, 180, 120, 30);
+
+    updateRFIDLabel(stdStringToQString(LibrarySystem::rfid_data));
+
     overdueBooks = new QLabel("Overdue Books", this);
     borrowedBooks = new QLabel("Borrowed Books", this);
 
@@ -129,7 +140,6 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
-    // unsigned short buttonSquare = 170;
 
     borrowBook_Button->setGeometry(540, 640, buttonWidth, buttonHeight);
     returnBook_Button->setGeometry(680, 640, buttonWidth, buttonHeight);
@@ -194,7 +204,6 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                 }
 
                 bookSearchWindow->graphical->displayBooksWithFilters(this, results);
-                // bookSearchWindow->graphical->displayBooksWithFilters(bookSearchWindow, results);
             });
 
     connect(borrowBook_Button, &QPushButton::clicked, [=]()
@@ -210,8 +219,16 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
         QLineEdit *isbnEdit = new QLineEdit(borrowDialog);
         isbnEdit->setStyleSheet("color: black;");
 
+        QLabel *uidLabel = new QLabel("Enter Book UID:", borrowDialog);
+        uidLabel->setStyleSheet("color: black;");
+        QLineEdit *uidEdit = new QLineEdit(borrowDialog);
+        uidEdit->setStyleSheet("color: black;");
+
         layout->addWidget(isbnLabel);
         layout->addWidget(isbnEdit);
+
+        layout->addWidget(uidLabel);
+        layout->addWidget(uidEdit);
 
         QLabel *dueLabel = new QLabel("Select Due Date:", borrowDialog);
         dueLabel->setStyleSheet("color: black;");
@@ -266,6 +283,8 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
         btnLayout->addWidget(cancelBtn);
         layout->addLayout(btnLayout);
 
+        uidEdit->setText(stdStringToQString(LibrarySystem::rfid_data));
+
         QString schoolNo = this->currentStudentSchoolNo;
 
         QObject::connect(okBtn, &QPushButton::clicked, [=]() {
@@ -300,7 +319,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
             if (!libraryDb->borrowBook(schoolNo, bookISBN,
                             borrowDate.toString("yyyy-MM-dd"),
-                            dueDate.toString("yyyy-MM-dd"))) {
+                            dueDate.toString("yyyy-MM-dd"), uidEdit->text())) {
                 showMessage(this, "Error", "Failed to borrow book!", true);
             } else {
                 showMessage(this, "Success", "Book borrowed successfully!", false);
@@ -356,14 +375,24 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             QLineEdit *isbnEdit = new QLineEdit(returnDialog);
             isbnEdit->setStyleSheet("color: black;");
 
+            QLabel *uidLabel = new QLabel("Enter Book UID:", returnDialog);
+            uidLabel->setStyleSheet("color: black;");
+            QLineEdit *uidEdit = new QLineEdit(returnDialog);
+            uidEdit->setStyleSheet("color: black;");
+
             layout->addWidget(isbnLabel);
             layout->addWidget(isbnEdit);
+
+            layout->addWidget(uidLabel);
+            layout->addWidget(uidEdit);
 
             QHBoxLayout *btnLayout = new QHBoxLayout();
             QPushButton *okBtn = new QPushButton("OK", returnDialog);
             okBtn->setStyleSheet("color: black;");
             QPushButton *cancelBtn = new QPushButton("Cancel", returnDialog);
             cancelBtn->setStyleSheet("color: black;");
+            
+            uidEdit->setText(stdStringToQString(LibrarySystem::rfid_data));
 
             btnLayout->addWidget(okBtn);
             btnLayout->addWidget(cancelBtn);
@@ -371,7 +400,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
             QString schoolNo = this->currentStudentSchoolNo;
 
-            connect(okBtn, &QPushButton::clicked, [this, returnDialog, isbnEdit, schoolNo]() {
+            connect(okBtn, &QPushButton::clicked, [this, returnDialog, isbnEdit, schoolNo, uidEdit]() {
                 QString bookISBN = isbnEdit->text().trimmed();
                 if (bookISBN.isEmpty()) {
                     showMessage(this, "Error", "Please enter an ISBN!", true);
@@ -389,7 +418,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                     return;
                 }
 
-                if (!libraryDb->returnBook(schoolNo, bookISBN)) {
+                if (!libraryDb->returnBook(schoolNo, bookISBN, uidEdit->text())) {
                     showMessage(this, "Error", "Failed to return book!", true);
                 } else {
                     showMessage(this, "Success", "Book returned successfully!", false);
@@ -438,12 +467,17 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                 background-color: #555252;
             }
 
-            QLabel#overdueBooks, QLabel#unreturnedBooks, QLabel#borrowedBooks {
+            QLabel#overdueBooks, QLabel#borrowedBooks {
                 font-size: 20px;
                 font-weight: italic;
                 color: #333333;
                 border: 1px solid black;
             }
+            QLabel#RFID_Data, QLabel#RFID_Data_Value {
+                font-size: 20px;
+                font-weight: bold;
+                color: #8c1818;
+        }
 
         )");
 
@@ -498,7 +532,7 @@ void StudentInterface::refreshBookLists()
         QString bookText = QString(
                                "BOOK: %1\n"
                                "Title: %2\n"
-                               "Author1: %3\n"
+                               "Author: %3\n"
                                "Publisher: %4\n"
                                "Publication Year: %5\n"
                                "Edition: %6\n"
@@ -513,10 +547,6 @@ void StudentInterface::refreshBookLists()
                                .arg(bookCounter)
                                .arg(book.value("title"))
                                .arg(book.value("author1"))
-                               .arg(book.value("author2"))
-                               .arg(book.value("author3"))
-                               .arg(book.value("author4"))
-                               .arg(book.value("author5"))
                                .arg(book.value("publisher"))
                                .arg(book.value("publication_year"))
                                .arg(book.value("edition"))
@@ -555,7 +585,6 @@ void StudentInterface::refreshBookLists()
 void StudentInterface::setCurrentStudentSchoolNo(const QString &schoolNo)
 {
     currentStudentSchoolNo = schoolNo;
-    //  qDebug() << "[DEBUG] currentStudentSchoolNo set to:" << currentStudentSchoolNo;
     refreshBookLists();
     refreshBorrowedBooks();
 }
@@ -566,7 +595,6 @@ QStringList StudentInterface::getBorrowedBooksTextList() const
 
     if (!libraryDb->openDB())
     {
-        //  qDebug() << "Cannot open library DB!";
         return borrowedBooksText;
     }
 
@@ -595,7 +623,6 @@ void StudentInterface::refreshBorrowedBooks()
 
     if (!libraryDb->openDB())
     {
-        //  qDebug() << "Cannot open library DB!";
         return;
     }
 
@@ -607,7 +634,7 @@ void StudentInterface::refreshBorrowedBooks()
         QString bookText = QString(
                                "BOOK: %1\n"
                                "Title: %2\n"
-                               "Author1: %3\n"
+                               "Author: %3\n"
                                "Publisher: %4\n"
                                "Publication Year: %5\n"
                                "Edition: %6\n"
@@ -640,4 +667,8 @@ void StudentInterface::refreshBorrowedBooks()
     }
 
     libraryDb->closeDB();
+}
+void StudentInterface::updateRFIDLabel(const QString &RFIDdata)
+{
+    RFID_Data_Value->setText(RFIDdata);
 }

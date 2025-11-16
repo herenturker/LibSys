@@ -51,7 +51,9 @@ class LibrarySystem
 
         static std::string rfid_data;
 
-        void updateRFIDDataValue(const QString& RFIDdata);
+        static void updateRFIDDataValue(const QString& RFIDdata);
+
+        static QString ArduinoCOMPort;
 
 
 };

@@ -24,9 +24,11 @@
 
 #include "headers/Utils.h"
 
-void showMessage(QWidget *parent, const QString &title, const QString &text, bool isError) {
+void showMessage(QWidget *parent, const QString &title, const QString &text, bool isError)
+{
 
-    if (parent) {
+    if (parent)
+    {
         parent->raise();
         parent->activateWindow();
     }
@@ -45,29 +47,32 @@ void showMessage(QWidget *parent, const QString &title, const QString &text, boo
             "QLabel { color: %2; font-weight: bold; font-size: 14px; background-color: %1; }"
             "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; min-width: 80px; }"
             "QPushButton:hover { background-color: #5f5f5f; }"
-            "QPushButton:pressed { background-color: #353535; }"
-        ).arg(backgroundColor, labelColor)
-    );
+            "QPushButton:pressed { background-color: #353535; }")
+            .arg(backgroundColor, labelColor));
 
     msgBox.raise();
     msgBox.activateWindow();
     msgBox.exec();
 }
 
-std::string xorEncryptDecrypt(const std::string &input, char key) {
+std::string xorEncryptDecrypt(const std::string &input, char key)
+{
     std::string output = input;
-    for (size_t i = 0; i < input.size(); ++i) {
+    for (size_t i = 0; i < input.size(); ++i)
+    {
         output[i] = input[i] ^ key;
     }
     return output;
 }
 
-void writeEncryptedLog(const std::string &message, char key) {
+void writeEncryptedLog(const std::string &message, char key)
+{
     std::filesystem::path exePath = std::filesystem::current_path();
     std::filesystem::path logPath = exePath / "log.log";
 
     std::ofstream logFile(logPath, std::ios::app | std::ios::binary);
-    if (!logFile.is_open()) {
+    if (!logFile.is_open())
+    {
         std::cerr << "Cannot open or create log file: " << logPath << std::endl;
         return;
     }
@@ -84,10 +89,12 @@ void writeEncryptedLog(const std::string &message, char key) {
     logFile.close();
 }
 
-std::vector<QString> readEncryptedLog(char key) {
+std::vector<QString> readEncryptedLog(char key)
+{
     std::vector<QString> logEntries;
     std::ifstream logFile("log.log", std::ios::binary);
-    if (!logFile.is_open()) {
+    if (!logFile.is_open())
+    {
         std::cerr << "Cannot open log file for reading!" << std::endl;
         return logEntries;
     }
@@ -96,22 +103,31 @@ std::vector<QString> readEncryptedLog(char key) {
     std::string currentEntry;
     char ch;
 
-    while (logFile.get(ch)) {
+    while (logFile.get(ch))
+    {
         buffer += ch;
 
-        if (ch == '\n') {
+        if (ch == '\n')
+        {
             std::string decrypted = xorEncryptDecrypt(buffer, key);
             QString qline = QString::fromStdString(decrypted).trimmed();
 
-            if (qline.startsWith('[')) {
-                if (!currentEntry.empty()) {
+            if (qline.startsWith('['))
+            {
+                if (!currentEntry.empty())
+                {
                     logEntries.push_back(QString::fromStdString(currentEntry));
                 }
                 currentEntry = qline.toStdString();
-            } else {
-                if (!currentEntry.empty()) {
+            }
+            else
+            {
+                if (!currentEntry.empty())
+                {
                     currentEntry += " " + qline.toStdString();
-                } else {
+                }
+                else
+                {
                     currentEntry = qline.toStdString();
                 }
             }
@@ -119,24 +135,33 @@ std::vector<QString> readEncryptedLog(char key) {
         }
     }
 
-    if (!buffer.empty()) {
+    if (!buffer.empty())
+    {
         std::string decrypted = xorEncryptDecrypt(buffer, key);
         QString qline = QString::fromStdString(decrypted).trimmed();
-        if (qline.startsWith('[')) {
-            if (!currentEntry.empty()) {
+        if (qline.startsWith('['))
+        {
+            if (!currentEntry.empty())
+            {
                 logEntries.push_back(QString::fromStdString(currentEntry));
             }
             currentEntry = qline.toStdString();
-        } else {
-            if (!currentEntry.empty()) {
+        }
+        else
+        {
+            if (!currentEntry.empty())
+            {
                 currentEntry += " " + qline.toStdString();
-            } else {
+            }
+            else
+            {
                 currentEntry = qline.toStdString();
             }
         }
     }
 
-    if (!currentEntry.empty()) {
+    if (!currentEntry.empty())
+    {
         logEntries.push_back(QString::fromStdString(currentEntry));
     }
 
@@ -144,15 +169,13 @@ std::vector<QString> readEncryptedLog(char key) {
     return logEntries;
 }
 
-
 static const QByteArray AES_KEY = QByteArray::fromHex("9f1a3b7c5d8e2f0412ab6c9d0e3f4a1b");
 
-static const QByteArray AES_IV  = QByteArray::fromHex("1c2d3e4f5a6b7c8091a2b3c4d5e6f708");
+static const QByteArray AES_IV = QByteArray::fromHex("1c2d3e4f5a6b7c8091a2b3c4d5e6f708");
 
-
-QString convertToAes(const QString &password) {
+QString convertToAes(const QString &password)
+{
     AES aes(AESKeyLength::AES_128);
-
 
     QByteArray passBytes = password.toUtf8();
 
@@ -166,11 +189,12 @@ QString convertToAes(const QString &password) {
 
     std::vector<unsigned char> encrypted = aes.EncryptCBC(input, key, iv);
 
-    QByteArray encryptedBA(reinterpret_cast<const char*>(encrypted.data()), encrypted.size());
+    QByteArray encryptedBA(reinterpret_cast<const char *>(encrypted.data()), encrypted.size());
     return QString(encryptedBA.toBase64());
 }
 
-QString convertFromAes(const QString &aesText) {
+QString convertFromAes(const QString &aesText)
+{
     AES aes(AESKeyLength::AES_128);
 
     QByteArray encryptedBA = QByteArray::fromBase64(aesText.toUtf8());
@@ -181,14 +205,13 @@ QString convertFromAes(const QString &aesText) {
 
     std::vector<unsigned char> decrypted = aes.DecryptCBC(input, key, iv);
 
-    QByteArray decryptedBA(reinterpret_cast<const char*>(decrypted.data()), decrypted.size());
+    QByteArray decryptedBA(reinterpret_cast<const char *>(decrypted.data()), decrypted.size());
 
- 
     int padLen = decryptedBA.back();
-    if(padLen > 0 && padLen <= 16) {
+    if (padLen > 0 && padLen <= 16)
+    {
         decryptedBA.chop(padLen);
     }
 
     return QString::fromUtf8(decryptedBA);
 }
-

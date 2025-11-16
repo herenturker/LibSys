@@ -30,7 +30,6 @@
 class Graphical
 
 {
-    // Q_OBJECT
 
 public:
     explicit Graphical(QWidget *parent = nullptr);

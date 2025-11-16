@@ -19,7 +19,7 @@
 #include "headers/SerialReader.h"
 #include <QThread>
 
-SerialReader::SerialReader(QObject* parent)
+SerialReader::SerialReader(QObject *parent)
     : QObject(parent)
 {
     moveToThread(&workerThread);
@@ -34,9 +34,9 @@ SerialReader::~SerialReader()
     serial.closeDevice();
 }
 
-void SerialReader::startSerialConnection(const char* port, int baudrate)
+void SerialReader::startSerialConnection(const char *port, int baudrate)
 {
-    if (serial.openDevice((char*)port, baudrate) != 1)
+    if (serial.openDevice((char *)port, baudrate) != 1)
     {
         emit eightCharReceived("Serial port error");
         return;
@@ -74,5 +74,3 @@ void SerialReader::readLoop()
         QThread::msleep(2);
     }
 }
-
-

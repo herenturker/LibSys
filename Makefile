@@ -1,4 +1,4 @@
-.PHONY: all LibSys Installer Updater clean
+.PHONY: all LibSys Installer Updater build clean
 
 all: LibSys Installer Updater
 
@@ -11,7 +11,22 @@ Installer:
 Updater:
 	$(MAKE) -C LibSysUpdater
 
+build:
+	@echo "Building all projects using CMake..."
+	cmake -B LibSys/build -G "MinGW Makefiles" LibSys
+	cmake --build LibSys/build
+
+	cmake -B LibSysInstaller/build -G "MinGW Makefiles" LibSysInstaller
+	cmake --build LibSysInstaller/build
+
+	cmake -B LibSysUpdater/build -G "MinGW Makefiles" LibSysUpdater
+	cmake --build LibSysUpdater/build
+	
 clean:
-	$(MAKE) -C LibSys clean
+	@echo "Cleaning all build directories..."
+	rm -rf LibSys/build
+	rm -rf LibSysInstaller/build
+	rm -rf LibSysUpdater/build
+	$(MAKE) -C LibSys clean 
 	$(MAKE) -C LibSysInstaller clean
 	$(MAKE) -C LibSysUpdater clean

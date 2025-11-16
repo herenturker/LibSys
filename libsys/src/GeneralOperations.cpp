@@ -29,12 +29,12 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     const QString &edition, const QString &ISBN,
     const QString &volume, const QString &pageCount,
     const QString &seriesInformation, const QString &language,
-    const QString &DDC, const QString &additionalInfo, const QString &uid
-) {
+    const QString &DDC, const QString &additionalInfo, const QString &uid)
+{
     QList<LibrarySystem::Book> results;
 
-    if (!libraryDb->openDB()) {
-        //  qDebug() << "Database not open!";
+    if (!libraryDb->openDB())
+    {
         return results;
     }
 
@@ -42,42 +42,69 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
 
     QString sql = "SELECT * FROM books WHERE 1=1";
 
-    if (!bookTitle.isEmpty()) sql += " AND title LIKE '%' || :bookTitle || '%'";
-    if (!author1.isEmpty()) sql += " AND author1 LIKE '%' || :author1 || '%'";
-    if (!publisher.isEmpty()) sql += " AND publisher LIKE '%' || :publisher || '%'";
-    if (!publicationYear.isEmpty()) sql += " AND publication_year = :publicationYear";
-    if (!edition.isEmpty()) sql += " AND edition LIKE '%' || :edition || '%'";
-    if (!ISBN.isEmpty()) sql += " AND isbn = :ISBN";
-    if (!volume.isEmpty()) sql += " AND volume LIKE '%' || :volume || '%'";
-    if (!pageCount.isEmpty()) sql += " AND page_count = :pageCount";
-    if (!seriesInformation.isEmpty()) sql += " AND series_information LIKE '%' || :seriesInformation || '%'";
-    if (!language.isEmpty()) sql += " AND language LIKE '%' || :language || '%'";
-    if (!DDC.isEmpty()) sql += " AND ddc LIKE '%' || :DDC || '%'";
-    if (!additionalInfo.isEmpty()) sql += " AND additional_info LIKE '%' || :additionalInfo || '%'";
-    if (!uid.isEmpty()) sql += " AND uid LIKE '%' || :uid || '%'";
+    if (!bookTitle.isEmpty())
+        sql += " AND title LIKE '%' || :bookTitle || '%'";
+    if (!author1.isEmpty())
+        sql += " AND author1 LIKE '%' || :author1 || '%'";
+    if (!publisher.isEmpty())
+        sql += " AND publisher LIKE '%' || :publisher || '%'";
+    if (!publicationYear.isEmpty())
+        sql += " AND publication_year = :publicationYear";
+    if (!edition.isEmpty())
+        sql += " AND edition LIKE '%' || :edition || '%'";
+    if (!ISBN.isEmpty())
+        sql += " AND isbn = :ISBN";
+    if (!volume.isEmpty())
+        sql += " AND volume LIKE '%' || :volume || '%'";
+    if (!pageCount.isEmpty())
+        sql += " AND page_count = :pageCount";
+    if (!seriesInformation.isEmpty())
+        sql += " AND series_information LIKE '%' || :seriesInformation || '%'";
+    if (!language.isEmpty())
+        sql += " AND language LIKE '%' || :language || '%'";
+    if (!DDC.isEmpty())
+        sql += " AND ddc LIKE '%' || :DDC || '%'";
+    if (!additionalInfo.isEmpty())
+        sql += " AND additional_info LIKE '%' || :additionalInfo || '%'";
+    if (!uid.isEmpty())
+        sql += " AND uid LIKE '%' || :uid || '%'";
 
     query.prepare(sql);
 
-    if (!bookTitle.isEmpty()) query.bindValue(":bookTitle", bookTitle);
-    if (!author1.isEmpty()) query.bindValue(":author1", author1);
-    if (!publisher.isEmpty()) query.bindValue(":publisher", publisher);
-    if (!publicationYear.isEmpty()) query.bindValue(":publicationYear", publicationYear);
-    if (!edition.isEmpty()) query.bindValue(":edition", edition);
-    if (!ISBN.isEmpty()) query.bindValue(":ISBN", ISBN);
-    if (!volume.isEmpty()) query.bindValue(":volume", volume);
-    if (!pageCount.isEmpty()) query.bindValue(":pageCount", pageCount);
-    if (!seriesInformation.isEmpty()) query.bindValue(":seriesInformation", seriesInformation);
-    if (!language.isEmpty()) query.bindValue(":language", language);
-    if (!DDC.isEmpty()) query.bindValue(":DDC", DDC);
-    if (!additionalInfo.isEmpty()) query.bindValue(":additionalInfo", additionalInfo);
-    if (!uid.isEmpty()) query.bindValue(":uid", uid);
+    if (!bookTitle.isEmpty())
+        query.bindValue(":bookTitle", bookTitle);
+    if (!author1.isEmpty())
+        query.bindValue(":author1", author1);
+    if (!publisher.isEmpty())
+        query.bindValue(":publisher", publisher);
+    if (!publicationYear.isEmpty())
+        query.bindValue(":publicationYear", publicationYear);
+    if (!edition.isEmpty())
+        query.bindValue(":edition", edition);
+    if (!ISBN.isEmpty())
+        query.bindValue(":ISBN", ISBN);
+    if (!volume.isEmpty())
+        query.bindValue(":volume", volume);
+    if (!pageCount.isEmpty())
+        query.bindValue(":pageCount", pageCount);
+    if (!seriesInformation.isEmpty())
+        query.bindValue(":seriesInformation", seriesInformation);
+    if (!language.isEmpty())
+        query.bindValue(":language", language);
+    if (!DDC.isEmpty())
+        query.bindValue(":DDC", DDC);
+    if (!additionalInfo.isEmpty())
+        query.bindValue(":additionalInfo", additionalInfo);
+    if (!uid.isEmpty())
+        query.bindValue(":uid", uid);
 
-    if (!query.exec()) {
-        //  qDebug() << "Search query failed:" << query.lastError().text();
+    if (!query.exec())
+    {
         return results;
     }
 
-    while (query.next()) {
+    while (query.next())
+    {
         LibrarySystem::Book book;
 
         book.title = query.value("title").toString();

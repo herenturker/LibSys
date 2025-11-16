@@ -71,39 +71,3 @@ void StudentOperations::returnBorrowedBook(const QString &schoolNo, const QStrin
         showMessage(nullptr, "Success", "Returned the book!", false);
     }
 }
-
-/* Keep them for future use.
-
-void StudentOperations::recordTransactionDate()
-{
-}
-
-void StudentOperations::requestConfirmation()
-{
-}
-
-void StudentOperations::displayBookDueDate()
-{
-}
-
-void StudentOperations::displayBookBorrowDate()
-{
-}
-
-void StudentOperations::hasBookBeenReturned()
-{
-}
-
-void StudentOperations::displayBorrowedBooks()
-{
-}
-
-void StudentOperations::displayUnreturnedBooks()
-{
-}
-
-void StudentOperations::displayOverdueBooks()
-{
-}
-
-*/

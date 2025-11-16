@@ -39,6 +39,7 @@
 #include "headers/Database.h"
 #include "headers/GeneralOperations.h"
 #include "headers/Utils.h"
+#include "headers/LibrarySystem.h"
 
 Graphical::Graphical(QWidget *parent)
 {
@@ -67,6 +68,8 @@ bool Graphical::addUserGraphical(QWidget *parent)
     QLineEdit *password = new QLineEdit;
 
     QLineEdit *uid = new QLineEdit;
+
+    uid->setText(stdStringToQString(LibrarySystem::rfid_data));
 
     username->setPlaceholderText("Username");
     schoolNo->setPlaceholderText("School Number");
@@ -209,7 +212,9 @@ bool Graphical::updateUserGraphical(QWidget *parent)
     username->setPlaceholderText("Username");
     schoolNo->setPlaceholderText("School Number");
     password->setPlaceholderText("Password");
-    uid->setPlaceholderText("Password");
+    uid->setPlaceholderText("UID");
+
+    uid->setText(stdStringToQString(LibrarySystem::rfid_data));
 
     QButtonGroup *radioButton_Group = new QButtonGroup(&dialog);
     QRadioButton *accountType_Admin_Button = new QRadioButton("Admin", &dialog);
@@ -270,7 +275,7 @@ bool Graphical::updateUserGraphical(QWidget *parent)
                          bool isUpdated = db.updateUserInfo(parent, username->text(), schoolNo->text(), password->text(), accountType, uid->text());
                          if (isUpdated)
                              dialog.accept(); });
-                             
+
     QObject::connect(cancelButton, &QPushButton::clicked, &dialog, &QDialog::reject);
 
     return dialog.exec() == QDialog::Accepted;
@@ -300,7 +305,7 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         bookTable->setObjectName("BookTable");
 
         bookTable->setColumnCount(15);
-        bookTable->setHorizontalHeaderLabels({"Title", "Author1",
+        bookTable->setHorizontalHeaderLabels({"Title", "Author",
                                               "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
                                               "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By", "UID"});
 
@@ -381,8 +386,6 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
     }
 
     bookWindow->show();
-    // bookWindow->raise();
-    // bookWindow->activateWindow();
 }
 
 QTableWidget *Graphical::getBookTable()

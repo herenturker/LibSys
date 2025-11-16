@@ -30,26 +30,6 @@ class StudentOperations
 
         void returnBorrowedBook(const QString &schoolNo, const QString &bookISBN, const QString &uid = "");
 
-        /*
-
-        void recordTransactionDate();
-
-        void requestConfirmation();
-
-        void displayBookDueDate();
-
-        void displayBookBorrowDate();
-
-        void hasBookBeenReturned();
-
-        void displayBorrowedBooks();
-
-        void displayUnreturnedBooks();
-
-        void displayOverdueBooks();
-        
-        */
-
     private:
         Database* userDb;
         Database* libraryDb;

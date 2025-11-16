@@ -24,7 +24,9 @@
 
 std::string LibrarySystem::rfid_data;
 
-void LibrarySystem::updateRFIDDataValue(const QString& RFIDdata)
+QString LibrarySystem::ArduinoCOMPort = "";
+
+void LibrarySystem::updateRFIDDataValue(const QString &RFIDdata)
 {
     rfid_data = QStringTostdString(RFIDdata);
 }

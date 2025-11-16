@@ -13,7 +13,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-file(GLOB_RECUSE SOURCES src/*.cpp)
+file(GLOB_RECURSE SOURCES src/*.cpp)
 file(GLOB_RECURSE HEADERS src/headers/*.h)
 
 set(RESOURCE 
@@ -22,7 +22,7 @@ set(RESOURCE
 
 qt_standard_project_setup()
 
-qt_add_executable(libsys_updater ${SOURCES} ${HEADERS} ${RESOURCE})
+qt_add_executable(libsys_updater WIN32 ${SOURCES} ${HEADERS} ${RESOURCE})
 
 target_link_libraries(libsys_updater PRIVATE
     Qt6::Core
