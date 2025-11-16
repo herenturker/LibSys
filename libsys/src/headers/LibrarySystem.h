@@ -31,6 +31,10 @@ class LibrarySystem
 
 {
     public:
+        /**
+         * @brief A Book Struct
+         * 
+         */
         struct Book {
             QString title;
             QString author1;
@@ -49,10 +53,23 @@ class LibrarySystem
             QString uid;
         };
 
+        /**
+         * @brief RFID Data variable
+         * 
+         */
         static std::string rfid_data;
 
+        /**
+         * @brief Updates rfid_data variable value.
+         * 
+         * @param RFIDdata 
+         */
         static void updateRFIDDataValue(const QString& RFIDdata);
 
+        /**
+         * @brief Arduino serial communication port 
+         * 
+         */
         static QString ArduinoCOMPort;
 
 

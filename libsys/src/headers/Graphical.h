@@ -32,22 +32,79 @@ class Graphical
 {
 
 public:
+    /**
+     * @brief Construct a new Graphical object
+     * 
+     * @param parent 
+     */
     explicit Graphical(QWidget *parent = nullptr);
 
+    /**
+     * @brief A basic message box for confirmations.
+     * 
+     * @param parent 
+     * @param text 
+     * @return true 
+     * @return false 
+     */
     bool performAction(QWidget *parent, const QString &text);
 
+    /**
+     * @brief A graphical interface for adding user.
+     * 
+     * @param parent 
+     * @return true 
+     * @return false 
+     */
     bool addUserGraphical(QWidget *parent);
 
+    /**
+     * @brief A graphical interface for deleting user.
+     * 
+     * @param parent 
+     * @return true 
+     * @return false 
+     */
     bool deleteUserGraphical(QWidget *parent);
 
+    /**
+     * @brief A graphical interface for reporting a book as lost.
+     * 
+     * @param parent 
+     * @return true 
+     * @return false 
+     */
     bool reportLostBookGraphical(QWidget *parent);
 
+    /**
+     * @brief A graphical interface for updating an user's information.
+     * 
+     * @param parent 
+     * @return true 
+     * @return false 
+     */
     bool updateUserGraphical(QWidget *parent);
 
+    /**
+     * @brief Displays books with provided filters. 
+     * 
+     * @param parent 
+     * @param results 
+     */
     void displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results);
 
+    /**
+     * @brief Get the Book Table object
+     * 
+     * @return QTableWidget* 
+     */
     QTableWidget *getBookTable();
 
+    /**
+     * @brief Get the Book Window object
+     * 
+     * @return QWidget* 
+     */
     QWidget *getBookWindow() const { return bookWindow; }
 
 private:

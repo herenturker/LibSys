@@ -36,10 +36,13 @@ class AdminInterface : public QWidget
     Q_OBJECT
 
 public:
+
     explicit AdminInterface(QWidget *parent = nullptr);
     ~AdminInterface();
+
     QLabel *RFID_Data_Value;
     QLabel *RFID_Data;
+
     void updateRFIDLabel(const QString &RFIDdata);
 
 private slots:
@@ -51,7 +54,6 @@ private:
     QPushButton *users_Button; // Button for listing all users in the database
 
     QPushButton *addBook_Button;
-
     QPushButton *deleteBook_Button;
     QPushButton *reportLostBook_Button;
     QPushButton *changeBookInfo_Button;

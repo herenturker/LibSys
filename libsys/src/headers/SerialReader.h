@@ -33,12 +33,27 @@ public:
     explicit SerialReader(QObject* parent = nullptr);
     ~SerialReader();
 
+    /**
+     * @brief Starts serial connection with provided port and baudrate.
+     * 
+     * @param port 
+     * @param baudrate 
+     */
     void startSerialConnection(const char* port, int baudrate);
 
 signals:
+    /**
+     * @brief Gets 8 Byte data from RFID Reader as QString
+     * 
+     * @param data 
+     */
     void eightCharReceived(const QString& data);
 
 private:
+    /**
+     * @brief Reads data consistently
+     * 
+     */
     void readLoop();
 
     QThread workerThread;

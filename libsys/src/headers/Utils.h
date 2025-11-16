@@ -29,25 +29,79 @@
 #include <QWidget>
 #include <QString>
 
-
+/**
+ * @brief Checks if the pointer is nullptr or not
+ * 
+ */
 #define DBG_PTR(ptr) qDebug() << #ptr ":" << ((ptr) ? "OK" : "nullptr")
 
+/**
+ * @brief Shows a message box
+ * 
+ * @param parent 
+ * @param title 
+ * @param text 
+ * @param isError 
+ */
 void showMessage(QWidget *parent, const QString &title, const QString &text, bool isError = true);
 
+/**
+ * @brief Performs XOR Encryption/Decryption to input with provided key
+ * 
+ * @param input 
+ * @param key 
+ * @return std::string 
+ */
 std::string xorEncryptDecrypt(const std::string &input, char key);
 
+/**
+ * @brief Writes encrypted log with default key 'K'
+ * 
+ * @param message 
+ * @param key 
+ */
 void writeEncryptedLog(const std::string &message, char key = 'K');
 
+/**
+ * @brief Reads encrypted log
+ * 
+ * @param key 
+ * @return std::vector<QString> 
+ */
 std::vector<QString> readEncryptedLog(char key);
 
+/**
+ * @brief Converts the password to AES
+ * 
+ * @param password 
+ * @return QString 
+ */
 QString convertToAes(const QString &password);
 
+/**
+ * @brief Restores the text from AES
+ * 
+ * @param aesText 
+ * @return * QString 
+ */
 QString convertFromAes(const QString &aesText);
 
+/**
+ * @brief Convert std::string to QString
+ * 
+ * @param text 
+ * @return QString 
+ */
 inline QString stdStringToQString(const std::string& text){
     return QString::fromStdString(text);
 }
 
+/**
+ * @brief Convert QString to std::string
+ * 
+ * @param text 
+ * @return std::string 
+ */
 inline std::string QStringTostdString(const QString& text){
     return text.toStdString();
 }

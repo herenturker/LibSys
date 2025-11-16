@@ -29,9 +29,32 @@ class GeneralOperations
 
 {
     public:
+        /**
+         * @brief Construct a new General Operations object
+         * 
+         * @param db 
+         */
         explicit GeneralOperations(Database *db) : libraryDb(db) {}
 
-        QList<LibrarySystem::Book> searchBook(const QString &bookTitl = QString(), const QString &author1 = QString(),
+        /**
+         * @brief Searches a book in the database with provided information.
+         * 
+         * @param bookTitle
+         * @param author1 
+         * @param publisher 
+         * @param publicationYear 
+         * @param edition 
+         * @param ISBN 
+         * @param volume 
+         * @param pageCount 
+         * @param seriesInformation 
+         * @param language 
+         * @param DDC 
+         * @param additionalInfo 
+         * @param uid 
+         * @return QList<LibrarySystem::Book> 
+         */
+        QList<LibrarySystem::Book> searchBook(const QString &bookTitle = QString(), const QString &author1 = QString(),
                         const QString &publisher = QString(), const QString &publicationYear = QString(),
                         const QString &edition = QString(), const QString &ISBN = QString(),
                         const QString &volume = QString(), const QString &pageCount = QString(),

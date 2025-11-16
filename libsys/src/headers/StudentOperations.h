@@ -26,8 +26,24 @@ class StudentOperations
 
 {
     public:
+        /**
+         * @brief Borrows a book from library database.
+         * 
+         * @param schoolNo 
+         * @param bookISBN 
+         * @param borrowDate 
+         * @param dueDate 
+         * @param uid 
+         */
         void borrowBookFromLibrary(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid = "");
 
+        /**
+         * @brief Returns a book to library database.
+         * 
+         * @param schoolNo 
+         * @param bookISBN 
+         * @param uid 
+         */
         void returnBorrowedBook(const QString &schoolNo, const QString &bookISBN, const QString &uid = "");
 
     private:

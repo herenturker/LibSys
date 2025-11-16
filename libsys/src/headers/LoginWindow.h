@@ -33,8 +33,20 @@ class LoginWindow : public QWidget
     Q_OBJECT
 
 public:
+    /**
+     * @brief Construct a new Login Window object
+     * 
+     * @param parent 
+     */
     explicit LoginWindow(QWidget *parent = nullptr);
+
+    /**
+     * @brief Gets the current school number.
+     * 
+     * @return QString 
+     */
     QString getSchoolNo() const;
+    
     QLabel *RFID_Data_Value;
 
 signals:
