@@ -2,7 +2,7 @@
 
 ## Login
 After building project or installing it from *releases* page, you can run LibSys. 
-![LibSys Login Page](docs\images\img1.png)
+![LibSys Login Page](images\img1.png)
 
 ## Admin Account
 
@@ -12,7 +12,7 @@ By default; the only user is "Admin". These are the credentials 👇
 * School Number: 0
 * Password: admin
 
-![LibSys Admin Login](docs\images\img2.png)
+![LibSys Admin Login](images\img2.png)
 
 You must choose account type from left buttons. Students are "Student", Admins are "Admin". Also if you do not have RFID Data (UID) for an account, choose **Normal Login**. If you have UID for an account and want to log in using UID, choose **Quick Login**.
 
@@ -20,7 +20,7 @@ After entering login info, click **Login** button.
 
 ## Admin Dashboard
 
-![LibSys Admin Dashboard](docs\images\img3.png)
+![LibSys Admin Dashboard](images\img3.png)
 
 In admin dashboard, you can
 1. Add books to database by clicking **Add Book** button,
@@ -36,7 +36,7 @@ In admin dashboard, you can
 11. Set COM for RFID serial port by clicking **COM** button.
 
 ## 1. Add Book
-![Add Book](docs\images\img4.png)
+![Add Book](images\img4.png)
 
 ## 2. Delete Book
 
@@ -45,25 +45,25 @@ In admin dashboard, you can
 
 
 ## 4. Add User
-![Add User](docs\images\img5.png)
+![Add User](images\img5.png)
 
 ## 5. Delete User
-![Delete User](docs\images\img6.png)
+![Delete User](images\img6.png)
 
 ## 6. Update User Info
-![Update User Info](docs\images\img7.png)
+![Update User Info](images\img7.png)
 
 ## 7. Report Lost Book
 
 
 ## 8. Display Users
-![Display Users](docs\images\img8.png)
+![Display Users](images\img8.png)
 
 ## 9. Display Books
-![Display Books](docs\images\img11.png)
+![Display Books](images\img11.png)
 
 ## 10. Display Logs
-![Display Logs](docs\images\img10.png)
+![Display Logs](images\img10.png)
 
 ## 11. Set Serial Port (COM)
-![Set Serial Port](docs\images\img9.png)
+![Set Serial Port](images\img9.png)
