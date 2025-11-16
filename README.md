@@ -61,7 +61,7 @@ make build # Create CMake build files. If you want to build files a seperate, ru
 
 ## Usage
 
-See ([Usage](docs\USAGE.md))
+See ([Usage](docs/USAGE.md))
 
 ## Contributing
 
