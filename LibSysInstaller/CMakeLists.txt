@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(libsys_installer LANGUAGES CXX)
+project(LibSysInstaller LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -22,9 +22,9 @@ set(RESOURCE
 
 qt_standard_project_setup()
 
-qt_add_executable(libsys_installer WIN32 ${SOURCES} ${HEADERS} ${RESOURCE})
+qt_add_executable(LibSysInstaller WIN32 ${SOURCES} ${HEADERS} ${RESOURCE})
 
-target_link_libraries(libsys_installer PRIVATE
+target_link_libraries(LibSysInstaller PRIVATE
     Qt6::Core
     Qt6::Widgets
     Qt6::Gui

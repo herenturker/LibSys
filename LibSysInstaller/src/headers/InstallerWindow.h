@@ -40,6 +40,7 @@ public:
     explicit InstallerWindow(QWidget *parent = nullptr);
     bool downloadFile(const QString &urlStr, const QString &savePath);
     QString getJson(const QString &urlJson);
+    bool isRemoteVersionNewer(const QString &local, const QString &remote);
 
 private slots:
     void chooseDirectory();
@@ -52,6 +53,7 @@ private:
     QProgressBar *progressBar;
     QCheckBox *LibSys_CheckBox;
     QCheckBox *LibSysUpdater_CheckBox;
+    QNetworkAccessManager manager;
 };
 
 #endif // INSTALLER_WINDOW_H_

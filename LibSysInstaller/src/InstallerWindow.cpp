@@ -34,6 +34,8 @@
 #include <QGroupBox>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QDebug>
+#include <QUrl>
 
 #include "headers/InstallerWindow.h"
 
@@ -139,34 +141,24 @@ InstallerWindow::InstallerWindow(QWidget *parent)
             border: 1px solid #000000;
             border-radius: 2px;
         }
-        
-        )");
+    )");
 
     connect(browseButton, &QPushButton::clicked, this, &InstallerWindow::chooseDirectory);
 
     connect(installButton, &QPushButton::clicked, this, [this]()
             {
-                int selection = 0;
+        int selection = 0;
 
-                if (LibSys_CheckBox->isChecked() && LibSysUpdater_CheckBox->isChecked())
-                { // Both of them are checked
-                    selection = 1;
-                }
-                else if (LibSys_CheckBox->isChecked() && !(LibSysUpdater_CheckBox->isChecked()))
-                { // Only LibSys is checked
-                    selection = 2;
-                }
-                else if (!(LibSys_CheckBox->isChecked()) && LibSysUpdater_CheckBox->isChecked())
-                { // Only Updater is checked
-                    selection = 3;
-                }
-                else
-                { // None of them are checked
-                    selection = 0;
-                }
+        if (LibSys_CheckBox->isChecked() && LibSysUpdater_CheckBox->isChecked())
+            selection = 1; // Both
+        else if (LibSys_CheckBox->isChecked())
+            selection = 2; // Only LibSys
+        else if (LibSysUpdater_CheckBox->isChecked())
+            selection = 3; // Only Updater
+        else
+            selection = 0; // None
 
-                startInstall(selection);
-            });
+        startInstall(selection); });
 }
 
 void InstallerWindow::chooseDirectory()
@@ -178,10 +170,7 @@ void InstallerWindow::chooseDirectory()
 
 bool InstallerWindow::downloadFile(const QString &urlStr, const QString &savePath)
 {
-    QUrl url(urlStr);
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    QNetworkRequest request(url);
-    QNetworkReply *reply = manager->get(request);
+    QNetworkReply *reply = manager.get(QNetworkRequest(QUrl(urlStr)));
 
     QFile file(savePath);
     if (!file.open(QIODevice::WriteOnly))
@@ -218,6 +207,24 @@ bool InstallerWindow::downloadFile(const QString &urlStr, const QString &savePat
     return true;
 }
 
+bool InstallerWindow::isRemoteVersionNewer(const QString &local, const QString &remote)
+{
+    QStringList localParts = local.split('.');
+    QStringList remoteParts = remote.split('.');
+    int maxParts = qMax(localParts.size(), remoteParts.size());
+
+    for (int i = 0; i < maxParts; ++i)
+    {
+        int l = (i < localParts.size()) ? localParts[i].toInt() : 0;
+        int r = (i < remoteParts.size()) ? remoteParts[i].toInt() : 0;
+        if (r > l)
+            return true;
+        if (r < l)
+            return false;
+    }
+    return false;
+}
+
 void InstallerWindow::startInstall(int selection)
 {
     QString target = pathEdit->text();
@@ -228,9 +235,24 @@ void InstallerWindow::startInstall(int selection)
     }
 
     QString rawJson = getJson("https://raw.githubusercontent.com/herenturker/LibSys/master/version.json");
+    if (rawJson.isEmpty())
+    {
+        QMessageBox::critical(this, "Error", "Failed to fetch version information.");
+        return;
+    }
 
     QJsonDocument doc = QJsonDocument::fromJson(rawJson.toUtf8());
     QJsonObject obj = doc.object();
+
+    // --------------------- LOCAL VERSION ----------------------------------
+    QString currentRepoVersion = "1.0.0";
+    QString remoteRepoVersion = obj["version"].toString();
+
+    if (isRemoteVersionNewer(currentRepoVersion, remoteRepoVersion))
+    {
+        QMessageBox::information(this, "Update Available",
+                                 "A newer version (" + remoteRepoVersion + ") is available and will be installed.");
+    }
 
     QString urlLibSys = obj["libsys_url"].toString();
     QString urlUpdater = obj["updater_url"].toString();
@@ -240,8 +262,8 @@ void InstallerWindow::startInstall(int selection)
 
     progressBar->setVisible(true);
 
-    if (selection == 1 || selection == 2)
-    { // LibSys
+    if (selection == 1 || selection == 2) // LibSys
+    {
         if (QFile::exists(saveLibSys) &&
             QMessageBox::question(this, "File exists", "LibSys.exe already exists. Overwrite?") != QMessageBox::Yes)
             return;
@@ -255,8 +277,8 @@ void InstallerWindow::startInstall(int selection)
         }
     }
 
-    if (selection == 1 || selection == 3)
-    { // Updater
+    if (selection == 1 || selection == 3) // Updater
+    {
         if (QFile::exists(saveUpdater) &&
             QMessageBox::question(this, "File exists", "LibSysUpdater.exe already exists. Overwrite?") != QMessageBox::Yes)
             return;
@@ -280,18 +302,16 @@ QString InstallerWindow::getJson(const QString &urlJson)
     QEventLoop loop;
 
     QNetworkReply *reply = manager.get(QNetworkRequest(QUrl(urlJson)));
-
-
     QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
-    if (reply->error() != QNetworkReply::NoError) {
+    if (reply->error() != QNetworkReply::NoError)
+    {
         reply->deleteLater();
         return "";
     }
 
     QString result = reply->readAll();
     reply->deleteLater();
-
     return result;
 }

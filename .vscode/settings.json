@@ -86,7 +86,8 @@
         "qcheckbox": "cpp",
         "qgroupbox": "cpp",
         "qhboxlayout": "cpp",
-        "qdebug": "cpp"
+        "qdebug": "cpp",
+        "qpair": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

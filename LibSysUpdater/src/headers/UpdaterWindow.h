@@ -40,6 +40,7 @@ public:
     explicit UpdaterWindow(QWidget *parent = nullptr);
     bool downloadFile(const QString &urlStr, const QString &savePath);
     QString getJson(const QString &urlJson);
+    bool isRemoteVersionNewer(const QString &local, const QString &remote);
 
 private slots:
     void chooseDirectory();

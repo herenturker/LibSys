@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(libsys LANGUAGES CXX)
+project(LibSys LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -26,13 +26,13 @@ set(RESOURCES
     icons/resources.qrc
 )
 
-qt_add_executable(libsys WIN32
+qt_add_executable(LibSys WIN32
     ${SOURCES}
     ${HEADERS}
     ${RESOURCES}
 )
 
-target_link_libraries(libsys PRIVATE
+target_link_libraries(LibSys PRIVATE
     Qt6::Widgets
     Qt6::Sql
 )

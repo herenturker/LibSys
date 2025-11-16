@@ -135,15 +135,15 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     returnBook_Button = new QPushButton("Return", this);
     returnBook_Button->setToolTip("Return a book to the library.");
 
-    myAccount_Button = new QPushButton("Account", this);
-    myAccount_Button->setToolTip("Display account settings");
+    //myAccount_Button = new QPushButton("Account", this);
+    //myAccount_Button->setToolTip("Display account settings");
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
 
     borrowBook_Button->setGeometry(540, 640, buttonWidth, buttonHeight);
     returnBook_Button->setGeometry(680, 640, buttonWidth, buttonHeight);
-    myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
+    //myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
     searchLayout->setContentsMargins(0, 0, 0, 0);
@@ -501,7 +501,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     borrowBook_Button->setStyleSheet(buttonStyle);
     returnBook_Button->setStyleSheet(buttonStyle);
-    myAccount_Button->setStyleSheet(buttonStyle);
+    //myAccount_Button->setStyleSheet(buttonStyle);
 }
 
 void StudentInterface::updateDateTime()

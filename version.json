@@ -1,10 +1,12 @@
 {
-    "version": "0.9.1",
+    "version": "1.0.0",
     "installer_url": "https://github.com/herenturker/LibSys/releases/download/download/LibSysInstaller.exe" ,
     "libsys_url": "https://github.com/herenturker/LibSys/releases/download/download/LibSys.exe",
     "updater_url": "https://github.com/herenturker/LibSys/releases/download/download/LibSysUpdater.exe",
     "Change Log": [
-        "Fixed version.json",
-        "Improved installation and update system."
+        "Added RFID Support",
+        "Improved installation and update system.",
+        "Fixed CMake typos",
+        "Fixed bugs which blocked messages from showing up."
     ]
 }
