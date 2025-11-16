@@ -13,6 +13,7 @@ A clear and concise description of what the bug is.
 Also write the file name and function name which the bug has occured, if possible.
 
 **To Reproduce**
+---
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
