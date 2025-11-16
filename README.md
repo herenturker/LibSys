@@ -7,7 +7,9 @@ Library Management System Software, LibSys Installer, LibSys Updater
 
 LibSys is an open-source library management system written in C++ that handles book borrow operations, user management, and catalog operations.
 
-⚠️ **Attention:** This project is still under test. You may encounter bugs and crashes. I, Habil Eren Türker, created this open-source project for educational purposes. My main goal during the development of this project was creating a software which my school ([Çemberlitaş Anatolian High School](https:/cemberlitasanadolu.meb.k12.tr/)) can use in its library.
+> ⚠️ **Attention:** This project is still under test. You may encounter bugs and crashes. I, Habil Eren Türker, created this open-source project for educational purposes.
+> My main goal during the development of this project was creating a software which my school ([Çemberlitaş Anatolian High School](https:/cemberlitasanadolu.meb.k12.tr/)) can use in its library.
+---
 
 ## Features
 
