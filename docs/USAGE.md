@@ -6,11 +6,11 @@ After building project or installing it from *releases* page, you can run LibSys
 
 ## Admin Account
 
-By default; the only user is "Admin". These are the credentials 👇
--------------
-* Username: Admin
-* School Number: 0
-* Password: admin
+By default, the only user is **Admin**. These are the credentials 👇
+
+* **Username:** Admin  
+* **School Number:** 0  
+* **Password:** admin
 
 ![LibSys Admin Login](images/img2.png)
 
@@ -18,6 +18,7 @@ You must choose account type from left buttons. Students are "Student", Admins a
 
 After entering login info, click **Login** button.
 
+---
 # Admin Dashboard
 
 ![LibSys Admin Dashboard](images/img3.png)
@@ -86,6 +87,7 @@ You can enter serial port name for using RFID and reading data from RFID reader.
 ![Quick Login](images/img14.png)
 If you have UID data entered for an user, you can use RFID reader to get UID and choose *Quick Login*, then click login.
 
+---
 # Student Dashboard
 You can see borrowed books, overdue books, search for books in the library and do borrow/return operations. 
 
