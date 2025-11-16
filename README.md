@@ -1,59 +1,66 @@
 # LibSys 
 
-Library Management System Software
+Library Management System Software, LibSys Installer, LibSys Updater
 © 2025 – Habil Eren Türker
 
-## 🔍 About the Project
+## About the Project
 
-LibSys is an open-source library management system written in C++ that handles book lending, user management, and catalog operations.
+LibSys is an open-source library management system written in C++ that handles book borrow operations, user management, and catalog operations.
 
-⚠️ **Attention:** This project is still under test. You may encounter bugs and crashes. 
+⚠️ **Attention:** This project is still under test. You may encounter bugs and crashes. I, Habil Eren Türker, created this open-source project for educational purposes. My main goal during the development of this project was creating a software which my school ([Çemberlitaş Anatolian High School](https:/cemberlitasanadolu.meb.k12.tr/)) can use in its library.
 
 ## Features
 
 * Book management (add, remove, update)
 * User management (add member, remove member, update member info)
-* Lending and return operations
+* Borrow and return operations
 * Basic search and filtering functionality
 * Modular and extensible architecture
 * User-friendly GUI
+* RFID support
 
-## 🧱 Technology & Structure
+## Technology & Structure
 
-* Programming Language: C++ ([GitHub link](https://github.com/herenturker/LibSys))
+* Programming Language: C++
 * Build system: CMake + Makefile
-* License: GNU AGPL v3.0 ([GitHub link](https://github.com/herenturker/LibSys))
+* License: GNU AGPL v3.0 ([License](https://www.gnu.org/licenses/agpl-3.0.en.html))
 
-## 🚀 Installation
+## Installation
 
 Follow the steps below to run the project on your machine:
 
 ```bash
 git clone https://github.com/herenturker/LibSys.git  
 cd LibSys  
-mkdir build && cd build  
-cmake ..  
-make all   # or "make Updater" OR "make Installer" OR "make LibSys"
+mkdir project && cd project  
+make build # Create CMake build files. If you want to build files a seperate, run make <program_name>. Example: make LibSys
 ./LibSys   # or the generated executable name 
 ```
 
-## 🧩 Directory Structure
+## Project Directory Structure
 
 ```
 /LibSys
 │  
-├─ libsys/            # Main source code  
-├─ LibSysInstaller/   # Installation scripts  
-├─ LibSysUpdater/     # Update module  
+├─ LibSys/            # Main source code of LibSys
+├─ LibSysInstaller/   # LibSys Installer Source Codes 
+├─ LibSysUpdater/     # LibSys Updater Source Codes 
 ├─ .vscode/           # VS Code settings  
-└─ Makefile           # Build script
+├─ .github/           # GitHub Workflow .yml Files
+├─ Makefile           # Build script
+├─ docs/images        # Documents and images for this project
+|  └─ USAGE.md        # Usage document for this project.
+├─ LICENSE            # License of the project
+├─ Arduino/           # Arduino code for RFID Data reading
+├─ README.md          # README file for this project
+└─ version.json       # Current version of LibSys
 ```
 
-## 📘 Usage
+## Usage
 
+See ([Usage](docs\USAGE.md))
 
-
-## 👥 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -62,7 +69,7 @@ Contributions are welcome! Please follow these steps:
 * Open a pull request.
 * Ensure your code is tested and readable.
 
-## 🧪 Testing
+## Testing
 
 Manual testing scenarios:
 
@@ -71,12 +78,18 @@ Manual testing scenarios:
 * Lend a book → member and book status updated
 * Return a book → lending status reset
 
-## 📄 License
+## License
 
-This project is licensed under GNU AGPL v3.0. See the `LICENSE` file for details. ([GitHub link](https://github.com/herenturker/LibSys))
+This project is licensed under GNU AGPL v3.0. See the `LICENSE` file for details. ([GitHub link](LICENSE))
 
-This project uses Qt 6.9.2 which is licensed under GNU LGPL v3.0. See ([Qt License] (https://doc.qt.io/qt-6/lgpl.html)) for more information.
+This project uses Qt 6.9.2 which is licensed under GNU LGPL v3.0. See ([Qt License](https://doc.qt.io/qt-6/lgpl.html)) for more information.
 
-## 📝 Contact
+This project uses serialib library which is licensed under MIT License. See serialib project ([serialib link](https://github.com/imabot2/serialib)).
+
+This project uses AES library which is licensed under MIT License. See AES project ([AES link](https://github.com/SergeyBel/AES)).
+
+See ([MIT License](https://mit-license.org/))
+
+## Contact
 
 For questions or suggestions, reach out via habilerenturker@hotmail.com .
