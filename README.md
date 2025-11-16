@@ -50,6 +50,7 @@ make build # Create CMake build files. If you want to build files a seperate, ru
 ├─ Makefile           # Build script
 ├─ docs/images        # Documents and images for this project
 |  └─ USAGE.md        # Usage document for this project.
+|  └─ ARDUINO.md      # Arduino RFID reader connections document for this project.
 ├─ LICENSE            # License of the project
 ├─ Arduino/           # Arduino code for RFID Data reading
 ├─ README.md          # README file for this project
