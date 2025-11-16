@@ -42,6 +42,8 @@
 AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
 {
+    /* Database directory */
+
     QString exePath = QCoreApplication::applicationDirPath();
     QString dbDirPath = exePath + "/databases";
 
@@ -53,19 +55,24 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     userDb = new Database(userdbPath, "DB_USERS");
     libraryDb = new Database(librarydbPath, "DB_LIBRARY");
 
+    /* Window settings */
+
     setWindowTitle("LibSys Admin Dashboard");
 
+    // Width 1080, height 720
     resize(1080, 720);
     setMinimumSize(1080, 720);
     setMaximumSize(1080, 720);
 
-    dateLabel = new QLabel(this);
-    dayLabel = new QLabel(this);
-    timeLabel = new QLabel(this);
+    dateLabel = new QLabel(this); // Date label
+    dayLabel = new QLabel(this);  // Day label
+    timeLabel = new QLabel(this); // Time label
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &AdminInterface::updateDateTime);
-    timer->start(1000);
+    timer->start(1000); // Per 1 second, update time
+
+    /*------ BUTTON DEFINITIONS ------*/
 
     logHistory_Button = new QPushButton("Log History", this);
     logHistory_Button->setToolTip("View the system's activity and log history.");
@@ -182,6 +189,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     dayLabel->setObjectName("dayLabel");
     timeLabel->setObjectName("timeLabel");
 
+    // APPLY STYLESHEETS
+
     logHistory_Button->setStyleSheet(buttonStyle);
 
     enterCOM_button->setStyleSheet(buttonStyle);
@@ -251,6 +260,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     bookSearchWindow = new BookSearchWindow(this);
 
+    // ADD BOOK
+
     connect(addBook_Button, &QPushButton::clicked, [&]()
             {
         bookSearchWindow->setMode(BookSearchWindow::Add);
@@ -287,6 +298,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 }
             });
 
+    // DELETE BOOK
+
     connect(deleteBook_Button, &QPushButton::clicked, [&]()
             {
         bookSearchWindow->setMode(BookSearchWindow::Delete);
@@ -312,6 +325,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 }
             });
 
+    // UPDATE BOOK INFO
     connect(changeBookInfo_Button, &QPushButton::clicked, [&]()
             {
         bookSearchWindow->setMode(BookSearchWindow::Update);
@@ -348,6 +362,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 }
             });
 
+    // ADD USER
     connect(addUser_Button, &QPushButton::clicked, [=]()
             {
                 Graphical graphicalAddUser(this);
@@ -364,6 +379,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                     showMessage(this, "Success", "Added new user!", false);
                 } });
 
+    // DELETE USER
     connect(deleteUser_Button, &QPushButton::clicked, [=]()
             {
                 Graphical graphicalDeleteUser(this);
@@ -380,6 +396,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                     showMessage(this, "Success", "Deleted the user!", false);
                 } });
 
+    // UPDATE USER INFO
     connect(updateUserInfo_Button, &QPushButton::clicked, [=]()
             {
         Graphical graphicalUpdateUser(this);
@@ -393,10 +410,12 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             showMessage(this, "Success", "Updated the user info!", false);
         } });
 
+    // DISPLAY ALL BOOKS
     connect(books_Button, &QPushButton::clicked, [=]()
             {
         GeneralOperations generalOperations(libraryDb);
 
+        // NO FILTER
         QList<LibrarySystem::Book> results = generalOperations.searchBook(
             "", "", "", "", "", "", "", "", "", "", "", "", ""
         );
@@ -407,6 +426,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         }
 
         bookSearchWindow->graphical->displayBooksWithFilters(this, results); });
+
+    // SERIAL PORT ADJUSTMENT
 
     connect(enterCOM_button, &QPushButton::clicked, [=]()
             {
@@ -422,7 +443,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         QLineEdit *comEdit = new QLineEdit(&comDialog);
         comEdit->setStyleSheet("color: black;");
 
-        QSettings settings("LibSys", "ArduinoSettings");
+        QSettings settings("LibSys", "ArduinoSettings"); // SAVE TO SETTINGS SO PROGRAM WOULD NOT FORGET
         QString savedPort = settings.value("ArduinoCOMPort", "").toString();
         if (!savedPort.isEmpty()) {
             comEdit->setText(savedPort);
@@ -458,6 +479,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         comDialog.exec(); });
 
+    // REPORT BOOK AS LOST
+
     connect(reportLostBook_Button, &QPushButton::clicked, [=]()
             {
                 Graphical graphicalReportLostBook(this);
@@ -471,6 +494,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 {
                     showMessage(this, "Success", "Operation successful.", false);
                 } });
+
+    // DISPLAY LOG HISTORY FROM log.log
 
     connect(logHistory_Button, &QPushButton::clicked, this, [this]()
             {
@@ -512,6 +537,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             logWindow->raise();
             logWindow->activateWindow();
         } });
+
+    // SHOW ALL USERS IN DATABASE
 
     connect(users_Button, &QPushButton::clicked, this, [this]()
             {

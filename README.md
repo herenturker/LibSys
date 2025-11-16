@@ -62,6 +62,8 @@ make build # Create CMake build files. If you want to build files a seperate, ru
 ## Usage
 
 See ([Usage](docs/USAGE.md))
+When you run LibSys, program would create databases directory with databases/users.db and databases/library.db and a log.log in program directory.
+> Do not delete these files.
 
 ## Contributing
 
