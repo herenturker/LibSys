@@ -1,14 +1,5 @@
 # LibSys (Library Management System Software)
 
-LibSys
-!([LibSys](docs/images/LibSys.png))
-
-LibSys Installer
-!([LibSysInstaller](docs/images/LibSysInstaller.png))
-
-LibSys Updater
-!([LibSysUpdater](docs/images/LibSysUpdater.png))
-
 LibSys, LibSys Installer, LibSys Updater
 © 2025 – Habil Eren Türker
 
