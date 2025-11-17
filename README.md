@@ -9,6 +9,7 @@ LibSys is an open-source library management system written in C++ that handles b
 
 > ⚠️ **Attention:** This project is still under test. You may encounter bugs and crashes. I, Habil Eren Türker, created this open-source project for educational purposes.
 > My main goal during the development of this project was creating a software which my school ([Çemberlitaş Anatolian High School](https:/cemberlitasanadolu.meb.k12.tr/)) can use in its library.
+> You need .dll files to run these programs. You can find them in LibSysPackage.zip in releases.
 ---
 
 ## Features
@@ -30,7 +31,7 @@ LibSys is an open-source library management system written in C++ that handles b
 ## Installation
 
 If you are using Windows, you must install mingw-w64/MSYS2 and tools G++, CMake and Makefile.
-Also you must install Qt Framework (Version at least 6.9.2).
+Also you must install Qt Framework (Version at least 6.10.0).
 
 You can find more information here:
 ([Qt](https://www.qt.io/product/framework))
@@ -39,7 +40,7 @@ You can find more information here:
 
 Also you must change all CMakeLists.txt files' 
 ```bash
-set(CMAKE_PREFIX_PATH "C:/Qt/6.9.2/mingw_64")
+set(CMAKE_PREFIX_PATH "C:/Qt/6.10.0/mingw_64")
 ```
 part with the path you have Qt installed.
 
@@ -101,7 +102,7 @@ Manual testing scenarios:
 
 This project is licensed under GNU AGPL v3.0. See the `LICENSE` file for details. ([GitHub link](LICENSE))
 
-This project uses Qt 6.9.2 which is licensed under GNU LGPL v3.0. See ([Qt License](https://doc.qt.io/qt-6/lgpl.html)) for more information.
+This project uses Qt 6.10.0 which is licensed under GNU LGPL v3.0. See ([Qt License](https://doc.qt.io/qt-6/lgpl.html)) for more information.
 
 This project uses serialib library which is licensed under MIT License. See serialib project ([serialib link](https://github.com/imabot2/serialib)).
 
