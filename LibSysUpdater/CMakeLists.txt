@@ -4,7 +4,7 @@ project(LibSysUpdater LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_PREFIX_PATH "C:/Qt/6.9.2/mingw_64")
+set(CMAKE_PREFIX_PATH "C:/Qt/6.10.0/mingw_64")
 
 
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Network)

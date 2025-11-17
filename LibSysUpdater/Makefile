@@ -1,7 +1,7 @@
 CXX = g++
 CC = gcc
-MOC = C:/Qt/6.9.2/mingw_64/bin/moc
-RCC = C:/Qt/6.9.2/mingw_64/bin/rcc
+MOC = C:/Qt/6.10.0/mingw_64/bin/moc
+RCC = C:/Qt/6.10.0/mingw_64/bin/rcc
 WINDRES = windres
 
 OBJDIR = obj
@@ -13,14 +13,14 @@ CXXFLAGS = -O2 -std=c++17 -Wall -Wextra -Wpedantic -Wshadow \
   -Wwrite-strings -Wno-unused-parameter -fstack-protector-strong -fPIC \
   -pipe -mwindows \
   -I./src -I./src/headers -I../sqlite \
-  -IC:/Qt/6.9.2/mingw_64/include \
-  -IC:/Qt/6.9.2/mingw_64/include/QtCore \
-  -IC:/Qt/6.9.2/mingw_64/include/QtGui \
-  -IC:/Qt/6.9.2/mingw_64/include/QtWidgets \
-  -IC:/Qt/6.9.2/mingw_64/include/QtNetwork \
-  -IC:/Qt/6.9.2/mingw_64/include/QtSql
+  -IC:/Qt/6.10.0/mingw_64/include \
+  -IC:/Qt/6.10.0/mingw_64/include/QtCore \
+  -IC:/Qt/6.10.0/mingw_64/include/QtGui \
+  -IC:/Qt/6.10.0/mingw_64/include/QtWidgets \
+  -IC:/Qt/6.10.0/mingw_64/include/QtNetwork \
+  -IC:/Qt/6.10.0/mingw_64/include/QtSql
 
-LIBS = -LC:/Qt/6.9.2/mingw_64/lib \
+LIBS = -LC:/Qt/6.10.0/mingw_64/lib \
   -lQt6Core -lQt6Gui -lQt6Widgets -lQt6Network -lQt6Sql -lpthread
 
 CPP_SOURCES = $(wildcard src/*.cpp)
