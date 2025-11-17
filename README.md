@@ -62,7 +62,7 @@ make build # Create CMake build files. If you want to build files a seperate, ru
 ├─ LibSysInstaller/   # LibSys Installer Source Codes 
 ├─ LibSysUpdater/     # LibSys Updater Source Codes 
 ├─ .vscode/           # VS Code settings  
-├─ .github/           # GitHub Workflow .yml Files
+├─ .github/           # Repository Settings
 ├─ Makefile           # Build script
 ├─ docs/images        # Documents and images for this project
 |  └─ USAGE.md        # Usage document for this project.
