@@ -54,7 +54,7 @@ $(MOCDIR)/moc_%.cpp: src/headers/%.h
 	$(call MAKE_DIR,$@)
 	$(MOC) $< -o $@
 
-$(RCCDIR)/qrc_%.cpp: icons/%.qrc
+$(RCCDIR)/qrc_%.cpp: icons/%.qrc styles/%.qrc
 	$(call MAKE_DIR,$@)
 	$(RCC) $< -o $@
 

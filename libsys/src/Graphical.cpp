@@ -108,6 +108,7 @@ bool Graphical::addUserGraphical(QWidget *parent)
     mainLayout->addLayout(formLayout);
     mainLayout->addLayout(buttonsLayout);
 
+    /*
     dialog.setStyleSheet(
         "QDialog { background-color: #f0f0f0; color: black;}"
         "QLineEdit { color: black; border: 1px solid black; border-radius: 4px; padding: 3px; }"
@@ -119,6 +120,7 @@ bool Graphical::addUserGraphical(QWidget *parent)
         "QRadioButton::indicator:checked { background-color: #8a0b0b; border-radius: 6px; }"
 
     );
+    */
 
     QObject::connect(addButton, &QPushButton::clicked, [&]()
                      {
@@ -166,6 +168,7 @@ bool Graphical::deleteUserGraphical(QWidget *parent)
     mainLayout->addLayout(formLayout);
     mainLayout->addLayout(buttonsLayout);
 
+    /*
     dialog.setStyleSheet(
         "QDialog { background-color: #f0f0f0; color: black;}"
         "QLineEdit { color: black; border: 1px solid black; border-radius: 4px; padding: 3px; }"
@@ -175,6 +178,8 @@ bool Graphical::deleteUserGraphical(QWidget *parent)
         "QLabel {color: black; background-color: #f0f0f0;}"
 
     );
+
+    */
 
     QObject::connect(deleteButton, &QPushButton::clicked, [&]()
                      {
@@ -248,18 +253,6 @@ bool Graphical::updateUserGraphical(QWidget *parent)
     mainLayout->addLayout(formLayout);
     mainLayout->addLayout(buttonsLayout);
 
-    dialog.setStyleSheet(
-        "QDialog { background-color: #f0f0f0; color: black;}"
-        "QLineEdit { color: black; border: 1px solid black; border-radius: 4px; padding: 3px; }"
-        "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; }"
-        "QPushButton:hover { background-color: #5f5f5f; }"
-        "QPushButton:pressed { background-color: #353535ff; }"
-        "QLabel {color: black; background-color: #f0f0f0;}"
-        "QRadioButton { padding: 2px; }"
-        "QRadioButton::indicator:checked { background-color: #8a0b0b; border-radius: 6px; }"
-
-    );
-
     QObject::connect(updateButton, &QPushButton::clicked, [&]()
                      {
                          QString accountType = radioButton_Group->checkedButton()->text();
@@ -293,9 +286,7 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
 
         bookWindow->setStyleSheet(R"(
             QWidget {
-                border: 1px solid black;
                 border-radius: 2px;
-                background-color: #cccbcb;
             }
         )");
 
@@ -315,29 +306,19 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         bookTable->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         bookTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
+        /*
         bookTable->setStyleSheet(R"(
             QTableWidget { font-size: 16px; gridline-color: #888888; }
             QTableWidget::item { color: black; }
             QHeaderView::section { background-color: #f0f0f0; color: black; border: 1px solid #a0a0a0; }
         )");
+        */
 
         layout->addWidget(bookTable);
 
         QPushButton *closeBtn = new QPushButton("Close", bookWindow);
         closeBtn->setFixedSize(80, 25);
         layout->addWidget(closeBtn, 0, Qt::AlignRight);
-        closeBtn->setStyleSheet(R"(
-            QPushButton {
-                color: black;
-                background-color: #e9e8e8;
-                border: 1px solid #a0a0a0;
-                border-radius: 4px;
-                font-size: 12px;
-                padding: 2px 5px;
-            }
-            QPushButton:hover { background-color: #d0d0d0; border: 1px solid #888888; }
-            QPushButton:pressed { background-color: #a8a8a8; border: 1px solid #555555; }
-        )");
 
         QObject::connect(closeBtn, &QPushButton::clicked, bookWindow, &QWidget::close);
         QObject::connect(bookWindow, &QWidget::destroyed, [this]()
@@ -411,12 +392,7 @@ bool Graphical::reportLostBookGraphical(QWidget *parent)
     inputDialog.setModal(true);
 
     inputDialog.setStyleSheet(R"(
-        QDialog { background-color: #dadada; }
-        QLabel { color: black; font-weight: bold; }
-        QLineEdit { color: black; background-color: #ffffff; }
-        QPushButton { color: black; background-color: #c0c0c0; border-radius: 4px; padding: 5px; }
-        QPushButton:hover { background-color: #a0a0a0; }
-        QPushButton:pressed { background-color: #808080; }
+        QLabel { font-weight: bold; }
     )");
 
     bool ok = false;

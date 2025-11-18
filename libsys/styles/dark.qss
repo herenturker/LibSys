@@ -1,0 +1,218 @@
+QWidget {
+    background-color: #010409;
+}
+
+QPushButton {
+    background-color: #212830;
+    color: white;
+    border-radius: 4px;
+    border: 1px solid #3d444d;
+}
+
+QPushButton:hover {
+    background-color: #262c36;
+}
+
+QPushButton:pressed {
+    background-color: #40495a;
+}
+
+
+QLabel {
+    color: white;
+}
+
+QTableWidget {
+    background-color: #010409;
+    color: white;
+    font-size: 12pt;
+    gridline-color: white;
+}
+
+QTableWidget::item {
+    color: white;
+}
+
+QHeaderView::section {
+    background-color: #212830;
+    color: white; 
+    border: 1px solid #3d444d;
+}
+
+QPlainTextEdit {
+    background-color: #010409;
+    color: white;
+    font-size: 12px;
+}
+
+QLabel#dateLabel,
+QLabel#dayLabel,
+QLabel#timeLabel {
+    font-size: 20px;
+    font-weight: bold;
+    color: #b1b0b0;
+}
+
+QLabel#RFID_Data,
+QLabel#RFID_Data_Value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #8c1818;
+}
+
+QLabel#overdueBooks,
+QLabel#borrowedBooks {
+    font-size: 20px;
+    font-weight: italic;
+    color: #c8c7c7;
+    border: 1px solid #3d444d;
+}
+
+QToolButton {
+    background-color: #212830;
+    color: white;
+    border-radius: 4px;
+    border: 1px solid #3d444d;
+}
+
+QToolButton:hover {
+    background-color: #262c36;
+}
+
+QToolButton:pressed {
+    background-color: #40495a;
+}
+
+
+QCalendarWidget QWidget {
+    background-color: #151b23;
+    color: white;
+}
+
+QCalendarWidget QToolButton {
+    background-color: #212830;
+    color: white;
+    border-radius: 4px;
+    padding: 2px 5px;
+}
+
+QCalendarWidget QToolButton:hover {
+    background-color: #262c36;
+}
+
+QCalendarWidget QMenu {
+    background-color: #212830;
+    color: white;
+}
+
+QCalendarWidget QAbstractItemView:enabled {
+    color: white;
+    background-color: #010409;
+    selection-background-color: #151b23;
+    selection-color: white;
+}
+
+QCalendarWidget QAbstractItemView::item:selected {
+    background-color: #151b23;
+    color: white;
+}
+
+QMessageBox { 
+    background-color: #0d1117; 
+    color: white; 
+}
+
+QLineEdit {
+    background-color: #0d1117;
+    color: white;
+    border: 1px solid #3d444d;
+    border-radius: 3px;
+}
+
+QListWidget {
+    background-color: #0d1117;
+    color: white;
+    border: 1px solid #3d444d;
+}
+
+QScrollBar:vertical {
+    background: #0d1117;
+    width: 12px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    background: #30363d;
+    min-height: 20px;
+    border-radius: 6px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #3d444d;
+}
+
+QCalendarWidget QSpinBox {
+    background-color: #212830;
+    color: white;
+    border: 1px solid #3d444d;
+    min-width: 60px;
+}
+
+QScrollBar:horizontal {
+    background: #0d1117;
+    height: 12px;
+    margin: 0px;
+}
+
+QScrollBar::handle:horizontal {
+    background: #30363d;
+    min-width: 20px;
+    border-radius: 6px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: #3d444d;
+}
+
+QDialog { 
+    background-color: #010409; 
+    color: white;
+}
+
+QRadioButton { 
+    padding: 2px; 
+    color: white;
+}
+
+QRadioButton::indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 7px;          
+    border: 1px solid white;     
+}
+
+QRadioButton::indicator:checked { 
+    background-color: #8a0b0b; 
+    border-radius: 6px; 
+    border: 1px solid white;
+}
+
+QLineEdit::placeholder {
+    color: #949393;
+    font-style: italic;
+}
+
+QTextEdit {
+    color: white;
+    font-size: 14px;
+
+}
+            
+QTextEdit::placeholder {
+    color: #949393;
+    font-style: italic;
+}
+
+QTableView {
+    gridline-color: white;
+}

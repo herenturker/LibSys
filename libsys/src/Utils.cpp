@@ -38,18 +38,6 @@ void showMessage(QWidget *parent, const QString &title, const QString &text, boo
     msgBox.setText(text);
     msgBox.setWindowModality(Qt::WindowModal);
 
-    QString backgroundColor = "#dadada";
-    QString labelColor = isError ? "red" : "black";
-
-    msgBox.setStyleSheet(
-        QString(
-            "QMessageBox { background-color: %1; color: black; }"
-            "QLabel { color: %2; font-weight: bold; font-size: 14px; background-color: %1; }"
-            "QPushButton { background-color: #8b8b8b; color: white; border-radius: 4px; padding: 5px; min-width: 80px; }"
-            "QPushButton:hover { background-color: #5f5f5f; }"
-            "QPushButton:pressed { background-color: #353535; }")
-            .arg(backgroundColor, labelColor));
-
     msgBox.raise();
     msgBox.activateWindow();
     msgBox.exec();

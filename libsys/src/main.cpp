@@ -21,6 +21,8 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QDebug>
+#include <QFile>
+#include <QTextStream>
 
 #include "headers/AdminInterface.h"
 #include "headers/StudentInterface.h"
@@ -34,7 +36,13 @@ int main(int argc, char *argv[])
 {
     QApplication libsys(argc, argv);
     libsys.setWindowIcon(QIcon(":/LibSys.ico"));
-    libsys.setStyleSheet("QWidget { background-color: #DFDEDE; }");
+    QFile file(":/styles/dark.qss");
+
+    if (file.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream stream(&file);
+        libsys.setStyleSheet(stream.readAll());
+        file.close();
+    }
 
     // ---- Login Window ----
     LoginWindow loginWindow;

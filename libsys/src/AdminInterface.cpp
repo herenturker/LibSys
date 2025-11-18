@@ -93,7 +93,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     changeBookInfo_Button->setToolTip("Edit or update details of an existing book.");
 
     QLabel *adminDashboard = new QLabel("Admin\nDashboard", this);
-    adminDashboard->setStyleSheet("QLabel { color: black; font-size: 48pt; font-weight: bold; }");
     adminDashboard->move(75, 30);
     adminDashboard->resize(500, 170);
 
@@ -151,67 +150,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     updateUserInfo_Button->setGeometry(460, 410, buttonSquare, buttonSquare);
 
-    QString buttonStyle = R"(
-        QPushButton { 
-            background-color: #a3a3a3; 
-            color: white; 
-            border-radius: 5px; 
-            font-size: 18px;
-            border: 1px solid #000000;
-        }
-        QPushButton:hover { 
-            background-color: #727272;
-            border: 1px solid #000000;
-        }
-        QPushButton:pressed { 
-            background-color: #424242;
-            border: 1px solid #000000;
-        }
-
-    )";
-
-    this->setStyleSheet(R"(
-        QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333333;
-        }
-
-        QLabel#RFID_Data, QLabel#RFID_Data_Value {
-            font-size: 20px;
-            font-weight: bold;
-            color: #8c1818;
-        }
-            
-        )");
-
     dateLabel->setObjectName("dateLabel");
     dayLabel->setObjectName("dayLabel");
     timeLabel->setObjectName("timeLabel");
-
-    // APPLY STYLESHEETS
-
-    logHistory_Button->setStyleSheet(buttonStyle);
-
-    enterCOM_button->setStyleSheet(buttonStyle);
-
-    books_Button->setStyleSheet(buttonStyle);
-
-    users_Button->setStyleSheet(buttonStyle);
-
-    reportLostBook_Button->setStyleSheet(buttonStyle);
-
-    addBook_Button->setStyleSheet(buttonStyle);
-
-    deleteBook_Button->setStyleSheet(buttonStyle);
-
-    changeBookInfo_Button->setStyleSheet(buttonStyle);
-
-    addUser_Button->setStyleSheet(buttonStyle);
-
-    deleteUser_Button->setStyleSheet(buttonStyle);
-
-    updateUserInfo_Button->setStyleSheet(buttonStyle);
 
     // CONNECTIONS
 
@@ -439,9 +380,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         QVBoxLayout *layout = new QVBoxLayout(&comDialog);
 
         QLabel *label = new QLabel("Enter Arduino COM port (e.g., COM3):", &comDialog);
-        label->setStyleSheet("color: black;");
+        // label->setStyleSheet("color: black;");
         QLineEdit *comEdit = new QLineEdit(&comDialog);
-        comEdit->setStyleSheet("color: black;");
+        // comEdit->setStyleSheet("color: black;");
 
         QSettings settings("LibSys", "ArduinoSettings"); // SAVE TO SETTINGS SO PROGRAM WOULD NOT FORGET
         QString savedPort = settings.value("ArduinoCOMPort", "").toString();
@@ -451,9 +392,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         QHBoxLayout *btnLayout = new QHBoxLayout();
         QPushButton *okBtn = new QPushButton("OK", &comDialog);
-        okBtn->setStyleSheet("color: black;");
+        //okBtn->setStyleSheet("color: black;");
         QPushButton *cancelBtn = new QPushButton("Cancel", &comDialog);
-        cancelBtn->setStyleSheet("color: black;");
+        //cancelBtn->setStyleSheet("color: black;");
         btnLayout->addWidget(okBtn);
         btnLayout->addWidget(cancelBtn);
 
@@ -516,6 +457,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             QVBoxLayout *layout = new QVBoxLayout(logWindow);
             QPlainTextEdit *textEdit = new QPlainTextEdit;
             textEdit->setReadOnly(true);
+
             textEdit->setStyleSheet(
                 "QPlainTextEdit { background-color: #ffffff; color: black; font-size: 12px; }"
             );
@@ -568,12 +510,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         table->setSelectionBehavior(QAbstractItemView::SelectRows);
         table->setSelectionMode(QAbstractItemView::SingleSelection);
 
-        table->setStyleSheet(
-            "QTableWidget { background-color: white; font-size: 12pt; }"
-            "QTableWidget::item { color: black; }"
-            "QHeaderView::section { background-color: #dadada; font-weight: bold; }"
-        );
-
         int row = 0;
         while (query.next()) {
             table->insertRow(row);
@@ -613,9 +549,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
 void AdminInterface::updateDateTime()
 {
-    dateLabel->setText("Date: " + TimeClass::showDate());
-    dayLabel->setText("Day: " + TimeClass::showDay());
-    timeLabel->setText("Time: " + TimeClass::showTime());
+    dateLabel->setText(TimeClass::showDate());
+    dayLabel->setText(TimeClass::showDay());
+    timeLabel->setText(TimeClass::showTime());
 }
 
 AdminInterface::~AdminInterface()

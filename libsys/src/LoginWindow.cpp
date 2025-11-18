@@ -161,51 +161,6 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     // === LOGIN BUTTON ===
     connect(login_Button, &QPushButton::clicked, this, &LoginWindow::handleLogin);
 
-    // === STYLESHEET ===
-    this->setStyleSheet(R"(
-        QWidget { 
-            background-color: #f5f5f5; 
-        }
-        QLabel { 
-            color: #333333; 
-            font-weight: bold; 
-        }
-        QLineEdit { 
-            background-color: #ffffff; 
-            color: #000000; 
-            border: 1px solid #cccccc; 
-            padding: 4px; 
-        }
-        QPushButton { 
-            background-color: #4CAF50; 
-            color: white; 
-            border-radius: 5px; 
-            padding: 6px 12px; 
-            font-weight: bold; 
-        }
-        QPushButton:hover { 
-            background-color: #2A6D2D;
-        }
-        QPushButton:pressed { 
-            background-color: #153817;
-        }
-        QRadioButton { 
-            color: #333333; 
-            font-size: 15px;
-            font-weight: bold;
-            padding: 0px;
-            margin: 0px;
-        }
-        QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
-            font-size: 15px;
-        }
-
-        QLabel#RFID_Data, QLabel#RFID_Data_Value {
-            font-size: 15px;
-            color: red;
-        }
-    )");
-
     dateLabel->setObjectName("dateLabel");
     dayLabel->setObjectName("dayLabel");
     timeLabel->setObjectName("timeLabel");
@@ -314,9 +269,9 @@ void LoginWindow::handleLogin()
 
 void LoginWindow::updateDateTime()
 {
-    dateLabel->setText("Date: " + TimeClass::showDate());
-    dayLabel->setText("Day: " + TimeClass::showDay());
-    timeLabel->setText("Time: " + TimeClass::showTime());
+    dateLabel->setText(TimeClass::showDate());
+    dayLabel->setText(TimeClass::showDay());
+    timeLabel->setText(TimeClass::showTime());
 }
 
 QString LoginWindow::getSchoolNo() const

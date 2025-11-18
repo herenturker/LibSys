@@ -30,3 +30,18 @@ clean:
 	$(MAKE) -C LibSys clean 
 	$(MAKE) -C LibSysInstaller clean
 	$(MAKE) -C LibSysUpdater clean
+
+build-LibSys:
+
+	cmake -B LibSys/build -G "MinGW Makefiles" LibSys
+	cmake --build LibSys/build
+
+build-LibSysInstaller:
+
+	cmake -B LibSysInstaller/build -G "MinGW Makefiles" LibSysInstaller
+	cmake --build LibSysInstaller/build
+
+build-LibSysUpdater:
+
+	cmake -B LibSysUpdater/build -G "MinGW Makefiles" LibSysUpdater
+	cmake --build LibSysUpdater/build

@@ -24,6 +24,7 @@ file(GLOB_RECURSE HEADERS
 
 set(RESOURCES
     icons/resources.qrc
+    styles/resources.qrc
 )
 
 qt_add_executable(LibSys WIN32
