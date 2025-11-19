@@ -62,14 +62,17 @@ private:
     QLineEdit *username_Edit;
     QLineEdit *password_Edit;
     QLineEdit *schoolNo_Edit;
+    
     QButtonGroup *radioButton_Group;
     QButtonGroup *loginRadioButton_Group;
+    QButtonGroup *themeRadioButton_Group;
 
     QRadioButton *accountType_Admin_Button;
     QRadioButton *accountType_Student_Button;
-
     QRadioButton *normalLogin_Button;
     QRadioButton *quickLogin_Button;
+    QRadioButton* toggleDarkTheme;
+    QRadioButton* toggleLightTheme;
 
     QPushButton *login_Button;
     QTimer *timer;
@@ -77,6 +80,8 @@ private:
     QLabel *dayLabel;
     QLabel *timeLabel;
     QString schoolNumber;
+
+
 
 
 };

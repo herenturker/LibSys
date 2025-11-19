@@ -72,6 +72,18 @@ class LibrarySystem
          */
         static QString ArduinoCOMPort;
 
+        /**
+         * @brief Theme variable (dark/light)
+         * 
+         */
+        static QString theme;
+
+        /**
+         * @brief Toggles theme
+         * 
+         * @param newTheme 
+         */
+        static void toggleTheme(int newTheme);
 
 };
 

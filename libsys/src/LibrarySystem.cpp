@@ -19,6 +19,8 @@
 #include <string>
 
 #include <QString>
+#include <QFile>
+#include <QApplication>
 
 #include "headers/LibrarySystem.h"
 
@@ -26,7 +28,25 @@ std::string LibrarySystem::rfid_data;
 
 QString LibrarySystem::ArduinoCOMPort = "";
 
+QString LibrarySystem::theme = ":/themes/light.qss";
+
 void LibrarySystem::updateRFIDDataValue(const QString &RFIDdata)
 {
     rfid_data = QStringTostdString(RFIDdata);
+}
+
+void LibrarySystem::toggleTheme(int theme)
+{
+    if (theme == 1)
+        LibrarySystem::theme = ":/themes/light.qss";
+    else // 2, for example
+        LibrarySystem::theme = ":/themes/dark.qss";
+
+    QFile file(LibrarySystem::theme);
+    if (file.open(QFile::ReadOnly | QFile::Text))
+    {
+        QString qss = file.readAll();
+        qApp->setStyleSheet(qss);
+        file.close();
+    }
 }

@@ -54,18 +54,16 @@ class StudentOperations
          * @param bookISBN 
          * @param borrowDate 
          * @param dueDate 
-         * @param uid 
          */
-        void requestBorrowApproval(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid = "");
+        void requestBorrowApproval(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
 
         /**
          * @brief Requests return approval from admin. User can return a book if admin approves.
          * 
          * @param schoolNo 
          * @param bookISBN 
-         * @param uid 
          */
-        void requestReturnApproval(const QString &schoolNo, const QString &bookISBN, const QString &uid = "");
+        void requestReturnApproval(const QString &schoolNo, const QString &bookISBN);
 
     private:
         Database* userDb;

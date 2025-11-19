@@ -27,6 +27,7 @@
 #include <QCoreApplication>
 #include <QFile>
 #include <QDir>
+#include <QAbstractButton>
 
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
@@ -73,6 +74,7 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     // === RADIO BUTTONS ===
     radioButton_Group = new QButtonGroup(this);
     loginRadioButton_Group = new QButtonGroup(this);
+    themeRadioButton_Group = new QButtonGroup(this);
 
     accountType_Admin_Button = new QRadioButton("Admin", this);
     accountType_Student_Button = new QRadioButton("Student", this);
@@ -85,8 +87,16 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     quickLogin_Button = new QRadioButton("Quick Login", this);
     normalLogin_Button->setChecked(true);
 
+    toggleDarkTheme = new QRadioButton("", this);
+    toggleLightTheme = new QRadioButton("", this);
+
+    toggleLightTheme->setChecked(true);
+
     loginRadioButton_Group->addButton(normalLogin_Button);
     loginRadioButton_Group->addButton(quickLogin_Button);
+
+    themeRadioButton_Group->addButton(toggleLightTheme);
+    themeRadioButton_Group->addButton(toggleDarkTheme);
 
     // === DATE / TIME ===
     dateLabel = new QLabel();
@@ -129,6 +139,13 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 
     layout_Radio->setContentsMargins(20, 0, 15, 10);
 
+    QHBoxLayout *themeLayout = new QHBoxLayout;
+    themeLayout->addStretch();
+    themeLayout->addWidget(toggleDarkTheme);
+    themeLayout->addSpacing(10);
+    themeLayout->addWidget(toggleLightTheme);
+
+
     QHBoxLayout *layout_Center = new QHBoxLayout;
     layout_Center->addStretch();
     layout_Center->addLayout(layout_Radio, 1); // left
@@ -147,6 +164,8 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     layout_Main->addStretch(10);
     layout_Main->addLayout(layout_Center);
     layout_Main->addStretch();
+    layout_Main->addLayout(themeLayout);
+    layout_Main->addStretch();
     layout_Main->setContentsMargins(20, 5, 20, 20);
     layout_Main->addStretch(20);
 
@@ -161,16 +180,36 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     // === LOGIN BUTTON ===
     connect(login_Button, &QPushButton::clicked, this, &LoginWindow::handleLogin);
 
+    // === OBJECT NAMES
     dateLabel->setObjectName("dateLabel");
     dayLabel->setObjectName("dayLabel");
     timeLabel->setObjectName("timeLabel");
+    toggleLightTheme->setObjectName("LightTheme");
+    toggleDarkTheme->setObjectName("DarkTheme");
+
+    // === TOGGLE THEME SETTINGS ===
+
+    connect(themeRadioButton_Group, &QButtonGroup::buttonClicked, this,
+        [&](QAbstractButton *btn){
+            if (btn == toggleLightTheme)
+                LibrarySystem::toggleTheme(1);
+            else if (btn == toggleDarkTheme)
+                LibrarySystem::toggleTheme(2);
+        });
+
 }
 
 void LoginWindow::handleLogin()
 {
-    QString username = username_Edit->text();
-    QString schoolNo = schoolNo_Edit->text();
+    QString username = username_Edit->text().trimmed();
+    QString schoolNo = schoolNo_Edit->text().trimmed();
     QString password = password_Edit->text();
+
+    if (username.isEmpty() || schoolNo.isEmpty() || password.isEmpty())
+    {
+        QMessageBox::warning(this, "Input Error", "Please fill in Username, School Number, and Password.");
+        return;
+    }
 
     // Database setup
     QString exePath = QCoreApplication::applicationDirPath();

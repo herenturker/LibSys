@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 {
     QApplication libsys(argc, argv);
     libsys.setWindowIcon(QIcon(":/LibSys.ico"));
-    QFile file(":/styles/dark.qss");
+    QFile file(LibrarySystem::theme);
 
     if (file.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream stream(&file);

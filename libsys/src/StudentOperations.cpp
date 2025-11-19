@@ -72,12 +72,12 @@ void StudentOperations::returnBorrowedBook(const QString &schoolNo, const QStrin
     }
 }
 
-void StudentOperations::requestBorrowApproval(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid = "")
+void StudentOperations::requestBorrowApproval(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate)
 {
 
 }
 
-void StudentOperations::requestReturnApproval(const QString &schoolNo, const QString &bookISBN, const QString &uid = "")
+void StudentOperations::requestReturnApproval(const QString &schoolNo, const QString &bookISBN)
 {
 
 }

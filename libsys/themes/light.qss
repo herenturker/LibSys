@@ -201,3 +201,23 @@ QTextEdit::placeholder {
 QTableView {
     gridline-color: #black;
 }
+
+QRadioButton#LightTheme::indicator {
+    background: black;
+    border: 2px solid white;
+}
+
+QRadioButton#DarkTheme::indicator {
+    background: white;
+    border: 2px solid black;
+}
+
+QRadioButton#LightTheme::indicator:checked {
+    background: black;
+    border: 2px solid white;
+}
+
+QRadioButton#DarkTheme::indicator:checked {
+    background: white;
+    border: 2px solid black;
+}
