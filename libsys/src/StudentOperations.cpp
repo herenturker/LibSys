@@ -71,3 +71,13 @@ void StudentOperations::returnBorrowedBook(const QString &schoolNo, const QStrin
         showMessage(nullptr, "Success", "Returned the book!", false);
     }
 }
+
+void StudentOperations::requestBorrowApproval(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid = "")
+{
+
+}
+
+void StudentOperations::requestReturnApproval(const QString &schoolNo, const QString &bookISBN, const QString &uid = "")
+{
+
+}

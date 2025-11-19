@@ -272,7 +272,7 @@ public:
     bool isUserExists(const QString &username);
 
     /**
-     * @brief Checks if the user exists in the database.
+     * @brief Checks if the user exists in the database by UID.
      * 
      * @param uid 
      * @return true 
@@ -408,6 +408,38 @@ public:
                           const QString &seriesInformation, const QString &language,
                           const QString &DDC, const QString &additionalInfo, const QString &uid = "");
 
+    /**
+    * @brief Creates a Borrow Requests Table object
+    * 
+    * @return true 
+    * @return false 
+    */
+    bool createBorrowRequestsTable();
+
+    /**
+     * @brief Creates a Return Requests Table object
+     * 
+     * @return true 
+     * @return false 
+     */
+    bool createReturnRequestsTable();
+
+    /**
+     * @brief Get borrow request data from database
+     * 
+     * @return true 
+     * @return false 
+     */
+    bool borrowRequest(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
+
+    /**
+     * @brief Get return request data from database
+     * 
+     * @return true 
+     * @return false 
+     */
+    bool returnRequest(const QString &schoolNo, const QString &bookISBN);
+    
 private:
     QSqlDatabase m_db;
     QString m_dbName;

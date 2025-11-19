@@ -319,6 +319,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                 return;
             }
 
+            // request permission from admin here
             if (!libraryDb->borrowBook(schoolNo, bookISBN,
                             borrowDate.toString("yyyy-MM-dd"),
                             dueDate.toString("yyyy-MM-dd"), uidEdit->text())) {

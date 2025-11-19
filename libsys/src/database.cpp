@@ -635,6 +635,7 @@ bool Database::borrowBook(const QString &schoolNo, const QString &bookISBN, cons
         INSERT INTO borrowed_books (school_no, book_isbn, borrow_date, due_date, uid)
         VALUES (:school_no, :book_isbn, :borrow_date, :due_date, :uid)
     )");
+
     insertQuery.bindValue(":school_no", schoolNo);
     insertQuery.bindValue(":book_isbn", bookISBN);
     insertQuery.bindValue(":borrow_date", borrowDate);
@@ -1086,4 +1087,84 @@ bool Database::isBookExistsUID(const QString &uid)
     }
 
     return false;
+}
+
+bool Database::createBorrowRequestsTable()
+{
+    QSqlQuery query(m_db);
+    QString createTable = R"(
+        CREATE TABLE IF NOT EXISTS borrow_requests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            school_no INTEGER NOT NULL,
+            book_isbn TEXT NOT NULL,
+            borrow_date TEXT NOT NULL,
+            due_date TEXT NOT NULL,
+            UNIQUE(school_no, book_isbn)
+        )
+    )";
+
+    if (!query.exec(createTable))
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Database::createReturnRequestsTable()
+{
+    QSqlQuery query(m_db);
+    QString createTable = R"(
+        CREATE TABLE IF NOT EXISTS return_requests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            school_no INTEGER NOT NULL,
+            book_isbn TEXT NOT NULL,
+            borrow_date TEXT NOT NULL,
+            due_date TEXT NOT NULL,
+            UNIQUE(school_no, book_isbn)
+        )
+    )";
+
+    if (!query.exec(createTable))
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Database::borrowRequest(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate)
+{
+    if (!m_db.isOpen() && !m_db.open())
+            return false;
+
+    QSqlQuery insertQuery(m_db);
+    insertQuery.prepare(R"(
+        INSERT INTO borrow_requests (school_no, book_isbn, borrow_date, due_date)
+        VALUES (:school_no, :book_isbn, :borrow_date, :due_date)
+    )");
+
+    insertQuery.bindValue(":school_no", schoolNo);
+    insertQuery.bindValue(":book_isbn", bookISBN);
+    insertQuery.bindValue(":borrow_date", borrowDate);
+    insertQuery.bindValue(":due_date", dueDate);
+
+    if (!insertQuery.exec())
+        return false;
+
+    return true;
+}
+
+bool Database::returnRequest(const QString &schoolNo, const QString &bookISBN)
+{
+    if (!m_db.isOpen() && !m_db.open())
+            return false;
+    
+    QSqlQuery query(m_db);
+    query.prepare("DELETE FROM return_requests WHERE school_no = :school_no AND book_isbn = :book_isbn");
+    query.bindValue(":school_no", schoolNo);
+    query.bindValue(":book_isbn", bookISBN);
+
+    if (!query.exec())
+        return false;
+
+    return true;
 }
