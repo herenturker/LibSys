@@ -481,9 +481,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         } });
 
     // SHOW ALL USERS IN DATABASE
-
     connect(users_Button, &QPushButton::clicked, this, [this]()
-            {
+    {
         if (userWindow) {
             userWindow->raise();
             userWindow->activateWindow();
@@ -502,6 +501,12 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         userWindow->resize(600, 400);
 
         QVBoxLayout *layout = new QVBoxLayout(userWindow);
+
+        // === Search Bar ===
+        QLineEdit *searchEdit = new QLineEdit;
+        searchEdit->setPlaceholderText("Enter school number to search...");
+        layout->addWidget(searchEdit);
+
         QTableWidget *table = new QTableWidget;
         table->setColumnCount(5);
         table->setHorizontalHeaderLabels({"Username", "School No", "Password", "Account Type", "UID"});
@@ -538,13 +543,22 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         layout->addWidget(table);
         userWindow->setLayout(layout);
 
+        QObject::connect(searchEdit, &QLineEdit::textChanged, [table](const QString &text){
+            for (int i = 0; i < table->rowCount(); ++i) {
+                bool match = table->item(i, 1)->text().contains(text, Qt::CaseInsensitive);
+                table->setRowHidden(i, !match);
+            }
+        });
+
         userWindow->setAttribute(Qt::WA_DeleteOnClose);
         QObject::connect(userWindow, &QWidget::destroyed, [this]() {
             userWindow = nullptr;
         });
 
         userWindow->show();
-        userDb->closeDB(); });
+        userDb->closeDB();
+    });
+
 }
 
 void AdminInterface::updateDateTime()

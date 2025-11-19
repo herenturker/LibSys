@@ -187,7 +187,7 @@ bool Graphical::deleteUserGraphical(QWidget *parent)
                          QString userdbPath = exePath + "/users.db";
 
                          Database db(userdbPath, "DB_USERS");
-                         if ((username->text() == ""))
+                         if ((username->text() == "") || (username->text() == "Admin"))
                          {
                              dialog.reject();
                          }

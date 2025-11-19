@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_PREFIX_PATH "C:/Qt/6.10.0/mingw_64")
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql LinguistTools)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -25,12 +25,21 @@ file(GLOB_RECURSE HEADERS
 set(RESOURCES
     icons/resources.qrc
     themes/resources.qrc
+    "flags/resources.qrc"
 )
+
+set(TRANSLATIONS
+    translations/translations_tr.ts
+    translations/translations_en.ts
+)
+
+qt_add_translation(QM_FILES ${TRANSLATIONS})
 
 qt_add_executable(LibSys WIN32
     ${SOURCES}
     ${HEADERS}
     ${RESOURCES}
+    ${QM_FILES}
 )
 
 target_link_libraries(LibSys PRIVATE

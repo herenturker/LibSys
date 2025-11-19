@@ -275,6 +275,8 @@ void LoginWindow::handleLogin()
     }
     else if (loginRadioButton_Group->checkedButton()->text() == "Quick Login")
     {
+        QMessageBox::critical(this, "Attention", "Please scan your card.");
+
         if (LibrarySystem::rfid_data.empty())
         {
             QMessageBox::warning(this, "Error", "No RFID data detected!");
