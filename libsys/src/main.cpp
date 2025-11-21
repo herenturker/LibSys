@@ -23,6 +23,8 @@
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
+#include <QTranslator>
+#include <QLocale>
 
 #include "headers/AdminInterface.h"
 #include "headers/StudentInterface.h"
@@ -31,6 +33,8 @@
 #include "headers/Utils.h"
 #include "headers/SerialReader.h"
 #include "headers/LibrarySystem.h"
+
+QTranslator translator;
 
 int main(int argc, char *argv[])
 {
@@ -44,6 +48,17 @@ int main(int argc, char *argv[])
         file.close();
     }
 
+    QSettings appSettings("LibSys", "AppSettings");
+    QString lang = appSettings.value("Language", "en").toString(); // default en
+
+    if(lang == "tr")
+        LoginWindow::language = ":/translations/tr.qm";
+    else
+        LoginWindow::language = ":/translations/en.qm";
+
+    if(translator.load(LoginWindow::language))
+        libsys.installTranslator(&translator);
+
     // ---- Login Window ----
     LoginWindow loginWindow;
     loginWindow.show();
@@ -52,8 +67,8 @@ int main(int argc, char *argv[])
     SerialReader reader;
 
     // ---- QSettings for reading COM port ----
-    QSettings settings("LibSys", "ArduinoSettings");
-    QString savedPort = settings.value("ArduinoCOMPort", "").toString();
+    QSettings ArduinoSettings("LibSys", "ArduinoSettings");
+    QString savedPort = ArduinoSettings.value("ArduinoCOMPort", "").toString();
     LibrarySystem::ArduinoCOMPort = savedPort;
 
     if (!savedPort.isEmpty())
@@ -66,6 +81,24 @@ int main(int argc, char *argv[])
     {
         qDebug() << "Arduino COM port not set. Admin must enter port first.";
     }
+
+    QObject::connect(&loginWindow, &LoginWindow::languageChanged,
+                 [&](const QString &langCode){
+                     libsys.removeTranslator(&translator);
+
+                     if(langCode == "tr")
+                         LoginWindow::language = ":/translations/tr.qm";
+                     else
+                         LoginWindow::language = ":/translations/en.qm";
+
+                     if(translator.load(LoginWindow::language))
+                         libsys.installTranslator(&translator);
+
+                     loginWindow.retranslateUi();
+                    // TODO: CHANGE OTHERS' LANGUAGE TOO!
+                     QSettings appSettings("LibSys", "AppSettings");
+                     appSettings.setValue("Language", langCode);
+                 });
 
     // ---- RFID signal connections ----
     QObject::connect(&reader, &SerialReader::eightCharReceived,

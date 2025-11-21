@@ -89,5 +89,6 @@
         "qdebug": "cpp",
         "qpair": "cpp"
     },
-    "C_Cpp.errorSquiggles": "enabled"
+    "C_Cpp.errorSquiggles": "enabled",
+    "typescript.validate.enable": false
 }

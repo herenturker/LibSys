@@ -27,6 +27,7 @@
 #include <QRadioButton>
 #include <QTimer>
 #include <QButtonGroup>
+#include <QTranslator>
 
 class LoginWindow : public QWidget
 {
@@ -46,12 +47,29 @@ public:
      * @return QString 
      */
     QString getSchoolNo() const;
-    
+
+
+    /**
+     * @brief Switches program language
+     * 
+     * @param langCode 
+     */
+    void switchLanguage(const QString &langCode);
+
+    /**
+     * @brief Translates the UI dynamically.
+     * 
+     */
+    void retranslateUi();
+
+    static QTranslator translator;
+    static QString language;
     QLabel *RFID_Data_Value;
 
 signals:
     void loginSuccess(const QString &accountType, const QString &schoolNo);
-
+    void languageChanged(const QString &langCode);
+    
 public slots:
     void updateRFIDLabel(const QString& RFIDdata);
 private slots:
@@ -59,6 +77,12 @@ private slots:
     void updateDateTime();
 
 private:
+
+    QLabel *username_Label;
+    QLabel *schoolNo_Label;
+    QLabel *password_Label;
+    QLabel *RFID_Data;
+
     QLineEdit *username_Edit;
     QLineEdit *password_Edit;
     QLineEdit *schoolNo_Edit;
@@ -81,7 +105,8 @@ private:
     QLabel *timeLabel;
     QString schoolNumber;
 
-
+    QPushButton* btnTr;
+    QPushButton* btnEn;
 
 
 };

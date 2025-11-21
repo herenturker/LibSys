@@ -26,20 +26,13 @@ set(RESOURCES
     icons/resources.qrc
     themes/resources.qrc
     "flags/resources.qrc"
+    translations/resources.qrc
 )
-
-set(TRANSLATIONS
-    translations/translations_tr.ts
-    translations/translations_en.ts
-)
-
-qt_add_translation(QM_FILES ${TRANSLATIONS})
 
 qt_add_executable(LibSys WIN32
     ${SOURCES}
     ${HEADERS}
     ${RESOURCES}
-    ${QM_FILES}
 )
 
 target_link_libraries(LibSys PRIVATE

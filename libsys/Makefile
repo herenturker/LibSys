@@ -75,3 +75,9 @@ $(TARGET): $(OBJ_CPP) $(OBJ_MOC) $(OBJ_RCC) $(RC_OBJ)
 
 clean:
 	rm -rf $(OBJDIR) $(MOCDIR) $(RCCDIR) $(TARGET)
+
+ts-TR:
+	C:\Qt\6.10.0\mingw_64\bin\lrelease.exe translations/tr.ts
+qm-TR:
+	C:\Qt\6.10.0\mingw_64\bin\lrelease.exe translations/tr.ts -qm translations/tr.qm
+
