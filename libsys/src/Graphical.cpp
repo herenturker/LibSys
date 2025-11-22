@@ -276,7 +276,6 @@ bool Graphical::updateUserGraphical(QWidget *parent)
 
 void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Book> results)
 {
-
     if (!bookWindow)
     {
         bookWindow = new QWidget(nullptr, Qt::Window);
@@ -284,36 +283,16 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         bookWindow->resize(1150, 600);
         bookWindow->setAttribute(Qt::WA_DeleteOnClose);
 
-        bookWindow->setStyleSheet(R"(
-            QWidget {
-                border-radius: 2px;
-            }
-        )");
-
         QVBoxLayout *layout = new QVBoxLayout(bookWindow);
 
         bookTable = new QTableWidget(bookWindow);
         bookTable->setObjectName("BookTable");
-
         bookTable->setColumnCount(15);
         bookTable->setHorizontalHeaderLabels({"Title", "Author",
                                               "Publisher", "Year", "Edition", "ISBN", "Volume", "Page Count",
                                               "Series Info", "Language", "DDC", "Additional Info", "Borrowed", "Borrowed By", "UID"});
-
         bookTable->setShowGrid(true);
-        bookTable->setGridStyle(Qt::DashLine);
         bookTable->horizontalHeader()->setStretchLastSection(true);
-        bookTable->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        bookTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-        /*
-        bookTable->setStyleSheet(R"(
-            QTableWidget { font-size: 16px; gridline-color: #888888; }
-            QTableWidget::item { color: black; }
-            QHeaderView::section { background-color: #f0f0f0; color: black; border: 1px solid #a0a0a0; }
-        )");
-        */
-
         layout->addWidget(bookTable);
 
         QPushButton *closeBtn = new QPushButton("Close", bookWindow);
@@ -321,8 +300,7 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         layout->addWidget(closeBtn, 0, Qt::AlignRight);
 
         QObject::connect(closeBtn, &QPushButton::clicked, bookWindow, &QWidget::close);
-        QObject::connect(bookWindow, &QWidget::destroyed, [this]()
-                         { this->bookWindow = nullptr; });
+        QObject::connect(bookWindow, &QWidget::destroyed, [this](){ this->bookWindow = nullptr; });
 
         int x = 0, y = 0;
         if (parent)
@@ -342,32 +320,32 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
     }
 
     QTableWidget *table = bookWindow->findChild<QTableWidget *>("BookTable");
-    if (table)
+    if (!table) return;
+
+    table->clearContents();
+    table->setRowCount(results.size());
+
+    for (int row = 0; row < results.size(); ++row)
     {
-        table->setRowCount(results.size());
+        const LibrarySystem::Book &book = results[row];
 
-        for (int row = 0; row < results.size(); ++row)
-        {
-            const LibrarySystem::Book &book = results[row];
+        QStringList cells = {
+            book.title, book.author1,
+            book.publisher, book.publicationYear, book.edition, book.ISBN, book.volume,
+            book.pageCount, book.seriesInformation, book.language, book.DDC, book.additionalInfo
+        };
 
-            QStringList cells = {
-                book.title, book.author1,
-                book.publisher, book.publicationYear, book.edition, book.ISBN, book.volume,
-                book.pageCount, book.seriesInformation, book.language, book.DDC, book.additionalInfo};
+        for (int col = 0; col < cells.size(); ++col)
+            table->setItem(row, col, new QTableWidgetItem(cells[col]));
 
-            for (int col = 0; col < cells.size(); ++col)
-            {
-                table->setItem(row, col, new QTableWidgetItem(cells[col]));
-            }
-
-            table->setItem(row, 12, new QTableWidgetItem(book.isBorrowed ? "Yes" : "No"));
-            table->setItem(row, 13, new QTableWidgetItem(book.borrowedBy.isEmpty() ? "-" : book.borrowedBy));
-            table->setItem(row, 14, new QTableWidgetItem(book.uid.isEmpty() ? "-" : book.uid));
-        }
+        table->setItem(row, 12, new QTableWidgetItem(book.isBorrowed ? "Yes" : "No"));
+        table->setItem(row, 13, new QTableWidgetItem(book.borrowedBy.isEmpty() ? "-" : book.borrowedBy));
+        table->setItem(row, 14, new QTableWidgetItem(book.uid.isEmpty() ? "-" : book.uid));
     }
 
     bookWindow->show();
 }
+
 
 QTableWidget *Graphical::getBookTable()
 {

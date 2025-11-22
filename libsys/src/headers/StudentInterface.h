@@ -39,7 +39,9 @@ public:
     explicit StudentInterface(QWidget *parent = nullptr);
 
     void setCurrentStudentSchoolNo(const QString &schoolNo);
-    void refreshBorrowedBooks();
+    void refreshBorrowedBooks(const QString &studentNo);
+
+    QString getCurrentStudentSchoolNo() const;
     QStringList getBorrowedBooksTextList() const;
     void refreshBookLists();
     QLabel *RFID_Data;
@@ -62,6 +64,7 @@ private:
     QPushButton *borrowBook_Button;
     QPushButton *returnBook_Button;
     QPushButton *myAccount_Button;
+    QPushButton *bookCitation_Button;
 
     QLabel *overdueBooks;
     QLabel *borrowedBooks;

@@ -144,7 +144,7 @@ void LibrarySystem::addBooksToDatabase()
         QString bookPublisher = stdStringToQString(publisher);
         QString bookShortDDC = stdStringToQString(shortDDC);
 
-        librarydb->addBook(nullptr, bookBookTitle, bookAuthor, bookPublisher, "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", bookDDC, bookShortDDC, "");
+        librarydb->addBook(nullptr, bookBookTitle, bookAuthor, bookPublisher, "UNKNOWN", "UNKNOWN", "", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", bookDDC, bookShortDDC, "");
 
     }
 

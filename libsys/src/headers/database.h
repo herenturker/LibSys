@@ -449,6 +449,7 @@ public:
     bool createOverdueBooksTable();
 
     // === REVISED FUNCTIONS ===
+
     // Instead of using book isbn, use title and author to perform operations.
     // _TITLE_AUTHOR
     
@@ -530,7 +531,47 @@ public:
      * @return true 
      * @return false 
      */
-    bool returnRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author1);
+    bool returnRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString &author1);
+
+    /**
+     * @brief Gets borrow requests
+     * 
+     * @return QList<QMap<QString, QString>> 
+     */
+    QList<QMap<QString, QString>> getBorrowRequests();
+
+    /**
+     * @brief Gets return requests
+     * 
+     * @return QList<QMap<QString, QString>> 
+     */
+    QList<QMap<QString, QString>> getReturnRequests();
+
+    /**
+     * @brief Deletes book borrow request using title and author
+     * 
+     * @param schoolNo 
+     * @param title 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool deleteBorrowRequest_TITLE_AUTHOR(const QString &schoolNo,
+                                                const QString &title,
+                                                const QString &author1);
+
+    /**
+     * @brief Deletes return request using title and author
+     * 
+     * @param schoolNo 
+     * @param title 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool deleteReturnRequest_TITLE_AUTHOR(const QString &schoolNo,
+                                                const QString &title,
+                                                const QString &author1);
 
 private:
     QSqlDatabase m_db;

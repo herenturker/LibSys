@@ -98,9 +98,10 @@ bool Database::addUser(const QString &username, const QString &schoolNo,
         return false;
     }
 
+    QString passwordAES = convertToAes(password);
     query.bindValue(":username", username);
     query.bindValue(":school_no", schoolNo);
-    query.bindValue(":password", password);
+    query.bindValue(":password", passwordAES);
     query.bindValue(":account_type", accountType);
     query.bindValue(":uid", uid);
     if (!query.exec())
@@ -235,16 +236,12 @@ bool Database::isUserMatchedInDataBase(const QString &username,
           AND school_no = :school_no 
           AND password = :password 
           AND account_type = :account_type
-          AND (:uid IS NULL OR uid = :uid)
     )");
-
-    // QString passwordAES = convertToAes(password);
 
     query.bindValue(":username", username);
     query.bindValue(":school_no", schoolNo);
     query.bindValue(":password", password);
     query.bindValue(":account_type", accountType);
-    query.bindValue(":uid", uid);
 
     if (!query.exec())
     {
@@ -288,9 +285,8 @@ bool Database::addUserIfNotExists(const QString &username,
     }
 
     // User not found -> safely add
-    QString passwordAES = convertToAes(password);
 
-    return addUser(username, schoolNo, passwordAES, accountType, uid);
+    return addUser(username, schoolNo, password, accountType, uid);
 }
 
 void Database::debugPrintAllUsers() const
@@ -806,29 +802,28 @@ QList<QMap<QString, QString>> Database::getBorrowedBooksByStudent(const QString 
     QList<QMap<QString, QString>> borrowedBooks;
 
     if (!m_db.isOpen() && !m_db.open())
-    {
         return borrowedBooks;
-    }
 
     QSqlQuery query(m_db);
     query.prepare(R"(
         SELECT 
-            b.title AS book_title, 
-            b.author1 AS book_author1, 
-            b.isbn AS book_isbn, 
-            bb.borrow_date AS borrow_date, 
+            COALESCE(b.title, bb.title) AS book_title,
+            COALESCE(b.author1, bb.author1) AS book_author1,
+            COALESCE(b.isbn, bb.book_isbn) AS book_isbn,
+            bb.borrow_date AS borrow_date,
             bb.due_date AS due_date,
             bb.uid AS uid
         FROM borrowed_books AS bb
-        JOIN books AS b ON bb.book_isbn = b.isbn
+        LEFT JOIN books AS b 
+            ON ( (bb.book_isbn IS NOT NULL AND bb.book_isbn = b.isbn) 
+                 OR (bb.book_isbn IS NULL AND bb.title = b.title AND bb.author1 = b.author1) )
         WHERE bb.school_no = :school_no
     )");
+
     query.bindValue(":school_no", schoolNo);
 
     if (!query.exec())
-    {
         return borrowedBooks;
-    }
 
     while (query.next())
     {
@@ -844,6 +839,7 @@ QList<QMap<QString, QString>> Database::getBorrowedBooksByStudent(const QString 
 
     return borrowedBooks;
 }
+
 
 bool Database::isUserExists(const QString &username)
 {
@@ -1092,7 +1088,7 @@ bool Database::createBorrowRequestsTable()
     QString createTable = R"(
         CREATE TABLE IF NOT EXISTS borrow_requests (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            school_no INTEGER NOT NULL,
+            school_no TEXT NOT NULL,
             book_isbn TEXT,
             borrow_date TEXT NOT NULL,
             due_date TEXT NOT NULL,
@@ -1115,10 +1111,10 @@ bool Database::createReturnRequestsTable()
     QString createTable = R"(
         CREATE TABLE IF NOT EXISTS return_requests (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            school_no INTEGER NOT NULL,
+            school_no TEXT NOT NULL,
             book_isbn TEXT,
-            borrow_date TEXT NOT NULL,
-            due_date TEXT NOT NULL,
+            borrow_date TEXT,
+            due_date TEXT,
             title TEXT,
             author1 TEXT,
             UNIQUE(school_no, title, author1)
@@ -1176,7 +1172,7 @@ bool Database::createOverdueBooksTable()
     QString createTable = R"(
         CREATE TABLE IF NOT EXISTS overdue_books (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            school_no INTEGER NOT NULL,
+            school_no TEXT NOT NULL,
             book_isbn TEXT NOT NULL,
             borrow_date TEXT NOT NULL,
             due_date TEXT NOT NULL,
@@ -1414,13 +1410,20 @@ bool Database::borrowRequest_TITLE_AUTHOR(const QString &schoolNo, const QString
     return true;
 }
 
-bool Database::returnRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author1)
+bool Database::returnRequest_TITLE_AUTHOR(const QString &schoolNo,
+                                          const QString &bookTitle,
+                                          const QString &author1)
 {
     if (!m_db.isOpen() && !m_db.open())
-            return false;
-    
+        return false;
+
     QSqlQuery query(m_db);
-    query.prepare("DELETE FROM return_requests WHERE school_no = :school_no AND title = :title AND author1 = :author1");
+
+    query.prepare(R"(
+        INSERT INTO return_requests (school_no, title, author1)
+        VALUES (:school_no, :title, :author1)
+    )");
+
     query.bindValue(":school_no", schoolNo);
     query.bindValue(":title", bookTitle);
     query.bindValue(":author1", author1);
@@ -1430,3 +1433,62 @@ bool Database::returnRequest_TITLE_AUTHOR(const QString &schoolNo, const QString
 
     return true;
 }
+
+QList<QMap<QString, QString>> Database::getBorrowRequests()
+{
+    QList<QMap<QString, QString>> list;
+
+    if (!m_db.isOpen() && !m_db.open())
+        return list;
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT school_no, book_isbn, borrow_date, due_date, title, author1 FROM borrow_requests");
+
+    if (!query.exec())
+        return list;
+
+    while (query.next())
+    {
+        QMap<QString, QString> req;
+        req["school_no"] = query.value("school_no").toString();
+        req["book_isbn"] = query.value("book_isbn").toString();
+        req["borrow_date"] = query.value("borrow_date").toString();
+        req["due_date"] = query.value("due_date").toString();
+        req["title"] = query.value("title").toString();
+        req["author1"] = query.value("author1").toString();
+
+        list.append(req);
+    }
+
+    return list;
+}
+
+QList<QMap<QString, QString>> Database::getReturnRequests()
+{
+    QList<QMap<QString, QString>> list;
+
+    if (!m_db.isOpen() && !m_db.open())
+        return list;
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT school_no, book_isbn, borrow_date, due_date, title, author1 FROM return_requests");
+
+    if (!query.exec())
+        return list;
+
+    while (query.next())
+    {
+        QMap<QString, QString> req;
+        req["school_no"] = query.value("school_no").toString();
+        req["book_isbn"] = query.value("book_isbn").toString();
+        req["borrow_date"] = query.value("borrow_date").toString();
+        req["due_date"] = query.value("due_date").toString();
+        req["title"] = query.value("title").toString();
+        req["author1"] = query.value("author1").toString();
+
+        list.append(req);
+    }
+
+    return list;
+}
+

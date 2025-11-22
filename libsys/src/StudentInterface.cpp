@@ -134,7 +134,10 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     returnBook_Button->setToolTip("Return a book to the library.");
 
     myAccount_Button = new QPushButton("Account", this);
-    myAccount_Button->setToolTip("Display account settings");
+    myAccount_Button->setToolTip("Display account settings.");
+
+    bookCitation_Button = new QPushButton("Citation", this);
+    bookCitation_Button->setToolTip("Perform book citation.");
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
@@ -142,6 +145,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     borrowBook_Button->setGeometry(540, 640, buttonWidth, buttonHeight);
     returnBook_Button->setGeometry(680, 640, buttonWidth, buttonHeight);
     myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
+    bookCitation_Button->setGeometry(450, 250, buttonWidth, buttonHeight);
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
     searchLayout->setContentsMargins(0, 0, 0, 0);
@@ -163,46 +167,76 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     searchEdit->setObjectName("searchEdit");
     openButton->setObjectName("bookSearchButton");
 
+    connect(myAccount_Button, &QPushButton::clicked, [=]()
+    {
+        QDialog *infoDialog = new QDialog(this);
+        infoDialog->setWindowTitle("My Account Info");
+        infoDialog->setFixedSize(380, 230);
+
+        QVBoxLayout *mainLayout = new QVBoxLayout(infoDialog);
+
+        QString studentUID = userDb->getUIDWithSchoolNo(currentStudentSchoolNo);
+
+        QGridLayout *grid = new QGridLayout();
+
+        auto makeBold = [](const QString &text){
+            QLabel *lbl = new QLabel("<b>" + text + "</b>");
+            return lbl;
+        };
+
+        grid->addWidget(makeBold("Username:"),      0, 0);
+        grid->addWidget(new QLabel(userDb->getUsernameWithUID(studentUID)), 0, 1);
+
+        grid->addWidget(makeBold("School Number:"), 1, 0);
+        grid->addWidget(new QLabel(currentStudentSchoolNo), 1, 1);
+
+        grid->addWidget(makeBold("Password:"),      2, 0);
+        grid->addWidget(new QLabel(convertFromAes(userDb->getPasswordWithUID(studentUID))), 2, 1);
+
+        grid->addWidget(makeBold("UID:"),           3, 0);
+        grid->addWidget(new QLabel(studentUID), 3, 1);
+
+        grid->setVerticalSpacing(10);
+        grid->setHorizontalSpacing(15);
+
+        mainLayout->addLayout(grid);
+
+        // Close button
+        QPushButton *closeBtn = new QPushButton("Close", infoDialog);
+        closeBtn->setFixedWidth(80);
+        closeBtn->setStyleSheet("padding: 5px;");
+        connect(closeBtn, &QPushButton::clicked, infoDialog, &QDialog::accept);
+
+        mainLayout->addWidget(closeBtn, 0, Qt::AlignRight);
+
+        infoDialog->exec();
+    });
+
     connect(searchButton, &QToolButton::clicked, [=]()
-            {
-                QString bookTitle = bookSearchWindow->bookTitle->text();
-                QString author1 = bookSearchWindow->author1->text();
-                QString publisher = bookSearchWindow->publisher->text();
-                QString publicationYear = bookSearchWindow->publicationYear->text();
-                QString edition = bookSearchWindow->edition->text();
-                QString ISBN = bookSearchWindow->ISBN->text();
-                QString volume = bookSearchWindow->volume->text();
-                QString pageCount = bookSearchWindow->pageCount->text();
-                QString seriesInformation = bookSearchWindow->seriesInformation->text();
-                QString language = bookSearchWindow->language->text();
-                QString DDC = bookSearchWindow->DDC->text();
-                QString additionalInfo = bookSearchWindow->additionalInfo->toPlainText();
-                QString uid = bookSearchWindow->uid->text();
+    {
+        QString bookTitle = bookSearchWindow->bookTitle->text();
+        QString author1 = bookSearchWindow->author1->text();
+        QString ISBN = bookSearchWindow->ISBN->text();
+        GeneralOperations generalOperations(libraryDb);
 
-                GeneralOperations generalOperations(libraryDb);
+        QList<LibrarySystem::Book> results = generalOperations.searchBook(
+            bookTitle, author1,
+            "", "", "", ISBN,
+            "", "", "", "", "", "", ""
+        );
 
-                QList<LibrarySystem::Book> results = generalOperations.searchBook(
-                    bookTitle, author1,
-                    publisher, publicationYear, edition, ISBN,
-                    volume, pageCount, seriesInformation, language, DDC, additionalInfo, uid);
+        for (auto &book : results)
+        {
+            QString borrowedBy;
+            if (!book.ISBN.isEmpty())
+                book.isBorrowed = libraryDb->getBookBorrowInfo(book.ISBN, borrowedBy);
+            else
+                book.isBorrowed = libraryDb->getBookBorrowInfo_TITLE_AUTHOR(borrowedBy, book.title, book.author1);
+            book.borrowedBy = borrowedBy;
+        }
 
-                for (auto &book : results)
-                {
-                    QString borrowedBy = "";
-                    if (libraryDb->getBookBorrowInfo(book.ISBN, borrowedBy))
-                    {
-                        book.isBorrowed = !borrowedBy.isEmpty();
-                        book.borrowedBy = borrowedBy;
-                    }
-                    else
-                    {
-                        book.isBorrowed = false;
-                        book.borrowedBy = "";
-                    }
-                }
-
-                bookSearchWindow->graphical->displayBooksWithFilters(this, results);
-            });
+        bookSearchWindow->graphical->displayBooksWithFilters(this, results);
+    });
 
     connect(borrowBook_Button, &QPushButton::clicked, [=]()
             {
@@ -212,17 +246,17 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
         QVBoxLayout *layout = new QVBoxLayout(borrowDialog);
 
-        QLabel *isbnLabel = new QLabel("Enter Book ISBN:", borrowDialog);
-        QLineEdit *isbnEdit = new QLineEdit(borrowDialog);
+        QLabel *titleLabel = new QLabel("Enter Book Title:", borrowDialog);
+        QLineEdit *titleEdit = new QLineEdit(borrowDialog);
 
-        QLabel *uidLabel = new QLabel("Enter Book UID:", borrowDialog);
-        QLineEdit *uidEdit = new QLineEdit(borrowDialog);
+        QLabel *authorLabel = new QLabel("Enter Book Author:", borrowDialog);
+        QLineEdit *authorEdit = new QLineEdit(borrowDialog);
 
-        layout->addWidget(isbnLabel);
-        layout->addWidget(isbnEdit);
+        layout->addWidget(titleLabel);
+        layout->addWidget(titleEdit);
 
-        layout->addWidget(uidLabel);
-        layout->addWidget(uidEdit);
+        layout->addWidget(authorLabel);
+        layout->addWidget(authorEdit);
 
         QLabel *dueLabel = new QLabel("Select Due Date:", borrowDialog);
         QCalendarWidget *calendar = new QCalendarWidget(borrowDialog);
@@ -240,33 +274,45 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
         btnLayout->addWidget(cancelBtn);
         layout->addLayout(btnLayout);
 
-        uidEdit->setText(stdStringToQString(LibrarySystem::rfid_data));
+        // uidEdit->setText(stdStringToQString(LibrarySystem::rfid_data));
 
         QString schoolNo = this->currentStudentSchoolNo;
 
         QObject::connect(okBtn, &QPushButton::clicked, [=]() {
-            QString bookISBN = isbnEdit->text().trimmed();
-            if (bookISBN.isEmpty()) {
-                showMessage(this, "Error", "Please enter an ISBN!", true);
+
+            QString bookTitle = titleEdit->text().trimmed();
+            
+            if (bookTitle.isEmpty()) {
+                showMessage(this, "Error", "Please enter a book title!", true);
                 return;
             }
 
+            QString author = authorEdit->text().trimmed();
+            
+            if (author.isEmpty()) {
+                showMessage(this, "Error", "Please enter a book author!", true);
+                return;
+            }
+            
             QString borrowedBy;
             libraryDb->openDB();
-            if (libraryDb->getBookBorrowInfo(bookISBN, borrowedBy) && !borrowedBy.isEmpty()) {
+            
+            if (libraryDb->getBookBorrowInfo_TITLE_AUTHOR(borrowedBy, bookTitle, author) && !borrowedBy.isEmpty()) {
                 showMessage(this, "Error", "This book is already borrowed!", true);
                 libraryDb->closeDB();
                 return;
             }
-
+            
             QDate borrowDate = QDate::currentDate();
             QDate dueDate = calendar->selectedDate();
 
-            if (libraryDb->isBookExists(bookISBN) == false) {
-                showMessage(this, "Error", "No book found with the provided ISBN!", true);
+            
+            if (libraryDb->isBookExists_TITLE_AUTHOR(bookTitle, author) == false) {
+                showMessage(this, "Error", "No book found with the provided title and author!", true);
                 libraryDb->closeDB();
                 return;
             }
+            
 
             if (libraryDb->getBorrowedBookCount(schoolNo) > 3) {
                 showMessage(this, "Error", "You have reached the maximum borrow limit!", true);
@@ -275,17 +321,17 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             }
 
             // request permission from admin here
-
-            if (!libraryDb->borrowRequest(schoolNo, bookISBN,
+            if (!libraryDb->borrowRequest_TITLE_AUTHOR(schoolNo,
                             borrowDate.toString("yyyy-MM-dd"),
-                            dueDate.toString("yyyy-MM-dd"))) {
+                            dueDate.toString("yyyy-MM-dd"), bookTitle, author)) {
                 showMessage(this, "Error", "Failed to borrow request book!", true);
             } else {
                 showMessage(this, "Success", "Requested book borrow successfully!", false);
-                std::string logString = "BORROW REQUEST: " + bookISBN.toStdString() + " by school number: " + schoolNo.toStdString();
+                std::string logString = "BORROW REQUEST: " + bookTitle.toStdString() + " by school number: " + schoolNo.toStdString();
                 writeEncryptedLog(logString);
                 // refreshBorrowedBooks();
             }
+            
 
             libraryDb->closeDB();
             borrowDialog->accept();
@@ -293,7 +339,8 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
         QObject::connect(cancelBtn, &QPushButton::clicked, borrowDialog, &QDialog::reject);
 
-        borrowDialog->exec(); });
+        borrowDialog->exec(); 
+    });
 
     connect(searchEdit, &QLineEdit::returnPressed, [=]()
             {
@@ -329,23 +376,23 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             returnDialog->resize(300, 100);
 
             QVBoxLayout *layout = new QVBoxLayout(returnDialog);
-            QLabel *isbnLabel = new QLabel("Enter Book ISBN:", returnDialog);
-            QLineEdit *isbnEdit = new QLineEdit(returnDialog);
+            QLabel *titleLabel = new QLabel("Enter Book Title:", returnDialog);
+            QLineEdit *titleEdit = new QLineEdit(returnDialog);
 
-            QLabel *uidLabel = new QLabel("Enter Book UID:", returnDialog);
-            QLineEdit *uidEdit = new QLineEdit(returnDialog);
+            QLabel *authorLabel = new QLabel("Enter Book Author:", returnDialog);
+            QLineEdit *authorEdit = new QLineEdit(returnDialog);
 
-            layout->addWidget(isbnLabel);
-            layout->addWidget(isbnEdit);
+            layout->addWidget(titleLabel);
+            layout->addWidget(titleEdit);
 
-            layout->addWidget(uidLabel);
-            layout->addWidget(uidEdit);
+            layout->addWidget(authorLabel);
+            layout->addWidget(authorEdit);
 
             QHBoxLayout *btnLayout = new QHBoxLayout();
             QPushButton *okBtn = new QPushButton("OK", returnDialog);
             QPushButton *cancelBtn = new QPushButton("Cancel", returnDialog);
             
-            uidEdit->setText(stdStringToQString(LibrarySystem::rfid_data));
+            // uidEdit->setText(stdStringToQString(LibrarySystem::rfid_data));
 
             btnLayout->addWidget(okBtn);
             btnLayout->addWidget(cancelBtn);
@@ -353,10 +400,13 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
             QString schoolNo = this->currentStudentSchoolNo;
 
-            connect(okBtn, &QPushButton::clicked, [this, returnDialog, isbnEdit, schoolNo, uidEdit]() {
-                QString bookISBN = isbnEdit->text().trimmed();
-                if (bookISBN.isEmpty()) {
-                    showMessage(this, "Error", "Please enter an ISBN!", true);
+            
+            connect(okBtn, &QPushButton::clicked, [=]() {
+                QString bookTitle = titleEdit->text().trimmed();
+                QString author = authorEdit->text().trimmed();
+
+                if (bookTitle.isEmpty()) {
+                    showMessage(this, "Error", "Please enter a book title!", true);
                     return;
                 }
 
@@ -365,21 +415,21 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                     return;
                 }
 
-                if (!libraryDb->isBookBorrowedByStudent(schoolNo, bookISBN)) {
+                if (!libraryDb->isBookBorrowedByStudent_TITLE_AUTHOR(schoolNo, bookTitle, author)) {
                     showMessage(this, "Error", "This book is not borrowed by you!", true);
                     libraryDb->closeDB();
                     return;
                 }
 
-                if (!libraryDb->returnRequest(schoolNo, bookISBN)) {
+                if (!libraryDb->returnRequest_TITLE_AUTHOR(schoolNo, bookTitle, author)) {
                     showMessage(this, "Error", "Failed to return request book!", true);
                 } else {
                     showMessage(this, "Success", "Requested book return successfully!", false);
-                    std::string logString = "RETURN REQUEST:  " + bookISBN.toStdString() + " by school number: " + schoolNo.toStdString();
+                    std::string logString = "RETURN REQUEST:  " + bookTitle.toStdString() + " by school number: " + schoolNo.toStdString();
                     writeEncryptedLog(logString);
                     // refreshBorrowedBooks();
                 }
-
+                
                 libraryDb->closeDB();
                 returnDialog->accept();
             });
@@ -471,7 +521,7 @@ void StudentInterface::setCurrentStudentSchoolNo(const QString &schoolNo)
 {
     currentStudentSchoolNo = schoolNo;
     refreshBookLists();
-    refreshBorrowedBooks();
+    refreshBorrowedBooks(currentStudentSchoolNo);
 }
 
 QStringList StudentInterface::getBorrowedBooksTextList() const
@@ -502,7 +552,7 @@ QStringList StudentInterface::getBorrowedBooksTextList() const
     return borrowedBooksText;
 }
 
-void StudentInterface::refreshBorrowedBooks()
+void StudentInterface::refreshBorrowedBooks(const QString &studentNo)
 {
     borrowedBooksList->clear();
 
@@ -511,7 +561,7 @@ void StudentInterface::refreshBorrowedBooks()
         return;
     }
 
-    QList<QMap<QString, QString>> books = libraryDb->getBorrowedBooksByStudent(currentStudentSchoolNo);
+    QList<QMap<QString, QString>> books = libraryDb->getBorrowedBooksByStudent(studentNo);
     int bookCounter = 1;
 
     for (const auto &book : books)
@@ -556,4 +606,8 @@ void StudentInterface::refreshBorrowedBooks()
 void StudentInterface::updateRFIDLabel(const QString &RFIDdata)
 {
     RFID_Data_Value->setText(RFIDdata);
+}
+
+QString StudentInterface::getCurrentStudentSchoolNo() const {
+    return currentStudentSchoolNo;
 }

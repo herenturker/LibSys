@@ -30,6 +30,7 @@
 #include <QSettings>
 
 #include "headers/AdminInterface.h"
+#include "headers/StudentInterface.h"
 #include "headers/LoginWindow.h"
 #include "headers/TimeClass.h"
 #include "headers/BookSearchWindow.h"
@@ -99,6 +100,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     reportLostBook_Button = new QPushButton("Report Lost Book", this);
     reportLostBook_Button->setToolTip("Report a lost book and update its record.");
 
+    requests_Button = new QPushButton("Requests", this);
+    requests_Button->setToolTip("View borrow & return requests.");
+
     addUser_Button = new QPushButton("Add User", this);
     addUser_Button->setToolTip("Add a new user to the users database.");
 
@@ -129,6 +133,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     logHistory_Button->setGeometry(860, 50, buttonWidth, buttonHeight);
     books_Button->setGeometry(860, 620, buttonWidth, buttonHeight);
     users_Button->setGeometry(710, 620, buttonWidth, buttonHeight);
+
+    requests_Button->setGeometry(710, 550, buttonWidth, buttonHeight);
 
     enterCOM_button->setGeometry(710, 50, buttonWidth, buttonHeight);
 
@@ -200,6 +206,13 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     libraryDb->createBooksTable();
 
     bookSearchWindow = new BookSearchWindow(this);
+
+    // REQUESTS
+
+    connect(requests_Button, &QPushButton::clicked, this, [this]() {
+        showRequestsWindow();
+    });
+
 
     // ADD BOOK
 
@@ -572,8 +585,167 @@ AdminInterface::~AdminInterface()
 {
     delete userDb;
     delete libraryDb;
+
+    if (studentInterface)
+        delete studentInterface;
 }
 void AdminInterface::updateRFIDLabel(const QString &RFIDdata)
 {
     RFID_Data_Value->setText(RFIDdata);
 }
+
+void AdminInterface::showRequestsWindow()
+{
+    QWidget *reqWindow = new QWidget;
+    reqWindow->setWindowTitle("Borrow / Return Requests");
+    reqWindow->resize(800, 500);
+
+    QVBoxLayout *layout = new QVBoxLayout(reqWindow);
+
+    QTableWidget *table = new QTableWidget;
+    table->setColumnCount(7);
+    table->setHorizontalHeaderLabels({"Type", "School No", "Title", "Author", "ISBN", "Approve", "Reject"});
+    table->horizontalHeader()->setStretchLastSection(true);
+    table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    QList<QMap<QString, QString>> borrowReqs = libraryDb->getBorrowRequests();
+    QList<QMap<QString, QString>> returnReqs = libraryDb->getReturnRequests();
+
+    int row = 0;
+
+    for (auto &req : borrowReqs) {
+        table->insertRow(row);
+        table->setItem(row, 0, new QTableWidgetItem("Borrow"));
+        table->setItem(row, 1, new QTableWidgetItem(req["school_no"]));
+        table->setItem(row, 2, new QTableWidgetItem(req["title"]));
+        table->setItem(row, 3, new QTableWidgetItem(req["author1"]));
+        table->setItem(row, 4, new QTableWidgetItem(req["book_isbn"]));
+
+        QPushButton *approveBtn = new QPushButton("Approve");
+        table->setCellWidget(row, 5, approveBtn);
+
+        QPushButton *rejectBtn = new QPushButton("Reject");
+        table->setCellWidget(row, 6, rejectBtn);
+
+        connect(approveBtn, &QPushButton::clicked, this, [=]() {
+            approveBorrowRequest(req["school_no"], req["title"], req["author1"]);
+            if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
+                studentInterface->refreshBorrowedBooks(req["school_no"]);
+            }
+        });
+
+        connect(rejectBtn, &QPushButton::clicked, this, [=]() {
+            libraryDb->deleteBorrowRequest_TITLE_AUTHOR(req["school_no"], req["title"], req["author1"]);
+            showMessage(nullptr, "Rejected", "Borrow request rejected.", false);
+            if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
+                studentInterface->refreshBorrowedBooks(req["school_no"]);
+            }
+        });
+
+        row++;
+    }
+
+    for (auto &req : returnReqs) {
+        table->insertRow(row);
+        table->setItem(row, 0, new QTableWidgetItem("Return"));
+        table->setItem(row, 1, new QTableWidgetItem(req["school_no"]));
+        table->setItem(row, 2, new QTableWidgetItem(req["title"]));
+        table->setItem(row, 3, new QTableWidgetItem(req["author1"]));
+        table->setItem(row, 4, new QTableWidgetItem(req["book_isbn"]));
+
+        QPushButton *approveBtn = new QPushButton("Approve");
+        table->setCellWidget(row, 5, approveBtn);
+
+        QPushButton *rejectBtn = new QPushButton("Reject");
+        table->setCellWidget(row, 6, rejectBtn);
+
+        connect(approveBtn, &QPushButton::clicked, this, [=]() {
+            approveReturnRequest(req["school_no"], req["title"], req["author1"]);
+            if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
+                studentInterface->refreshBorrowedBooks(req["school_no"]);
+            }
+        });
+
+        connect(rejectBtn, &QPushButton::clicked, this, [=]() {
+            libraryDb->deleteReturnRequest_TITLE_AUTHOR(req["school_no"], req["title"], req["author1"]);
+            showMessage(nullptr, "Rejected", "Return request rejected.", false);
+            if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
+                studentInterface->refreshBorrowedBooks(req["school_no"]);
+            }
+        });
+
+        row++;
+    }
+
+    layout->addWidget(table);
+    reqWindow->show();
+}
+
+void AdminInterface::approveBorrowRequest(const QString &schoolNo,
+                                          const QString &title,
+                                          const QString &author1)
+{
+    libraryDb->deleteBorrowRequest_TITLE_AUTHOR(schoolNo, title, author1);
+
+    QString borrowDate = QDate::currentDate().toString("yyyy-MM-dd");
+    QString dueDate = QDate::currentDate().addDays(15).toString("yyyy-MM-dd");
+
+    bool ok = libraryDb->borrowBook_TITLE_AUTHOR(schoolNo, borrowDate, dueDate, title, author1);
+
+    if (!ok) {
+        showMessage(nullptr, "Error", "Borrowing failed (maybe book is already borrowed or LOST).", true);
+        return;
+    }
+    emit bookBorrowed(schoolNo);
+    showMessage(nullptr, "Success", "Borrow request approved and book assigned.", false);
+
+    std::string logStr = "APPROVED BORROW: " + title.toStdString() + " by " + author1.toStdString() +
+                         " to student " + schoolNo.toStdString();
+    writeEncryptedLog(logStr);
+}
+
+void AdminInterface::approveReturnRequest(const QString &schoolNo,
+                                          const QString &title,
+                                          const QString &author1)
+{
+    libraryDb->deleteReturnRequest_TITLE_AUTHOR(schoolNo, title, author1);
+
+    bool ok = libraryDb->returnBook_TITLE_AUTHOR(schoolNo, title, author1);
+
+    if (!ok) {
+        showMessage(nullptr, "Error", "Returning failed (maybe book is LOST or not borrowed).", true);
+        return;
+    }
+    emit bookReturned(schoolNo);
+
+    showMessage(nullptr, "Success", "Return request approved and book returned.", false);
+
+    std::string logStr = "APPROVED RETURN: " + title.toStdString() + " by " + author1.toStdString() +
+                         " from student " + schoolNo.toStdString();
+    writeEncryptedLog(logStr);
+}
+
+bool Database::deleteBorrowRequest_TITLE_AUTHOR(const QString &schoolNo,
+                                                const QString &title,
+                                                const QString &author1)
+{
+    QSqlQuery q(m_db);
+    q.prepare("DELETE FROM borrow_requests WHERE school_no=? AND title=? AND author1=?");
+    q.addBindValue(schoolNo);
+    q.addBindValue(title);
+    q.addBindValue(author1);
+    return q.exec();
+}
+
+bool Database::deleteReturnRequest_TITLE_AUTHOR(const QString &schoolNo,
+                                                const QString &title,
+                                                const QString &author1)
+{
+    QSqlQuery q(m_db);
+    q.prepare("DELETE FROM return_requests WHERE school_no=? AND title=? AND author1=?");
+    q.addBindValue(schoolNo);
+    q.addBindValue(title);
+    q.addBindValue(author1);
+    return q.exec();
+}
+

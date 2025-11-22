@@ -310,6 +310,9 @@ void LoginWindow::handleLogin()
     userDb.createUsersTable();
     libraryDb.createBooksTable();
     libraryDb.createBorrowedBooksTable();
+    libraryDb.createBorrowRequestsTable();
+    libraryDb.createReturnRequestsTable();
+    libraryDb.createOverdueBooksTable();
 
     userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
 
@@ -405,7 +408,7 @@ void LoginWindow::updateRFIDLabel(const QString &RFIDdata)
     {
         username_Edit->setText(userDb.getUsernameWithUID(RFIDdata));
         schoolNo_Edit->setText(userDb.getSchoolNoWithUID(RFIDdata));
-        password_Edit->setText(userDb.getPasswordWithUID(RFIDdata));
+        password_Edit->setText(convertFromAes(userDb.getPasswordWithUID(RFIDdata)));
     }
 }
 

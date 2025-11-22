@@ -123,6 +123,14 @@ int main(int argc, char *argv[])
                          {
                              AdminInterface *adminInterface = new AdminInterface();
 
+                             StudentInterface *studentInterfaceInstance = new StudentInterface();
+                            adminInterface->studentInterface = studentInterfaceInstance;
+
+                            QObject::connect(adminInterface, &AdminInterface::bookBorrowed,
+                                            studentInterfaceInstance, &StudentInterface::refreshBorrowedBooks);
+                            QObject::connect(adminInterface, &AdminInterface::bookReturned,
+                                            studentInterfaceInstance, &StudentInterface::refreshBorrowedBooks);
+
                              QObject::connect(&reader, &SerialReader::eightCharReceived,
                                               adminInterface, &AdminInterface::updateRFIDLabel);
 

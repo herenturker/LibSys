@@ -29,6 +29,7 @@
 
 #include "BookSearchWindow.h"
 #include "Database.h"
+#include "StudentInterface.h"
 
 class AdminInterface : public QWidget
 
@@ -43,11 +44,51 @@ public:
     QLabel *RFID_Data_Value;
     QLabel *RFID_Data;
 
+    StudentInterface* studentInterface;
+
+    /**
+     * @brief Updated RFID data label with the data received.
+     * 
+     * @param RFIDdata 
+     */
     void updateRFIDLabel(const QString &RFIDdata);
+
+    /**
+     * @brief Shows requests in a window.
+     * 
+     */
+    void showRequestsWindow();
+
+    /**
+     * @brief Approves borrow request.
+     * 
+     * @param schoolNo 
+     * @param title 
+     * @param author1 
+     */
+    void approveBorrowRequest(const QString &schoolNo,
+                                          const QString &title,
+                                          const QString &author1);
+
+    /**
+     * @brief Approves return request.
+     * 
+     * @param schoolNo 
+     * @param title 
+     * @param author1 
+     */
+    void approveReturnRequest(const QString &schoolNo,
+                                          const QString &title,
+                                          const QString &author1);
+    
 
 private slots:
     void updateDateTime();
 
+signals:
+    void bookBorrowed(const QString &schoolNo);
+    void bookReturned(const QString &schoolNo);
+    
 private:
     QPushButton *logHistory_Button;
     QPushButton *books_Button; // Button for listing all books in the database
@@ -57,6 +98,7 @@ private:
     QPushButton *deleteBook_Button;
     QPushButton *reportLostBook_Button;
     QPushButton *changeBookInfo_Button;
+    QPushButton *requests_Button;
 
     QPushButton *addUser_Button;
     QPushButton *deleteUser_Button;
@@ -73,6 +115,7 @@ private:
 
     QWidget *logWindow = nullptr;
     QWidget *userWindow = nullptr;
+
 };
 
 #endif // ADMIN_INTERFACE_H_
