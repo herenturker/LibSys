@@ -97,11 +97,9 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
     borrowedBooksList = new QListWidget(this);
     borrowedBooksList->setGeometry(90, 190, 190, 400);
-    // borrowedBooksList->setStyleSheet("color: black; font-size: 14px;");
 
     overdueBooksList = new QListWidget(this);
     overdueBooksList->setGeometry(690, 190, 190, 400);
-    // overdueBooksList->setStyleSheet("color: black; font-size: 14px;");
 
     overdueBooks->setObjectName("overdueBooks");
     borrowedBooks->setObjectName("borrowedBooks");
@@ -135,15 +133,15 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     returnBook_Button = new QPushButton("Return", this);
     returnBook_Button->setToolTip("Return a book to the library.");
 
-    //myAccount_Button = new QPushButton("Account", this);
-    //myAccount_Button->setToolTip("Display account settings");
+    myAccount_Button = new QPushButton("Account", this);
+    myAccount_Button->setToolTip("Display account settings");
 
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
 
     borrowBook_Button->setGeometry(540, 640, buttonWidth, buttonHeight);
     returnBook_Button->setGeometry(680, 640, buttonWidth, buttonHeight);
-    //myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
+    myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
     searchLayout->setContentsMargins(0, 0, 0, 0);
@@ -215,14 +213,10 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
         QVBoxLayout *layout = new QVBoxLayout(borrowDialog);
 
         QLabel *isbnLabel = new QLabel("Enter Book ISBN:", borrowDialog);
-        // isbnLabel->setStyleSheet("color: black;");
         QLineEdit *isbnEdit = new QLineEdit(borrowDialog);
-        // isbnEdit->setStyleSheet("color: black;");
 
         QLabel *uidLabel = new QLabel("Enter Book UID:", borrowDialog);
-        // uidLabel->setStyleSheet("color: black;");
         QLineEdit *uidEdit = new QLineEdit(borrowDialog);
-        // uidEdit->setStyleSheet("color: black;");
 
         layout->addWidget(isbnLabel);
         layout->addWidget(isbnEdit);
@@ -231,56 +225,17 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
         layout->addWidget(uidEdit);
 
         QLabel *dueLabel = new QLabel("Select Due Date:", borrowDialog);
-        // dueLabel->setStyleSheet("color: black;");
         QCalendarWidget *calendar = new QCalendarWidget(borrowDialog);
 
         calendar->setMinimumDate(QDate::currentDate());
-        calendar->setMaximumDate(QDate::currentDate().addMonths(1));
-
-        /*
-        calendar->setStyleSheet(R"(
-            QCalendarWidget QWidget { 
-                background-color: #f0f0f0; 
-                color: black;
-            }
-            QCalendarWidget QToolButton {
-                background-color: #8b8b8b; 
-                color: black;
-                border-radius: 4px; 
-                padding: 2px 5px;
-            }
-            QCalendarWidget QToolButton:hover {
-                background-color: #999999;
-            }
-            QCalendarWidget QMenu {
-                background-color: #f0f0f0; 
-                color: black;
-            }
-            QCalendarWidget QSpinBox {
-                min-width: 60px;
-                color: black;
-            }
-            QCalendarWidget QAbstractItemView:enabled {
-                color: black;
-                background-color: white;
-                selection-background-color: #0078d7;
-                selection-color: white;
-            }
-            QCalendarWidget QAbstractItemView::item:selected {
-                background-color: #0078d7;
-                color: white;
-            }
-        )");
-        */
+        calendar->setMaximumDate(QDate::currentDate().addDays(15));
 
         layout->addWidget(dueLabel);
         layout->addWidget(calendar);
 
         QHBoxLayout *btnLayout = new QHBoxLayout();
         QPushButton *okBtn = new QPushButton("OK", borrowDialog);
-        // okBtn->setStyleSheet("color: black;");
         QPushButton *cancelBtn = new QPushButton("Cancel", borrowDialog);
-        // cancelBtn->setStyleSheet("color: black;");
         btnLayout->addWidget(okBtn);
         btnLayout->addWidget(cancelBtn);
         layout->addLayout(btnLayout);
@@ -320,15 +275,16 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             }
 
             // request permission from admin here
-            if (!libraryDb->borrowBook(schoolNo, bookISBN,
+
+            if (!libraryDb->borrowRequest(schoolNo, bookISBN,
                             borrowDate.toString("yyyy-MM-dd"),
-                            dueDate.toString("yyyy-MM-dd"), uidEdit->text())) {
-                showMessage(this, "Error", "Failed to borrow book!", true);
+                            dueDate.toString("yyyy-MM-dd"))) {
+                showMessage(this, "Error", "Failed to borrow request book!", true);
             } else {
-                showMessage(this, "Success", "Book borrowed successfully!", false);
-                std::string logString = "BORROW: " + bookISBN.toStdString() + " by school number: " + schoolNo.toStdString();
+                showMessage(this, "Success", "Requested book borrow successfully!", false);
+                std::string logString = "BORROW REQUEST: " + bookISBN.toStdString() + " by school number: " + schoolNo.toStdString();
                 writeEncryptedLog(logString);
-                refreshBorrowedBooks();
+                // refreshBorrowedBooks();
             }
 
             libraryDb->closeDB();
@@ -374,14 +330,10 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
             QVBoxLayout *layout = new QVBoxLayout(returnDialog);
             QLabel *isbnLabel = new QLabel("Enter Book ISBN:", returnDialog);
-            // isbnLabel->setStyleSheet("color: black;");
             QLineEdit *isbnEdit = new QLineEdit(returnDialog);
-            // isbnEdit->setStyleSheet("color: black;");
 
             QLabel *uidLabel = new QLabel("Enter Book UID:", returnDialog);
-            // uidLabel->setStyleSheet("color: black;");
             QLineEdit *uidEdit = new QLineEdit(returnDialog);
-            // uidEdit->setStyleSheet("color: black;");
 
             layout->addWidget(isbnLabel);
             layout->addWidget(isbnEdit);
@@ -391,9 +343,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
             QHBoxLayout *btnLayout = new QHBoxLayout();
             QPushButton *okBtn = new QPushButton("OK", returnDialog);
-            // okBtn->setStyleSheet("color: black;");
             QPushButton *cancelBtn = new QPushButton("Cancel", returnDialog);
-            // cancelBtn->setStyleSheet("color: black;");
             
             uidEdit->setText(stdStringToQString(LibrarySystem::rfid_data));
 
@@ -421,13 +371,13 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
                     return;
                 }
 
-                if (!libraryDb->returnBook(schoolNo, bookISBN, uidEdit->text())) {
-                    showMessage(this, "Error", "Failed to return book!", true);
+                if (!libraryDb->returnRequest(schoolNo, bookISBN)) {
+                    showMessage(this, "Error", "Failed to return request book!", true);
                 } else {
-                    showMessage(this, "Success", "Book returned successfully!", false);
-                    std::string logString = "RETURN:  " + bookISBN.toStdString() + " by school number: " + schoolNo.toStdString();
+                    showMessage(this, "Success", "Requested book return successfully!", false);
+                    std::string logString = "RETURN REQUEST:  " + bookISBN.toStdString() + " by school number: " + schoolNo.toStdString();
                     writeEncryptedLog(logString);
-                    refreshBorrowedBooks();
+                    // refreshBorrowedBooks();
                 }
 
                 libraryDb->closeDB();
@@ -437,55 +387,6 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
             connect(cancelBtn, &QPushButton::clicked, returnDialog, &QDialog::reject);
 
             returnDialog->exec(); });
-
-            /*
-    this->setStyleSheet(R"(
-            QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
-                font-size: 20px;
-                font-weight: bold;
-                color: #333333;
-            }
-
-            QToolButton#searchButton, QLineEdit#searchEdit {
-                color: black;
-                font-size: 14px;
-            }
-
-            QPushButton#bookSearchButton, QToolButton#searchButton {
-
-                color: black;
-                font-size: 14px;
-                border: 1px solid black;
-                border-radius: 4px;
-                background-color: #e9e9e9;
-            
-            }
-
-            QPushButton#bookSearchButton:hover, QToolButton#searchButton:hover {
-                border: 1px solid black;
-                background-color: #a8a3a3;
-            }
-
-            QPushButton#bookSearchButton:pressed, QToolButton#searchButton:pressed {
-                border: 1px solid black;
-                background-color: #555252;
-            }
-
-            QLabel#overdueBooks, QLabel#borrowedBooks {
-                font-size: 20px;
-                font-weight: italic;
-                color: #333333;
-                border: 1px solid black;
-            }
-            QLabel#RFID_Data, QLabel#RFID_Data_Value {
-                font-size: 20px;
-                font-weight: bold;
-                color: #8c1818;
-        }
-
-        )");
-
-        */
 }
 
 void StudentInterface::updateDateTime()

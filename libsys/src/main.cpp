@@ -96,7 +96,6 @@ int main(int argc, char *argv[])
 
                      loginWindow.retranslateUi();
                     // TODO: CHANGE OTHERS' LANGUAGE TOO!
-                     QSettings appSettings("LibSys", "AppSettings");
                      appSettings.setValue("Language", langCode);
                  });
 

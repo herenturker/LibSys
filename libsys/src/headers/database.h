@@ -425,7 +425,7 @@ public:
     bool createReturnRequestsTable();
 
     /**
-     * @brief Get borrow request data from database
+     * @brief Perform borrow request data from database
      * 
      * @return true 
      * @return false 
@@ -447,7 +447,91 @@ public:
      * @return false 
      */
     bool createOverdueBooksTable();
+
+    // === REVISED FUNCTIONS ===
+    // Instead of using book isbn, use title and author to perform operations.
+    // _TITLE_AUTHOR
     
+    /**
+     * @brief Checks if the book provided with title and author is borrowed by a student.
+     * 
+     * @param schoolNo 
+     * @param bookTitle 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool isBookBorrowedByStudent_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author1);
+
+    /**
+     * @brief  Borrows a book from database using title and author.
+     * 
+     * @param schoolNo 
+     * @param borrowDate 
+     * @param dueDate 
+     * @param bookTitle 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool borrowBook_TITLE_AUTHOR(const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author1);
+
+    /**
+     * @brief Returns a book to database using title and author
+     * 
+     * @param schoolNo 
+     * @param bookTitle 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool returnBook_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author1);
+
+    /**
+     * @brief Checks if the book is borrowed by an user using title and author.
+     * 
+     * @param borrowedBy 
+     * @param bookTitle 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool getBookBorrowInfo_TITLE_AUTHOR(QString &borrowedBy, const QString &bookTitle, const QString author1);
+
+    /**
+     * @brief Checks if the book exists in the database using title and author.
+     * 
+     * @param bookTitle 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool isBookExists_TITLE_AUTHOR(const QString &bookTitle, const QString author1);
+
+    /**
+     * @brief Perform borrow request data from database using title and author
+     * 
+     * @param schoolNo 
+     * @param borrowDate 
+     * @param dueDate 
+     * @param bookTitle 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool borrowRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author1);
+
+    /**
+     * @brief Perform return request data from database using title and author
+     * 
+     * @param schoolNo 
+     * @param bookTitle 
+     * @param author1 
+     * @return true 
+     * @return false 
+     */
+    bool returnRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author1);
+
 private:
     QSqlDatabase m_db;
     QString m_dbName;

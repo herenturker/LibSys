@@ -14,13 +14,13 @@ Updater:
 build:
 	@echo "Building all projects using CMake..."
 	cmake -B LibSys/build -G "MinGW Makefiles" LibSys
-	cmake --build LibSys/build
+	cmake --build LibSys/build -j$(shell nproc)
 
 	cmake -B LibSysInstaller/build -G "MinGW Makefiles" LibSysInstaller
-	cmake --build LibSysInstaller/build
+	cmake --build LibSysInstaller/build -j$(shell nproc)
 
 	cmake -B LibSysUpdater/build -G "MinGW Makefiles" LibSysUpdater
-	cmake --build LibSysUpdater/build
+	cmake --build LibSysUpdater/build -j$(shell nproc)
 	
 clean:
 	@echo "Cleaning all build directories..."
@@ -32,16 +32,13 @@ clean:
 	$(MAKE) -C LibSysUpdater clean
 
 build-LibSys:
-
 	cmake -B LibSys/build -G "MinGW Makefiles" LibSys
-	cmake --build LibSys/build
+	cmake --build LibSys/build -j$(shell nproc)
 
 build-LibSysInstaller:
-
 	cmake -B LibSysInstaller/build -G "MinGW Makefiles" LibSysInstaller
-	cmake --build LibSysInstaller/build
+	cmake --build LibSysInstaller/build -j$(shell nproc)
 
 build-LibSysUpdater:
-
 	cmake -B LibSysUpdater/build -G "MinGW Makefiles" LibSysUpdater
-	cmake --build LibSysUpdater/build
+	cmake --build LibSysUpdater/build -j$(shell nproc)

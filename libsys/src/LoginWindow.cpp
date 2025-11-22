@@ -54,13 +54,8 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     libsys_Label->setPixmap(pixmap.scaled(450, 250, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     libsys_Label->setAlignment(Qt::AlignCenter);
     // === INPUTS ===
-    username_Label = new QLabel(this);
     username_Edit = new QLineEdit;
-
-    schoolNo_Label = new QLabel(this);
     schoolNo_Edit = new QLineEdit;
-
-    password_Label = new QLabel(this);
     password_Edit = new QLineEdit;
     password_Edit->setEchoMode(QLineEdit::Password);
 
@@ -124,11 +119,8 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     // === LAYOUTS ===
 
     QVBoxLayout *layout_Form = new QVBoxLayout;
-    layout_Form->addWidget(username_Label);
     layout_Form->addWidget(username_Edit);
-    layout_Form->addWidget(schoolNo_Label);
     layout_Form->addWidget(schoolNo_Edit);
-    layout_Form->addWidget(password_Label);
     layout_Form->addWidget(password_Edit);
     layout_Form->addSpacing(5);
     layout_Form->addWidget(login_Button, 0, Qt::AlignHCenter);
@@ -204,6 +196,35 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 
     // === LOGIN BUTTON ===
     connect(login_Button, &QPushButton::clicked, this, &LoginWindow::handleLogin);
+
+    // === STYLESHEET ===
+    this->setStyleSheet(R"(
+        QLabel#dateLabel, QLabel#dayLabel, QLabel#timeLabel {
+            font-size: 12px;
+        }
+        QLabel#RFID_Data, QLabel#RFID_Data_Value {
+            font-size: 12px;
+            color: red;
+        }
+    )");
+
+    // === ADJUST SIZE ===
+
+    // QLineEdit
+    setWidgetSize(username_Edit, 0, 35);
+    setWidgetSize(schoolNo_Edit, 0, 35);
+    setWidgetSize(password_Edit, 0, 35);
+
+    // Buttons
+    setWidgetSize(login_Button, 120, 40);
+    setWidgetSize(btnTr, 50, 50);
+    setWidgetSize(btnEn, 50, 50);
+
+    // RadioButtons
+    setWidgetSize(accountType_Admin_Button, 0, 30);
+    setWidgetSize(accountType_Student_Button, 0, 30);
+    setWidgetSize(normalLogin_Button, 0, 30);
+    setWidgetSize(quickLogin_Button, 0, 30);
 
     // === OBJECT NAMES
     dateLabel->setObjectName("dateLabel");
@@ -406,11 +427,6 @@ void LoginWindow::retranslateUi()
     // Window title
     this->setWindowTitle(tr("Login LibSys"));
 
-    // Input labels
-    username_Label->setText(tr("Enter Username:"));
-    schoolNo_Label->setText(tr("Enter School No:"));
-    password_Label->setText(tr("Enter Password:"));
-
     // Placeholders
     username_Edit->setPlaceholderText(tr("Username"));
     schoolNo_Edit->setPlaceholderText(tr("School Number"));
@@ -427,4 +443,14 @@ void LoginWindow::retranslateUi()
 
     // RFID
     RFID_Data->setText(tr("RFID Data"));
+}
+
+void LoginWindow::setWidgetSize(QWidget* widget, int width, int height)
+{
+    if (width > 0 && height > 0)
+        widget->setFixedSize(width, height);
+    else if (width > 0)
+        widget->setFixedWidth(width);
+    else if (height > 0)
+        widget->setFixedHeight(height);
 }

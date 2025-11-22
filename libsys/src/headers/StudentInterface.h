@@ -61,7 +61,7 @@ private:
     QPushButton *openButton;
     QPushButton *borrowBook_Button;
     QPushButton *returnBook_Button;
-    // QPushButton *myAccount_Button;
+    QPushButton *myAccount_Button;
 
     QLabel *overdueBooks;
     QLabel *borrowedBooks;

@@ -62,6 +62,15 @@ public:
      */
     void retranslateUi();
 
+    /**
+     * @brief Adjusts size of a QWidget* object.
+     * 
+     * @param widget 
+     * @param width 
+     * @param height 
+     */
+    void setWidgetSize(QWidget* widget, int width, int height);
+
     static QTranslator translator;
     static QString language;
     QLabel *RFID_Data_Value;
@@ -77,10 +86,6 @@ private slots:
     void updateDateTime();
 
 private:
-
-    QLabel *username_Label;
-    QLabel *schoolNo_Label;
-    QLabel *password_Label;
     QLabel *RFID_Data;
 
     QLineEdit *username_Edit;
