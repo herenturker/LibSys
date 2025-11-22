@@ -21,6 +21,8 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 #include <QString>
 
@@ -84,6 +86,22 @@ class LibrarySystem
          * @param newTheme 
          */
         static void toggleTheme(int newTheme);
+
+        /**
+         * @brief Add users to database from a .csv file
+         * 
+         * @return true 
+         * @return false 
+         */
+        static void addUsersToDatabase();
+
+        /**
+         * @brief Add books to database from a .csv file
+         * 
+         * @return true 
+         * @return false 
+         */
+        static void addBooksToDatabase();
 
 };
 

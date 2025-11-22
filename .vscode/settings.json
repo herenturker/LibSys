@@ -87,7 +87,8 @@
         "qgroupbox": "cpp",
         "qhboxlayout": "cpp",
         "qdebug": "cpp",
-        "qpair": "cpp"
+        "qpair": "cpp",
+        "cinttypes": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled",
     "typescript.validate.enable": false

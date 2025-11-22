@@ -1168,3 +1168,24 @@ bool Database::returnRequest(const QString &schoolNo, const QString &bookISBN)
 
     return true;
 }
+
+bool Database::createOverdueBooksTable()
+{
+    QSqlQuery query(m_db);
+    QString createTable = R"(
+        CREATE TABLE IF NOT EXISTS overdue_books (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            school_no INTEGER NOT NULL,
+            book_isbn TEXT NOT NULL,
+            borrow_date TEXT NOT NULL,
+            due_date TEXT NOT NULL,
+            UNIQUE(school_no, book_isbn)
+        )
+    )";
+
+    if (!query.exec(createTable))
+    {
+        return false;
+    }
+    return true;
+}

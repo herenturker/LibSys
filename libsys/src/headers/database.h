@@ -439,6 +439,14 @@ public:
      * @return false 
      */
     bool returnRequest(const QString &schoolNo, const QString &bookISBN);
+
+    /**
+     * @brief Creates a Overdue Books Table object
+     * 
+     * @return true 
+     * @return false 
+     */
+    bool createOverdueBooksTable();
     
 private:
     QSqlDatabase m_db;

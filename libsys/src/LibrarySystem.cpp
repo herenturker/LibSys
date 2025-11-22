@@ -21,8 +21,11 @@
 #include <QString>
 #include <QFile>
 #include <QApplication>
+#include <QDir>
 
 #include "headers/LibrarySystem.h"
+#include "headers/database.h"
+#include "headers/Utils.h"
 
 std::string LibrarySystem::rfid_data;
 
@@ -49,4 +52,101 @@ void LibrarySystem::toggleTheme(int theme)
         qApp->setStyleSheet(qss);
         file.close();
     }
+}
+
+void LibrarySystem::addUsersToDatabase()
+{
+        /* Database directory */
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString dbDirPath = exePath + "/databases";
+
+    QDir().mkpath(dbDirPath);
+
+    QString userdbPath = dbDirPath + "/users.db";
+
+    Database *userDb = new Database(userdbPath, "DB_USERS");
+
+    std::ifstream file("studentList.csv");
+    std::string line;
+
+    if (!file.is_open()) {
+        std::cerr << "Could not open file!" << std::endl;
+    }
+
+    // FIRST ID (automatic)
+    // SECOND PASSWORD
+    // THIRD NAME
+    // FOURTH SCHOOLNO
+    // FIFTH UID
+
+    while (getline(file, line)) {
+        std::stringstream ss(line);
+        std::string id, password, name, schoolNo, uid;
+
+        std::getline(ss, id, ',');
+        std::getline(ss, password, ',');
+        std::getline(ss, name, ',');
+        std::getline(ss, schoolNo, ',');
+        std::getline(ss, uid, ',');
+
+        QString userUsername = stdStringToQString(name);
+        QString userPassword = stdStringToQString(password);
+        QString userSchoolNo = stdStringToQString(schoolNo);
+        QString userUID = stdStringToQString(uid);
+
+        userDb->addUserIfNotExists(userUsername, userSchoolNo, userPassword, "Student", userUID);
+    }
+
+    file.close();
+}
+
+void LibrarySystem::addBooksToDatabase()
+{
+        /* Database directory */
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString dbDirPath = exePath + "/databases";
+
+    QDir().mkpath(dbDirPath);
+
+    QString librarydbPath = dbDirPath + "/library.db";
+
+    Database *librarydb = new Database(librarydbPath, "DB_LIBRARY");
+
+    std::ifstream file("library1.csv");
+    std::string line;
+
+    if (!file.is_open()) {
+        std::cerr << "Could not open file!" << std::endl;
+    }
+
+    // FIRST ID (AUTOMATIC)
+    // SECOND DDC
+    // THIRD BOOK TITLE
+    // FOURTH AUTHOR
+    // FIFTH PUBLISHER
+    // SIXTH SHORT DDC
+
+    while (getline(file, line)) {
+        std::stringstream ss(line);
+        std::string id, ddc, bookTitle, author, publisher, shortDDC;
+
+        std::getline(ss, id, ',');
+        std::getline(ss, ddc, ',');
+        std::getline(ss, bookTitle, ',');
+        std::getline(ss, author, ',');
+        std::getline(ss, publisher, ',');
+        std::getline(ss, shortDDC, ',');
+
+        QString bookID = stdStringToQString(id);
+        QString bookDDC = stdStringToQString(ddc);
+        QString bookBookTitle = stdStringToQString(bookTitle);
+        QString bookAuthor = stdStringToQString(author);
+        QString bookPublisher = stdStringToQString(publisher);
+        QString bookShortDDC = stdStringToQString(shortDDC);
+
+        librarydb->addBook(nullptr, bookBookTitle, bookAuthor, bookPublisher, "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", bookDDC, bookShortDDC, "");
+
+    }
+
+    file.close();
 }

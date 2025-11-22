@@ -291,6 +291,8 @@ void LoginWindow::handleLogin()
     libraryDb.createBorrowedBooksTable();
 
     userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
+    LibrarySystem::addUsersToDatabase();
+    LibrarySystem::addBooksToDatabase();
 
     bool loginSuccessFlag = false;
     QString accountType;
@@ -367,7 +369,7 @@ void LoginWindow::updateRFIDLabel(const QString &RFIDdata)
     Database userDb("databases/users.db", "DB_USERS");
     if (!userDb.openDB()) return;
 
-    if (userDb.isUserExistsUID(RFIDdata))
+    if (userDb.isUserExistsUID(RFIDdata) && loginRadioButton_Group->checkedButton()->text() == "Quick Login")
     {
         username_Edit->setText(userDb.getUsernameWithUID(RFIDdata));
         schoolNo_Edit->setText(userDb.getSchoolNoWithUID(RFIDdata));
