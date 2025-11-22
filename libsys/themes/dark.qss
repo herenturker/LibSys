@@ -236,3 +236,9 @@ QRadioButton#DarkTheme::indicator:checked {
     background: black;
     border: 2px solid white;
 }
+
+QComboBox {
+    color: white;
+}
+
+QComboBox QAbstractItemView { color: white; selection-background-color: #212830; }

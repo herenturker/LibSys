@@ -34,6 +34,10 @@
 #include <QTableWidget>
 #include <QPointer>
 #include <QListWidget>
+#include <QGroupBox>
+#include <QComboBox>
+#include <QApplication>
+#include <QClipboard>
 
 #include "headers/StudentInterface.h"
 #include "headers/StudentOperations.h"
@@ -210,6 +214,200 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
         mainLayout->addWidget(closeBtn, 0, Qt::AlignRight);
 
         infoDialog->exec();
+    });
+
+    connect(bookCitation_Button, &QPushButton::clicked, [=]()
+    {
+        QDialog *citationDialog = new QDialog(this);
+        citationDialog->setWindowTitle("Citation Generator");
+        citationDialog->setFixedSize(840, 610);
+
+        QVBoxLayout *mainLayout = new QVBoxLayout(citationDialog);
+
+        QGroupBox *infoBox = new QGroupBox("Book Information");
+        QGridLayout *grid = new QGridLayout(infoBox);
+
+        QLineEdit *titleEdit = new QLineEdit();
+        QLineEdit *authorEdit = new QLineEdit();
+        QLineEdit *yearEdit = new QLineEdit();
+        QLineEdit *publisherEdit = new QLineEdit();
+        QLineEdit *editionEdit = new QLineEdit();
+        QLineEdit *placeEdit = new QLineEdit();
+        QLineEdit *pagesEdit = new QLineEdit();
+        QLineEdit *doiEdit = new QLineEdit();
+
+        grid->addWidget(new QLabel("Title:"), 0, 0);
+        grid->addWidget(titleEdit, 0, 1);
+
+        grid->addWidget(new QLabel("Author(s):"), 1, 0);
+        grid->addWidget(authorEdit, 1, 1);
+
+        grid->addWidget(new QLabel("Year:"), 2, 0);
+        grid->addWidget(yearEdit, 2, 1);
+
+        grid->addWidget(new QLabel("Publisher:"), 3, 0);
+        grid->addWidget(publisherEdit, 3, 1);
+
+        grid->addWidget(new QLabel("Edition:"), 4, 0);
+        grid->addWidget(editionEdit, 4, 1);
+
+        grid->addWidget(new QLabel("Place:"), 5, 0);
+        grid->addWidget(placeEdit, 5, 1);
+
+        grid->addWidget(new QLabel("Pages (optional):"), 6, 0);
+        grid->addWidget(pagesEdit, 6, 1);
+
+        grid->addWidget(new QLabel("DOI (optional):"), 7, 0);
+        grid->addWidget(doiEdit, 7, 1);
+
+        mainLayout->addWidget(infoBox);
+
+        QHBoxLayout *formatLayout = new QHBoxLayout();
+        QLabel *formatLabel = new QLabel("Format:");
+        QComboBox *formatCombo = new QComboBox();
+        formatCombo->addItems({"APA", "MLA", "Chicago", "Harvard", "IEEE", "AMA"});
+
+        formatLayout->addWidget(formatLabel);
+        formatLayout->addWidget(formatCombo);
+        mainLayout->addLayout(formatLayout);
+
+        QTextEdit *outputEdit = new QTextEdit();
+        outputEdit->setReadOnly(true);
+        mainLayout->addWidget(outputEdit);
+
+        QHBoxLayout *btnLayout = new QHBoxLayout();
+        QPushButton *copyBtn = new QPushButton("Copy");
+        QPushButton *exportBibBtn = new QPushButton("Export BibTeX");
+        QPushButton *closeBtn = new QPushButton("Close");
+
+        btnLayout->addWidget(copyBtn);
+        btnLayout->addWidget(exportBibBtn);
+        btnLayout->addStretch();
+        btnLayout->addWidget(closeBtn);
+
+        mainLayout->addLayout(btnLayout);
+
+        auto splitAuthors = [&](QString authors) {
+            QStringList list = authors.split(",", Qt::SkipEmptyParts);
+            QStringList converted;
+            for (QString a : list) {
+                QStringList parts = a.trimmed().split(" ");
+                if (parts.size() < 2)
+                    converted.append(a.trimmed());
+                else {
+                    QString last = parts.takeLast();
+                    QString first = parts.join(" ");
+                    converted.append(last + ", " + first);
+                }
+            }
+            return converted;
+        };
+
+        auto gen = [&]() {
+            QString t = titleEdit->text();
+            QString a = authorEdit->text();
+            QString y = yearEdit->text();
+            QString p = publisherEdit->text();
+            QString e = editionEdit->text();
+            QString c = placeEdit->text();
+            QString pages = pagesEdit->text();
+            QString doi = doiEdit->text();
+
+            QStringList authAPA = splitAuthors(a);
+            QStringList authMLA = splitAuthors(a);
+
+            QString authAPA_joined = authAPA.join(", ");
+            QString authMLA_first = authMLA.join(", ");
+
+            QString italTitle = "<i>" + t + "</i>";
+
+            QString result;
+            QString format = formatCombo->currentText();
+
+            if (format == "APA") {
+                result = QString("%1. (%2). %3. %4: %5.")
+                            .arg(authAPA_joined).arg(y).arg(italTitle).arg(c).arg(p);
+                if (!pages.isEmpty()) result += " pp. " + pages + ".";
+                if (!doi.isEmpty()) result += " https://doi.org/" + doi;
+            }
+            else if (format == "MLA") {
+                result = QString("%1. %2. %3, %4.")
+                            .arg(authMLA_first).arg(italTitle).arg(p).arg(y);
+                if (!pages.isEmpty()) result += " pp. " + pages + ".";
+            }
+            else if (format == "Chicago") {
+                result = QString("%1. %2. %3: %4, %5.")
+                            .arg(authAPA_joined).arg(italTitle).arg(c).arg(p).arg(y);
+                if (!pages.isEmpty()) result += " pp. " + pages + ".";
+            }
+            else if (format == "Harvard") {
+                result = QString("%1 (%2) %3. %4: %5.")
+                            .arg(authAPA_joined).arg(y).arg(italTitle).arg(c).arg(p);
+                if (!pages.isEmpty()) result += " pp. " + pages + ".";
+            }
+            else if (format == "IEEE") {
+                result = QString("%1, %2, %3, %4, %5.")
+                            .arg(authAPA_joined.replace(",", ""))
+                            .arg(italTitle).arg(c).arg(p).arg(y);
+                if (!pages.isEmpty()) result += " pp. " + pages + ".";
+            }
+            else if (format == "AMA") {
+                result = QString("%1. %2. %3: %4; %5.")
+                            .arg(authAPA_joined.replace(",", ""))
+                            .arg(italTitle).arg(c).arg(p).arg(y);
+                if (!pages.isEmpty()) result += " " + pages + ".";
+            }
+
+            outputEdit->setHtml(result);
+        };
+
+        connect(titleEdit, &QLineEdit::textChanged, gen);
+        connect(authorEdit, &QLineEdit::textChanged, gen);
+        connect(yearEdit, &QLineEdit::textChanged, gen);
+        connect(publisherEdit, &QLineEdit::textChanged, gen);
+        connect(editionEdit, &QLineEdit::textChanged, gen);
+        connect(placeEdit, &QLineEdit::textChanged, gen);
+        connect(pagesEdit, &QLineEdit::textChanged, gen);
+        connect(doiEdit, &QLineEdit::textChanged, gen);
+        connect(formatCombo, &QComboBox::currentTextChanged, gen);
+
+        connect(copyBtn, &QPushButton::clicked, [=](){
+            QApplication::clipboard()->setText(outputEdit->toPlainText());
+        });
+
+        connect(closeBtn, &QPushButton::clicked, citationDialog, &QDialog::accept);
+
+        connect(exportBibBtn, &QPushButton::clicked, [=]() {
+            QString t = titleEdit->text();
+            QString a = authorEdit->text();
+            QString y = yearEdit->text();
+            QString p = publisherEdit->text();
+            QString e = editionEdit->text();
+            QString c = placeEdit->text();
+            QString pages = pagesEdit->text();
+            QString doi = doiEdit->text();
+
+            QStringList authors = a.split(",", Qt::SkipEmptyParts);
+            for (int i=0;i<authors.size();i++) authors[i] = authors[i].trimmed();
+
+            QString bibKey = authors.first().split(" ").last() + y;
+
+            QString bib = "@book{" + bibKey + ",\n";
+            bib += "  author = {" + authors.join(" and ") + "},\n";
+            bib += "  title = {" + t + "},\n";
+            bib += "  year = {" + y + "},\n";
+            bib += "  publisher = {" + p + "},\n";
+            if (!e.isEmpty()) bib += "  edition = {" + e + "},\n";
+            if (!c.isEmpty()) bib += "  address = {" + c + "},\n";
+            if (!pages.isEmpty()) bib += "  pages = {" + pages + "},\n";
+            if (!doi.isEmpty()) bib += "  doi = {" + doi + "},\n";
+            bib += "}";
+
+            QApplication::clipboard()->setText(bib);
+            showMessage(this, "BibTeX Export", "BibTeX copied to clipboard!", false);
+        });
+
+        citationDialog->exec();
     });
 
     connect(searchButton, &QToolButton::clicked, [=]()
