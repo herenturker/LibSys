@@ -344,6 +344,7 @@ bool Database::addBook(QWidget *parent,
     checkQuery.prepare("SELECT COUNT(*) FROM books WHERE isbn = :isbn AND title = :title");
     checkQuery.bindValue(":isbn", ISBN);
     checkQuery.bindValue(":title", bookTitle);
+    /*
     if (!checkQuery.exec())
     {
         return false;
@@ -353,6 +354,7 @@ bool Database::addBook(QWidget *parent,
     {
         return false;
     }
+        */
 
     QSqlQuery query(m_db);
     QString sql = R"(

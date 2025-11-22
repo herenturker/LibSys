@@ -112,7 +112,7 @@ void LibrarySystem::addBooksToDatabase()
 
     Database *librarydb = new Database(librarydbPath, "DB_LIBRARY");
 
-    std::ifstream file("library1.csv");
+    std::ifstream file("bookList.csv");
     std::string line;
 
     if (!file.is_open()) {

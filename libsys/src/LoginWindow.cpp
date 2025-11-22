@@ -291,8 +291,19 @@ void LoginWindow::handleLogin()
     libraryDb.createBorrowedBooksTable();
 
     userDb.addUserIfNotExists("Admin", "0", "admin", "Admin");
-    LibrarySystem::addUsersToDatabase();
-    LibrarySystem::addBooksToDatabase();
+
+    // don't need to add again 
+    QSettings settings("LibSys", "LibSysApp");
+    bool initialDataAdded = settings.value("initialDataAdded", false).toBool();
+
+    if (!initialDataAdded)
+    {
+        LibrarySystem::addUsersToDatabase();
+        LibrarySystem::addBooksToDatabase();
+
+        settings.setValue("initialDataAdded", true);
+    }
+
 
     bool loginSuccessFlag = false;
     QString accountType;
