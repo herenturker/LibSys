@@ -49,8 +49,9 @@
 #include "headers/LibrarySystem.h"
 #include "headers/Graphical.h"
 #include "headers/Utils.h"
+#include "headers/Mailer.h"
 
-StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
+StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent),mailer(stdStringToQString(apiKeyValue))
 {
     graphical = new Graphical(this);
     QString exePath = QCoreApplication::applicationDirPath();
@@ -69,6 +70,14 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     resize(1080, 720);
     setMinimumSize(1080, 720);
     setMaximumSize(1080, 720);
+
+    QObject::connect(&mailer, &Mailer::emailSent, [](const QString &ref){
+        qDebug() << "Email sent! Reference ID:" << ref;
+    });
+
+    QObject::connect(&mailer, &Mailer::emailFailed, [](const QString &err){
+        qDebug() << "Failed to send email:" << err;
+    });
 
     dateLabel = new QLabel(this);
     dayLabel = new QLabel(this);
@@ -175,11 +184,13 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
     {
         QDialog *infoDialog = new QDialog(this);
         infoDialog->setWindowTitle("My Account Info");
-        infoDialog->setFixedSize(380, 230);
+        infoDialog->setFixedSize(400, 260);
 
         QVBoxLayout *mainLayout = new QVBoxLayout(infoDialog);
 
         QString studentUID = userDb->getUIDWithSchoolNo(currentStudentSchoolNo);
+
+        QString email = userDb->getEmailBySchoolNo(currentStudentSchoolNo);
 
         QGridLayout *grid = new QGridLayout();
 
@@ -199,6 +210,9 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent)
 
         grid->addWidget(makeBold("UID:"),           3, 0);
         grid->addWidget(new QLabel(studentUID), 3, 1);
+
+        grid->addWidget(makeBold("Email:"),           4, 0);
+        grid->addWidget(new QLabel(email), 4, 1);
 
         grid->setVerticalSpacing(10);
         grid->setHorizontalSpacing(15);
@@ -701,12 +715,61 @@ void StudentInterface::refreshBookLists()
         // (This section has been removed as per recent edits)
 
         // ---------- Overdue Books ----------
+
         QDate dueDate = QDate::fromString(book.value("due_date"), "yyyy-MM-dd");
         if (dueDate.isValid() && dueDate < today)
         {
+            QString bookText = QString("%1\n%2").arg(book.value("title")).arg(book.value("author1"));
+
             QListWidgetItem *overdueItem = new QListWidgetItem(bookText, overdueBooksList);
             overdueItem->setTextAlignment(Qt::AlignLeft | Qt::AlignTop);
             overdueItem->setSizeHint(QSize(overdueItem->sizeHint().width(), 120));
+
+            QVariantMap info;
+            info["title"] = book.value("title");
+            info["author"] = book.value("author1");
+            info["isbn"] = book.value("isbn");
+            info["schoolNo"] = currentStudentSchoolNo;
+
+            overdueBooksInfo.append(info);
+        }
+
+        for (const QVariantMap &info : overdueBooksInfo)
+        {
+            QString title = info["title"].toString();
+            QString author = info["author"].toString();
+            QString isbn = info["isbn"].toString();
+            QString schoolNo = info["schoolNo"].toString();
+
+            QString studentName = userDb->getUsernameWithUID(userDb->getUIDWithSchoolNo(schoolNo));
+
+            QString htmlBody = QString(
+                "<h1>Hello %1!</h1>"
+                "<p>You have an overdue book with the following details:</p>"
+                "<ul>"
+                "<li><b>Title:</b> %2</li>"
+                "<li><b>Author:</b> %3</li>"
+                "<li><b>ISBN:</b> %4</li>"
+                "</ul>"
+                "<p>Please return the book or request an extension from the admin.</p>"
+            ).arg(studentName, title, author, isbn);
+
+            QString plainTextBody = QString(
+                "Hello %1!\n"
+                "You have an overdue book:\n"
+                "Title: %2\n"
+                "Author: %3\n"
+                "ISBN: %4\n"
+                "Please return the book or request an extension from the admin."
+            ).arg(studentName, title, author, isbn);
+
+            mailer.sendEmail(
+                userDb->getEmailBySchoolNo(schoolNo),
+                studentName,
+                "Overdue Book Notice",
+                htmlBody,
+                plainTextBody
+            );
         }
 
         bookCounter++;

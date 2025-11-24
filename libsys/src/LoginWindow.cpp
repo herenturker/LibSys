@@ -308,6 +308,7 @@ void LoginWindow::handleLogin()
     }
 
     userDb.createUsersTable();
+    userDb.createUserEmailsTable();
     libraryDb.createBooksTable();
     libraryDb.createBorrowedBooksTable();
     libraryDb.createBorrowRequestsTable();

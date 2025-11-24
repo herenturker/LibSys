@@ -448,6 +448,57 @@ public:
      */
     bool createOverdueBooksTable();
 
+    /**
+     * @brief Adds book to overdue books table
+     * 
+     * @param schoolNo 
+     * @param bookISBN 
+     * @param borrowDate 
+     * @param title 
+     * @param author 
+     * @return true 
+     * @return false 
+     */
+    bool addOverdueBook(const QString &schoolNo,
+                              const QString &bookISBN,
+                              const QString &borrowDate,
+                              const QString &title,
+                              const QString &author);
+
+    /**
+     * @brief Create a User Emails Table object
+     * 
+     * @return true 
+     * @return false 
+     */
+    bool createUserEmailsTable();
+    
+    /**
+     * @brief Get the School Number By Email 
+     * 
+     * @param email 
+     * @return QString 
+     */
+    QString getSchoolNoByEmail(const QString &email)  ;
+
+    /**
+     * @brief Get the Email By School Number
+     * 
+     * @param schoolNo 
+     * @return QString 
+     */
+    QString getEmailBySchoolNo(const QString &schoolNo);
+
+    /**
+     * @brief Add an user an email related to the user's school number
+     * 
+     * @param schoolNo 
+     * @param email 
+     * @return true 
+     * @return false 
+     */
+    bool addUserEmail(const QString &schoolNo, const QString &email);
+
     // === REVISED FUNCTIONS ===
 
     // Instead of using book isbn, use title and author to perform operations.

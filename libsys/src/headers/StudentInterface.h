@@ -30,6 +30,8 @@
 #include "BookSearchWindow.h"
 #include "database.h"
 #include "Graphical.h"
+#include "Mailer.h"
+
 class StudentInterface : public QWidget
 
 {
@@ -77,6 +79,10 @@ private:
 
     QListWidget* borrowedBooksList;
     QListWidget* overdueBooksList;
+
+    QList<QVariantMap> overdueBooksInfo;
+
+    Mailer mailer;
 
     
 };

@@ -47,24 +47,6 @@ class StudentOperations
         void returnBorrowedBook(const QString &schoolNo, const QString &bookISBN, const QString &uid = "");
 
 
-        /**
-         * @brief Requests borrow approval from admin. User can borrow a book if admin approves.
-         * 
-         * @param schoolNo 
-         * @param bookISBN 
-         * @param borrowDate 
-         * @param dueDate 
-         */
-        void requestBorrowApproval(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
-
-        /**
-         * @brief Requests return approval from admin. User can return a book if admin approves.
-         * 
-         * @param schoolNo 
-         * @param bookISBN 
-         */
-        void requestReturnApproval(const QString &schoolNo, const QString &bookISBN);
-
     private:
         Database* userDb;
         Database* libraryDb;

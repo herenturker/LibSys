@@ -33,6 +33,7 @@
 #include "headers/Utils.h"
 #include "headers/SerialReader.h"
 #include "headers/LibrarySystem.h"
+#include "headers/MonthlyBackup.h"
 
 QTranslator translator;
 
@@ -40,6 +41,10 @@ int main(int argc, char *argv[])
 {
     QApplication libsys(argc, argv);
     libsys.setWindowIcon(QIcon(":/LibSys.ico"));
+
+    MonthlyBackup backup;
+    backup.run();
+
     QFile file(LibrarySystem::theme);
 
     if (file.open(QFile::ReadOnly | QFile::Text)) {

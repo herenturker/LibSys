@@ -99,6 +99,8 @@ private:
     QPushButton *reportLostBook_Button;
     QPushButton *changeBookInfo_Button;
     QPushButton *requests_Button;
+    QPushButton *emailSettings_Button;
+    QPushButton *addEmail_Button;
 
     QPushButton *addUser_Button;
     QPushButton *deleteUser_Button;

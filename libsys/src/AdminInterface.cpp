@@ -39,6 +39,7 @@
 #include "headers/Utils.h"
 #include "headers/LibrarySystem.h"
 #include "headers/GeneralOperations.h"
+#include "headers/Mailer.h"
 
 AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
@@ -65,9 +66,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     setMinimumSize(1080, 720);
     setMaximumSize(1080, 720);
 
-    dateLabel = new QLabel(this); // Date label
-    dayLabel = new QLabel(this);  // Day label
-    timeLabel = new QLabel(this); // Time label
+    dateLabel = new QLabel(this);
+    dayLabel = new QLabel(this);
+    timeLabel = new QLabel(this);
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &AdminInterface::updateDateTime);
@@ -93,6 +94,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     changeBookInfo_Button = new QPushButton("Update\nBook Info", this);
     changeBookInfo_Button->setToolTip("Edit or update details of an existing book.");
 
+    addEmail_Button = new QPushButton("Add Email", this);
+    addEmail_Button->setToolTip("Add email address to an user.");
+
     QLabel *adminDashboard = new QLabel("Admin\nDashboard", this);
     adminDashboard->move(75, 30);
     adminDashboard->resize(500, 170);
@@ -111,6 +115,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     updateUserInfo_Button = new QPushButton("Update User Info", this);
     updateUserInfo_Button->setToolTip("Update or edit an user's info.");
+
+    emailSettings_Button = new QPushButton("Email Config", this);
+    emailSettings_Button->setToolTip("Configure email settings.");
 
     RFID_Data = new QLabel("RFID Data", this);
     RFID_Data_Value = new QLabel("", this);
@@ -135,6 +142,9 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     users_Button->setGeometry(710, 620, buttonWidth, buttonHeight);
 
     requests_Button->setGeometry(710, 550, buttonWidth, buttonHeight);
+    emailSettings_Button->setGeometry(860, 550, buttonWidth, buttonHeight);
+
+    addEmail_Button->setGeometry(860, 480, buttonWidth, buttonHeight);
 
     enterCOM_button->setGeometry(710, 50, buttonWidth, buttonHeight);
 
@@ -202,17 +212,12 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         return;
     }
 
-    userDb->createUsersTable();
-    libraryDb->createBooksTable();
-
     bookSearchWindow = new BookSearchWindow(this);
 
     // REQUESTS
 
-    connect(requests_Button, &QPushButton::clicked, this, [this]() {
-        showRequestsWindow();
-    });
-
+    connect(requests_Button, &QPushButton::clicked, this, [this]()
+            { showRequestsWindow(); });
 
     // ADD BOOK
 
@@ -495,7 +500,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     // SHOW ALL USERS IN DATABASE
     connect(users_Button, &QPushButton::clicked, this, [this]()
-    {
+            {
         if (userWindow) {
             userWindow->raise();
             userWindow->activateWindow();
@@ -511,7 +516,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         userWindow = new QWidget;
         userWindow->setWindowTitle("Users List");
-        userWindow->resize(600, 400);
+        userWindow->resize(700, 400);
 
         QVBoxLayout *layout = new QVBoxLayout(userWindow);
 
@@ -521,8 +526,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         layout->addWidget(searchEdit);
 
         QTableWidget *table = new QTableWidget;
-        table->setColumnCount(5);
-        table->setHorizontalHeaderLabels({"Username", "School No", "Password", "Account Type", "UID"});
+        table->setColumnCount(6);
+        table->setHorizontalHeaderLabels({"Username", "School No", "Password", "Account Type", "UID", "Email"});
         table->horizontalHeader()->setStretchLastSection(true);
         table->setEditTriggers(QAbstractItemView::NoEditTriggers);
         table->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -537,18 +542,21 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             QTableWidgetItem *passwordItem = new QTableWidgetItem(convertFromAes(query.value("password").toString())); 
             QTableWidgetItem *accountTypeItem = new QTableWidgetItem(query.value("account_type").toString());
             QTableWidgetItem *uidItem = new QTableWidgetItem(query.value("uid").toString());
+            QTableWidgetItem *emailItem = new QTableWidgetItem(userDb->getEmailBySchoolNo(query.value("school_no").toString()));
 
             usernameItem->setForeground(QBrush(Qt::black));
             schoolNoItem->setForeground(QBrush(Qt::black));
             passwordItem->setForeground(QBrush(Qt::black));
             accountTypeItem->setForeground(QBrush(Qt::black));
             uidItem->setForeground(QBrush(Qt::black));
+            emailItem->setForeground(QBrush(Qt::black));
 
             table->setItem(row, 0, usernameItem);
             table->setItem(row, 1, schoolNoItem);
             table->setItem(row, 2, passwordItem);
             table->setItem(row, 3, accountTypeItem);
             table->setItem(row, 4, uidItem);
+            table->setItem(row, 4, emailItem);
 
             row++;
         }
@@ -569,7 +577,127 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         });
 
         userWindow->show();
-        userDb->closeDB();
+        userDb->closeDB(); });
+
+    connect(addEmail_Button, &QPushButton::clicked, this, [this]()
+    {
+        QDialog addEmailDialog;
+        addEmailDialog.setWindowTitle("Add Email to a User");
+        addEmailDialog.setModal(true);
+        addEmailDialog.resize(300, 150);
+
+        QVBoxLayout *layout = new QVBoxLayout(&addEmailDialog);
+
+        QLabel *schoolNoLabel = new QLabel("Enter School No:", &addEmailDialog);
+        QLineEdit *schoolNoEdit = new QLineEdit(&addEmailDialog);
+
+        QLabel *emailLabel = new QLabel("Enter User Email:", &addEmailDialog);
+        QLineEdit *emailEdit = new QLineEdit(&addEmailDialog);
+
+        layout->addWidget(schoolNoLabel);
+        layout->addWidget(schoolNoEdit);
+        layout->addWidget(emailLabel);
+        layout->addWidget(emailEdit);
+
+        QHBoxLayout *btnLayout = new QHBoxLayout();
+        QPushButton *okBtn = new QPushButton("OK", &addEmailDialog);
+        QPushButton *cancelBtn = new QPushButton("Cancel", &addEmailDialog);
+        btnLayout->addWidget(okBtn);
+        btnLayout->addWidget(cancelBtn);
+        layout->addLayout(btnLayout);
+
+        QObject::connect(okBtn, &QPushButton::clicked, [&]() {
+            QString schoolNo = schoolNoEdit->text().trimmed();
+            QString email = emailEdit->text().trimmed();
+
+            if (schoolNo.isEmpty() || email.isEmpty()) {
+                showMessage(nullptr, "Error", "Please fill in both school number and email!", true);
+                return;
+            }
+
+            if (userDb->addUserEmail(schoolNo, email)) {
+                showMessage(nullptr, "Success", "Email added successfully to the database!", false);
+                addEmailDialog.accept();
+            } else {
+                showMessage(nullptr, "Error", "Failed to add email. It might already exist!", true);
+            }
+        });
+
+        QObject::connect(cancelBtn, &QPushButton::clicked, &addEmailDialog, &QDialog::reject);
+
+        addEmailDialog.exec();
+    });
+
+    connect(emailSettings_Button, &QPushButton::clicked, this, [this]()
+    {
+        QDialog emailDialog;
+        emailDialog.setWindowTitle("Enter Email Configuration");
+        emailDialog.setModal(true);
+        emailDialog.resize(300, 220);
+
+        QVBoxLayout *layout = new QVBoxLayout(&emailDialog);
+
+        QLabel *apiLabel = new QLabel("Enter API:", &emailDialog);
+        QLineEdit *apiEdit = new QLineEdit(&emailDialog);
+
+        QLabel *senderLabel = new QLabel("Enter Sender email:", &emailDialog);
+        QLineEdit *senderEdit = new QLineEdit(&emailDialog);
+
+        QLabel *adminLabel = new QLabel("Enter Admin email:", &emailDialog);
+        QLineEdit *adminEdit = new QLineEdit(&emailDialog);
+
+        QSettings settings("LibSys", "EmailSettings");
+
+        QString savedApi = settings.value("EmailAPI", "").toString();
+        if (!savedApi.isEmpty()) {
+            apiEdit->setText(savedApi);
+        }
+
+        QString savedSender = settings.value("SenderEmail", "").toString();
+        if (!savedSender.isEmpty()) {
+            senderEdit->setText(savedSender);
+        }
+
+        QString savedAdmin = settings.value("AdminEmail", "").toString();
+        if (!savedAdmin.isEmpty()) {
+            adminEdit->setText(savedAdmin);
+        }
+
+        layout->addWidget(apiLabel);
+        layout->addWidget(apiEdit);
+        layout->addWidget(senderLabel);
+        layout->addWidget(senderEdit);
+        layout->addWidget(adminLabel);
+        layout->addWidget(adminEdit);
+
+        QHBoxLayout *btnLayout = new QHBoxLayout();
+        QPushButton *okBtn = new QPushButton("OK", &emailDialog);
+        QPushButton *cancelBtn = new QPushButton("Cancel", &emailDialog);
+        btnLayout->addWidget(okBtn);
+        btnLayout->addWidget(cancelBtn);
+        layout->addLayout(btnLayout);
+
+        QObject::connect(okBtn, &QPushButton::clicked, [&]() {
+            QString api = apiEdit->text().trimmed();
+            QString sender = senderEdit->text().trimmed();
+            QString admin = adminEdit->text().trimmed();
+
+            if (api.isEmpty() || sender.isEmpty() || admin.isEmpty()) {
+                showMessage(nullptr, "Error", "Please fill in API, Sender email, and Admin email!", true);
+                return;
+            }
+
+            settings.setValue("EmailAPI", api);
+            settings.setValue("SenderEmail", sender);
+            settings.setValue("AdminEmail", admin);
+
+            showMessage(nullptr, "Saved", "Email configuration saved!", false);
+            emailDialog.accept();
+        });
+
+        QObject::connect(cancelBtn, &QPushButton::clicked, &emailDialog, &QDialog::reject);
+
+        emailDialog.exec();
     });
 
 }
@@ -613,7 +741,8 @@ void AdminInterface::showRequestsWindow()
 
     int row = 0;
 
-    for (auto &req : borrowReqs) {
+    for (auto &req : borrowReqs)
+    {
         table->insertRow(row);
         table->setItem(row, 0, new QTableWidgetItem("Borrow"));
         table->setItem(row, 1, new QTableWidgetItem(req["school_no"]));
@@ -627,25 +756,26 @@ void AdminInterface::showRequestsWindow()
         QPushButton *rejectBtn = new QPushButton("Reject");
         table->setCellWidget(row, 6, rejectBtn);
 
-        connect(approveBtn, &QPushButton::clicked, this, [=]() {
+        connect(approveBtn, &QPushButton::clicked, this, [=]()
+                {
             approveBorrowRequest(req["school_no"], req["title"], req["author1"]);
             if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
                 studentInterface->refreshBorrowedBooks(req["school_no"]);
-            }
-        });
+            } });
 
-        connect(rejectBtn, &QPushButton::clicked, this, [=]() {
+        connect(rejectBtn, &QPushButton::clicked, this, [=]()
+                {
             libraryDb->deleteBorrowRequest_TITLE_AUTHOR(req["school_no"], req["title"], req["author1"]);
             showMessage(nullptr, "Rejected", "Borrow request rejected.", false);
             if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
                 studentInterface->refreshBorrowedBooks(req["school_no"]);
-            }
-        });
+            } });
 
         row++;
     }
 
-    for (auto &req : returnReqs) {
+    for (auto &req : returnReqs)
+    {
         table->insertRow(row);
         table->setItem(row, 0, new QTableWidgetItem("Return"));
         table->setItem(row, 1, new QTableWidgetItem(req["school_no"]));
@@ -659,20 +789,20 @@ void AdminInterface::showRequestsWindow()
         QPushButton *rejectBtn = new QPushButton("Reject");
         table->setCellWidget(row, 6, rejectBtn);
 
-        connect(approveBtn, &QPushButton::clicked, this, [=]() {
+        connect(approveBtn, &QPushButton::clicked, this, [=]()
+                {
             approveReturnRequest(req["school_no"], req["title"], req["author1"]);
             if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
                 studentInterface->refreshBorrowedBooks(req["school_no"]);
-            }
-        });
+            } });
 
-        connect(rejectBtn, &QPushButton::clicked, this, [=]() {
+        connect(rejectBtn, &QPushButton::clicked, this, [=]()
+                {
             libraryDb->deleteReturnRequest_TITLE_AUTHOR(req["school_no"], req["title"], req["author1"]);
             showMessage(nullptr, "Rejected", "Return request rejected.", false);
             if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
                 studentInterface->refreshBorrowedBooks(req["school_no"]);
-            }
-        });
+            } });
 
         row++;
     }
@@ -692,7 +822,8 @@ void AdminInterface::approveBorrowRequest(const QString &schoolNo,
 
     bool ok = libraryDb->borrowBook_TITLE_AUTHOR(schoolNo, borrowDate, dueDate, title, author1);
 
-    if (!ok) {
+    if (!ok)
+    {
         showMessage(nullptr, "Error", "Borrowing failed (maybe book is already borrowed or LOST).", true);
         return;
     }
@@ -712,7 +843,8 @@ void AdminInterface::approveReturnRequest(const QString &schoolNo,
 
     bool ok = libraryDb->returnBook_TITLE_AUTHOR(schoolNo, title, author1);
 
-    if (!ok) {
+    if (!ok)
+    {
         showMessage(nullptr, "Error", "Returning failed (maybe book is LOST or not borrowed).", true);
         return;
     }
@@ -748,4 +880,3 @@ bool Database::deleteReturnRequest_TITLE_AUTHOR(const QString &schoolNo,
     q.addBindValue(author1);
     return q.exec();
 }
-
