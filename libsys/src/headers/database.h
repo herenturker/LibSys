@@ -336,6 +336,13 @@ public:
                             const QString &accountType, const QString &uid = "");
 
     /**
+     * @brief Gets the All User UIDs from users table.
+     * 
+     * @return QStringList 
+     */
+    QStringList getAllUserUIDs();
+    
+    /**
      * @brief Prints all users in the database.
      * 
      */
@@ -425,6 +432,15 @@ public:
     bool createReturnRequestsTable();
 
     /**
+     * @brief Checks all overdue books for a student. Adds them to overdue_books table.
+     * 
+     * @param schoolNo 
+     * @return true 
+     * @return false 
+     */
+    bool checkAndAddOverdueBooksForStudent(const QString &schoolNo);
+
+    /**
      * @brief Perform borrow request data from database
      * 
      * @return true 
@@ -466,6 +482,26 @@ public:
                               const QString &author);
 
     /**
+     * @brief Deletes book from overdue_books table
+     * 
+     * @param schoolNo 
+     * @param title 
+     * @param author 
+     * @return true 
+     * @return false 
+     */
+
+    bool deleteOverdueBook(const QString &schoolNo,
+                                 const QString &title,
+                                 const QString &author);
+    /**
+     * @brief Get the All Overdue Books from overdue_books table
+     * 
+     * @return QStringList 
+     */
+    QStringList getAllOverdueBooks();
+
+    /**
      * @brief Create a User Emails Table object
      * 
      * @return true 
@@ -490,7 +526,7 @@ public:
     QString getEmailBySchoolNo(const QString &schoolNo);
 
     /**
-     * @brief Add an user an email related to the user's school number
+     * @brief Add an user an email related to the user's school number.
      * 
      * @param schoolNo 
      * @param email 
@@ -498,6 +534,26 @@ public:
      * @return false 
      */
     bool addUserEmail(const QString &schoolNo, const QString &email);
+
+    /**
+     * @brief Delete an user email from database using user's school number.
+     * 
+     * @param schoolNo 
+     * @param email 
+     * @return true 
+     * @return false 
+     */
+    bool deleteUserEmail(const QString &schoolNo, const QString &email);
+
+    /**
+     * @brief Update an user's email using user's school number.
+     * 
+     * @param schoolNo 
+     * @param email 
+     * @return true 
+     * @return false 
+     */
+    bool updateUserEmail(const QString &schoolNo, const QString &email);
 
     // === REVISED FUNCTIONS ===
 

@@ -97,10 +97,6 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     addEmail_Button = new QPushButton("Add Email", this);
     addEmail_Button->setToolTip("Add email address to an user.");
 
-    QLabel *adminDashboard = new QLabel("Admin\nDashboard", this);
-    adminDashboard->move(75, 30);
-    adminDashboard->resize(500, 170);
-
     reportLostBook_Button = new QPushButton("Report Lost Book", this);
     reportLostBook_Button->setToolTip("Report a lost book and update its record.");
 
@@ -119,11 +115,23 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     emailSettings_Button = new QPushButton("Email Config", this);
     emailSettings_Button->setToolTip("Configure email settings.");
 
+    displayOverdueBooks_Button = new QPushButton("Overdue Books", this);
+    displayOverdueBooks_Button->setToolTip("Display overdue books.");
+
+    deleteEmail_Button = new QPushButton("Delete Email", this);
+    deleteEmail_Button->setToolTip("Delete email address of an user.");
+
+    updateEmail_Button = new QPushButton("Update Email", this);
+    updateEmail_Button->setToolTip("Update email address of an user.");
+
     RFID_Data = new QLabel("RFID Data", this);
     RFID_Data_Value = new QLabel("", this);
 
-    QPushButton *enterCOM_button = new QPushButton("COM", this);
+    enterCOM_button = new QPushButton("COM", this);
     enterCOM_button->setToolTip("Enter COM Info for RFID Serial Port");
+
+    checkOverdueBooks_Button = new QPushButton("Check Overdue Books", this);
+    checkOverdueBooks_Button->setToolTip("Check Overdue Books");
 
     RFID_Data->setObjectName("RFID_Data");
     RFID_Data_Value->setObjectName("RFID_Data_Value");
@@ -141,16 +149,21 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
     books_Button->setGeometry(860, 620, buttonWidth, buttonHeight);
     users_Button->setGeometry(710, 620, buttonWidth, buttonHeight);
 
+    displayOverdueBooks_Button->setGeometry(710, 480, buttonWidth, buttonHeight);
+
     requests_Button->setGeometry(710, 550, buttonWidth, buttonHeight);
     emailSettings_Button->setGeometry(860, 550, buttonWidth, buttonHeight);
 
     addEmail_Button->setGeometry(860, 480, buttonWidth, buttonHeight);
+    deleteEmail_Button->setGeometry(860, 410, buttonWidth, buttonHeight);
+    updateEmail_Button->setGeometry(860, 340, buttonWidth, buttonHeight);
+    checkOverdueBooks_Button->setGeometry(710, 340, buttonWidth, buttonHeight);
 
     enterCOM_button->setGeometry(710, 50, buttonWidth, buttonHeight);
 
-    dateLabel->setGeometry(75, 650, 200, 30);
-    dayLabel->setGeometry(75, 620, 200, 30);
-    timeLabel->setGeometry(75, 590, 200, 30);
+    dateLabel->setGeometry(505, 620, 240, 30);
+    dayLabel->setGeometry(285, 620, 210, 30);
+    timeLabel->setGeometry(75, 620, 210, 30);
 
     addBook_Button->setGeometry(75, 215, buttonSquare, buttonSquare);
 
@@ -158,7 +171,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     changeBookInfo_Button->setGeometry(460, 215, buttonSquare, buttonSquare);
 
-    reportLostBook_Button->setGeometry(265, 620, 160, buttonHeight);
+    reportLostBook_Button->setGeometry(710, 410, buttonWidth, buttonHeight);
 
     addUser_Button->setGeometry(75, 410, buttonSquare, buttonSquare);
 
@@ -398,9 +411,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         QVBoxLayout *layout = new QVBoxLayout(&comDialog);
 
         QLabel *label = new QLabel("Enter Arduino COM port (e.g., COM3):", &comDialog);
-        // label->setStyleSheet("color: black;");
         QLineEdit *comEdit = new QLineEdit(&comDialog);
-        // comEdit->setStyleSheet("color: black;");
 
         QSettings settings("LibSys", "ArduinoSettings"); // SAVE TO SETTINGS SO PROGRAM WOULD NOT FORGET
         QString savedPort = settings.value("ArduinoCOMPort", "").toString();
@@ -410,9 +421,8 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
         QHBoxLayout *btnLayout = new QHBoxLayout();
         QPushButton *okBtn = new QPushButton("OK", &comDialog);
-        //okBtn->setStyleSheet("color: black;");
         QPushButton *cancelBtn = new QPushButton("Cancel", &comDialog);
-        //cancelBtn->setStyleSheet("color: black;");
+
         btnLayout->addWidget(okBtn);
         btnLayout->addWidget(cancelBtn);
 
@@ -556,7 +566,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
             table->setItem(row, 2, passwordItem);
             table->setItem(row, 3, accountTypeItem);
             table->setItem(row, 4, uidItem);
-            table->setItem(row, 4, emailItem);
+            table->setItem(row, 5, emailItem);
 
             row++;
         }
@@ -579,10 +589,91 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         userWindow->show();
         userDb->closeDB(); });
 
+    // DISPLAY OVERDUE BOOKS
+    connect(displayOverdueBooks_Button, &QPushButton::clicked, [&]()
+    {
+        QStringList overdueBooks = libraryDb->getAllOverdueBooks();
+
+        if (overdueBooks.isEmpty()) {
+            QMessageBox::information(this, tr("No Overdue Books"), tr("There are no overdue books."));
+            return;
+        }
+
+        QWidget *win = new QWidget(nullptr);
+        win->setAttribute(Qt::WA_DeleteOnClose);
+        win->setWindowTitle(tr("Overdue Books"));
+        win->setMinimumSize(480, 360);
+        win->setWindowModality(Qt::ApplicationModal);
+
+        QVBoxLayout *mainLayout = new QVBoxLayout(win);
+        mainLayout->setContentsMargins(8, 8, 8, 8);
+        mainLayout->setSpacing(6);
+
+        QScrollArea *scroll = new QScrollArea(win);
+        scroll->setWidgetResizable(true);
+        scroll->setFrameShape(QFrame::NoFrame);
+
+        QWidget *container = new QWidget;
+        QVBoxLayout *vbox = new QVBoxLayout(container);
+        vbox->setContentsMargins(6, 6, 6, 6);
+        vbox->setSpacing(8);
+
+        for (const QString &s : overdueBooks) {
+            QFrame *row = new QFrame(container);
+            row->setFrameShape(QFrame::StyledPanel);
+            row->setFrameShadow(QFrame::Raised);
+            row->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+            QHBoxLayout *rowLayout = new QHBoxLayout(row);
+            rowLayout->setContentsMargins(8, 6, 8, 6);
+
+            QLabel *lbl = new QLabel(s, row);
+            lbl->setWordWrap(true);
+            lbl->setTextInteractionFlags(Qt::TextSelectableByMouse);
+            rowLayout->addWidget(lbl);
+
+            vbox->addWidget(row);
+        }
+
+        vbox->addStretch(1);
+
+        container->setLayout(vbox);
+        scroll->setWidget(container);
+
+        QHBoxLayout *btnLayout = new QHBoxLayout;
+        btnLayout->addStretch();
+        QPushButton *closeBtn = new QPushButton(tr("Close"), win);
+        QObject::connect(closeBtn, &QPushButton::clicked, win, &QWidget::close);
+        btnLayout->addWidget(closeBtn);
+
+        mainLayout->addWidget(scroll);
+        mainLayout->addLayout(btnLayout);
+
+        win->setLayout(mainLayout);
+        win->show();
+    });
+
+    // CHECK OVERDUE BOOKS FOR ALL USERS.
+
+    connect(checkOverdueBooks_Button, &QPushButton::clicked, this, [this](){
+        QStringList allUIDs = userDb->getAllUserUIDs();
+
+        for (const QString &uid : allUIDs) {
+            QString accountType = userDb->getAccountTypeWithUID(uid);
+            if (accountType == "Student") {
+                QString school_no = userDb->getSchoolNoWithUID(uid);
+                libraryDb->checkAndAddOverdueBooksForStudent(school_no);
+            }
+        }
+
+        QMessageBox::information(this, tr("Done"), tr("Overdue books updated for all students."));
+    });
+
+    // ADD EMAIL TO AN USER
     connect(addEmail_Button, &QPushButton::clicked, this, [this]()
     {
         QDialog addEmailDialog;
-        addEmailDialog.setWindowTitle("Add Email to a User");
+        addEmailDialog.setWindowTitle("Add Email to an User");
         addEmailDialog.setModal(true);
         addEmailDialog.resize(300, 150);
 
@@ -626,6 +717,106 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
         QObject::connect(cancelBtn, &QPushButton::clicked, &addEmailDialog, &QDialog::reject);
 
         addEmailDialog.exec();
+    });
+
+    // DELETE EMAIL TO AN USER
+    connect(deleteEmail_Button, &QPushButton::clicked, this, [this]()
+    {
+        QDialog deleteEmailDialog;
+        deleteEmailDialog.setWindowTitle("Delete Email from an User");
+        deleteEmailDialog.setModal(true);
+        deleteEmailDialog.resize(300, 150);
+
+        QVBoxLayout *layout = new QVBoxLayout(&deleteEmailDialog);
+
+        QLabel *schoolNoLabel = new QLabel("Enter School No:", &deleteEmailDialog);
+        QLineEdit *schoolNoEdit = new QLineEdit(&deleteEmailDialog);
+
+        QLabel *emailLabel = new QLabel("Enter User Email:", &deleteEmailDialog);
+        QLineEdit *emailEdit = new QLineEdit(&deleteEmailDialog);
+
+        layout->addWidget(schoolNoLabel);
+        layout->addWidget(schoolNoEdit);
+        layout->addWidget(emailLabel);
+        layout->addWidget(emailEdit);
+
+        QHBoxLayout *btnLayout = new QHBoxLayout();
+        QPushButton *okBtn = new QPushButton("OK", &deleteEmailDialog);
+        QPushButton *cancelBtn = new QPushButton("Cancel", &deleteEmailDialog);
+        btnLayout->addWidget(okBtn);
+        btnLayout->addWidget(cancelBtn);
+        layout->addLayout(btnLayout);
+
+        QObject::connect(okBtn, &QPushButton::clicked, [&]() {
+            QString schoolNo = schoolNoEdit->text().trimmed();
+            QString email = emailEdit->text().trimmed();
+
+            if (schoolNo.isEmpty() || email.isEmpty()) {
+                showMessage(nullptr, "Error", "Please fill in both school number and email!", true);
+                return;
+            }
+
+            if (userDb->deleteUserEmail(schoolNo, email)) {
+                showMessage(nullptr, "Success", "Email deleted successfully!", false);
+                deleteEmailDialog.accept();
+            } else {
+                showMessage(nullptr, "Error", "Failed to delete email.", true);
+            }
+        });
+
+        QObject::connect(cancelBtn, &QPushButton::clicked, &deleteEmailDialog, &QDialog::reject);
+
+        deleteEmailDialog.exec();
+    });
+
+    // UPDATE EMAIL OF AN USER
+    connect(updateEmail_Button, &QPushButton::clicked, this, [this]()
+    {
+        QDialog updateEmailDialog;
+        updateEmailDialog.setWindowTitle("Update Email of an User");
+        updateEmailDialog.setModal(true);
+        updateEmailDialog.resize(300, 150);
+
+        QVBoxLayout *layout = new QVBoxLayout(&updateEmailDialog);
+
+        QLabel *schoolNoLabel = new QLabel("Enter School No:", &updateEmailDialog);
+        QLineEdit *schoolNoEdit = new QLineEdit(&updateEmailDialog);
+
+        QLabel *emailLabel = new QLabel("Enter User Email:", &updateEmailDialog);
+        QLineEdit *emailEdit = new QLineEdit(&updateEmailDialog);
+
+        layout->addWidget(schoolNoLabel);
+        layout->addWidget(schoolNoEdit);
+        layout->addWidget(emailLabel);
+        layout->addWidget(emailEdit);
+
+        QHBoxLayout *btnLayout = new QHBoxLayout();
+        QPushButton *okBtn = new QPushButton("OK", &updateEmailDialog);
+        QPushButton *cancelBtn = new QPushButton("Cancel", &updateEmailDialog);
+        btnLayout->addWidget(okBtn);
+        btnLayout->addWidget(cancelBtn);
+        layout->addLayout(btnLayout);
+
+        QObject::connect(okBtn, &QPushButton::clicked, [&]() {
+            QString schoolNo = schoolNoEdit->text().trimmed();
+            QString email = emailEdit->text().trimmed();
+
+            if (schoolNo.isEmpty() || email.isEmpty()) {
+                showMessage(nullptr, "Error", "Please fill in both school number and email!", true);
+                return;
+            }
+
+            if (userDb->updateUserEmail(schoolNo, email)) {
+                showMessage(nullptr, "Success", "Email updated successfully!", false);
+                updateEmailDialog.accept();
+            } else {
+                showMessage(nullptr, "Error", "Failed to update email.", true);
+            }
+        });
+
+        QObject::connect(cancelBtn, &QPushButton::clicked, &updateEmailDialog, &QDialog::reject);
+
+        updateEmailDialog.exec();
     });
 
     connect(emailSettings_Button, &QPushButton::clicked, this, [this]()
@@ -851,7 +1042,7 @@ void AdminInterface::approveReturnRequest(const QString &schoolNo,
     emit bookReturned(schoolNo);
 
     showMessage(nullptr, "Success", "Return request approved and book returned.", false);
-
+    libraryDb->deleteOverdueBook(schoolNo, title, author1);
     std::string logStr = "APPROVED RETURN: " + title.toStdString() + " by " + author1.toStdString() +
                          " from student " + schoolNo.toStdString();
     writeEncryptedLog(logStr);

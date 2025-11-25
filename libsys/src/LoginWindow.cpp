@@ -336,7 +336,7 @@ void LoginWindow::handleLogin()
     QString loginSchoolNumber;
     QString user_password;
 
-    if (loginRadioButton_Group->checkedButton()->text() == "Normal Login")
+    if (loginRadioButton_Group->checkedButton() == normalLogin_Button)
     {
         QString accountTypeSelected = radioButton_Group->checkedButton()->text();
         loginSuccessFlag = userDb.isUserMatchedInDataBase(username, schoolNo, convertToAes(password), accountTypeSelected);
@@ -348,7 +348,7 @@ void LoginWindow::handleLogin()
             loginSchoolNumber = schoolNo;
         }
     }
-    else if (loginRadioButton_Group->checkedButton()->text() == "Quick Login")
+    else if (loginRadioButton_Group->checkedButton() == quickLogin_Button)
     {
         
         if (LibrarySystem::rfid_data.empty())
@@ -405,7 +405,7 @@ void LoginWindow::updateRFIDLabel(const QString &RFIDdata)
     Database userDb("databases/users.db", "DB_USERS");
     if (!userDb.openDB()) return;
 
-    if (userDb.isUserExistsUID(RFIDdata) && loginRadioButton_Group->checkedButton()->text() == "Quick Login")
+    if (userDb.isUserExistsUID(RFIDdata) && loginRadioButton_Group->checkedButton() == quickLogin_Button)
     {
         username_Edit->setText(userDb.getUsernameWithUID(RFIDdata));
         schoolNo_Edit->setText(userDb.getSchoolNoWithUID(RFIDdata));

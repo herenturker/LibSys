@@ -101,6 +101,11 @@ private:
     QPushButton *requests_Button;
     QPushButton *emailSettings_Button;
     QPushButton *addEmail_Button;
+    QPushButton *displayOverdueBooks_Button;
+    QPushButton *deleteEmail_Button;
+    QPushButton *updateEmail_Button;
+    QPushButton *enterCOM_button;
+    QPushButton *checkOverdueBooks_Button;
 
     QPushButton *addUser_Button;
     QPushButton *deleteUser_Button;

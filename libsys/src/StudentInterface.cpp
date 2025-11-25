@@ -20,7 +20,6 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include <QTimer>
-
 #include <QLabel>
 #include <QLineEdit>
 #include <QToolButton>
@@ -101,9 +100,9 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent),mailer(std
     connect(timer, &QTimer::timeout, this, &StudentInterface::updateDateTime);
     timer->start(1000);
 
-    dateLabel->setGeometry(75, 650, 200, 30);
-    dayLabel->setGeometry(75, 620, 200, 30);
-    timeLabel->setGeometry(75, 590, 200, 30);
+    dateLabel->setGeometry(505, 610, 240, 30);
+    dayLabel->setGeometry(285, 610, 210, 30);
+    timeLabel->setGeometry(75, 610, 210, 30);
 
     borrowedBooks->setGeometry(90, 140, 190, 40);
     overdueBooks->setGeometry(690, 140, 190, 40);
@@ -155,9 +154,9 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent),mailer(std
     unsigned short buttonWidth = 130;
     unsigned short buttonHeight = 50;
 
-    borrowBook_Button->setGeometry(540, 640, buttonWidth, buttonHeight);
-    returnBook_Button->setGeometry(680, 640, buttonWidth, buttonHeight);
-    myAccount_Button->setGeometry(820, 640, buttonWidth, buttonHeight);
+    borrowBook_Button->setGeometry(450, 390, buttonWidth, buttonHeight);
+    returnBook_Button->setGeometry(450, 460, buttonWidth, buttonHeight);
+    myAccount_Button->setGeometry(450, 320, buttonWidth, buttonHeight);
     bookCitation_Button->setGeometry(450, 250, buttonWidth, buttonHeight);
 
     QHBoxLayout *searchLayout = new QHBoxLayout(searchContainer);
@@ -291,11 +290,9 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent),mailer(std
 
         QHBoxLayout *btnLayout = new QHBoxLayout();
         QPushButton *copyBtn = new QPushButton("Copy");
-        QPushButton *exportBibBtn = new QPushButton("Export BibTeX");
         QPushButton *closeBtn = new QPushButton("Close");
 
         btnLayout->addWidget(copyBtn);
-        btnLayout->addWidget(exportBibBtn);
         btnLayout->addStretch();
         btnLayout->addWidget(closeBtn);
 
@@ -390,37 +387,6 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent),mailer(std
         });
 
         connect(closeBtn, &QPushButton::clicked, citationDialog, &QDialog::accept);
-
-        connect(exportBibBtn, &QPushButton::clicked, [=]() {
-            QString t = titleEdit->text();
-            QString a = authorEdit->text();
-            QString y = yearEdit->text();
-            QString p = publisherEdit->text();
-            QString e = editionEdit->text();
-            QString c = placeEdit->text();
-            QString pages = pagesEdit->text();
-            QString doi = doiEdit->text();
-
-            QStringList authors = a.split(",", Qt::SkipEmptyParts);
-            for (int i=0;i<authors.size();i++) authors[i] = authors[i].trimmed();
-
-            QString bibKey = authors.first().split(" ").last() + y;
-
-            QString bib = "@book{" + bibKey + ",\n";
-            bib += "  author = {" + authors.join(" and ") + "},\n";
-            bib += "  title = {" + t + "},\n";
-            bib += "  year = {" + y + "},\n";
-            bib += "  publisher = {" + p + "},\n";
-            if (!e.isEmpty()) bib += "  edition = {" + e + "},\n";
-            if (!c.isEmpty()) bib += "  address = {" + c + "},\n";
-            if (!pages.isEmpty()) bib += "  pages = {" + pages + "},\n";
-            if (!doi.isEmpty()) bib += "  doi = {" + doi + "},\n";
-            bib += "}";
-
-            QApplication::clipboard()->setText(bib);
-            showMessage(this, "BibTeX Export", "BibTeX copied to clipboard!", false);
-        });
-
         citationDialog->exec();
     });
 
@@ -717,6 +683,8 @@ void StudentInterface::refreshBookLists()
         // ---------- Overdue Books ----------
 
         QDate dueDate = QDate::fromString(book.value("due_date"), "yyyy-MM-dd");
+        QDate borrowDate = QDate::fromString(book.value("borrow_date"), "yyyy-MM-dd");
+
         if (dueDate.isValid() && dueDate < today)
         {
             QString bookText = QString("%1\n%2").arg(book.value("title")).arg(book.value("author1"));
@@ -740,6 +708,8 @@ void StudentInterface::refreshBookLists()
             QString author = info["author"].toString();
             QString isbn = info["isbn"].toString();
             QString schoolNo = info["schoolNo"].toString();
+
+            userDb->addOverdueBook(currentStudentSchoolNo, isbn, borrowDate.toString(), title, author);
 
             QString studentName = userDb->getUsernameWithUID(userDb->getUIDWithSchoolNo(schoolNo));
 

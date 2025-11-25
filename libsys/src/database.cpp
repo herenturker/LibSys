@@ -21,6 +21,7 @@
 #include <QtSql/QSqlRecord>
 #include <QDebug>
 #include <QMessageBox>
+#include <QDate>
 
 #include "headers/Database.h"
 #include "headers/Utils.h"
@@ -291,7 +292,7 @@ bool Database::addUserIfNotExists(const QString &username,
 
 void Database::debugPrintAllUsers() const
 {
-    /*
+    
     QSqlQuery query(m_db);
     if (!query.exec("SELECT username, school_no, password, account_type FROM users"))
     {
@@ -307,8 +308,72 @@ void Database::debugPrintAllUsers() const
                  << "| account_type:" << query.value(3).toString();
     }
     qDebug() << "------------------------------";
-    */
+    
 }
+
+bool Database::checkAndAddOverdueBooksForStudent(const QString &schoolNo)
+{
+    if (!m_db.isOpen() && !m_db.open())
+        return false;
+
+    // Öğrencinin borç aldığı kitapları al
+    QList<QMap<QString, QString>> borrowedBooks = getBorrowedBooksByStudent(schoolNo);
+
+    QDate today = QDate::currentDate();
+
+    for (const QMap<QString, QString> &book : borrowedBooks)
+    {
+        QString dueDateStr = book.value("due_date");
+        QDate dueDate = QDate::fromString(dueDateStr, "yyyy-MM-dd"); // Formatını veritabanında tuttuğun şekilde ayarla
+        if (!dueDate.isValid())
+            continue;
+
+        if (dueDate < today)
+        {
+            QString title = book.value("title");
+            QString author = book.value("author1");
+            QString borrowDate = book.value("borrow_date");
+            QString isbn = book.value("isbn");
+
+            addOverdueBook(schoolNo, isbn, borrowDate, title, author);
+        }
+    }
+
+    return true;
+}
+
+
+QStringList Database::getAllUserUIDs()
+{
+    QStringList uidList;
+
+    if (!m_db.isOpen())
+    {
+        if (!m_db.open())
+            return uidList;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare(R"(
+        SELECT uid FROM users
+        WHERE uid IS NOT NULL
+    )");
+
+    if (!query.exec())
+    {
+        qDebug() << "Failed to fetch UIDs:" << query.lastError().text();
+        return uidList;
+    }
+
+    while (query.next())
+    {
+        QString uid = query.value(0).toString();
+        uidList.append(uid);
+    }
+
+    return uidList;
+}
+
 
 bool Database::addBook(QWidget *parent,
                        const QString &bookTitle, const QString &author1,
@@ -1171,8 +1236,8 @@ bool Database::createOverdueBooksTable()
         CREATE TABLE IF NOT EXISTS overdue_books (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             school_no TEXT NOT NULL,
-            book_isbn TEXT NOT NULL,
-            borrow_date TEXT NOT NULL,
+            book_isbn TEXT,
+            borrow_date TEXT,
             title TEXT NOT NULL,
             author TEXT NOT NULL,
             UNIQUE(school_no, book_isbn)
@@ -1218,6 +1283,67 @@ bool Database::addOverdueBook(const QString &schoolNo,
     }
 
     return true;
+}
+
+bool Database::deleteOverdueBook(const QString &schoolNo,
+                                 const QString &title,
+                                 const QString &author)
+{
+    if (!m_db.isOpen())
+    {
+        if (!m_db.open())
+            return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare(R"(
+        DELETE FROM overdue_books
+        WHERE school_no = :school_no 
+          AND title     = :title
+          AND author    = :author
+    )");
+
+    query.bindValue(":school_no", schoolNo);
+    query.bindValue(":title", title);
+    query.bindValue(":author", author);
+
+    if (!query.exec())
+    {
+        qDebug() << "Failed to delete overdue book:" << query.lastError().text();
+        return false;
+    }
+
+    return query.numRowsAffected() > 0;
+}
+
+QStringList Database::getAllOverdueBooks()
+{
+    QStringList overdueList;
+    QSqlQuery query(m_db);
+
+    QString sql = R"(
+        SELECT school_no, book_isbn, borrow_date, title, author
+        FROM overdue_books
+    )";
+
+    if (!query.exec(sql))
+        return overdueList;
+
+    while (query.next())
+    {
+        QString schoolNo = query.value(0).toString();
+        QString isbn = query.value(1).toString();
+        QString borrow = query.value(2).toString();
+        QString title = query.value(3).toString();
+        QString author = query.value(4).toString();
+
+        QString entry = QString("%1 | %2 | %3 | %4 | %5")
+                            .arg(schoolNo, isbn, borrow, title, author);
+
+        overdueList.append(entry);
+    }
+
+    return overdueList;
 }
 
 bool Database::createUserEmailsTable()
@@ -1300,6 +1426,70 @@ bool Database::addUserEmail(const QString &schoolNo, const QString &email)
         qDebug() << "Failed to insert user email:" << query.lastError().text();
         return false;
     }
+    return true;
+}
+
+bool Database::deleteUserEmail(const QString &schoolNo, const QString &email)
+{
+    if (!m_db.isOpen())
+    {
+        if (!m_db.open())
+            return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare(R"(
+        DELETE FROM user_emails
+        WHERE school_no = :school_no AND user_email = :email
+    )");
+
+    query.bindValue(":school_no", schoolNo);
+    query.bindValue(":email", email);
+
+    if (!query.exec())
+    {
+        qDebug() << "Failed to delete user email:" << query.lastError().text();
+        return false;
+    }
+
+    return query.numRowsAffected() > 0;
+}
+
+bool Database::updateUserEmail(const QString &schoolNo, const QString &newEmail)
+{
+    if (!m_db.isOpen())
+    {
+        if (!m_db.open())
+            return false;
+    }
+
+    QSqlQuery query(m_db);
+
+    query.prepare(R"(
+        DELETE FROM user_emails
+        WHERE school_no = :school_no
+    )");
+    query.bindValue(":school_no", schoolNo);
+
+    if (!query.exec())
+    {
+        qDebug() << "Failed to clear old user emails:" << query.lastError().text();
+        return false;
+    }
+
+    query.prepare(R"(
+        INSERT INTO user_emails (school_no, user_email)
+        VALUES (:school_no, :email)
+    )");
+    query.bindValue(":school_no", schoolNo);
+    query.bindValue(":email", newEmail);
+
+    if (!query.exec())
+    {
+        qDebug() << "Failed to insert new email:" << query.lastError().text();
+        return false;
+    }
+
     return true;
 }
 
@@ -1424,12 +1614,12 @@ bool Database::returnBook_TITLE_AUTHOR(const QString &schoolNo, const QString &b
         return false;
 
     /*
-if (!bookUid.isEmpty() && uid.isEmpty())
-    return false;
+    if (!bookUid.isEmpty() && uid.isEmpty())
+        return false;
 
-if (!bookUid.isEmpty() && bookUid != uid)
-    return false;
-*/
+    if (!bookUid.isEmpty() && bookUid != uid)
+        return false;
+    */
 
     QSqlQuery query(m_db);
     query.prepare("DELETE FROM borrowed_books WHERE school_no = :school_no AND title = :title AND author1 = :author1");
