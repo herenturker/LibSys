@@ -317,7 +317,7 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
         const LibrarySystem::Book &book = results[row];
 
         QStringList cells = {
-            book.title, book.author1,
+            book.title, book.author,
             book.publisher, book.publicationYear, book.edition, book.ISBN, book.volume,
             book.pageCount, book.seriesInformation, book.language, book.DDC, book.additionalInfo
         };

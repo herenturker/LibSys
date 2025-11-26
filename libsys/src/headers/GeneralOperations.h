@@ -40,7 +40,7 @@ class GeneralOperations
          * @brief Searches a book in the database with provided information.
          * 
          * @param bookTitle
-         * @param author1 
+         * @param author 
          * @param publisher 
          * @param publicationYear 
          * @param edition 
@@ -54,7 +54,7 @@ class GeneralOperations
          * @param uid 
          * @return QList<LibrarySystem::Book> 
          */
-        QList<LibrarySystem::Book> searchBook(const QString &bookTitle = QString(), const QString &author1 = QString(),
+        QList<LibrarySystem::Book> searchBook(const QString &bookTitle = QString(), const QString &author = QString(),
                         const QString &publisher = QString(), const QString &publicationYear = QString(),
                         const QString &edition = QString(), const QString &ISBN = QString(),
                         const QString &volume = QString(), const QString &pageCount = QString(),

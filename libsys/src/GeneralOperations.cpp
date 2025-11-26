@@ -24,7 +24,7 @@
 #include "headers/database.h"
 
 QList<LibrarySystem::Book> GeneralOperations::searchBook(
-    const QString &bookTitle, const QString &author1,
+    const QString &bookTitle, const QString &author,
     const QString &publisher, const QString &publicationYear,
     const QString &edition, const QString &ISBN,
     const QString &volume, const QString &pageCount,
@@ -47,8 +47,8 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     {
         if (!bookTitle.isEmpty())
             sql += " AND title LIKE '%' || :bookTitle || '%'";
-        if (!author1.isEmpty())
-            sql += " AND author1 LIKE '%' || :author1 || '%'";
+        if (!author.isEmpty())
+            sql += " AND author LIKE '%' || :author || '%'";
     }
 
     if (!publisher.isEmpty()) sql += " AND publisher LIKE '%' || :publisher || '%'";
@@ -69,7 +69,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     else
     {
         if (!bookTitle.isEmpty()) query.bindValue(":bookTitle", bookTitle);
-        if (!author1.isEmpty()) query.bindValue(":author1", author1);
+        if (!author.isEmpty()) query.bindValue(":author", author);
     }
 
     if (!publisher.isEmpty()) query.bindValue(":publisher", publisher);
@@ -90,7 +90,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     {
         LibrarySystem::Book book;
         book.title = query.value("title").toString();
-        book.author1 = query.value("author1").toString();
+        book.author = query.value("author").toString();
         book.publisher = query.value("publisher").toString();
         book.publicationYear = query.value("publication_year").toString();
         book.edition = query.value("edition").toString();
@@ -110,7 +110,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
         }
         else
         {
-            book.isBorrowed = libraryDb->getBookBorrowInfo_TITLE_AUTHOR(borrowedBy, book.title, book.author1);
+            book.isBorrowed = libraryDb->getBookBorrowInfo_TITLE_AUTHOR(borrowedBy, book.title, book.author);
         }
         book.borrowedBy = borrowedBy;
 

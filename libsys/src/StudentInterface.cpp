@@ -393,12 +393,12 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent),mailer(std
     connect(searchButton, &QToolButton::clicked, [=]()
     {
         QString bookTitle = bookSearchWindow->bookTitle->text();
-        QString author1 = bookSearchWindow->author1->text();
+        QString author = bookSearchWindow->author->text();
         QString ISBN = bookSearchWindow->ISBN->text();
         GeneralOperations generalOperations(libraryDb);
 
         QList<LibrarySystem::Book> results = generalOperations.searchBook(
-            bookTitle, author1,
+            bookTitle, author,
             "", "", "", ISBN,
             "", "", "", "", "", "", ""
         );
@@ -409,7 +409,7 @@ StudentInterface::StudentInterface(QWidget *parent) : QWidget(parent),mailer(std
             if (!book.ISBN.isEmpty())
                 book.isBorrowed = libraryDb->getBookBorrowInfo(book.ISBN, borrowedBy);
             else
-                book.isBorrowed = libraryDb->getBookBorrowInfo_TITLE_AUTHOR(borrowedBy, book.title, book.author1);
+                book.isBorrowed = libraryDb->getBookBorrowInfo_TITLE_AUTHOR(borrowedBy, book.title, book.author);
             book.borrowedBy = borrowedBy;
         }
 
@@ -659,7 +659,7 @@ void StudentInterface::refreshBookLists()
                                 "UID: %14\n\n")
                                .arg(bookCounter)
                                .arg(book.value("title"))
-                               .arg(book.value("author1"))
+                               .arg(book.value("author"))
                                .arg(book.value("publisher"))
                                .arg(book.value("publication_year"))
                                .arg(book.value("edition"))
@@ -687,7 +687,7 @@ void StudentInterface::refreshBookLists()
 
         if (dueDate.isValid() && dueDate < today)
         {
-            QString bookText = QString("%1\n%2").arg(book.value("title")).arg(book.value("author1"));
+            QString bookText = QString("%1\n%2").arg(book.value("title")).arg(book.value("author"));
 
             QListWidgetItem *overdueItem = new QListWidgetItem(bookText, overdueBooksList);
             overdueItem->setTextAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -695,7 +695,7 @@ void StudentInterface::refreshBookLists()
 
             QVariantMap info;
             info["title"] = book.value("title");
-            info["author"] = book.value("author1");
+            info["author"] = book.value("author");
             info["isbn"] = book.value("isbn");
             info["schoolNo"] = currentStudentSchoolNo;
 
@@ -768,9 +768,9 @@ QStringList StudentInterface::getBorrowedBooksTextList() const
 
     for (const auto &book : books)
     {
-        QString bookLine = QString("Title: %1 | Author1: %2 | ISBN: %3 | Borrow Date: %4 | Due Date: %5 | Book UID: %6")
+        QString bookLine = QString("Title: %1 | Author: %2 | ISBN: %3 | Borrow Date: %4 | Due Date: %5 | Book UID: %6")
                                .arg(book["title"])
-                               .arg(book["author1"])
+                               .arg(book["author"])
                                .arg(book["isbn"])
                                .arg(book["borrow_date"])
                                .arg(book["due_date"])
@@ -814,7 +814,7 @@ void StudentInterface::refreshBorrowedBooks(const QString &studentNo)
                                "UID: %14\n\n")
                                .arg(bookCounter++)
                                .arg(book.value("title"))
-                               .arg(book.value("author1"))
+                               .arg(book.value("author"))
                                .arg(book.value("publisher"))
                                .arg(book.value("publication_year"))
                                .arg(book.value("edition"))

@@ -38,8 +38,9 @@ class LibrarySystem
          * 
          */
         struct Book {
+            QString id;
             QString title;
-            QString author1;
+            QString author;
             QString publisher;
             QString publicationYear;
             QString edition;

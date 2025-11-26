@@ -241,7 +241,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     connect(bookSearchWindow, &BookSearchWindow::bookAddDataReady,
             [&](const QString &bookTitle,
-                const QString &author1,
+                const QString &author,
                 const QString &publisher,
                 const QString &publicationYear,
                 const QString &edition,
@@ -253,7 +253,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 const QString &DDC,
                 const QString &additionalInfo, const QString &uid = "")
             {
-                bool success = libraryDb->addBook(this, bookTitle, author1,
+                bool success = libraryDb->addBook(this, bookTitle, author,
                                                   publisher, publicationYear, edition, ISBN, volume,
                                                   pageCount, seriesInformation, language, DDC, additionalInfo, uid);
 
@@ -279,10 +279,10 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     connect(bookSearchWindow, &BookSearchWindow::bookDeleteDataReady,
             [&](const QString &bookTitle,
-                const QString &author1,
+                const QString &author,
                 const QString &ISBN, const QString &uid = "")
             {
-                bool success = libraryDb->deleteBook(this, bookTitle, author1, ISBN, uid);
+                bool success = libraryDb->deleteBook(this, bookTitle, author, ISBN, uid);
 
                 if (!success)
                 {
@@ -305,7 +305,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
 
     connect(bookSearchWindow, &BookSearchWindow::bookUpdateDataReady,
             [&](const QString &bookTitle,
-                const QString &author1,
+                const QString &author,
                 const QString &publisher,
                 const QString &publicationYear,
                 const QString &edition,
@@ -317,7 +317,7 @@ AdminInterface::AdminInterface(QWidget *parent) : QWidget(parent)
                 const QString &DDC,
                 const QString &additionalInfo, const QString &uid = "")
             {
-                bool success = libraryDb->updateBook(this, bookTitle, author1,
+                bool success = libraryDb->updateBook(this, bookTitle, author,
                                                      publisher, publicationYear, edition, ISBN, volume,
                                                      pageCount, seriesInformation, language, DDC, additionalInfo, uid);
 
@@ -938,7 +938,7 @@ void AdminInterface::showRequestsWindow()
         table->setItem(row, 0, new QTableWidgetItem("Borrow"));
         table->setItem(row, 1, new QTableWidgetItem(req["school_no"]));
         table->setItem(row, 2, new QTableWidgetItem(req["title"]));
-        table->setItem(row, 3, new QTableWidgetItem(req["author1"]));
+        table->setItem(row, 3, new QTableWidgetItem(req["author"]));
         table->setItem(row, 4, new QTableWidgetItem(req["book_isbn"]));
 
         QPushButton *approveBtn = new QPushButton("Approve");
@@ -949,14 +949,14 @@ void AdminInterface::showRequestsWindow()
 
         connect(approveBtn, &QPushButton::clicked, this, [=]()
                 {
-            approveBorrowRequest(req["school_no"], req["title"], req["author1"]);
+            approveBorrowRequest(req["school_no"], req["title"], req["author"]);
             if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
                 studentInterface->refreshBorrowedBooks(req["school_no"]);
             } });
 
         connect(rejectBtn, &QPushButton::clicked, this, [=]()
                 {
-            libraryDb->deleteBorrowRequest_TITLE_AUTHOR(req["school_no"], req["title"], req["author1"]);
+            libraryDb->deleteBorrowRequest_TITLE_AUTHOR(req["school_no"], req["title"], req["author"]);
             showMessage(nullptr, "Rejected", "Borrow request rejected.", false);
             if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
                 studentInterface->refreshBorrowedBooks(req["school_no"]);
@@ -971,7 +971,7 @@ void AdminInterface::showRequestsWindow()
         table->setItem(row, 0, new QTableWidgetItem("Return"));
         table->setItem(row, 1, new QTableWidgetItem(req["school_no"]));
         table->setItem(row, 2, new QTableWidgetItem(req["title"]));
-        table->setItem(row, 3, new QTableWidgetItem(req["author1"]));
+        table->setItem(row, 3, new QTableWidgetItem(req["author"]));
         table->setItem(row, 4, new QTableWidgetItem(req["book_isbn"]));
 
         QPushButton *approveBtn = new QPushButton("Approve");
@@ -982,14 +982,14 @@ void AdminInterface::showRequestsWindow()
 
         connect(approveBtn, &QPushButton::clicked, this, [=]()
                 {
-            approveReturnRequest(req["school_no"], req["title"], req["author1"]);
+            approveReturnRequest(req["school_no"], req["title"], req["author"]);
             if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
                 studentInterface->refreshBorrowedBooks(req["school_no"]);
             } });
 
         connect(rejectBtn, &QPushButton::clicked, this, [=]()
                 {
-            libraryDb->deleteReturnRequest_TITLE_AUTHOR(req["school_no"], req["title"], req["author1"]);
+            libraryDb->deleteReturnRequest_TITLE_AUTHOR(req["school_no"], req["title"], req["author"]);
             showMessage(nullptr, "Rejected", "Return request rejected.", false);
             if (studentInterface && studentInterface->getCurrentStudentSchoolNo() == req["school_no"]) {
                 studentInterface->refreshBorrowedBooks(req["school_no"]);
@@ -1004,14 +1004,14 @@ void AdminInterface::showRequestsWindow()
 
 void AdminInterface::approveBorrowRequest(const QString &schoolNo,
                                           const QString &title,
-                                          const QString &author1)
+                                          const QString &author)
 {
-    libraryDb->deleteBorrowRequest_TITLE_AUTHOR(schoolNo, title, author1);
+    libraryDb->deleteBorrowRequest_TITLE_AUTHOR(schoolNo, title, author);
 
     QString borrowDate = QDate::currentDate().toString("yyyy-MM-dd");
     QString dueDate = QDate::currentDate().addDays(15).toString("yyyy-MM-dd");
 
-    bool ok = libraryDb->borrowBook_TITLE_AUTHOR(schoolNo, borrowDate, dueDate, title, author1);
+    bool ok = libraryDb->borrowBook_TITLE_AUTHOR(schoolNo, borrowDate, dueDate, title, author);
 
     if (!ok)
     {
@@ -1021,18 +1021,18 @@ void AdminInterface::approveBorrowRequest(const QString &schoolNo,
     emit bookBorrowed(schoolNo);
     showMessage(nullptr, "Success", "Borrow request approved and book assigned.", false);
 
-    std::string logStr = "APPROVED BORROW: " + title.toStdString() + " by " + author1.toStdString() +
+    std::string logStr = "APPROVED BORROW: " + title.toStdString() + " by " + author.toStdString() +
                          " to student " + schoolNo.toStdString();
     writeEncryptedLog(logStr);
 }
 
 void AdminInterface::approveReturnRequest(const QString &schoolNo,
                                           const QString &title,
-                                          const QString &author1)
+                                          const QString &author)
 {
-    libraryDb->deleteReturnRequest_TITLE_AUTHOR(schoolNo, title, author1);
+    libraryDb->deleteReturnRequest_TITLE_AUTHOR(schoolNo, title, author);
 
-    bool ok = libraryDb->returnBook_TITLE_AUTHOR(schoolNo, title, author1);
+    bool ok = libraryDb->returnBook_TITLE_AUTHOR(schoolNo, title, author);
 
     if (!ok)
     {
@@ -1042,32 +1042,32 @@ void AdminInterface::approveReturnRequest(const QString &schoolNo,
     emit bookReturned(schoolNo);
 
     showMessage(nullptr, "Success", "Return request approved and book returned.", false);
-    libraryDb->deleteOverdueBook(schoolNo, title, author1);
-    std::string logStr = "APPROVED RETURN: " + title.toStdString() + " by " + author1.toStdString() +
+    libraryDb->deleteOverdueBook(schoolNo, title, author);
+    std::string logStr = "APPROVED RETURN: " + title.toStdString() + " by " + author.toStdString() +
                          " from student " + schoolNo.toStdString();
     writeEncryptedLog(logStr);
 }
 
 bool Database::deleteBorrowRequest_TITLE_AUTHOR(const QString &schoolNo,
                                                 const QString &title,
-                                                const QString &author1)
+                                                const QString &author)
 {
     QSqlQuery q(m_db);
-    q.prepare("DELETE FROM borrow_requests WHERE school_no=? AND title=? AND author1=?");
+    q.prepare("DELETE FROM borrow_requests WHERE school_no=? AND title=? AND author=?");
     q.addBindValue(schoolNo);
     q.addBindValue(title);
-    q.addBindValue(author1);
+    q.addBindValue(author);
     return q.exec();
 }
 
 bool Database::deleteReturnRequest_TITLE_AUTHOR(const QString &schoolNo,
                                                 const QString &title,
-                                                const QString &author1)
+                                                const QString &author)
 {
     QSqlQuery q(m_db);
-    q.prepare("DELETE FROM return_requests WHERE school_no=? AND title=? AND author1=?");
+    q.prepare("DELETE FROM return_requests WHERE school_no=? AND title=? AND author=?");
     q.addBindValue(schoolNo);
     q.addBindValue(title);
-    q.addBindValue(author1);
+    q.addBindValue(author);
     return q.exec();
 }

@@ -45,12 +45,12 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     bookTitle->setGeometry(50, 50, 300, 30);
     bookTitle->setPlaceholderText("Enter book title");
 
-    // --- Author 1 ---
-    QLabel *lblAuthor1 = new QLabel("Author 1*", this);
-    lblAuthor1->setGeometry(50, 90, 110, 20);
-    author1 = new QLineEdit(this);
-    author1->setGeometry(50, 110, 300, 30);
-    author1->setPlaceholderText("Enter author name");
+    // --- Author ---
+    QLabel *lblAuthor = new QLabel("Author*", this);
+    lblAuthor->setGeometry(50, 90, 110, 20);
+    author = new QLineEdit(this);
+    author->setGeometry(50, 110, 300, 30);
+    author->setPlaceholderText("Enter author name");
 
     QPushButton *addAuthors = new QPushButton("+", this);
     addAuthors->setGeometry(330, 90, 20, 20);
@@ -170,7 +170,7 @@ void BookSearchWindow::closeEvent(QCloseEvent *event)
 bool BookSearchWindow::bookOperationMode()
 {
     QString title = bookTitle->text();
-    QString author = author1->text();
+    QString author_QString = author->text();
     QString publisherText = publisher->text();
     QString pubYear = publicationYear->text();
     QString editionText = edition->text();
@@ -187,18 +187,18 @@ bool BookSearchWindow::bookOperationMode()
     {
     case Add:
         emit bookAddDataReady(
-            title, author, publisherText, pubYear, editionText,
+            title, author_QString, publisherText, pubYear, editionText,
             ISBNText, volumeText, pageCountText,
             seriesText, languageText, DDCText, additionalInfoText, UID);
         break;
 
     case Delete:
-        emit bookDeleteDataReady(title, author, ISBNText, UID);
+        emit bookDeleteDataReady(title, author_QString, ISBNText, UID);
         break;
 
     case Update:
         emit bookUpdateDataReady(
-            title, author, publisherText, pubYear, editionText,
+            title, author_QString, publisherText, pubYear, editionText,
             ISBNText, volumeText, pageCountText,
             seriesText, languageText, DDCText, additionalInfoText, UID);
         break;

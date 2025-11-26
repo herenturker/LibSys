@@ -353,20 +353,20 @@ public:
      * 
      * @param parent 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @param ISBN 
      * @param uid 
      * @return true 
      * @return false 
      */
-    bool deleteBook(QWidget *parent, const QString &bookTitle, const QString &author1, const QString &ISBN, const QString &uid = "");
+    bool deleteBook(QWidget *parent, const QString &bookTitle, const QString &author, const QString &ISBN, const QString &uid = "");
 
     /**
      * @brief Adds book to database.
      * 
      * @param parent 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @param publisher 
      * @param publicationYear 
      * @param edition 
@@ -381,7 +381,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool addBook(QWidget* parent, const QString &bookTitle, const QString &author1,
+    bool addBook(QWidget* parent, const QString &bookTitle, const QString &author,
                  const QString &publisher, const QString &publicationYear,
                  const QString &edition, const QString &ISBN,
                  const QString &volume, const QString &pageCount,
@@ -393,7 +393,7 @@ public:
      * 
      * @param parent 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @param publisher 
      * @param publicationYear 
      * @param edition 
@@ -408,7 +408,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool updateBook(QWidget* parent, const QString &bookTitle, const QString &author1,
+    bool updateBook(QWidget* parent, const QString &bookTitle, const QString &author,
                           const QString &publisher, const QString &publicationYear,
                           const QString &edition, const QString &ISBN,
                           const QString &volume, const QString &pageCount,
@@ -565,11 +565,11 @@ public:
      * 
      * @param schoolNo 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @return true 
      * @return false 
      */
-    bool isBookBorrowedByStudent_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author1);
+    bool isBookBorrowedByStudent_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author);
 
     /**
      * @brief  Borrows a book from database using title and author.
@@ -578,43 +578,43 @@ public:
      * @param borrowDate 
      * @param dueDate 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @return true 
      * @return false 
      */
-    bool borrowBook_TITLE_AUTHOR(const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author1);
+    bool borrowBook_TITLE_AUTHOR(const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author);
 
     /**
      * @brief Returns a book to database using title and author
      * 
      * @param schoolNo 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @return true 
      * @return false 
      */
-    bool returnBook_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author1);
+    bool returnBook_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author);
 
     /**
      * @brief Checks if the book is borrowed by an user using title and author.
      * 
      * @param borrowedBy 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @return true 
      * @return false 
      */
-    bool getBookBorrowInfo_TITLE_AUTHOR(QString &borrowedBy, const QString &bookTitle, const QString author1);
+    bool getBookBorrowInfo_TITLE_AUTHOR(QString &borrowedBy, const QString &bookTitle, const QString author);
 
     /**
      * @brief Checks if the book exists in the database using title and author.
      * 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @return true 
      * @return false 
      */
-    bool isBookExists_TITLE_AUTHOR(const QString &bookTitle, const QString author1);
+    bool isBookExists_TITLE_AUTHOR(const QString &bookTitle, const QString author);
 
     /**
      * @brief Perform borrow request data from database using title and author
@@ -623,22 +623,22 @@ public:
      * @param borrowDate 
      * @param dueDate 
      * @param bookTitle 
-     * @param author1 
+     * @param author 
      * @return true 
      * @return false 
      */
-    bool borrowRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author1);
+    bool borrowRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author);
 
     /**
      * @brief Perform return request data from database using title and author
      * 
      * @param schoolNo 
      * @param bookTitle 
-     * @param author1 
+     * @param author
      * @return true 
      * @return false 
      */
-    bool returnRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString &author1);
+    bool returnRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString &author);
 
     /**
      * @brief Gets borrow requests
@@ -659,26 +659,26 @@ public:
      * 
      * @param schoolNo 
      * @param title 
-     * @param author1 
+     * @param author 
      * @return true 
      * @return false 
      */
     bool deleteBorrowRequest_TITLE_AUTHOR(const QString &schoolNo,
                                                 const QString &title,
-                                                const QString &author1);
+                                                const QString &author);
 
     /**
      * @brief Deletes return request using title and author
      * 
      * @param schoolNo 
      * @param title 
-     * @param author1 
+     * @param author 
      * @return true 
      * @return false 
      */
     bool deleteReturnRequest_TITLE_AUTHOR(const QString &schoolNo,
                                                 const QString &title,
-                                                const QString &author1);
+                                                const QString &author);
 
 private:
     QSqlDatabase m_db;
