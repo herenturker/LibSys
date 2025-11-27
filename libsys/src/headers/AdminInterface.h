@@ -62,22 +62,24 @@ public:
     /**
      * @brief Approves borrow request.
      * 
+     * @param id
      * @param schoolNo 
      * @param title 
      * @param author1 
      */
-    void approveBorrowRequest(const QString &schoolNo,
+    void approveBorrowRequest(const QString &id, const QString &schoolNo,
                                           const QString &title,
                                           const QString &author1);
 
     /**
      * @brief Approves return request.
      * 
+     * @param id
      * @param schoolNo 
      * @param title 
      * @param author1 
      */
-    void approveReturnRequest(const QString &schoolNo,
+    void approveReturnRequest(const QString &id, const QString &schoolNo,
                                           const QString &title,
                                           const QString &author1);
     
@@ -86,8 +88,8 @@ private slots:
     void updateDateTime();
 
 signals:
-    void bookBorrowed(const QString &schoolNo);
-    void bookReturned(const QString &schoolNo);
+    void bookBorrowed(const QString &id, const QString &schoolNo);
+    void bookReturned(const QString &id, const QString &schoolNo);
     
 private:
     QPushButton *logHistory_Button;

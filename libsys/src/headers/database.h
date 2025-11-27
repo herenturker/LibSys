@@ -158,7 +158,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool isBookBorrowedByStudent(const QString &schoolNo, const QString &bookISBN);
+    bool isBookBorrowedByStudent(const QString &id, const QString &schoolNo, const QString &bookISBN);
 
     /**
      * @brief Borrows a book from database.
@@ -171,7 +171,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool borrowBook(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid = "");
+    bool borrowBook(const QString &id, const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate, const QString &uid = "");
 
     /**
      * @brief Returns a book to database.
@@ -182,7 +182,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool returnBook(const QString &schoolNo, const QString &bookISBN, const QString &uid = "");
+    bool returnBook(const QString &id, const QString &schoolNo, const QString &bookISBN, const QString &uid = "");
 
     /**
      * @brief Gets the Username With UID information.
@@ -242,7 +242,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool getBookBorrowInfo(const QString &bookISBN, QString &borrowedBy);
+    bool getBookBorrowInfo(const QString &id, const QString &bookISBN, QString &borrowedBy);
 
     /**
      * @brief Checks if the book exists in the database.
@@ -446,7 +446,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool borrowRequest(const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
+    bool borrowRequest(const QString &id, const QString &schoolNo, const QString &bookISBN, const QString &borrowDate, const QString &dueDate);
 
     /**
      * @brief Get return request data from database
@@ -454,7 +454,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool returnRequest(const QString &schoolNo, const QString &bookISBN);
+    bool returnRequest(const QString &id, const QString &schoolNo, const QString &bookISBN);
 
     /**
      * @brief Creates a Overdue Books Table object
@@ -467,6 +467,7 @@ public:
     /**
      * @brief Adds book to overdue books table
      * 
+     * @param id
      * @param schoolNo 
      * @param bookISBN 
      * @param borrowDate 
@@ -475,7 +476,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool addOverdueBook(const QString &schoolNo,
+    bool addOverdueBook(const QString &id, const QString &schoolNo,
                               const QString &bookISBN,
                               const QString &borrowDate,
                               const QString &title,
@@ -484,6 +485,7 @@ public:
     /**
      * @brief Deletes book from overdue_books table
      * 
+     * @param id
      * @param schoolNo 
      * @param title 
      * @param author 
@@ -491,7 +493,7 @@ public:
      * @return false 
      */
 
-    bool deleteOverdueBook(const QString &schoolNo,
+    bool deleteOverdueBook(const QString &id, const QString &schoolNo,
                                  const QString &title,
                                  const QString &author);
     /**
@@ -569,7 +571,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool isBookBorrowedByStudent_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author);
+    bool isBookBorrowedByStudent_TITLE_AUTHOR(const QString &id, const QString &schoolNo, const QString &bookTitle, const QString author);
 
     /**
      * @brief  Borrows a book from database using title and author.
@@ -582,7 +584,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool borrowBook_TITLE_AUTHOR(const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author);
+    bool borrowBook_TITLE_AUTHOR(const QString &id, const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author);
 
     /**
      * @brief Returns a book to database using title and author
@@ -593,7 +595,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool returnBook_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString author);
+    bool returnBook_TITLE_AUTHOR(const QString &id, const QString &schoolNo, const QString &bookTitle, const QString author);
 
     /**
      * @brief Checks if the book is borrowed by an user using title and author.
@@ -604,7 +606,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool getBookBorrowInfo_TITLE_AUTHOR(QString &borrowedBy, const QString &bookTitle, const QString author);
+    bool getBookBorrowInfo_TITLE_AUTHOR(const QString &id, QString &borrowedBy, const QString &bookTitle, const QString author);
 
     /**
      * @brief Checks if the book exists in the database using title and author.
@@ -627,7 +629,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool borrowRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author);
+    bool borrowRequest_TITLE_AUTHOR(const QString &id, const QString &schoolNo, const QString &borrowDate, const QString &dueDate, const QString &bookTitle, const QString author);
 
     /**
      * @brief Perform return request data from database using title and author
@@ -638,7 +640,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool returnRequest_TITLE_AUTHOR(const QString &schoolNo, const QString &bookTitle, const QString &author);
+    bool returnRequest_TITLE_AUTHOR(const QString &id, const QString &schoolNo, const QString &bookTitle, const QString &author);
 
     /**
      * @brief Gets borrow requests
@@ -663,7 +665,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool deleteBorrowRequest_TITLE_AUTHOR(const QString &schoolNo,
+    bool deleteBorrowRequest_TITLE_AUTHOR(const QString &id, const QString &schoolNo,
                                                 const QString &title,
                                                 const QString &author);
 
@@ -676,7 +678,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool deleteReturnRequest_TITLE_AUTHOR(const QString &schoolNo,
+    bool deleteReturnRequest_TITLE_AUTHOR(const QString &id, const QString &schoolNo,
                                                 const QString &title,
                                                 const QString &author);
 

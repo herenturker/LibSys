@@ -24,6 +24,7 @@
 #include "headers/database.h"
 
 QList<LibrarySystem::Book> GeneralOperations::searchBook(
+    const QString &id, 
     const QString &bookTitle, const QString &author,
     const QString &publisher, const QString &publicationYear,
     const QString &edition, const QString &ISBN,
@@ -51,6 +52,8 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
             sql += " AND author LIKE '%' || :author || '%'";
     }
 
+    if (!id.isEmpty()) sql += " AND id LIKE '%' || :id || '%'";
+
     if (!publisher.isEmpty()) sql += " AND publisher LIKE '%' || :publisher || '%'";
     if (!publicationYear.isEmpty()) sql += " AND publication_year = :publicationYear";
     if (!edition.isEmpty()) sql += " AND edition LIKE '%' || :edition || '%'";
@@ -72,6 +75,8 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
         if (!author.isEmpty()) query.bindValue(":author", author);
     }
 
+    if (!id.isEmpty()) query.bindValue(":id", id);
+
     if (!publisher.isEmpty()) query.bindValue(":publisher", publisher);
     if (!publicationYear.isEmpty()) query.bindValue(":publicationYear", publicationYear);
     if (!edition.isEmpty()) query.bindValue(":edition", edition);
@@ -89,6 +94,7 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
     while (query.next())
     {
         LibrarySystem::Book book;
+        book.id = query.value("id").toString();
         book.title = query.value("title").toString();
         book.author = query.value("author").toString();
         book.publisher = query.value("publisher").toString();
@@ -106,11 +112,11 @@ QList<LibrarySystem::Book> GeneralOperations::searchBook(
         QString borrowedBy;
         if (!book.ISBN.isEmpty())
         {
-            book.isBorrowed = libraryDb->getBookBorrowInfo(book.ISBN, borrowedBy);
+            book.isBorrowed = libraryDb->getBookBorrowInfo(book.id, book.ISBN, borrowedBy);
         }
         else
         {
-            book.isBorrowed = libraryDb->getBookBorrowInfo_TITLE_AUTHOR(borrowedBy, book.title, book.author);
+            book.isBorrowed = libraryDb->getBookBorrowInfo_TITLE_AUTHOR(book.id, borrowedBy, book.title, book.author);
         }
         book.borrowedBy = borrowedBy;
 
