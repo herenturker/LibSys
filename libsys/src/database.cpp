@@ -1809,3 +1809,29 @@ QList<QMap<QString, QString>> Database::getReturnRequests()
 
     return list;
 }
+
+bool Database::deleteBorrowRequest_TITLE_AUTHOR(const QString &id, const QString &schoolNo,
+                                                const QString &title,
+                                                const QString &author)
+{
+    QSqlQuery q(m_db);
+    q.prepare("DELETE FROM borrow_requests WHERE school_no=? AND title=? AND author=? AND id=?");
+    q.addBindValue(schoolNo);
+    q.addBindValue(title);
+    q.addBindValue(author);
+    q.addBindValue(id);
+    return q.exec();
+}
+
+bool Database::deleteReturnRequest_TITLE_AUTHOR(const QString &id, const QString &schoolNo,
+                                                const QString &title,
+                                                const QString &author)
+{
+    QSqlQuery q(m_db);
+    q.prepare("DELETE FROM return_requests WHERE school_no=? AND title=? AND author=? AND id=?");
+    q.addBindValue(schoolNo);
+    q.addBindValue(title);
+    q.addBindValue(author);
+    q.addBindValue(id);
+    return q.exec();
+}

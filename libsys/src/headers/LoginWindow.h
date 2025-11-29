@@ -50,19 +50,6 @@ public:
 
 
     /**
-     * @brief Switches program language
-     * 
-     * @param langCode 
-     */
-    void switchLanguage(const QString &langCode);
-
-    /**
-     * @brief Translates the UI dynamically.
-     * 
-     */
-    void retranslateUi();
-
-    /**
      * @brief Adjusts size of a QWidget* object.
      * 
      * @param widget 
@@ -71,13 +58,10 @@ public:
      */
     void setWidgetSize(QWidget* widget, int width, int height);
 
-    static QTranslator translator;
-    static QString language;
     QLabel *RFID_Data_Value;
 
 signals:
     void loginSuccess(const QString &accountType, const QString &schoolNo);
-    void languageChanged(const QString &langCode);
     
 public slots:
     void updateRFIDLabel(const QString& RFIDdata);
@@ -109,10 +93,6 @@ private:
     QLabel *dayLabel;
     QLabel *timeLabel;
     QString schoolNumber;
-
-    QPushButton* btnTr;
-    QPushButton* btnEn;
-
 
 };
 

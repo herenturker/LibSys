@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/flags">
-        <file>en.png</file>
-        <file>tr.png</file>
-    </qresource>
-</RCC>

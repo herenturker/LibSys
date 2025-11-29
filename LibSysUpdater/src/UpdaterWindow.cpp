@@ -221,8 +221,8 @@ void UpdaterWindow::startUpdate(int selection)
     QString remoteInstallerVersion = obj["installer_version"].toString();
 
     // --------------- LOCAL VERSIONS ----------------------------
-    QString localLibSysVersion = "1.0.0";
-    QString localInstallerVersion = "1.0.0";
+    QString localLibSysVersion = "2.0.0";
+    QString localInstallerVersion = "2.0.0";
 
     if (isRemoteVersionNewer(localLibSysVersion, remoteLibSysVersion) ||
         isRemoteVersionNewer(localInstallerVersion, remoteInstallerVersion))

@@ -52,18 +52,7 @@ int main(int argc, char *argv[])
         libsys.setStyleSheet(stream.readAll());
         file.close();
     }
-
-    QSettings appSettings("LibSys", "AppSettings");
-    QString lang = appSettings.value("Language", "en").toString(); // default en
-
-    if(lang == "tr")
-        LoginWindow::language = ":/translations/tr.qm";
-    else
-        LoginWindow::language = ":/translations/en.qm";
-
-    if(translator.load(LoginWindow::language))
-        libsys.installTranslator(&translator);
-
+    
     // ---- Login Window ----
     LoginWindow loginWindow;
     loginWindow.show();
@@ -86,24 +75,6 @@ int main(int argc, char *argv[])
     {
         qDebug() << "Arduino COM port not set. Admin must enter port first.";
     }
-
-    QObject::connect(&loginWindow, &LoginWindow::languageChanged,
-                 [&](const QString &langCode){
-                     libsys.removeTranslator(&translator);
-
-                     if(langCode == "tr")
-                         LoginWindow::language = ":/translations/tr.qm";
-                     else
-                         LoginWindow::language = ":/translations/en.qm";
-
-                     if(translator.load(LoginWindow::language))
-                         libsys.installTranslator(&translator);
-
-                     loginWindow.retranslateUi();
-                    // TODO: CHANGE OTHERS' LANGUAGE TOO!
-                     appSettings.setValue("Language", langCode);
-                 });
-
     // ---- RFID signal connections ----
     QObject::connect(&reader, &SerialReader::eightCharReceived,
                      [](const QString &data)

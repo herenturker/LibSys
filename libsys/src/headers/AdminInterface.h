@@ -65,11 +65,11 @@ public:
      * @param id
      * @param schoolNo 
      * @param title 
-     * @param author1 
+     * @param author
      */
     void approveBorrowRequest(const QString &id, const QString &schoolNo,
                                           const QString &title,
-                                          const QString &author1);
+                                          const QString &author);
 
     /**
      * @brief Approves return request.
@@ -77,11 +77,11 @@ public:
      * @param id
      * @param schoolNo 
      * @param title 
-     * @param author1 
+     * @param author
      */
     void approveReturnRequest(const QString &id, const QString &schoolNo,
                                           const QString &title,
-                                          const QString &author1);
+                                          const QString &author);
     
 
 private slots:

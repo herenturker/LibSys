@@ -37,13 +37,10 @@
 #include "headers/SerialReader.h"
 #include "headers/LibrarySystem.h"
 
-QTranslator LoginWindow::translator;
-QString LoginWindow::language = ":/translations/translations_en.qm"; // defined as static in LoginWindow.h
-
 LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 {
     setWindowIcon(QIcon(":/LibSys.ico"));
-    setWindowTitle("LibSys");
+    setWindowTitle("Login LibSys");
     setMinimumSize(600, 450);
     setMaximumWidth(600);
     setMaximumHeight(450);
@@ -53,6 +50,7 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     QPixmap pixmap(":/LibSys.png");
     libsys_Label->setPixmap(pixmap.scaled(450, 250, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     libsys_Label->setAlignment(Qt::AlignCenter);
+
     // === INPUTS ===
     username_Edit = new QLineEdit;
     schoolNo_Edit = new QLineEdit;
@@ -65,48 +63,34 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     RFID_Data->setObjectName("RFID_Data");
     RFID_Data_Value->setObjectName("RFID_Data_Value");
 
-    login_Button = new QPushButton(this);
+    login_Button = new QPushButton("Login", this);
 
-    username_Edit->setPlaceholderText("");
-    schoolNo_Edit->setPlaceholderText("");
-    password_Edit->setPlaceholderText("");
+    username_Edit->setPlaceholderText("Username");
+    schoolNo_Edit->setPlaceholderText("School Number");
+    password_Edit->setPlaceholderText("Password");
 
     // === RADIO BUTTONS ===
     radioButton_Group = new QButtonGroup(this);
     loginRadioButton_Group = new QButtonGroup(this);
     themeRadioButton_Group = new QButtonGroup(this);
 
-    accountType_Admin_Button = new QRadioButton(this);
-    accountType_Student_Button = new QRadioButton(this);
+    accountType_Admin_Button = new QRadioButton("Admin", this);
+    accountType_Student_Button = new QRadioButton("Student", this);
     accountType_Student_Button->setChecked(true);
 
     radioButton_Group->addButton(accountType_Student_Button);
     radioButton_Group->addButton(accountType_Admin_Button);
 
-    normalLogin_Button = new QRadioButton(this);
-    quickLogin_Button = new QRadioButton(this);
-
-    // === FLAGS FOR TRANSLATION ===
-
-    btnTr = new QPushButton(this);
-    btnEn = new QPushButton(this);
-
-    btnTr->setIcon(QIcon(":/flags/tr.png"));
-    btnEn->setIcon(QIcon(":/flags/en.png"));
-
-    btnTr->setIconSize(QSize(32, 32));
-    btnEn->setIconSize(QSize(32, 32));
-
-    btnTr->setFixedSize(40, 40);
-    btnEn->setFixedSize(40, 40);
-
-    toggleDarkTheme = new QRadioButton("", this);
-    toggleLightTheme = new QRadioButton("", this);
-
-    toggleLightTheme->setChecked(true);
+    normalLogin_Button = new QRadioButton("Normal Login", this);
+    quickLogin_Button = new QRadioButton("Quick Login", this);
+    normalLogin_Button->setChecked(true);
 
     loginRadioButton_Group->addButton(normalLogin_Button);
     loginRadioButton_Group->addButton(quickLogin_Button);
+
+    toggleDarkTheme = new QRadioButton("", this);
+    toggleLightTheme = new QRadioButton("", this);
+    toggleLightTheme->setChecked(true);
 
     themeRadioButton_Group->addButton(toggleLightTheme);
     themeRadioButton_Group->addButton(toggleDarkTheme);
@@ -117,7 +101,6 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     timeLabel = new QLabel();
 
     // === LAYOUTS ===
-
     QVBoxLayout *layout_Form = new QVBoxLayout;
     layout_Form->addWidget(username_Edit);
     layout_Form->addWidget(schoolNo_Edit);
@@ -126,16 +109,10 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     layout_Form->addWidget(login_Button, 0, Qt::AlignHCenter);
     layout_Form->setSpacing(8);
 
-    QHBoxLayout *flagLayout = new QHBoxLayout();
-    flagLayout->setSpacing(0);
-    flagLayout->addWidget(btnTr);
-    flagLayout->addWidget(btnEn);
-
     QVBoxLayout *layout_Login = new QVBoxLayout;
     layout_Login->addWidget(normalLogin_Button);
     layout_Login->addWidget(quickLogin_Button);
     layout_Login->setSpacing(0);
-    normalLogin_Button->setChecked(true);
 
     QVBoxLayout *layout_Radio = new QVBoxLayout;
     layout_Radio->addWidget(accountType_Student_Button);
@@ -144,15 +121,10 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     layout_Radio->addWidget(dateLabel);
     layout_Radio->addWidget(dayLabel);
     layout_Radio->addWidget(timeLabel);
-
-    // Normally they are not radio buttons.
-    // But the position is great, so why not add here :)
-
     layout_Radio->addWidget(RFID_Data);
     layout_Radio->addWidget(RFID_Data_Value);
     layout_Radio->addStretch();
     layout_Radio->setSpacing(6);
-
     layout_Radio->setContentsMargins(20, 0, 15, 10);
 
     // === THEME LAYOUT ===
@@ -164,13 +136,11 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
 
     QHBoxLayout *layout_Center = new QHBoxLayout;
     layout_Center->addStretch();
-    layout_Center->addLayout(layout_Radio, 1); // left
+    layout_Center->addLayout(layout_Radio, 1);
     layout_Center->addSpacing(20);
-
     layout_Center->addLayout(layout_Form, 2);
     layout_Center->addSpacing(20);
     layout_Center->addStretch();
-
     layout_Center->addLayout(layout_Login, 1);
     layout_Center->addSpacing(20);
 
@@ -181,8 +151,6 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     layout_Main->addLayout(layout_Center);
     layout_Main->addStretch();
     layout_Main->addLayout(themeLayout);
-    layout_Main->addStretch();
-    layout_Main->addLayout(flagLayout);
     layout_Main->setContentsMargins(20, 5, 20, 20);
     layout_Main->addStretch(20);
 
@@ -209,32 +177,16 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
     )");
 
     // === ADJUST SIZE ===
-
-    // QLineEdit
     setWidgetSize(username_Edit, 0, 35);
     setWidgetSize(schoolNo_Edit, 0, 35);
     setWidgetSize(password_Edit, 0, 35);
-
-    // Buttons
     setWidgetSize(login_Button, 120, 40);
-    setWidgetSize(btnTr, 50, 50);
-    setWidgetSize(btnEn, 50, 50);
-
-    // RadioButtons
     setWidgetSize(accountType_Admin_Button, 0, 30);
     setWidgetSize(accountType_Student_Button, 0, 30);
     setWidgetSize(normalLogin_Button, 0, 30);
     setWidgetSize(quickLogin_Button, 0, 30);
 
-    // === OBJECT NAMES
-    dateLabel->setObjectName("dateLabel");
-    dayLabel->setObjectName("dayLabel");
-    timeLabel->setObjectName("timeLabel");
-    toggleLightTheme->setObjectName("LightTheme");
-    toggleDarkTheme->setObjectName("DarkTheme");
-
-    // === TOGGLE THEME SETTINGS ===
-
+    // === THEME TOGGLE SIGNAL ===
     connect(themeRadioButton_Group, &QButtonGroup::buttonClicked, this,
             [&](QAbstractButton *btn)
             {
@@ -243,17 +195,6 @@ LoginWindow::LoginWindow(QWidget *parent) : QWidget(parent)
                 else if (btn == toggleDarkTheme)
                     LibrarySystem::toggleTheme(2);
             });
-
-    connect(btnTr, &QPushButton::clicked, this, [=]()
-            { switchLanguage("tr"); });
-
-    connect(btnEn, &QPushButton::clicked, this, [=]()
-            { switchLanguage("en"); });
-
-    if (translator.load(language)) {
-        qApp->installTranslator(&translator);
-    }
-    retranslateUi();
 }
 
 void LoginWindow::handleLogin()
@@ -264,7 +205,7 @@ void LoginWindow::handleLogin()
 
     if (username.isEmpty() || schoolNo.isEmpty() || password.isEmpty())
     {
-        QMessageBox::warning(this, tr("Input Error"), tr("Please fill in Username, School Number, and Password."));
+        QMessageBox::warning(this, "Input Error", "Please fill in Username, School Number, and Password.");
         return;
     }
 
@@ -274,7 +215,7 @@ void LoginWindow::handleLogin()
     QDir dbDir(dbDirPath);
     if (!dbDir.exists() && !dbDir.mkpath("."))
     {
-        QMessageBox::critical(this, tr("Error"), tr("Could not create databases directory!"));
+        QMessageBox::critical(this, "Error", "Could not create databases directory!");
         return;
     }
 
@@ -298,12 +239,12 @@ void LoginWindow::handleLogin()
 
     if (!userDb.openDB())
     {
-        QMessageBox::critical(this, tr("Error"), tr("Could not open users database!"));
+        QMessageBox::critical(this, "Error", "Could not open users database!");
         return;
     }
     if (!libraryDb.openDB())
     {
-        QMessageBox::critical(this, tr("Error"), tr("Could not open library database!"));
+        QMessageBox::critical(this, "Error", "Could not open library database!");
         return;
     }
 
@@ -353,8 +294,8 @@ void LoginWindow::handleLogin()
         
         if (LibrarySystem::rfid_data.empty())
         {
-            QMessageBox::warning(this, tr("Error"), tr("No RFID data detected!"));
-            QMessageBox::information(this, tr("Attention"), tr("Please scan your card."));
+            QMessageBox::warning(this, "Error", "No RFID data detected!");
+            QMessageBox::information(this, "Attention", "Please scan your card.");
             return;
         }
 
@@ -382,7 +323,7 @@ void LoginWindow::handleLogin()
     }
     else
     {
-        QMessageBox::warning(this, tr("Error"), tr("Login Error!\nInvalid credentials or UID not found."));
+        QMessageBox::warning(this, "Error", "Login Error!\nInvalid credentials or UID not found.");
     }
 }
 
@@ -411,42 +352,6 @@ void LoginWindow::updateRFIDLabel(const QString &RFIDdata)
         schoolNo_Edit->setText(userDb.getSchoolNoWithUID(RFIDdata));
         password_Edit->setText(convertFromAes(userDb.getPasswordWithUID(RFIDdata)));
     }
-}
-
-void LoginWindow::switchLanguage(const QString &langCode)
-{
-    if (langCode == "tr")
-        LoginWindow::language = ":/translations/tr.qm";
-    else
-        LoginWindow::language = ":/translations/en.qm";
-
-    emit languageChanged(langCode);
-
-    retranslateUi();
-}
-
-
-void LoginWindow::retranslateUi()
-{
-    // Window title
-    this->setWindowTitle(tr("Login LibSys"));
-
-    // Placeholders
-    username_Edit->setPlaceholderText(tr("Username"));
-    schoolNo_Edit->setPlaceholderText(tr("School Number"));
-    password_Edit->setPlaceholderText(tr("Password"));
-
-    // Login button
-    login_Button->setText(tr("Login"));
-
-    // Radio buttons
-    accountType_Admin_Button->setText(tr("Admin"));
-    accountType_Student_Button->setText(tr("Student"));
-    normalLogin_Button->setText(tr("Normal Login"));
-    quickLogin_Button->setText(tr("Quick Login"));
-
-    // RFID
-    RFID_Data->setText(tr("RFID Data"));
 }
 
 void LoginWindow::setWidgetSize(QWidget* widget, int width, int height)
