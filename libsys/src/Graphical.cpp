@@ -334,11 +334,6 @@ void Graphical::displayBooksWithFilters(QWidget *parent, QList<LibrarySystem::Bo
 }
 
 
-QTableWidget *Graphical::getBookTable()
-{
-    return bookTable;
-}
-
 bool Graphical::reportLostBookGraphical(QWidget *parent)
 {
     QString exePath = QCoreApplication::applicationDirPath();
@@ -351,70 +346,84 @@ bool Graphical::reportLostBookGraphical(QWidget *parent)
 
     QInputDialog inputDialog(parent);
     inputDialog.setWindowTitle("Report Lost Book");
-    inputDialog.setLabelText("Enter ISBN of the lost book:");
-    inputDialog.setTextValue("");
-    inputDialog.setInputMode(QInputDialog::TextInput);
+    inputDialog.setLabelText("Enter Book ID:");
+    inputDialog.setInputMode(QInputDialog::IntInput);
     inputDialog.setModal(true);
 
-    inputDialog.setStyleSheet(R"(
-        QLabel { font-weight: bold; }
-    )");
-
-    bool ok = false;
-    QString ISBN;
+    int bookId = 0;
     if (inputDialog.exec() == QDialog::Accepted)
     {
-        ISBN = inputDialog.textValue().trimmed();
-        if (ISBN.isEmpty())
+        bookId = inputDialog.intValue();
+        if (bookId <= 0)
         {
-            showMessage(parent, "Input Error", "ISBN cannot be empty.", true);
+            showMessage(parent, "Input Error", "Book ID must be valid.", true);
             return false;
         }
-        ok = true;
     }
-
-    if (!ok)
+    else
         return false;
 
+    // VERIFY BOOK EXISTS BY ID
     QSqlQuery checkQuery(libraryDb->getDB());
-    checkQuery.prepare("SELECT additional_info FROM books WHERE isbn = :isbn");
-    checkQuery.bindValue(":isbn", ISBN);
+    checkQuery.prepare("SELECT title, author, additional_info FROM books WHERE id = :id LIMIT 1");
+    checkQuery.bindValue(":id", bookId);
 
-    if (!checkQuery.exec() || !checkQuery.next())
+    if (!checkQuery.exec())
     {
         showMessage(parent, "Database Error", "Failed to query the database.", true);
         return false;
     }
 
-    QString currentInfo = checkQuery.value(0).toString();
+    if (!checkQuery.next())
+    {
+        showMessage(parent, "Not Found", "No book found with ID: " + QString::number(bookId), true);
+        return false;
+    }
 
+    QString title = checkQuery.value(0).toString();
+    QString author = checkQuery.value(1).toString();
+    QString currentInfo = checkQuery.value(2).toString();
+
+    // UPDATE LOST STATUS
     QSqlQuery updateQuery(libraryDb->getDB());
+
     if (currentInfo == "LOST")
     {
-        updateQuery.prepare("UPDATE books SET additional_info = '' WHERE isbn = :isbn");
-        updateQuery.bindValue(":isbn", ISBN);
+        updateQuery.prepare("UPDATE books SET additional_info = '' WHERE id = :id");
+        updateQuery.bindValue(":id", bookId);
 
         if (!updateQuery.exec())
         {
-            showMessage(parent, "Update Error", "Could not restore book info: " + updateQuery.lastError().text(), true);
+            showMessage(parent, "Update Error",
+                        "Could not restore book: " + updateQuery.lastError().text(),
+                        true);
             return false;
         }
 
-        showMessage(parent, "Success", "Book with ISBN " + ISBN + " restored from LOST.", false);
+        showMessage(parent, "Success",
+                    QString("Book restored:\n\nID: %1\nTitle: %2\nAuthor: %3")
+                    .arg(bookId).arg(title).arg(author),
+                    false);
     }
     else
     {
-        updateQuery.prepare("UPDATE books SET additional_info = 'LOST' WHERE isbn = :isbn");
-        updateQuery.bindValue(":isbn", ISBN);
+        updateQuery.prepare("UPDATE books SET additional_info = 'LOST' WHERE id = :id");
+        updateQuery.bindValue(":id", bookId);
 
         if (!updateQuery.exec())
         {
-            showMessage(parent, "Update Error", "Could not mark book as lost: " + updateQuery.lastError().text(), true);
+            showMessage(parent, "Update Error",
+                        "Could not mark book as LOST: " + updateQuery.lastError().text(),
+                        true);
             return false;
         }
 
-        showMessage(parent, "Success", "Book with ISBN " + ISBN + " marked as LOST.", false);
+        showMessage(parent, "Success",
+                    QString("Book marked LOST:\n\nID: %1\nTitle: %2\nAuthor: %3")
+                    .arg(bookId).arg(title).arg(author),
+                    false);
     }
 
     return true;
 }
+
