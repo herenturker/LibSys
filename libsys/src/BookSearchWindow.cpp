@@ -38,22 +38,28 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     QLabel *label = new QLabel("", this);
 
+    // --- Clear Filters Button ---
+    clearFilters_Button = new QPushButton("Clear Filters", this);
+    clearFilters_Button->setGeometry(460, 555, 100, 30);
+
     // --- Book Title ---
-    QLabel *lblBookTitle = new QLabel("Book Title*", this);
+    QLabel *lblBookTitle = new QLabel("Book Title", this);
     lblBookTitle->setGeometry(50, 30, 110, 20);
     bookTitle = new QLineEdit(this);
     bookTitle->setGeometry(50, 50, 300, 30);
     bookTitle->setPlaceholderText("Enter book title");
 
     // --- Author ---
-    QLabel *lblAuthor = new QLabel("Author*", this);
+    QLabel *lblAuthor = new QLabel("Author", this);
     lblAuthor->setGeometry(50, 90, 110, 20);
     author = new QLineEdit(this);
     author->setGeometry(50, 110, 300, 30);
     author->setPlaceholderText("Enter author name");
 
+    /*
     QPushButton *addAuthors = new QPushButton("+", this);
     addAuthors->setGeometry(330, 90, 20, 20);
+    */
 
     // --- Publisher ---
     QLabel *lblPublisher = new QLabel("Publisher", this);
@@ -77,7 +83,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     edition->setPlaceholderText("Enter edition");
 
     // --- ISBN ---
-    QLabel *lblISBN = new QLabel("ISBN*", this);
+    QLabel *lblISBN = new QLabel("ISBN", this);
     lblISBN->setGeometry(50, 330, 110, 20);
     ISBN = new QLineEdit(this);
     ISBN->setGeometry(50, 350, 300, 30);
@@ -112,7 +118,7 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
     language->setPlaceholderText("Enter language");
 
     // --- DDC ---
-    QLabel *lblDDC = new QLabel("DDC", this);
+    QLabel *lblDDC = new QLabel("DDC (Dewey)", this);
     lblDDC->setGeometry(400, 270, 110, 20);
     DDC = new QLineEdit(this);
     DDC->setGeometry(400, 290, 300, 30);
@@ -144,6 +150,24 @@ BookSearchWindow::BookSearchWindow(QWidget *parent) : QWidget(parent)
 
     QPushButton *confirmBtn = new QPushButton("Confirm", this);
     confirmBtn->setGeometry(335, 555, 100, 30);
+
+    connect(clearFilters_Button, &QPushButton::clicked, this, [this](){
+        bookTitle->setText("");
+        author->setText("");
+        publisher->setText("");
+        publicationYear->setText("");
+        edition->setText("");
+        ISBN->setText("");
+        volume->setText("");
+        pageCount->setText("");
+        seriesInformation->setText("");
+        language->setText("");
+        DDC->setText("");
+        Topic->setText("");
+        uid->setText("");
+
+        additionalInfo->clear();
+    });
 
     connect(confirmBtn, &QPushButton::clicked, this, [this]()
             {

@@ -102,6 +102,8 @@ public:
     QTextEdit *additionalInfo = nullptr;
     QLineEdit *uid = nullptr;
 
+    QPushButton* clearFilters_Button;
+
 private:
     Mode currentMode = Add;
 };
